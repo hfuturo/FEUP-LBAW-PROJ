@@ -13,7 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $path = base_path('database/thingy-seed.sql');
+        DB::unprepared("CREATE SCHEMA IF NOT EXISTS lbaw2313");
+        $path = base_path('db/schema.sql');
+        $sql = file_get_contents($path);
+        DB::unprepared($sql);
+        $path = base_path('db/population.sql');
         $sql = file_get_contents($path);
         DB::unprepared($sql);
         $this->command->info('Database seeded!');
