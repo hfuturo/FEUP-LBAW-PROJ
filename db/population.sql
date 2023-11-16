@@ -55,7 +55,7 @@ INSERT INTO "tag" (id,name) VALUES (44,'Bitcoin'); --44
 
 SELECT setval('tag_id_seq', (SELECT max(id) FROM "tag")); -- para nao dar erro ao inserir deviamos de fazer isto para os ids todos
 
-INSERT INTO "authenticated_user" (id,name, email, password, type) VALUES (1, 'John Doe', 'john.doe@gmail.com', 'Doe@2023', 'admin');
+INSERT INTO "authenticated_user" (id,name, email, password, type) VALUES (1, 'John Doe', 'john.doe@gmail.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W', 'admin');
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (2,'Jane Smith', 'jane_smith@yahoo.com', 'Smith123', 'moderator' , 1);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (3,'Sarah Williams', 'sarahwilliams@outlook.com', 'Will@ms1', 'moderator', 2);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (4,'Michael Johnson', 'michael_johnson@hotmail.com', 'J0hnson!', 'moderator', 3);--TEC
