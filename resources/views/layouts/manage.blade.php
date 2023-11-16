@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
+        <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
 
@@ -26,7 +27,7 @@
             <header>
                 <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
                     @if (Auth::user()->is_admin())
-                    <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
+                    <a class="button" href="{{ url('/logout') }}"> Manage Users </a>
                     @endif
                     <a class="button"> About Us </a>
                     <a class="button"> Contact Us </a>
@@ -34,17 +35,10 @@
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
                     @endif
             </header>
-            @if (Auth::check())
-            <nav>
-                <a href="" class="button"> Create Post</a>
-                <a href="" class="button"> Create Organization</a>
-
-            </nav>
-            @endif
             <main>
-            <section id="content">
+            <section id="manage_users_content">
                 @yield('content')
             </section>
-            </main>
+</main>
     </body>
 </html>

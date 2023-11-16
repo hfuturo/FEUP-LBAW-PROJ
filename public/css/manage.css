@@ -1,0 +1,9 @@
+nav#all_users {
+    margin: 0em;
+    max-height: 33vw;
+    overflow: auto;
+}
+
+nav#all_users .user {
+    list-style-type: none;
+}

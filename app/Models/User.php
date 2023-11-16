@@ -115,4 +115,9 @@ class User extends Authenticatable
             ->count();
         return $count;
     }
+
+    public function is_admin()
+    {
+        return $this->type === 'admin';
+    }
 }
