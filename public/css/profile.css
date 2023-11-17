@@ -1,0 +1,45 @@
+.profile {
+    text-align: center;
+    display: flex;
+}
+
+#user_picture{
+    flex: 1;
+    height: 20em;
+    width: auto;
+    object-fit: contain;
+}
+
+#user_card{
+    flex: 2;
+    padding: 1em;
+}
+
+#user_details, #user_details > div{
+    display: flex;
+    width: 100%;
+}
+
+#user_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0em 1em 1em 1em;
+}
+
+#user_card p , #user_card h4{
+    margin: 0em;
+}
+
+.user_news{
+    border: 0.5em solid #d2afe7; 
+    padding: 1em;
+    margin: 1em 0em;
+}
+
+svg{
+    width: 1em;
+    height: 1em;
+    vertical-align: middle; 
+}
