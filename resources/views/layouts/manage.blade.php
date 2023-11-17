@@ -22,6 +22,7 @@
         </script>
         <script type="text/javascript" src={{ url('js/app.js') }} defer>
         </script>
+        <script src={{ url('js/manage.js') }} defer></script>
     </head>
     <body>
             <header>

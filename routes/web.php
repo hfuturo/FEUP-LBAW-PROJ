@@ -42,6 +42,9 @@ Route::controller(ItemController::class)->group(function () {
     Route::delete('/api/item/{id}', 'delete');
 });
 
+Route::controller(ManageController::class)->group(function() {
+    Route::get('/api/manage', 'search');
+});
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
@@ -59,3 +62,5 @@ Route::controller(RegisterController::class)->group(function () {
 Route::controller(ManageController::class)->group(function () {
     Route::get('/manage','show');
 });
+
+
