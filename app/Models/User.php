@@ -99,20 +99,10 @@ class User extends Authenticatable
         ->belongsToMany(Project::class, 'vote', 'id_user', 'id_content')
         ->withPivot('vote');
     }
-
-    public function get_followers()
-    {
-        $count = DB::table('follow_user')
-            ->where('id_following', '=', $this->id)
-            ->count();
-        return $count;
-    }
-
-    public function get_following()
-    {
-        $count = DB::table('follow_user')
-            ->where('id_follower', '=', $this->id)
-            ->count();
-        return $count;
+    
+    public function news_items() {
+        return $this->contents()
+        ->with('news_items')
+        ->get();
     }
 }

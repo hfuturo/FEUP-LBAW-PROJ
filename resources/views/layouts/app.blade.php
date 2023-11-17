@@ -14,6 +14,7 @@
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
+        <link href="{{ url('css/profile.css') }}" rel="stylesheet">
 
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
@@ -29,6 +30,7 @@
                     <a class="button"> Contact Us </a>
                     @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
+                    <a href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
                     @endif
             </header>
             @if (Auth::check())
