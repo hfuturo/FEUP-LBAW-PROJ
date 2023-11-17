@@ -105,4 +105,9 @@ class User extends Authenticatable
         return $this->contents()
         ->with('news_items');
     }
+
+    public function is_admin()
+    {
+        return $this->type === 'admin';
+    }
 }

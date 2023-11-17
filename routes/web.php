@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -42,6 +43,9 @@ Route::controller(ItemController::class)->group(function () {
     Route::delete('/api/item/{id}', 'delete');
 });
 
+Route::controller(ManageController::class)->group(function() {
+    Route::post('/api/manage', 'search');
+});
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
@@ -55,6 +59,12 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
+// Admin
+Route::controller(ManageController::class)->group(function () {
+    Route::get('/manage','show');
+});
+
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
 });
+
