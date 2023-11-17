@@ -1,3 +1,3 @@
 <li class="user">
-    <a href='/profile/{{ $user->name }}'>{{ $user->name }}</a>
+    <a href="{{ route('profile', ['user' => $user->id]) }}">{{ $user->name }}</a>
 </li>

@@ -63,7 +63,7 @@ function filterUsersHandler() {
         let li = document.createElement('li')
         li.classList.add('user')
         let link = document.createElement('a')
-        link.href = "/profile/" + user.name
+        link.href = "/profile/" + user.id
         link.innerHTML = user.name
         li.appendChild(link)
         usersList.appendChild(li)
