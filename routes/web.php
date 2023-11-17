@@ -43,7 +43,7 @@ Route::controller(ItemController::class)->group(function () {
 });
 
 Route::controller(ManageController::class)->group(function() {
-    Route::get('/api/manage', 'search');
+    Route::post('/api/manage', 'search');
 });
 
 // Authentication
