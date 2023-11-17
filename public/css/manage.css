@@ -1,8 +1,18 @@
+input[id="filter_users"]:focus {
+    border-color: #9b4dca;
+}
+
 #all_users {
     margin: 0em;
     height: 33vw;
-    overflow: auto;
+    overflow: scroll;
     padding: 0;
+    background-color: white;
+    border: 1px solid black;
+}
+
+#all_users::-webkit-scrollbar {
+    display: none;
 }
 
 #all_users .user {
@@ -14,4 +24,9 @@
 
 #all_users .user a {
     text-decoration: none;
+    color: black;
+}
+
+#all_users .user a:hover {
+    font-weight: bolder;
 }
