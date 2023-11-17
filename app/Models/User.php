@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -102,7 +103,6 @@ class User extends Authenticatable
     
     public function news_items() {
         return $this->contents()
-        ->with('news_items')
-        ->get();
+        ->with('news_items');
     }
 }

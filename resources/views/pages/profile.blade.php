@@ -32,17 +32,15 @@
                 </p>
             </div>
         </div>
-        <img src="https://api.lorem.space/image/movie?w=150&amp;amp;amp;amp;h=220">
+        <img id="user_picture" src="https://api.lorem.space/image/movie?w=150&amp;amp;amp;amp;h=220">
     </div>
     <h3>News made by {{ $user->name }} ...</h3>
     <div>
-        @if ($user->news_items()->isEmpty())
+        @if ($user->news_items()->get()->isEmpty())
             <p>There is no news created by this user.
         @else
-            @each('partials.item', $user->news_items(), 'news')
+            @include('partials.list_news', ['news_list' => $user->news_items(), 'perPage' => 5])
         @endif
     </div>
 </div>
-
-
 @endsection

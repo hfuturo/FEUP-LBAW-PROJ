@@ -7,7 +7,7 @@ main {
   margin: 1em;
 }
 
-nav {
+body > nav {
   grid-column-start: start;
   grid-column-end: content;
   grid-row-start: content;
