@@ -1,3 +1,3 @@
 <li class="user">
-    <a href="">{{ $user->name }}</a>
+    <a href='/profile/{{ $user->name }}'>{{ $user->name }}</a>
 </li>

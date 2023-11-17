@@ -22,6 +22,13 @@ function addEventListeners() {
     let cardCreator = document.querySelector('article.card form.new_card');
     if (cardCreator != null)
       cardCreator.addEventListener('submit', sendCreateCardRequest);
+
+    const filterUsersInput = document.querySelector('#users input')
+    if (filterUsersInput) {
+        filterUsersInput.addEventListener('input', async function() {
+            sendAjaxRequest('post','/api/manage', {search: filterUsersInput.value}, filterUsersHandler)
+        })
+    }
   }
   
   function encodeForAjax(data) {
@@ -41,6 +48,28 @@ function addEventListeners() {
     request.send(encodeForAjax(data));
   }
   
+
+function filterUsersHandler() {
+    if (this.status != 200) window.location = '/'
+    const users = JSON.parse(this.responseText)
+
+    let usersList = document.querySelector('#all_users')
+    
+    // limpa a lista
+    usersList.innerHTML = ''
+
+    // reconstroi lista
+    for (const user of users) {
+        let li = document.createElement('li')
+        li.classList.add('user')
+        let link = document.createElement('a')
+        link.href = "/profile/" + user.name
+        link.innerHTML = user.name
+        li.appendChild(link)
+        usersList.appendChild(li)
+    }
+}
+
   function sendItemUpdateRequest() {
     let item = this.closest('li.item');
     let id = item.getAttribute('data-id');
