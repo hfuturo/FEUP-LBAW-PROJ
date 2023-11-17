@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ManageController;
+use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -63,4 +64,7 @@ Route::controller(ManageController::class)->group(function () {
     Route::get('/manage','show');
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::get('/profile/{user}', 'show')->name('profile');
+});
 
