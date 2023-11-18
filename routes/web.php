@@ -51,11 +51,11 @@ Route::controller(ItemController::class)->group(function () {
 });
 */
 Route::controller(ManageController::class)->group(function() {
-    Route::get('/api/manage', 'search');
+    Route::post('/api/manage', 'search');
 });
 
 Route::controller(NewsController::class)->group(function() {
-    Route::get('/api/follow_feed', 'follow_list')->name('news');
+    Route::post('/api/follow_feed', 'follow_list')->name('news');
 });
 
 // Authentication

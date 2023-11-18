@@ -33,7 +33,7 @@ function addEventListeners() {
     const follow_feed = document.querySelector('.feed_button');
     if (follow_feed) {
       follow_feed.addEventListener('click', async function() {
-            sendAjaxRequest('get', '/api/follow_feed', null, followFeedHandler)
+            sendAjaxRequest('post', '/api/follow_feed', null, followFeedHandler)
       })
     }
   }
