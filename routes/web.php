@@ -68,6 +68,7 @@ Route::controller(UserController::class)->group(function () {
 // About Us
 Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about_us', 'show');
+});
 
 // Follow User
 Route::controller(Follow_UserController::class)->group(function () {
