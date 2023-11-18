@@ -71,6 +71,7 @@ async function followFeedLinksHandler(links) {
       const response = await fetch(fetch_link)
       const raw_data = await response.json()
       updateFollowFeed(raw_data)
+      document.getElementById('content').scrollIntoView({behavior: 'smooth'})
     }) 
   }
 }

@@ -26,7 +26,7 @@ class NewsController extends Controller
                             ->get('id_following');
 
         // posts dos users que segue por ordem DESC
-        $posts = Content::whereIn('id_author',$following)->orderBy('date','DESC')->paginate(5);
+        $posts = Content::whereIn('id_author',$following)->orderBy('date','DESC')->paginate(10);
 
         // obtem titulos dos posts
         for ($i = 0; $i < count($posts); $i++) {
