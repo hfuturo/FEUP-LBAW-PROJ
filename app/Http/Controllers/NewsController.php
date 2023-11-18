@@ -12,7 +12,7 @@ use App\Models\Content;
 
 class NewsController extends Controller
 {
-    public function temp() {
+    public function show() {
         return view('pages.news');
     }
     
@@ -25,23 +25,18 @@ class NewsController extends Controller
                             ->following()
                             ->get('id_following');
 
-        // posts dos users que segue
-        $posts = Content::whereIn('id_author',$following)->get();
-
-        // obtem ids dos posts
-        $ids = array();
-        foreach ($posts as $post) {
-            $ids[] = $post['id'];
-        }
+        // posts dos users que segue por ordem DESC
+        $posts = Content::whereIn('id_author',$following)->orderBy('date','DESC')->paginate(5);
 
         // obtem titulos dos posts
-        $titles = News_Item::whereIn('id', $ids)->get('title');
-
-        // dá "merge" titulo do post -> post
         for ($i = 0; $i < count($posts); $i++) {
-            $posts[$i]['title'] = $titles[$i]['title'];
+            $title = News_Item::where('id', $posts[$i]['id'])->get('title');
+            $posts[$i]['title'] = $title[0]['title'];
         }
 
-        return response()->json($posts);
+        return response()->json([
+            'posts' => $posts,
+            'links' => (string)$posts->links()
+        ]);
     }
 }

@@ -58,13 +58,29 @@ function addEventListeners() {
   }
 
 function followFeedHandler() {
-  if (this.status != 200) window.localStorage = '/'
-  const posts = JSON.parse(this.responseText)
+  if (this.status != 200) window.location = '/'
+  const raw_data = JSON.parse(this.responseText)
+  updateFollowFeed(raw_data)
+}
 
+async function followFeedLinksHandler(links) {
+  for (let link of links) {
+    const fetch_link = link.href
+    link.removeAttribute("href")  // necessario para quando clicarmos não recarregar a pagina e ir para o feed default
+    link.addEventListener('click', async function() {
+      const response = await fetch(fetch_link)
+      const raw_data = await response.json()
+      updateFollowFeed(raw_data)
+    }) 
+  }
+}
+
+function updateFollowFeed(raw_data) {
+  const posts = raw_data.posts.data
   let all_news = document.querySelector('.all_news')
 
   all_news.innerHTML = ''
-  console.log(posts)
+
   for (const news of posts) {
     let link = document.createElement('a')
     link.href = ""
@@ -81,6 +97,16 @@ function followFeedHandler() {
     link.appendChild(article)
     all_news.appendChild(link)
   }
+
+  let paginator = document.createElement('span')
+  paginator.classList.add('paginate')
+  paginator.innerHTML = raw_data.links
+  all_news.appendChild(paginator)
+
+  const links_num = document.querySelectorAll(".paginate .relative.z-0.inline-flex.shadow-sm.rounded-md a")
+  const button_next_previous = document.querySelectorAll(".paginate nav[role='navigation'] > div:first-of-type a")
+  followFeedLinksHandler(links_num)
+  followFeedLinksHandler(button_next_previous)
 }
 
 function filterUsersHandler() {

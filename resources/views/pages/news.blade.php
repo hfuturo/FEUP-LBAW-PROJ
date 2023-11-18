@@ -6,6 +6,7 @@
     <button class="feed_button">Following Feed</button>
 </div>
 <div class="all_news">
+    <span class="paginate"></span>
 </div>
 
 @endsection
