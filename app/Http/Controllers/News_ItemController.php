@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\News_Item;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use Illuminate\View\View;
@@ -40,16 +41,30 @@ class News_itemController extends Controller
             ->with('success', 'Successfully changed!');
         }
 
+        $request->validate([
+            'image' => 'mimes:jpg,png,jped'
+        ]);
+
+        $imageName = NULL;
+
+        if($request->hasFile('image') && $request->file('image')->isValid()){
+            $requestImage = $request->image;
+            $extension = $requestImage->extension();
+            $imageName = sha1($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+            $requestImage->move(public_path('img/news_image'), $imageName);
+        }
+
         $id_news=null;
-        DB::transaction(function () use(&$id_news, $request) {
+        DB::transaction(function () use(&$id_news, $request, $imageName) {
             DB::insert('INSERT INTO content (content, id_author, id_organization) VALUES (:content, :id_author, :id_organization)',[
                 "content"=>$request->input("text"),
                 "id_author"=>Auth::user()->id,
                 "id_organization"=> null
             ]);
-            DB::insert('INSERT INTO news_item(id, id_topic, title) VALUES(currval(\'content_id_seq\'), :id_topic, :title)',[
+            DB::insert('INSERT INTO news_item(id, id_topic, title, image) VALUES(currval(\'content_id_seq\'), :id_topic, :title, :image)',[
                 "id_topic"=>1,
-                "title"=>$request->input("title")
+                "title"=>$request->input("title"),
+                'image' => $imageName
             ]);
 
             $id_news=DB::select('SELECT currval(\'content_id_seq\')');
