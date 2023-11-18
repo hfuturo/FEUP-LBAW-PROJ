@@ -6,6 +6,8 @@
         <div id="user_card">
             @if (Auth::user()->id === $user->id)
                 @include('partials.edit_profile', ['user' => $user])
+            @else
+                @include('partials.follow_user')
             @endif
             <h2>{{ $user->name }}</h2>
             <div id="user_details">
