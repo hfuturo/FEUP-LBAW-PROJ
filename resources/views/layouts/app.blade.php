@@ -16,6 +16,7 @@
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
         <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
+        <link href="{{ url('css/news.css') }}" rel="stylesheet">
 
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug

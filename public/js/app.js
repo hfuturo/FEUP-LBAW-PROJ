@@ -34,6 +34,8 @@ function addEventListeners() {
     if (follow_feed) {
       follow_feed.addEventListener('click', async function() {
             sendAjaxRequest('post', '/api/follow_feed', null, followFeedHandler)
+            follow_feed.style.background = '#606c76'
+            follow_feed.style.border = '#606c76'
       })
     }
   }
@@ -54,7 +56,6 @@ function addEventListeners() {
     request.addEventListener('load', handler);
     request.send(encodeForAjax(data));
   }
-  
 
 function followFeedHandler() {
   if (this.status != 200) window.localStorage = '/'
