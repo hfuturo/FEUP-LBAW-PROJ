@@ -6,6 +6,7 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Follow_UserController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AboutUsController;
 
@@ -31,26 +32,7 @@ Route::controller(NewsController::class)->group(function() {
     Route::get('/news', 'list_default_feed')->name('news');
 });
 
-/*
-// Cards
-Route::controller(CardController::class)->group(function () {
-    Route::get('/cards', 'list')->name('cards');
-    //Route::get('/cards/{id}', 'show');
-});
-
-
 // API
-Route::controller(CardController::class)->group(function () {
-    Route::put('/api/cards', 'create');
-    Route::delete('/api/cards/{card_id}', 'delete');
-});
-
-Route::controller(ItemController::class)->group(function () {
-    Route::put('/api/cards/{card_id}', 'create');
-    Route::post('/api/item/{id}', 'update');
-    Route::delete('/api/item/{id}', 'delete');
-});
-*/
 Route::controller(ManageController::class)->group(function() {
     Route::post('/api/manage', 'search');
 });
@@ -77,13 +59,18 @@ Route::controller(ManageController::class)->group(function () {
     Route::get('/manage','show');
 });
 
+// Profile
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
     Route::post('/profile/{user}', 'update')->name('profile_update');
 });
 
-
 // About Us
 Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about_us', 'show');
+
+// Follow User
+Route::controller(Follow_UserController::class)->group(function () {
+    Route::post('/profile/unfollow/{id_follower}/{id_following}', 'destroy')->name('unfollow');
+    Route::post('/profile/follow/{id_follower}/{id_following}', 'create')->name('follow');
 });

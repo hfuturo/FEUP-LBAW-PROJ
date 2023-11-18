@@ -11,7 +11,7 @@ class Follow_User extends Model
     public $timestamps  = false;
     public $incrementing = false;
     protected $table = 'follow_user';
-
+    
     protected $fillable = [
         'id_follower',
         'id_following'
