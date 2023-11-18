@@ -216,11 +216,13 @@ body {
   main section#comments {
     color: black;
     margin: 1em;
+    padding: 1em;
   }
   
   section#comments article.comment{
     padding: 1em;
     border: 1px solid black;
+    border-collapse: collapse;
   }
   
   section#comments article.comment .comment_header{
@@ -259,4 +261,8 @@ body {
 
   }
   
-  
+  svg{
+    width: 1em;
+    height: 1em;
+    vertical-align: middle; 
+}
