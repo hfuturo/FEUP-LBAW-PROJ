@@ -16,6 +16,7 @@
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
         <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
+        <link href="{{ url('css/news.css') }}" rel="stylesheet">
         <script src="{{ url('js/profile.js') }}"></script>
 
         <script type="text/javascript">
@@ -27,7 +28,7 @@
     </head>
     <body>
             <header>
-                <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
+                <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
                     @if (Auth::user()->is_admin())
                     <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
                     @endif

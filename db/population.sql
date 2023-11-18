@@ -526,6 +526,100 @@ INSERT INTO "news_item" (id, id_topic, title) VALUES (43, 4, 'Breakthrough in Su
 INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (43,43);
 INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (43,44);
 
+INSERT INTO "content" (id, content, date, id_author) VALUES (44, 'In a world where the pressures of daily life can take a toll on mental well-being, it becomes imperative to prioritize mental health. This comprehensive article explores the challenges individuals face, the stigma surrounding mental health, and actionable steps to promote awareness and self-care. Dive into the intricacies of maintaining a sound mind in the hustle and bustle of the modern era.', TO_TIMESTAMP('26/09/2023 10:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (44, 2, 'Promoting Mental Health Awareness');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (44, 28);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (45, 'Embarking on a journey toward optimal health involves more than just counting calories. This in-depth exploration of nutrition goes beyond the basics, covering topics such as the role of antioxidants, the impact of different food groups, and practical tips for integrating healthy eating habits into daily life. Discover the keys to a balanced and nourishing diet.', TO_TIMESTAMP('27/09/2023 11:15:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (45, 2, 'Balanced Nutrition for Well-being');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (45, 29);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (46, 'Herbal medicine, rooted in ancient traditions, offers a holistic approach to healing. This article delves into the rich history of herbal remedies, their applications in modern times, and the growing interest in natural alternatives to conventional medicine. Explore the world of herbal medicine and its potential benefits for your well-being.', TO_TIMESTAMP('29/09/2023 13:45:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (46, 2, 'Exploring Herbal Medicine Practices');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (46, 31);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (47, 'Effective pain management is a critical aspect of maintaining a high quality of life. This comprehensive article discusses various approaches to pain relief, including medication, physical therapy, and alternative therapies such as acupuncture and mindfulness. Gain insights into navigating pain and enhancing your overall well-being.', TO_TIMESTAMP('30/09/2023 14:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (47, 2, 'Navigating Pain: Strategies for Relief');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (47, 32);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (48, 'As the global focus shifts towards sustainable practices, investing in renewable energy emerges as a key player in shaping the future. This article explores the latest advancements in green technology, the economic prospects of renewable energy, and the role individuals can play in fostering a greener planet through sustainable investments.', TO_TIMESTAMP('10/10/2023 15:45:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (48, 4, 'The Future of Energy: Green Investments');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (48, 42);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (49, 'Exploring the benefits of a plant-based diet goes beyond personal health; it extends to the health of the planet. This article delves into the environmental impact of dietary choices, the nutritional aspects of a plant-based lifestyle, and practical tips for transitioning to a more sustainable and compassionate way of eating.', TO_TIMESTAMP('01/10/2023 16:30:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (49, 2, 'The Green Plate: Embracing a Plant-Based Diet');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (49, 33);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (50, 'Cardiovascular health is a cornerstone of overall well-being. This in-depth article explores the various factors influencing heart health, from dietary choices and exercise to stress management and preventive measures. Learn how small lifestyle changes can contribute to a strong and healthy heart.', TO_TIMESTAMP('02/10/2023 17:15:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (50, 2, 'Heart Matters: Nurturing Cardiovascular Health');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (50, 34);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (51, 'Embark on a virtual journey to the mesmerizing landscapes of Iceland. This travel feature covers everything from the awe-inspiring waterfalls and glaciers to the unique culture and traditions of this Nordic island. Discover the beauty that makes Iceland a must-visit destination for nature enthusiasts.', TO_TIMESTAMP('03/10/2023 18:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (51, 3, 'Icelandic Wonders: A Visual Journey');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (51, 35);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (52, 'Embark on a historical journey through the ancient city of Rome. This travel feature uncovers the rich history, architecture, and cultural heritage that make Rome a timeless destination. Immerse yourself in the allure of the Colosseum, the Vatican, and the charming streets of this historic city.', TO_TIMESTAMP('05/10/2023 20:45:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (52, 3, 'Timeless Rome: A Historical Odyssey');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (52, 37);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (53, 'Cryptocurrency continues to reshape the financial landscape. This article delves into the intricacies of blockchain technology, the rise of cryptocurrencies, and their potential impact on traditional financial systems. Stay informed about the latest trends in the world of digital currencies and their evolving role in the global economy.', TO_TIMESTAMP('15/10/2023 23:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (53, 4, 'Decoding Cryptocurrency: A Digital Frontier');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (53, 43);
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (53, 44);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (54, 'Uncover the mysteries of ancient Greece in this immersive travel feature. From the historic ruins of Athens to the picturesque landscapes of Santorini, this article transports readers to the heart of Greek civilization. Immerse yourself in the beauty and cultural richness that Greece has to offer.', TO_TIMESTAMP('06/10/2023 21:30:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (54, 3, 'Greek Odyssey: A Journey through History');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (54, 39);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (55, 'Escape to the tranquility of Island Life with this travel feature. Explore the unique charm and natural beauty of various islands around the world, from tropical paradises to remote getaways. Discover the allure of island living and the experiences that make each island a distinct and memorable destination.', TO_TIMESTAMP('07/10/2023 22:15:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (55, 3, 'Island Life Escapades: Discovering Serenity');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (55, 40);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (56, 'Navigate the complexities of the stock market with insights and analysis in this finance-focused article. From understanding market trends to making informed investment decisions, this piece aims to empower readers with the knowledge needed to navigate the dynamic world of stocks and finance.', TO_TIMESTAMP('08/10/2023 23:30:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (56, 4, 'Mastering the Stock Market: A Guide to Financial Success');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (56, 41);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (57, 'The global energy landscape is undergoing a paradigm shift. This article explores the latest developments in energy technologies, the role of renewable sources, and the potential impact on the future of energy production. Stay informed about the innovations shaping the energy sector.', TO_TIMESTAMP('09/10/2023 14:30:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (57, 4, 'Revolutionizing Energy: Trends and Innovations');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (57, 42);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (58, 'Bitcoin, the pioneer of cryptocurrencies, continues to be a focal point of financial discussions. This article provides an in-depth exploration of Bitcoin, its underlying technology, and its place in the evolving financial ecosystem. Stay abreast of the latest trends and developments in the world of Bitcoin.', TO_TIMESTAMP('10/10/2023 15:45:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (58, 4, 'Decoding Bitcoin: The Digital Gold Rush');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (58, 43);
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (58, 44);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (59, 'Delve into the world of renewable energy with a focus on solar technology. This article explores the latest breakthroughs in solar power, including advancements in photovoltaic cells and their potential to revolutionize the renewable energy sector. Stay informed about the cutting-edge innovations driving a greener and more sustainable future.', TO_TIMESTAMP('11/10/2023 16:30:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (59, 4, 'Solar Revolution: Advancing Renewable Energy');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (59, 42);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (60, 'Explore the world of cryptocurrencies beyond Bitcoin. This article provides insights into various cryptocurrencies, their unique features, and the broader impact of decentralized finance (DeFi). Stay up-to-date with the dynamic landscape of digital currencies and the evolving opportunities in the crypto space.', TO_TIMESTAMP('12/10/2023 17:15:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (60, 4, 'Beyond Bitcoin: Navigating the Crypto Frontier');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (60, 43);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (61, 'As the demand for clean and sustainable energy grows, this article explores the potential of tidal power. Dive into the science behind harnessing the power of tides, the environmental benefits, and the challenges and opportunities associated with this emerging form of renewable energy.', TO_TIMESTAMP('13/10/2023 18:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (61, 4, 'Tidal Power: Riding the Waves of Sustainable Energy');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (61, 42);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (62, 'Dive into the captivating world of underwater archaeology. This article explores submerged ancient cities, shipwrecks, and artifacts that provide glimpses into the past. Discover the challenges faced by underwater archaeologists and the historical treasures hidden beneath the ocean depths.', TO_TIMESTAMP('15/10/2023 20:45:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (62, 5, 'Beneath the Waves: Unveiling Underwater Secrets');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (62, 38);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (63, 'The fusion of technology and education is transforming learning experiences. This article explores the impact of artificial intelligence, virtual reality, and online platforms on the future of education. Gain insights into the evolving landscape of education technology and its potential to revolutionize the way we learn.', TO_TIMESTAMP('22/10/2023 14:30:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (63, 5, 'EdTech Revolution: Shaping the Future of Learning');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (63, 1);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (64, 'Embark on a culinary journey through the world of international cuisine. This article explores the flavors, traditions, and stories behind diverse dishes from different cultures. Discover the art of gastronomy and the cultural significance of food that transcends borders.', TO_TIMESTAMP('23/10/2023 15:15:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (64, 2, 'Culinary Wonders: A Global Feast');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (64, 29);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (65, 'Immerse yourself in the wonders of the cosmos with this exploration of space and astronomy. From the mysteries of black holes to the search for extraterrestrial life, this article takes readers on a cosmic journey, unraveling the secrets of the universe.', TO_TIMESTAMP('24/10/2023 16:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (65, 1, 'Cosmic Odyssey: Exploring the Universe');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (65, 5);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (66, 'Experience the adrenaline and excitement of extreme sports in this thrilling article. From skydiving and rock climbing to extreme skiing, delve into the world of adventurous activities that push the limits of human potential and provide a unique perspective on life.', TO_TIMESTAMP('25/10/2023 17:00:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (66, 3, 'Adrenaline Rush: The World of Extreme Sports');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (66, 36);
+
 INSERT INTO "report" (reason, date, type, id_reporter, id_content) VALUES ('Off Topic', TO_TIMESTAMP('25/09/2023 09:39:00', 'DD/MM/YYYY HH24:MI:SS'),'content',29,42);
 
 SELECT setval('content_id_seq', (SELECT max(id) FROM "content"));

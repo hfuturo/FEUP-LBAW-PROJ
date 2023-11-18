@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Follow_UserController;
+use App\Http\Controllers\NewsController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -25,10 +26,16 @@ use App\Http\Controllers\Auth\RegisterController;
 // Home
 Route::redirect('/', '/login');
 
+// News
+Route::controller(NewsController::class)->group(function() {
+    Route::get('/news', 'list_default_feed')->name('news');
+});
+
+/*
 // Cards
 Route::controller(CardController::class)->group(function () {
     Route::get('/cards', 'list')->name('cards');
-    Route::get('/cards/{id}', 'show');
+    //Route::get('/cards/{id}', 'show');
 });
 
 
@@ -43,9 +50,14 @@ Route::controller(ItemController::class)->group(function () {
     Route::post('/api/item/{id}', 'update');
     Route::delete('/api/item/{id}', 'delete');
 });
-
+*/
 Route::controller(ManageController::class)->group(function() {
     Route::post('/api/manage', 'search');
+});
+
+Route::controller(NewsController::class)->group(function() {
+    Route::post('/api/follow_feed', 'follow_list');
+    Route::get('/api/follow_feed', 'follow_list');
 });
 
 // Authentication
