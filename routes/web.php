@@ -8,6 +8,7 @@ use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Follow_UserController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Suggested_TopicController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -85,4 +86,8 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(Follow_UserController::class)->group(function () {
     Route::post('/profile/unfollow/{id_follower}/{id_following}', 'destroy')->name('unfollow');
     Route::post('/profile/follow/{id_follower}/{id_following}', 'create')->name('follow');
+});
+
+Route::controller(Suggested_TopicController::class)->group(function () {
+    Route::post('/topic_proposal', 'create')->name('topic_proposal');
 });
