@@ -103,6 +103,12 @@ class User extends Authenticatable
     
     public function news_items() {
         return $this->contents()
-        ->with('news_items');
+        ->whereHas('news_items')
+        ->whereDoesntHave('comments');
+    }
+
+    public function is_admin()
+    {
+        return $this->type === 'admin';
     }
 }
