@@ -6,7 +6,6 @@
     <button class="feed_button">Following Feed</button>
 </div>
 <div class="all_news">
-    @each('partials.news',$posts,'post')
 </div>
 
 @endsection

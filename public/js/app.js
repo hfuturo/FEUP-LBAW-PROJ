@@ -29,6 +29,13 @@ function addEventListeners() {
             sendAjaxRequest('post','/api/manage', {search: filterUsersInput.value}, filterUsersHandler)
         })
     }
+
+    const follow_feed = document.querySelector('.feed_button');
+    if (follow_feed) {
+      follow_feed.addEventListener('click', async function() {
+            sendAjaxRequest('get', '/api/follow_feed', null, followFeedHandler)
+      })
+    }
   }
   
   function encodeForAjax(data) {
@@ -48,6 +55,32 @@ function addEventListeners() {
     request.send(encodeForAjax(data));
   }
   
+
+function followFeedHandler() {
+  if (this.status != 200) window.localStorage = '/'
+  const posts = JSON.parse(this.responseText)
+
+  let all_news = document.querySelector('.all_news')
+
+  all_news.innerHTML = ''
+  console.log(posts)
+  for (const news of posts) {
+    let link = document.createElement('a')
+    link.href = ""
+    let article = document.createElement('article')
+    article.classList.add('user_news')
+    let h4 = document.createElement('h4')
+    h4.classList.add('news_title')
+    h4.innerHTML = news.title
+    let p = document.createElement('p')
+    p.classList.add('news_content')
+    p.innerHTML = news.content
+    article.appendChild(h4)
+    article.appendChild(p)
+    link.appendChild(article)
+    all_news.appendChild(link)
+  }
+}
 
 function filterUsersHandler() {
     if (this.status != 200) window.location = '/'

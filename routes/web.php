@@ -27,7 +27,7 @@ Route::redirect('/', '/login');
 
 // News
 Route::controller(NewsController::class)->group(function() {
-    Route::get('/news', 'follow_list')->name('news');
+    Route::get('/news', 'temp')->name('news');
 });
 
 /*
@@ -51,7 +51,11 @@ Route::controller(ItemController::class)->group(function () {
 });
 */
 Route::controller(ManageController::class)->group(function() {
-    Route::post('/api/manage', 'search');
+    Route::get('/api/manage', 'search');
+});
+
+Route::controller(NewsController::class)->group(function() {
+    Route::get('/api/follow_feed', 'follow_list')->name('news');
 });
 
 // Authentication

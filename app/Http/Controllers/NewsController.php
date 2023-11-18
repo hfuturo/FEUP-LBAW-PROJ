@@ -12,7 +12,11 @@ use App\Models\Content;
 
 class NewsController extends Controller
 {
-    public function follow_list()
+    public function temp() {
+        return view('pages.news');
+    }
+    
+    public function follow_list(Request $request)
     {
         $this->authorize('follow_list', \App\News::class);
 
@@ -38,8 +42,6 @@ class NewsController extends Controller
             $posts[$i]['title'] = $titles[$i]['title'];
         }
 
-        return view('pages.news', [
-            'posts' => $posts
-        ]);
+        return response()->json($posts);
     }
 }
