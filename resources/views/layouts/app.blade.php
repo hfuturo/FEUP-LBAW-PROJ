@@ -17,6 +17,9 @@
         <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
         <link href="{{ url('css/news.css') }}" rel="stylesheet">
+        <link href="{{ url('css/about_us.css') }}" rel="stylesheet">
+
+
         <script src="{{ url('js/profile.js') }}"></script>
 
         <script type="text/javascript">
@@ -32,7 +35,7 @@
                     @if (Auth::user()->is_admin())
                     <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
                     @endif
-                    <a class="button"> About Us </a>
+                    <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
                     <a class="button"> Contact Us </a>
                     @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
