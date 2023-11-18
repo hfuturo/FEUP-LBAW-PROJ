@@ -57,7 +57,28 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        if($user->email !== $request->input('email')) {
+            $validator_unique=$request->validate(['email' => 'unique:authenticated_user']);
+            if (!$validator_unique) {
+                return back();
+            }
+        }
+        $validator=$request->validate([
+            'name' => 'string|max:250',
+            'email' => 'email|max:250',
+            'bio' => 'nullable|string'
+        ]);
+        if ($validator) {
+            $user->name = empty($request->input('name')) ? $user->name : $request->input('name');
+            $user->email = empty($request->input('email')) ? $user->email : $request->input('email');
+            $user->bio = empty($request->input('bio')) ? $user->bio : $request->input('bio');
+            $user->save();       
+            return redirect()->route('profile',[$user])
+            ->with('success', 'Successfully changed!');
+        }
+        else{
+            return back();
+        }
     }
 
     /**

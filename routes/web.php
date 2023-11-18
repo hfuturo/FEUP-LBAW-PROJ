@@ -57,4 +57,5 @@ Route::controller(RegisterController::class)->group(function () {
 
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
+    Route::post('/profile/{user}', 'update')->name('profile_update');
 });

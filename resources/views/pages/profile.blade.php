@@ -4,6 +4,9 @@
 <div class="user_page">
     <div class="profile">
         <div id="user_card">
+            @if (Auth::user()->id === $user->id)
+                @include('partials.edit_profile', ['user' => $user])
+            @endif
             <h2>{{ $user->name }}</h2>
             <div id="user_details">
                 <div id="user_info">
