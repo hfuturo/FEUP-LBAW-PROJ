@@ -10,7 +10,8 @@ class Follow_User extends Model
     use HasFactory;
     public $timestamps  = false;
     protected $table = 'follow_user';
-
+    public $incrementing = false;
+    
     protected $fillable = [
         'id_follower',
         'id_following'

@@ -6,6 +6,7 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Follow_UserController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -67,4 +68,9 @@ Route::controller(ManageController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
     Route::post('/profile/{user}', 'update')->name('profile_update');
+});
+
+Route::controller(Follow_UserController::class)->group(function () {
+    Route::post('/profile/{id_follower_delete}/{id_following_delete}', 'destroy')->name('unfollow');
+    Route::get('/profile/{id_follower}/{id_following}', 'create')->name('follow');
 });
