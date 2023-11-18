@@ -8,13 +8,22 @@
         <div class = "news_head">
             <a href="" class="topic">{{$news_item->topic->name}}</a>
             <h2 class = "title" >{{$news_item->title}}</h2>
-            <a href="" class = "author"> Public by {{$news_item->content->authenticated_user->name}}</a>
-            @if ($news_item->content->organization !== NULL)
-            <a href="" class = "org"> {{$news_item->content->organization->name}}</a>
+            </div>
+                <span>Posted by</span>
+                <a href="" class = "author">{{$news_item->content->authenticated_user->name}}</a>
+                @if ($news_item->content->organization !== NULL)
+                <span>Associated with</span>
+                <a href="" class = "org"> {{$news_item->content->organization->name}}</a>
+                </div>
             @endif
         </div>
         <p class = "news_text">{{$news_item->content->content}}</p>
         <p  class = "date" >{{$news_item->content->date}}</p>
+        <div class = tags>
+            @foreach ($news_item->tags as $tag)
+                <a href="" class="tag">{{$tag->name}}</a>
+            @endforeach
+        </div>
         <div class="votes">
             <a href="" class="like">Like </a>
             <a href="" class="like">Dislike</a>
