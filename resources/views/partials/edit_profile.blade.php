@@ -10,7 +10,7 @@
             <input id="email" type="text" name="email" value="{{ $user->email }}" required>
 
             <label for="bio" >Bio</label>
-            <input id="bio" type="text" name="bio" value="{{ $user->bio }}" >
+            <textarea id="bio" name="bio">{{ $user->bio }}</textarea>
 
             <button type="submit"> Save Changes </button>
 

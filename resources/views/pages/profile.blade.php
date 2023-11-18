@@ -9,20 +9,20 @@
             @endif
             <h2>{{ $user->name }}</h2>
             <div id="user_details">
-                <div id="user_info">
+                <div class="user_info">
                     <h4>Reputation</h4>
                     <p>{{ $user->reputation }}</p>    
                 </div>
-                <div id="user_info">
+                <div class="user_info">
                     <h4>Followers</h4>
                     <p>{{ $user->followers()->count() }}</p>    
                 </div>
-                <div id="user_info">
+                <div class="user_info">
                     <h4>Following</h4>
                     <p>{{ $user->following()->count() }}</p> 
                 </div>
             </div>
-            <div id="user_info">
+            <div class="user_info">
                 <h4>Bio</h4>
                 <p>
                     @if ($user->bio !== '')

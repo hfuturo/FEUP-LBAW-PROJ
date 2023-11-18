@@ -71,7 +71,7 @@ class UserController extends Controller
         if ($validator) {
             $user->name = empty($request->input('name')) ? $user->name : $request->input('name');
             $user->email = empty($request->input('email')) ? $user->email : $request->input('email');
-            $user->bio = empty($request->input('bio')) ? $user->bio : $request->input('bio');
+            $user->bio = empty($request->input('bio')) ? '' : $request->input('bio');
             $user->save();       
             return redirect()->route('profile',[$user])
             ->with('success', 'Successfully changed!');
