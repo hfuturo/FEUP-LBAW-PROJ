@@ -10,3 +10,7 @@
 .news_content {
     color: black;
 }
+
+.paginate a:hover {
+    cursor: pointer;
+}
