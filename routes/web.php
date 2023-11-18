@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\AboutUsController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -79,4 +80,10 @@ Route::controller(ManageController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
     Route::post('/profile/{user}', 'update')->name('profile_update');
+});
+
+
+// About Us
+Route::controller(AboutUsController::class)->group(function () {
+    Route::get('/about_us', 'show');
 });
