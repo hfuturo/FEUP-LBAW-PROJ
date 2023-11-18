@@ -526,6 +526,16 @@ INSERT INTO "news_item" (id, id_topic, title) VALUES (43, 4, 'Breakthrough in Su
 INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (43,43);
 INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (43,44);
 
+INSERT INTO "content" (id, content, date, id_author) VALUES (44,'In a significant stride toward a greener future, scientists have unveiled a groundbreaking solar technology that promises to revolutionize the renewable energy sector. The new innovation, based on advanced photovoltaic cells, has demonstrated a remarkable 30% increase in energy conversion efficiency, surpassing previous industry benchmarks. This leap in efficiency could potentially drive down the costs of solar power generation and accelerate the transition to sustainable energy sources worldwide. With its potential implications for mitigating climate change and reducing reliance on fossil fuels, the development has garnered attention from both environmentalists and industry leaders, igniting hope for a more sustainable and eco-friendly energy landscape.', TO_TIMESTAMP('25/09/2023 09:39:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (44, 4, 'Breakthrough in Sustainable Energy: New Solar Technology Maximizes Efficiency');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (44,43);
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (44,44);
+
+INSERT INTO "content" (id, content, date, id_author) VALUES (45,'In a significant stride toward a greener future, scientists have unveiled a groundbreaking solar technology that promises to revolutionize the renewable energy sector. The new innovation, based on advanced photovoltaic cells, has demonstrated a remarkable 30% increase in energy conversion efficiency, surpassing previous industry benchmarks. This leap in efficiency could potentially drive down the costs of solar power generation and accelerate the transition to sustainable energy sources worldwide. With its potential implications for mitigating climate change and reducing reliance on fossil fuels, the development has garnered attention from both environmentalists and industry leaders, igniting hope for a more sustainable and eco-friendly energy landscape.', TO_TIMESTAMP('25/09/2023 09:39:00', 'DD/MM/YYYY HH24:MI:SS'), 9);
+INSERT INTO "news_item" (id, id_topic, title) VALUES (45, 4, 'Breakthrough in Sustainable Energy: New Solar Technology Maximizes Efficiency');
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (45,43);
+INSERT INTO "news_tag" (id_news_item, id_tag) VALUES (45,44);
+
 INSERT INTO "report" (reason, date, type, id_reporter, id_content) VALUES ('Off Topic', TO_TIMESTAMP('25/09/2023 09:39:00', 'DD/MM/YYYY HH24:MI:SS'),'content',29,42);
 
 SELECT setval('content_id_seq', (SELECT max(id) FROM "content"));

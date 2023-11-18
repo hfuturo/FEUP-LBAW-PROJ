@@ -26,7 +26,7 @@
     </head>
     <body>
             <header>
-                <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
+                <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
                     @if (Auth::user()->is_admin())
                     <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
                     @endif
