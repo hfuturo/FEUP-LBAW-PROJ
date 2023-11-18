@@ -83,7 +83,7 @@ function updateFollowFeed(raw_data) {
 
   for (const news of posts) {
     let link = document.createElement('a')
-    link.href = ""
+    link.href = "/news/" + news.id
     let article = document.createElement('article')
     article.classList.add('user_news')
     let h4 = document.createElement('h4')
