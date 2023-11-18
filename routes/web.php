@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Follow_UserController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\ContactUsController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -74,4 +75,9 @@ Route::controller(AboutUsController::class)->group(function () {
 Route::controller(Follow_UserController::class)->group(function () {
     Route::post('/profile/unfollow/{id_follower}/{id_following}', 'destroy')->name('unfollow');
     Route::post('/profile/follow/{id_follower}/{id_following}', 'create')->name('follow');
+});
+
+// Contact Us
+Route::controller(ContactUsController::class)->group(function () {
+    Route::get('/contacts', 'show');
 });
