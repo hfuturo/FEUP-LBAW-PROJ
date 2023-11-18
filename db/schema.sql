@@ -54,6 +54,7 @@ CREATE TABLE "authenticated_user"
   bio TEXT NOT NULL DEFAULT '',
   blocked BOOLEAN NOT NULL DEFAULT false,
   type user_type NOT NULL DEFAULT 'authenticated'::user_type,
+  remember_token VARCHAR,
   PRIMARY KEY(id),
   -- data specific to each authenticated_user type
   id_topic INTEGER REFERENCES "topic" (id) ON UPDATE CASCADE ON DELETE SET NULL, -- moderator

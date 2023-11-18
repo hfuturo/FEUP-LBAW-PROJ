@@ -39,4 +39,9 @@ class Content extends Model
     {
         return $this->hasOne(News_Item::class, 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasOne(Comment::class, 'id');
+    }
 }
