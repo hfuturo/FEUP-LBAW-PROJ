@@ -29,6 +29,15 @@ function addEventListeners() {
             sendAjaxRequest('post','/api/manage', {search: filterUsersInput.value}, filterUsersHandler)
         })
     }
+
+    const follow_feed = document.querySelector('.feed_button');
+    if (follow_feed) {
+      follow_feed.addEventListener('click', async function() {
+            sendAjaxRequest('post', '/api/follow_feed', null, followFeedHandler)
+            follow_feed.style.background = '#606c76'
+            follow_feed.style.border = '#606c76'
+      })
+    }
   }
   
   function encodeForAjax(data) {
@@ -47,7 +56,59 @@ function addEventListeners() {
     request.addEventListener('load', handler);
     request.send(encodeForAjax(data));
   }
-  
+
+function followFeedHandler() {
+  if (this.status != 200) window.location = '/'
+  const raw_data = JSON.parse(this.responseText)
+  updateFollowFeed(raw_data)
+}
+
+async function followFeedLinksHandler(links) {
+  for (let link of links) {
+    const fetch_link = link.href
+    link.removeAttribute("href")  // necessario para quando clicarmos não recarregar a pagina e ir para o feed default
+    link.addEventListener('click', async function() {
+      const response = await fetch(fetch_link)
+      const raw_data = await response.json()
+      updateFollowFeed(raw_data)
+      document.getElementById('content').scrollIntoView({behavior: 'smooth'})
+    }) 
+  }
+}
+
+function updateFollowFeed(raw_data) {
+  const posts = raw_data.posts.data
+  let all_news = document.querySelector('.all_news')
+
+  all_news.innerHTML = ''
+
+  for (const news of posts) {
+    let link = document.createElement('a')
+    link.href = "/news/" + news.id
+    let article = document.createElement('article')
+    article.classList.add('user_news')
+    let h4 = document.createElement('h4')
+    h4.classList.add('news_title')
+    h4.innerHTML = news.title
+    let p = document.createElement('p')
+    p.classList.add('news_content')
+    p.innerHTML = news.content
+    article.appendChild(h4)
+    article.appendChild(p)
+    link.appendChild(article)
+    all_news.appendChild(link)
+  }
+
+  let paginator = document.createElement('span')
+  paginator.classList.add('paginate')
+  paginator.innerHTML = raw_data.links
+  all_news.appendChild(paginator)
+
+  const links_num = document.querySelectorAll(".paginate .relative.z-0.inline-flex.shadow-sm.rounded-md a")
+  const button_next_previous = document.querySelectorAll(".paginate nav[role='navigation'] > div:first-of-type a")
+  followFeedLinksHandler(links_num)
+  followFeedLinksHandler(button_next_previous)
+}
 
 function filterUsersHandler() {
     if (this.status != 200) window.location = '/'

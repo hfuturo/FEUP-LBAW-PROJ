@@ -24,7 +24,7 @@
     </head>
     <body>
             <header>
-                <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
+                <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
             </header>
             <main>
             <section id="authentication">
