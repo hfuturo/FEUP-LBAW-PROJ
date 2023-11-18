@@ -27,7 +27,7 @@ Route::redirect('/', '/login');
 
 // News
 Route::controller(NewsController::class)->group(function() {
-    Route::get('/news', 'show')->name('news');
+    Route::get('/news', 'list_default_feed')->name('news');
 });
 
 /*

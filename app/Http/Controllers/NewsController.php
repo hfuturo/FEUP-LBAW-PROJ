@@ -12,7 +12,7 @@ use App\Models\Content;
 
 class NewsController extends Controller
 {
-    public function show() {
+    public function list_default_feed() {
         return view('pages.news');
     }
     
