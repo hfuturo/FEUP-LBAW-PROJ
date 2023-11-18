@@ -160,3 +160,103 @@ body {
     border-color: #9b4dca;
   }
   
+
+/*News */
+
+  main section#news {
+    color: black;
+    margin: 1em;
+  }
+  
+  section#news article.news_body{
+    padding: 1em;
+    border: 1px solid orange;
+  }
+  
+  section#news article.news_body .news_head{
+    
+  }
+
+  section#news article.news_body .news_head .topic{
+    
+  }
+  
+  section#news article.news_body .news_head .title{
+    
+  }
+
+  section#news article.news_body .news_head .author{
+    
+  }
+  section#news article.news_body .news_head .org{
+    
+  }
+  
+  
+  
+  section#news article.news_body .title {
+    font-weight: bold;
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
+  
+  section#news article.news_body .news_text{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    
+  }
+  
+  section#news article.news_body .date{
+    margin: 0;
+  }
+
+  /* Comments in news page*/
+
+  main section#comments {
+    color: black;
+    margin: 1em;
+  }
+  
+  section#comments article.comment{
+    padding: 1em;
+    border: 1px solid black;
+  }
+  
+  section#comments article.comment .comment_header{
+    
+  }
+  
+  section#comments article.comment .comment_header .comment_author{
+    display: inline;
+    color: black;
+  }
+  
+  section#comments article.comment .comment_header p{
+    display: inline;
+    color: grey;
+  }
+  
+  
+  
+  section#comments article.news_body .title {
+    font-weight: bold;
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  
+  section#comments article.comment  .comment_text{
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  
+  section#comments article.news_body .news_head .date{
+    
+  }
+  
+  section#comments .not_comments{
+
+  }
+  
+  

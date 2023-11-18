@@ -28,11 +28,7 @@ class News_itemController extends Controller
 
         // Use the pages.card template to display the card.
         return view('pages.news', ['news_item' => $news_itens]);
-        /*
-        return view('pages.card', [
-            'card' => $card
-        ]);
-        */
+
     }
 
 }    
