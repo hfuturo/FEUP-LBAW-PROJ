@@ -71,6 +71,6 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::controller(Follow_UserController::class)->group(function () {
-    Route::post('/profile/{id_follower_delete}/{id_following_delete}', 'destroy')->name('unfollow');
-    Route::get('/profile/{id_follower}/{id_following}', 'create')->name('follow');
+    Route::post('/profile/unfollow/{id_follower}/{id_following}', 'destroy')->name('unfollow');
+    Route::post('/profile/follow/{id_follower}/{id_following}', 'create')->name('follow');
 });
