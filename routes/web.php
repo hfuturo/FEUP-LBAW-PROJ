@@ -8,6 +8,7 @@ use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Follow_UserController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Suggested_TopicController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactUsController;
 
@@ -58,6 +59,7 @@ Route::controller(RegisterController::class)->group(function () {
 // Admin
 Route::controller(ManageController::class)->group(function () {
     Route::get('/manage','show');
+    Route::get('/manage_topic','show_suggested_topic')->name('manage_topic');
 });
 
 // Profile
@@ -75,6 +77,12 @@ Route::controller(AboutUsController::class)->group(function () {
 Route::controller(Follow_UserController::class)->group(function () {
     Route::post('/profile/unfollow/{id_follower}/{id_following}', 'destroy')->name('unfollow');
     Route::post('/profile/follow/{id_follower}/{id_following}', 'create')->name('follow');
+});
+
+Route::controller(Suggested_TopicController::class)->group(function () {
+    Route::post('/topic_proposal', 'create')->name('topic_proposal');
+    Route::post('/manage_topic/delete_suggested_topic/{topic}', 'destroy')->name('delete_suggested_topic');
+    Route::post('/manage_topic/accept_suggested_topic/{name}', 'accept')->name('accept_suggested_topic');
 });
 
 // Contact Us

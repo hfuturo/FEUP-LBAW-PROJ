@@ -16,6 +16,7 @@
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
         <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
+        <link href="{{ url('css/popup.css') }}" rel="stylesheet">
         <link href="{{ url('css/news.css') }}" rel="stylesheet">
         <link href="{{ url('css/info.css') }}" rel="stylesheet">
 
@@ -48,7 +49,10 @@
             <nav>
                 <a href="" class="button"> Create Post</a>
                 <a href="" class="button"> Create Organization</a>
-
+                @include('partials.topic_proposal')
+                @if (Auth::user()->is_admin())
+                    <a class="button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                @endif
             </nav>
             @endif
             <main>
