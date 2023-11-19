@@ -139,7 +139,9 @@ function addEventListeners() {
   
   function createCard(card) {
     let new_card = document.createElement('article');
-    new_card.classList.add('card');
+    new_card.clas
+    
+    sList.add('card');
     new_card.setAttribute('data-id', card.id);
     new_card.innerHTML = `
   

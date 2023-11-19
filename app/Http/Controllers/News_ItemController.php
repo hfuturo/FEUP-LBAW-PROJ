@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\News_Item;
 use App\Models\Topic;
 use App\Models\User;
+use App\Models\Content;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 use Illuminate\View\View;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class News_itemController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -34,68 +37,66 @@ class News_itemController extends Controller
 
     }
 
-    public function api_create(Request $request)
-    {
+    public function store(Request $request){
         if(!Auth::check()){
-            return redirect()->route('new',["id"=>$id_news[0]->currval])
-            ->with('success', 'Successfully changed!');
+            return redirect()->route("login")
+            ->with('fail', 'Not authenticated. Please log in');
         }
 
-        $request->validate([
-            'image' => 'mimes:jpg,png,jped'
+        $validator = $request->validate([
+            'title' => 'required|unique:news_item,title|max:255|string',
+            'text' => 'required|string',
+            'topic' => 'required',
+            'image' => 'mimes:jpg,png,jped',
+
         ]);
 
-        $imageName = NULL;
+        print_r($request->input('tags'));
 
-        if($request->hasFile('image') && $request->file('image')->isValid()){
-            $requestImage = $request->image;
-            $extension = $requestImage->extension();
-            $imageName = sha1($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
-            $requestImage->move(public_path('img/news_image'), $imageName);
+        if($validator){
+
+            $imageName = NULL;
+
+            if($request->hasFile('image') && $request->file('image')->isValid()){
+                $requestImage = $request->image;
+                $extension = $requestImage->extension();
+                $imageName = sha1($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+                $requestImage->move(public_path('img/news_image'), $imageName);
+            }
+
+            $id_news = NULL;
+        
+            DB::transaction(function () use(&$id_news, $request, $imageName) {
+
+                $content = new Content();
+                $content->content = $request->input('text');
+                $content->id_author = Auth::user()->id;
+                $content->id_organization = NULL;
+                $content->save();
+
+                // Create a new news item associated with the content
+                $newsItem = new News_Item();
+                $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
+                $newsItem->title = $request->input('title');
+                $newsItem->image = $imageName; // Replace with the image URL or path
+                $newsItem->id = $content->id; // Set the id to link to the content id
+                $newsItem->save();
+
+                $id_news = $content->id;
+        
+            });
+            return redirect()->route('new',["id"=>$id_news])
+                ->with('success', 'Successfully changed!');
         }
-
-        $id_news=null;
-        DB::transaction(function () use(&$id_news, $request, $imageName) {
-            DB::insert('INSERT INTO content (content, id_author, id_organization) VALUES (:content, :id_author, :id_organization)',[
-                "content"=>$request->input("text"),
-                "id_author"=>Auth::user()->id,
-                "id_organization"=> null
-            ]);
-            DB::insert('INSERT INTO news_item(id, id_topic, title, image) VALUES(currval(\'content_id_seq\'), :id_topic, :title, :image)',[
-                "id_topic"=>1,
-                "title"=>$request->input("title"),
-                'image' => $imageName
-            ]);
-
-            $id_news=DB::select('SELECT currval(\'content_id_seq\')');
-            /*-- cria noticia
-
-            BEGIN TRANSACTION;
-            SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-            
-            INSERT INTO content (content, date, edit_date, id_author, id_organization)
-            VALUES ($content, $date, $edit_date, $id_author, $id_organization);
-            
-            INSERT INTO news_item(id, id_topic, title)
-            VALUES(currval('content_id_seq'), $id_topic, $title);
-            
-            -- inicio do for em php sobre tags
-            INSERT INTO news_tag(id_news_item, id_tag)
-            VALUES (currval('content_id_seq'), $id_tag) ;
-            -- fim do for em php
-            
-            COMMIT;*/            
-        });
-        return redirect()->route('new',["id"=>$id_news[0]->currval])
-        ->with('success', 'Successfully changed!');
     }
 
-     /**
-     * Show the form for creating a new resource.
-     */
-    function page_create(){
+    /** 
+    * Show the form for creating a new resource.
+    */
+    public function create(){
         $topics = Topic::all();
-        return view('pages.create', ['topics' => $topics]);
+        $tags = Tag::all();
+        return view('pages.create', ['topics' => $topics, 'tags' =>$tags]);
     }
 
 }    

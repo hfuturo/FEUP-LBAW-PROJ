@@ -60,7 +60,7 @@ Route::controller(RegisterController::class)->group(function () {
 // News
 // News
 Route::controller(News_ItemController::class)->group(function () {
-    Route::get('/news/create','page_create')->name('create_news');
-    Route::post('/api/news/create','api_create')->name('create_news_api');
+    Route::get('/news/create','create')->name('create_news');
+    Route::post('/api/news/create','store')->name('create_news_api');
     Route::get('/news/{id}', 'show')->name('new');
 });
