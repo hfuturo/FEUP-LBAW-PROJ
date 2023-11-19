@@ -29,7 +29,7 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:250',
-            'email' => 'required|email|max:250|unique:users',
+            'email' => 'required|email|max:250|unique:authenticated_user',
             'password' => 'required|min:8|confirmed'
         ]);
 
@@ -42,7 +42,7 @@ class RegisterController extends Controller
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('cards')
+        return redirect()->route('news')
             ->withSuccess('You have successfully registered & logged in!');
     }
 }

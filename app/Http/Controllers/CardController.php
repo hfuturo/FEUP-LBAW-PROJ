@@ -45,20 +45,15 @@ class CardController extends Controller
             // The user is logged in.
 
             // Get cards for user ordered by id.
-            //$cards = Auth::user()->cards()->orderBy('id')->get();
+            # $cards = Auth::user()->cards()->orderBy('id')->get();
 
             // Check if the current user can list the cards.
-            //$this->authorize('list', Card::class);
+            # $this->authorize('list', Card::class);
 
             // The current user is authorized to list cards.
 
             // Use the pages.cards template to display all cards.
-            /*
-            return view('pages.cards', [
-                'cards' => $cards
-            ]);
-            */
-            return view('pages.card');
+            return view('pages.cards');
         }
     }
 

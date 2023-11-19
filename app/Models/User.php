@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -83,15 +84,15 @@ class User extends Authenticatable
     }
 
     public function follow_topics() {
-        return $this->hasMany(Follow_Topic::class,'id_following');
+        return $this->hasMany(FollowTopic::class,'id_following');
     }
 
     public function following() {
-        return $this->hasMany(Follow_User::class,'id_follower');
+        return $this->hasMany(FollowUser::class,'id_follower');
     }
 
     public function followers() {
-        return $this->hasMany(Follow_User::class,'id_following');
+        return $this->hasMany(FollowUser::class,'id_following');
     }
 
     public function votes(){
@@ -99,20 +100,15 @@ class User extends Authenticatable
         ->belongsToMany(Project::class, 'vote', 'id_user', 'id_content')
         ->withPivot('vote');
     }
-
-    public function get_followers()
-    {
-        $count = DB::table('follow_user')
-            ->where('id_following', '=', $this->id)
-            ->count();
-        return $count;
+    
+    public function news_items() {
+        return $this->contents()
+        ->whereHas('news_items')
+        ->whereDoesntHave('comments');
     }
 
-    public function get_following()
+    public function is_admin()
     {
-        $count = DB::table('follow_user')
-            ->where('id_follower', '=', $this->id)
-            ->count();
-        return $count;
+        return $this->type === 'admin';
     }
 }

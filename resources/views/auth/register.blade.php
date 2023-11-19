@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.authentication')
 
-@section('content')
+@section('authentication')
+
 <form method="POST" action="{{ route('register') }}">
     {{ csrf_field() }}
 
@@ -31,9 +32,9 @@
     <label for="password-confirm">Confirm Password</label>
     <input id="password-confirm" type="password" name="password_confirmation" required>
 
-    <button type="submit">
+    <button type="submit" class="button authentication">
       Register
     </button>
-    <a class="button button-outline" href="{{ route('login') }}">Login</a>
+    <a class="button button-outline authentication" href="{{ route('login') }}">Login</a>
 </form>
 @endsection
