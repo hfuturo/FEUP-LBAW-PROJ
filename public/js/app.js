@@ -33,16 +33,16 @@ function addEventListeners() {
     const follow_feed = document.querySelector('.feed_button.follow_feed');
     if (follow_feed) {
       follow_feed.addEventListener('click', async function() {
-            sendAjaxRequest('post', '/api/follow_list', null, followFeedHandler)
-            follow_feed.style.background = '#606c76'
-            follow_feed.style.border = '#606c76'
+            sendAjaxRequest('get', '/api/follow_list', null, updateFeedHandler)
+            updateButtonColor(follow_feed,recent_feed)
       })
     }
 
     const recent_feed = document.querySelector('.feed_button.recent_feed');
     if (recent_feed) {
       recent_feed.addEventListener('click', async function() {
-            sendAjaxRequest('get', '/api/news', null, followFeedHandler)
+            sendAjaxRequest('get', '/api/news', null, updateFeedHandler)
+            updateButtonColor(recent_feed,follow_feed)
       })
     }
   }
@@ -54,6 +54,13 @@ function addEventListeners() {
     }).join('&');
   }
   
+  function updateButtonColor(button_clicked, button_reset) {
+    button_clicked.style.background = '#606c76'
+    button_clicked.style.border = '#606c76'
+    button_reset.style.background = '#9b4dca'
+    button_reset.style.border = '#9b4dca'
+  }
+
   function sendAjaxRequest(method, url, data, handler) {
     let request = new XMLHttpRequest();
   
@@ -65,27 +72,27 @@ function addEventListeners() {
     request.send(encodeForAjax(data));
   }
 
-function followFeedHandler() {
+function updateFeedHandler() {
   if (this.status != 200) window.location = '/'
   const raw_data = JSON.parse(this.responseText)
   console.log(raw_data)
-  updateFollowFeed(raw_data)
+  updateFeed(raw_data)
 }
 
-async function followFeedLinksHandler(links) {
+async function feedLinksHandler(links) {
   for (let link of links) {
     const fetch_link = link.href
     link.removeAttribute("href")  // necessario para quando clicarmos não recarregar a pagina e ir para o feed default
     link.addEventListener('click', async function() {
       const response = await fetch(fetch_link)
       const raw_data = await response.json()
-      updateFollowFeed(raw_data)
+      updateFeed(raw_data)
       document.getElementById('content').scrollIntoView({behavior: 'smooth'})
     }) 
   }
 }
 
-function updateFollowFeed(raw_data) {
+function updateFeed(raw_data) {
   const posts = raw_data.posts.data
   let all_news = document.querySelector('.all_news')
 
@@ -115,8 +122,8 @@ function updateFollowFeed(raw_data) {
 
   const links_num = document.querySelectorAll(".paginate .relative.z-0.inline-flex.shadow-sm.rounded-md a")
   const button_next_previous = document.querySelectorAll(".paginate nav[role='navigation'] > div:first-of-type a")
-  followFeedLinksHandler(links_num)
-  followFeedLinksHandler(button_next_previous)
+  feedLinksHandler(links_num)
+  feedLinksHandler(button_next_previous)
 }
 
 function filterUsersHandler() {
