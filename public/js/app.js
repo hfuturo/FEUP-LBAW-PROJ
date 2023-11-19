@@ -74,6 +74,7 @@ function addEventListeners() {
 function updateFeedHandler() {
   if (this.status != 200) window.location = '/'
   const raw_data = JSON.parse(this.responseText)
+  console.log(raw_data.posts)
   updateFeed(raw_data)
 }
 
@@ -97,20 +98,57 @@ function updateFeed(raw_data) {
   all_news.innerHTML = ''
 
   for (const news of posts) {
+    let time_elapsed = handleTimeAgo(news)
     let link = document.createElement('a')
     link.href = "/news/" + news.id
     let article = document.createElement('article')
     article.classList.add('user_news')
-    let h4 = document.createElement('h4')
-    h4.classList.add('news_title')
-    h4.innerHTML = news.title
+    let header = document.createElement('header')
+    header.classList.add('news_header_feed')
+    let title = document.createElement('h4')
+    title.classList.add('news_title')
+    title.innerHTML = news.title
+    let time = document.createElement('h4')
+    time.innerHTML = time_elapsed
     let p = document.createElement('p')
     p.classList.add('news_content')
     p.innerHTML = news.content
-    article.appendChild(h4)
+    header.appendChild(title)
+    header.appendChild(time)
+    article.appendChild(header)
     article.appendChild(p)
     link.appendChild(article)
     all_news.appendChild(link)
+  }
+
+  function handleTimeAgo(news) {
+    if (news.years > 0) {
+      return news.years === 1 ? "1 year ago" : news.years + " years ago";
+    }
+    
+    if (news.months > 0) {
+      return news.months === 1 ? "1 month ago" : news.months + " months ago";
+    }
+
+    if (news.weeks > 0) {
+      return news.weeks === 1 ? "1 week ago" : news.weeks + " weeks ago";
+    }
+
+    if (news.days > 0) {
+      return news.days === 1 ? "1 day ago" : news.days + " days ago";
+    }
+
+    if (news.hours > 0) {
+      return news.hours === 1 ? "1 hour ago" : news.hours + " hours ago";
+    }
+
+    if (news.minutes > 0) {
+      return news.minutes === 1 ? "1 minute ago" : news.minutes + " minutes ago";
+    }
+
+    if (news.seconds > 0) {
+      return news.seconds === 1 ? "1 second ago" : news.seconds + " seconds ago";
+    }
   }
 
   let paginator = document.createElement('span')

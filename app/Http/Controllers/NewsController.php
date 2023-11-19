@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,11 +44,22 @@ class NewsController extends Controller
 
     public function recent_list(Request $request)
     {
-        $posts = News_Item::paginate(10);
+        //$posts = News_Item::paginate(10);
+        $all_news = News_Item::all('id');
+        $posts = Content::whereIn('id',$all_news)->orderBy('date','DESC')->paginate(10);
+
+        $now = Carbon::now();
 
         for ($i = 0; $i < count($posts); $i++) {
-            $content = Content::where('id', $posts[$i]['id'])->orderBy('date','DESC')->get('content');
-            $posts[$i]['content'] = $content[0]['content'];
+            $news = News_Item::where('id', $posts[$i]['id'])->get();
+            $posts[$i]['title'] = $news[0]['title'];
+            $posts[$i]['seconds'] = $now->diffInSeconds($posts[$i]['date']);
+            $posts[$i]['minutes'] = $now->diffInMinutes($posts[$i]['date']);
+            $posts[$i]['hours'] = $now->diffInHours($posts[$i]['date']);
+            $posts[$i]['days'] = $now->diffInDays($posts[$i]['date']);
+            $posts[$i]['weeks'] = $now->diffInWeeks($posts[$i]['date']);
+            $posts[$i]['months'] = $now->diffInMonths($posts[$i]['date']);
+            $posts[$i]['years'] = $now->diffInYears($posts[$i]['date']);
         } 
 
         return response()->json([
