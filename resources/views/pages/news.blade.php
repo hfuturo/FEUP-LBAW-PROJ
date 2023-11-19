@@ -16,7 +16,7 @@
             @endif
         </div>
         @if($news_item->image !== NULL)
-            <img src="/img/news_image/{{$news_item->image}}" >
+            <img src="/img/news_image/{{$news_item->image}}" alt="{{$news_item->title}}" >
         @endif
         <p class = "news_text">{{$news_item->content->content}}</p>
         <p  class = "date" >{{$news_item->content->date}}</p>
