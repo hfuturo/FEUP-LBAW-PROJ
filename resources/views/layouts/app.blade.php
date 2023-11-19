@@ -32,8 +32,10 @@
     <body>
             <header>
                 <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
-                    @if (Auth::user()->is_admin())
-                    <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
+                    @if (Auth::check())
+                        @if (Auth::user()->is_admin())
+                        <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
+                        @endif
                     @endif
                     <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
                     <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
