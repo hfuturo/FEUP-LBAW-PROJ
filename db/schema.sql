@@ -365,7 +365,7 @@ BEGIN
     THEN
         RAISE EXCEPTION 'Cannot create sugestion for an existing topic';
     END IF;
-  RETURN NULL;
+  RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;

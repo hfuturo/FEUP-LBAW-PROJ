@@ -3,6 +3,7 @@
         <span class="close" onclick="closeTopicProposal()">&times;</span>
         <form method="post" action="{{ route('topic_proposal') }}">
             {{ csrf_field() }}
+
             <label for="name">Name</label>
             <input id="name" type="text" name="name" required autofocus>
 
