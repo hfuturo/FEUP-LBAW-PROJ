@@ -29,7 +29,7 @@ class News_itemController extends Controller
         $comments = $news_itens->comments()->paginate(10);
 
         // Use the pages.card template to display the card.
-        return view('pages.news', ['news_item' => $news_itens, 'comments' => $comments]);
+        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
 
     }
 
