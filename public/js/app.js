@@ -66,7 +66,6 @@ function addEventListeners() {
   
     request.open(method, url, true);
     request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-    console.log(document.querySelector('meta[name="csrf-token"]').content);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.addEventListener('load', handler);
     request.send(encodeForAjax(data));
@@ -75,7 +74,6 @@ function addEventListeners() {
 function updateFeedHandler() {
   if (this.status != 200) window.location = '/'
   const raw_data = JSON.parse(this.responseText)
-  console.log(raw_data)
   updateFeed(raw_data)
 }
 
