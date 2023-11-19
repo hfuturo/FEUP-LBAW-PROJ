@@ -26,8 +26,8 @@
             @endforeach
         </div>
         <div class="votes">
-            <a href="" class="like"><p>{{$likes}}</p>Like </a>
-            <a href="" class="like"><p>{{$dislikes}}</p>Dislike</a>
+            <a href="" class="like">Like </a>
+            <a href="" class="like">Dislike</a>
         </div>
     </article>
 </section>
