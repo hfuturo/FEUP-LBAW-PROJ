@@ -97,6 +97,14 @@ function updateFeed(raw_data) {
 
   all_news.innerHTML = ''
 
+  if (posts.length === 0) {
+    let h2 = document.createElement('h2')
+    h2.innerHTML = "None of the users you follow have posted."
+    all_news.appendChild(h2)
+    return;
+  }
+  
+
   for (const news of posts) {
     let time_elapsed = handleTimeAgo(news)
     let link = document.createElement('a')
