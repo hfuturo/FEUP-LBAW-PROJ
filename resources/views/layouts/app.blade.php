@@ -33,11 +33,6 @@
     <body>
             <header>
                 <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
-                    @if (Auth::check())
-                        @if (Auth::user()->is_admin())
-                        <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
-                        @endif
-                    @endif
                     <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
                     <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
                     @if (Auth::check())
@@ -47,12 +42,15 @@
             </header>
             @if (Auth::check())
             <nav>
+                @if (Auth::user()->is_admin())
+                    <section id="admin_buttons">
+                        <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                        <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                    </section>
+                @endif
                 <a href="" class="button"> Create Post</a>
                 <a href="" class="button"> Create Organization</a>
                 @include('partials.topic_proposal')
-                @if (Auth::user()->is_admin())
-                    <a class="button" href="{{ route('manage_topic') }}"> Manage Topics</a>
-                @endif
             </nav>
             @endif
             <main>

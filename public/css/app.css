@@ -17,6 +17,10 @@ body > nav {
   margin: 1em;
 }
 
+body > nav #admin_buttons {
+  border-bottom: 2px solid black;
+}
+
 /* em list_suggested_topics */
 .button.accept{
   background-color: green;
