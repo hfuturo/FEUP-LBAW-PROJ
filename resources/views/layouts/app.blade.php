@@ -18,6 +18,9 @@
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
         <link href="{{ url('css/popup.css') }}" rel="stylesheet">
         <link href="{{ url('css/news.css') }}" rel="stylesheet">
+        <link href="{{ url('css/info.css') }}" rel="stylesheet">
+
+
         <script src="{{ url('js/profile.js') }}"></script>
 
         <script type="text/javascript">
@@ -30,11 +33,13 @@
     <body>
             <header>
                 <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
-                    @if (Auth::user()->is_admin())
-                    <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
+                    @if (Auth::check())
+                        @if (Auth::user()->is_admin())
+                        <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
+                        @endif
                     @endif
-                    <a class="button"> About Us </a>
-                    <a class="button"> Contact Us </a>
+                    <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
+                    <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
                     @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
                     <a href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>

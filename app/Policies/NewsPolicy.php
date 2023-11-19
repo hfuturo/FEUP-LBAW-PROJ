@@ -15,6 +15,11 @@ class NewsPolicy
     {
         return Auth::check();
     }
+
+    public function recent_list(): bool
+    {
+        return true;
+    }
 }
 
 ?>

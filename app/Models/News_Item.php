@@ -26,7 +26,7 @@ class News_Item extends Model
     }
 
     public function content() {
-        return $this->belongsTo(Content::class);
+        return $this->belongsTo(Content::class,'id_topic');
     }
 
     public function tags() {
