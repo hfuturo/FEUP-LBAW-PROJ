@@ -16,11 +16,11 @@ class Topic extends Model
     ];
     
     public function news_item() {
-        return $this->hasMany(News_Item::class,'id_topic');
+        return $this->hasMany(NewsItem::class,'id_topic');
     }
 
     public function followers() {
-        return $this->hasMany(Follow_Topic::class,'id_topic');
+        return $this->hasMany(FollowTopic::class,'id_topic');
     }
 
     public function moderators() {

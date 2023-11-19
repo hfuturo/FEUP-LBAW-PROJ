@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
-use App\Models\Suggested_Topic;
+use App\Models\SuggestedTopic;
 
 
 class ManageController extends Controller
@@ -31,7 +31,7 @@ class ManageController extends Controller
 
     public function show_suggested_topic(){
         $this->authorize('show_suggested_topic',\App\Manage::class);
-        $suggested_topic = Suggested_Topic::join('authenticated_user', 'suggested_topic.id_user', '=', 'authenticated_user.id')
+        $suggested_topic = SuggestedTopic::join('authenticated_user', 'suggested_topic.id_user', '=', 'authenticated_user.id')
             ->select('suggested_topic.*', 'authenticated_user.name as user_name');
         return view('pages.manage_topic', [
             'suggested_topic' => $suggested_topic

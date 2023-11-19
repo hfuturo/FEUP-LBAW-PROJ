@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-use App\Models\News_Item;
+use App\Models\NewsItem;
 use App\Models\User;
 use App\Models\Content;
 
@@ -25,7 +25,7 @@ class NewsController extends Controller
         // users que segue
         $following = Auth::user()->following()->get('id_following');
 
-        $all_news = News_Item::all('id');
+        $all_news = NewsItem::all('id');
 
         $now = Carbon::now();
 
@@ -34,7 +34,7 @@ class NewsController extends Controller
 
         // obtem titulos dos posts
         for ($i = 0; $i < count($posts); $i++) {
-            $news = News_Item::where('id', $posts[$i]['id'])->get();
+            $news = NewsItem::where('id', $posts[$i]['id'])->get();
             $posts[$i]['title'] = $news[0]['title'];
             $posts[$i]['seconds'] = $now->diffInSeconds($posts[$i]['date']);
             $posts[$i]['minutes'] = $now->diffInMinutes($posts[$i]['date']);
@@ -53,13 +53,13 @@ class NewsController extends Controller
 
     public function recent_list(Request $request)
     {
-        $all_news = News_Item::all('id');
+        $all_news = NewsItem::all('id');
         $posts = Content::whereIn('id',$all_news)->orderBy('date','DESC')->paginate(10);
 
         $now = Carbon::now();
 
         for ($i = 0; $i < count($posts); $i++) {
-            $news = News_Item::where('id', $posts[$i]['id'])->get();
+            $news = NewsItem::where('id', $posts[$i]['id'])->get();
             $posts[$i]['title'] = $news[0]['title'];
             $posts[$i]['seconds'] = $now->diffInSeconds($posts[$i]['date']);
             $posts[$i]['minutes'] = $now->diffInMinutes($posts[$i]['date']);
