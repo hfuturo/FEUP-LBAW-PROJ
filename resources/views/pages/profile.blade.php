@@ -34,6 +34,7 @@
                     @endif
                 </p>
             </div>
+            @include('partials.error_message')
         </div>
         <img id="user_picture" src="https://api.lorem.space/image/movie?w=150&amp;amp;amp;amp;h=220">
     </div>

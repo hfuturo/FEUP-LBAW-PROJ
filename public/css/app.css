@@ -16,4 +16,13 @@ body > nav {
   padding: 1em;
   margin: 1em;
 }
-  
+
+/* error message */
+p.error{
+  color: rgb(115, 3, 3);
+  text-align: center;
+}
+p.success{
+  color: rgb(2, 60, 2);
+  text-align: center;
+}
