@@ -24,6 +24,7 @@ class Suggested_TopicController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create',\App\Suggested_Topic::class);
         $validator=$request->validate([
             'name' => 'string|unique:suggested_topic|unique:topic',
             'justification' => 'nullable|string',
@@ -75,6 +76,7 @@ class Suggested_TopicController extends Controller
      */
     public function destroy(int $topic)
     {
+        $this->authorize('destroy',\App\Suggested_Topic::class);
         Suggested_Topic::where('id', $topic)
         ->delete();
         return redirect()->route('manage_topic');
@@ -82,6 +84,7 @@ class Suggested_TopicController extends Controller
 
     public function accept(string $name)
     {
+        $this->authorize('accept',\App\Suggested_Topic::class);
         Topic::create(['name' => $name]);
         return redirect()->route('manage_topic');
     }

@@ -30,6 +30,7 @@ class ManageController extends Controller
     }
 
     public function show_suggested_topic(){
+        $this->authorize('show_suggested_topic',\App\Manage::class);
         $suggested_topic = Suggested_Topic::join('authenticated_user', 'suggested_topic.id_user', '=', 'authenticated_user.id')
             ->select('suggested_topic.*', 'authenticated_user.name as user_name');
         return view('pages.manage_topic', [
