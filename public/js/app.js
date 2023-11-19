@@ -30,12 +30,19 @@ function addEventListeners() {
         })
     }
 
-    const follow_feed = document.querySelector('.feed_button');
+    const follow_feed = document.querySelector('.feed_button.follow_feed');
     if (follow_feed) {
       follow_feed.addEventListener('click', async function() {
-            sendAjaxRequest('post', '/api/follow_feed', null, followFeedHandler)
-            follow_feed.style.background = '#606c76'
-            follow_feed.style.border = '#606c76'
+            sendAjaxRequest('get', '/api/news/follow_feed', null, updateFeedHandler)
+            updateButtonColor(follow_feed,recent_feed)
+      })
+    }
+
+    const recent_feed = document.querySelector('.feed_button.recent_feed');
+    if (recent_feed) {
+      recent_feed.addEventListener('click', async function() {
+            sendAjaxRequest('get', '/api/news/recent_feed', null, updateFeedHandler)
+            updateButtonColor(recent_feed,follow_feed)
       })
     }
   }
@@ -47,6 +54,13 @@ function addEventListeners() {
     }).join('&');
   }
   
+  function updateButtonColor(button_clicked, button_reset) {
+    button_clicked.style.background = '#606c76'
+    button_clicked.style.border = '#606c76'
+    button_reset.style.background = '#9b4dca'
+    button_reset.style.border = '#9b4dca'
+  }
+
   function sendAjaxRequest(method, url, data, handler) {
     let request = new XMLHttpRequest();
   
@@ -57,46 +71,92 @@ function addEventListeners() {
     request.send(encodeForAjax(data));
   }
 
-function followFeedHandler() {
+function updateFeedHandler() {
   if (this.status != 200) window.location = '/'
   const raw_data = JSON.parse(this.responseText)
-  updateFollowFeed(raw_data)
+  console.log(raw_data.posts)
+  updateFeed(raw_data)
 }
 
-async function followFeedLinksHandler(links) {
+async function feedLinksHandler(links) {
   for (let link of links) {
     const fetch_link = link.href
     link.removeAttribute("href")  // necessario para quando clicarmos não recarregar a pagina e ir para o feed default
     link.addEventListener('click', async function() {
       const response = await fetch(fetch_link)
       const raw_data = await response.json()
-      updateFollowFeed(raw_data)
+      updateFeed(raw_data)
       document.getElementById('content').scrollIntoView({behavior: 'smooth'})
     }) 
   }
 }
 
-function updateFollowFeed(raw_data) {
+function updateFeed(raw_data) {
   const posts = raw_data.posts.data
   let all_news = document.querySelector('.all_news')
 
   all_news.innerHTML = ''
 
+  if (posts.length === 0) {
+    let h2 = document.createElement('h2')
+    h2.innerHTML = "None of the users you follow have posted."
+    all_news.appendChild(h2)
+    return;
+  }
+  
+
   for (const news of posts) {
+    let time_elapsed = handleTimeAgo(news)
     let link = document.createElement('a')
     link.href = "/news/" + news.id
     let article = document.createElement('article')
     article.classList.add('user_news')
-    let h4 = document.createElement('h4')
-    h4.classList.add('news_title')
-    h4.innerHTML = news.title
+    let header = document.createElement('header')
+    header.classList.add('news_header_feed')
+    let title = document.createElement('h4')
+    title.classList.add('news_title')
+    title.innerHTML = news.title
+    let time = document.createElement('h4')
+    time.innerHTML = time_elapsed
     let p = document.createElement('p')
     p.classList.add('news_content')
     p.innerHTML = news.content
-    article.appendChild(h4)
+    header.appendChild(title)
+    header.appendChild(time)
+    article.appendChild(header)
     article.appendChild(p)
     link.appendChild(article)
     all_news.appendChild(link)
+  }
+
+  function handleTimeAgo(news) {
+    if (news.years > 0) {
+      return news.years === 1 ? "1 year ago" : news.years + " years ago";
+    }
+    
+    if (news.months > 0) {
+      return news.months === 1 ? "1 month ago" : news.months + " months ago";
+    }
+
+    if (news.weeks > 0) {
+      return news.weeks === 1 ? "1 week ago" : news.weeks + " weeks ago";
+    }
+
+    if (news.days > 0) {
+      return news.days === 1 ? "1 day ago" : news.days + " days ago";
+    }
+
+    if (news.hours > 0) {
+      return news.hours === 1 ? "1 hour ago" : news.hours + " hours ago";
+    }
+
+    if (news.minutes > 0) {
+      return news.minutes === 1 ? "1 minute ago" : news.minutes + " minutes ago";
+    }
+
+    if (news.seconds > 0) {
+      return news.seconds === 1 ? "1 second ago" : news.seconds + " seconds ago";
+    }
   }
 
   let paginator = document.createElement('span')
@@ -106,8 +166,8 @@ function updateFollowFeed(raw_data) {
 
   const links_num = document.querySelectorAll(".paginate .relative.z-0.inline-flex.shadow-sm.rounded-md a")
   const button_next_previous = document.querySelectorAll(".paginate nav[role='navigation'] > div:first-of-type a")
-  followFeedLinksHandler(links_num)
-  followFeedLinksHandler(button_next_previous)
+  feedLinksHandler(links_num)
+  feedLinksHandler(button_next_previous)
 }
 
 function filterUsersHandler() {
