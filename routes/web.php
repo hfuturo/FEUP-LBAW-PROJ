@@ -63,6 +63,7 @@ Route::controller(RegisterController::class)->group(function () {
 // News
 Route::controller(NewsItemController::class)->group(function () {
     Route::get('/news/{id}', 'show')->name('new');
+});
 
 // Admin
 Route::controller(ManageController::class)->group(function () {
