@@ -53,7 +53,6 @@ class NewsController extends Controller
 
     public function recent_list(Request $request)
     {
-        //$posts = News_Item::paginate(10);
         $all_news = News_Item::all('id');
         $posts = Content::whereIn('id',$all_news)->orderBy('date','DESC')->paginate(10);
 
