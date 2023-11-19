@@ -39,4 +39,19 @@ class NewsController extends Controller
             'links' => (string)$posts->links()
         ]);
     }
+
+    public function recent_list(Request $request)
+    {
+        $posts = News_Item::paginate(10);
+
+        for ($i = 0; $i < count($posts); $i++) {
+            $content = Content::where('id', $posts[$i]['id'])->orderBy('date','DESC')->get('content');
+            $posts[$i]['content'] = $content[0]['content'];
+        } 
+
+        return response()->json([
+            'posts' => $posts,
+            'links' => (string)$posts->links()
+        ]); 
+    }
 }

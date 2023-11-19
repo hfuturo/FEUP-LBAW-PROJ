@@ -39,8 +39,8 @@ Route::controller(ManageController::class)->group(function() {
 });
 
 Route::controller(NewsController::class)->group(function() {
-    Route::post('/api/follow_feed', 'follow_list');
-    Route::get('/api/follow_feed', 'follow_list');
+    Route::get('/api/news', 'recent_list');
+    Route::post('/api/follow_list', 'follow_list');
 });
 
 // Authentication

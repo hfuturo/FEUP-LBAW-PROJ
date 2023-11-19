@@ -30,12 +30,19 @@ function addEventListeners() {
         })
     }
 
-    const follow_feed = document.querySelector('.feed_button');
+    const follow_feed = document.querySelector('.feed_button.follow_feed');
     if (follow_feed) {
       follow_feed.addEventListener('click', async function() {
-            sendAjaxRequest('post', '/api/follow_feed', null, followFeedHandler)
+            sendAjaxRequest('post', '/api/follow_list', null, followFeedHandler)
             follow_feed.style.background = '#606c76'
             follow_feed.style.border = '#606c76'
+      })
+    }
+
+    const recent_feed = document.querySelector('.feed_button.recent_feed');
+    if (recent_feed) {
+      recent_feed.addEventListener('click', async function() {
+            sendAjaxRequest('get', '/api/news', null, followFeedHandler)
       })
     }
   }
@@ -52,6 +59,7 @@ function addEventListeners() {
   
     request.open(method, url, true);
     request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+    console.log(document.querySelector('meta[name="csrf-token"]').content);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.addEventListener('load', handler);
     request.send(encodeForAjax(data));
@@ -60,6 +68,7 @@ function addEventListeners() {
 function followFeedHandler() {
   if (this.status != 200) window.location = '/'
   const raw_data = JSON.parse(this.responseText)
+  console.log(raw_data)
   updateFollowFeed(raw_data)
 }
 
