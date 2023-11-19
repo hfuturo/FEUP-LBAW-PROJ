@@ -37,6 +37,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('show',\App\User::class);
+
         if (!Auth::check()) {
             return redirect('/login');
         } else {
@@ -57,10 +59,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update',\App\User::class);
+
         if($user->email !== $request->input('email')) {
             $validator_unique=$request->validate(['email' => 'unique:authenticated_user']);
             if (!$validator_unique) {
-                return back();
+                return back()->withErrors(['error', 'The email inserted is already being used!']);;
             }
         }
         $validator=$request->validate([
@@ -77,7 +81,7 @@ class UserController extends Controller
             ->with('success', 'Successfully changed!');
         }
         else{
-            return back();
+            return redirect()->route('profile',[$user])->withErrors(['error', 'The parameters are invalid!']);;
         }
     }
 

@@ -17,6 +17,15 @@ body > nav {
   margin: 1em;
 }
 
+/* error message */
+p.error{
+  color: rgb(115, 3, 3);
+  text-align: center;
+}
+p.success{
+  color: rgb(2, 60, 2);
+  text-align: center;
+}
 body > nav #admin_buttons {
   border-bottom: 2px solid black;
 }
@@ -32,4 +41,3 @@ body > nav #admin_buttons {
   border-color: red;
   width: 100%;
 }
-  
