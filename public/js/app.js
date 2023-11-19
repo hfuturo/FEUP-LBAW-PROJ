@@ -33,7 +33,7 @@ function addEventListeners() {
     const follow_feed = document.querySelector('.feed_button.follow_feed');
     if (follow_feed) {
       follow_feed.addEventListener('click', async function() {
-            sendAjaxRequest('get', '/api/follow_list', null, updateFeedHandler)
+            sendAjaxRequest('get', '/api/news/follow_feed', null, updateFeedHandler)
             updateButtonColor(follow_feed,recent_feed)
       })
     }
@@ -41,7 +41,7 @@ function addEventListeners() {
     const recent_feed = document.querySelector('.feed_button.recent_feed');
     if (recent_feed) {
       recent_feed.addEventListener('click', async function() {
-            sendAjaxRequest('get', '/api/news', null, updateFeedHandler)
+            sendAjaxRequest('get', '/api/news/recent_feed', null, updateFeedHandler)
             updateButtonColor(recent_feed,follow_feed)
       })
     }
