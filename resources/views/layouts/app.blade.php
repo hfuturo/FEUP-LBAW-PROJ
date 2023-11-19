@@ -45,6 +45,9 @@
                 <a href="" class="button"> Create Post</a>
                 <a href="" class="button"> Create Organization</a>
                 @include('partials.topic_proposal')
+                @if (Auth::user()->is_admin())
+                    <a class="button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                @endif
             </nav>
             @endif
             <main>

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Suggested_Topic;
+use App\Models\Topic;
 use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class Suggested_TopicController extends Controller
 {
@@ -37,7 +37,6 @@ class Suggested_TopicController extends Controller
         }
         return back();
     }
-    
 
     /**
      * Store a newly created resource in storage.
@@ -74,8 +73,16 @@ class Suggested_TopicController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Suggested_Topic $suggested_Topic)
+    public function destroy(int $topic)
     {
-        //
+        Suggested_Topic::where('id', $topic)
+        ->delete();
+        return redirect()->route('manage_topic');
+    }
+
+    public function accept(string $name)
+    {
+        Topic::create(['name' => $name]);
+        return redirect()->route('manage_topic');
     }
 }

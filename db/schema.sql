@@ -344,7 +344,7 @@ CREATE FUNCTION remove_topic_sugestions_on_creation() RETURNS TRIGGER AS
 $BODY$
 BEGIN
   DELETE FROM suggested_topic WHERE name = new.name;
-  RETURN NULL;
+  RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;
