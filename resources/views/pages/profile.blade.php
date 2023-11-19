@@ -6,6 +6,8 @@
         <div id="user_card">
             @if (Auth::user()->id === $user->id)
                 @include('partials.edit_profile', ['user' => $user])
+            @else
+                @include('partials.follow_user')
             @endif
             <h2>{{ $user->name }}</h2>
             <div id="user_details">
@@ -36,7 +38,7 @@
             </div>
             @include('partials.error_message')
         </div>
-        <img id="user_picture" src="https://api.lorem.space/image/movie?w=150&amp;amp;amp;amp;h=220">
+        <img id="user_picture" src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg">
     </div>
     <h3>News made by {{ $user->name }} ...</h3>
     <div>

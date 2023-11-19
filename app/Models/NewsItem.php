@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class News_Item extends Model
+class NewsItem extends Model
 {
     use HasFactory;
     public $timestamps  = false;
@@ -26,7 +26,7 @@ class News_Item extends Model
     }
 
     public function content() {
-        return $this->belongsTo(Content::class);
+        return $this->belongsTo(Content::class,'id_topic');
     }
 
     public function tags() {

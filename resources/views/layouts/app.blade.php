@@ -16,6 +16,11 @@
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
         <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
+        <link href="{{ url('css/popup.css') }}" rel="stylesheet">
+        <link href="{{ url('css/news.css') }}" rel="stylesheet">
+        <link href="{{ url('css/info.css') }}" rel="stylesheet">
+
+
         <script src="{{ url('js/profile.js') }}"></script>
 
         <script type="text/javascript">
@@ -27,12 +32,9 @@
     </head>
     <body>
             <header>
-                <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
-                    @if (Auth::user()->is_admin())
-                    <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
-                    @endif
-                    <a class="button"> About Us </a>
-                    <a class="button"> Contact Us </a>
+                <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
+                    <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
+                    <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
                     @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a>
                     <a href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
@@ -40,9 +42,15 @@
             </header>
             @if (Auth::check())
             <nav>
+                @if (Auth::user()->is_admin())
+                    <section id="admin_buttons">
+                        <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                        <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                    </section>
+                @endif
                 <a href="" class="button"> Create Post</a>
                 <a href="" class="button"> Create Organization</a>
-
+                @include('partials.topic_proposal')
             </nav>
             @endif
             <main>

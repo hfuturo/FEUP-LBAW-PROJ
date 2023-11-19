@@ -26,3 +26,18 @@ p.success{
   color: rgb(2, 60, 2);
   text-align: center;
 }
+body > nav #admin_buttons {
+  border-bottom: 2px solid black;
+}
+
+/* em list_suggested_topics */
+.button.accept{
+  background-color: green;
+  border-color: green;
+  width: 100%;
+}
+.button.remove{
+  background-color: red;
+  border-color: red;
+  width: 100%;
+}
