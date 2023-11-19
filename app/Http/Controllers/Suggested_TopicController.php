@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Topic;
 use App\Models\Suggested_Topic;
+use App\Models\Topic;
+use App\Models\User;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Suggested_TopicController extends Controller
 {
@@ -20,9 +22,20 @@ class Suggested_TopicController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator=$request->validate([
+            'name' => 'string|unique:suggested_topic|unique:topic',
+            'justification' => 'nullable|string',
+        ]);
+        if ($validator) {
+            Suggested_Topic::create([
+                'name' => $request->input('name'),
+                'justification' => empty($request->input('justification')) ? '' : $request->input('justification'),
+                'id_user' => Auth::user()->id,
+            ]);
+        }
+        return back();
     }
 
     /**

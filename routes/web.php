@@ -90,6 +90,7 @@ Route::controller(Follow_UserController::class)->group(function () {
 });
 
 Route::controller(Suggested_TopicController::class)->group(function () {
+    Route::post('/topic_proposal', 'create')->name('topic_proposal');
     Route::post('/manage_topic/delete_suggested_topic/{topic}', 'destroy')->name('delete_suggested_topic');
     Route::post('/manage_topic/accept_suggested_topic/{name}', 'accept')->name('accept_suggested_topic');
 });

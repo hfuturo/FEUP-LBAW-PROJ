@@ -268,4 +268,12 @@ function filterUsersHandler() {
   }
   
   addEventListeners();
-  
+
+/* popup to topic proposal */
+function openTopicProposal() {
+    document.getElementById('topic_proposal_popup').style.display = 'block';
+}
+
+function closeTopicProposal() {
+    document.getElementById('topic_proposal_popup').style.display = 'none';
+}
