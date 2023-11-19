@@ -23,9 +23,12 @@ class CardController extends Controller
         $this->authorize('show', $card);  
 
         // Use the pages.card template to display the card.
+        return view('pages.card');
+        /*
         return view('pages.card', [
             'card' => $card
         ]);
+        */
     }
 
     /**

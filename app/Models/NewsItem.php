@@ -5,10 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class NewsItem extends Model
 {
     use HasFactory;
-    public $timestamps  = false;
+
+    public $timestamps  = true;
+
+    public $incrementing = true;
+
     protected $table = 'news_item';
 
     protected $fillable = [
@@ -26,7 +33,7 @@ class NewsItem extends Model
     }
 
     public function content() {
-        return $this->belongsTo(Content::class,'id_topic');
+        return $this->belongsTo(Content::class, 'id');
     }
 
     public function tags() {
