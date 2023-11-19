@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
     public function suggested_topics() {
-        return $this->hasMany(Suggested_Topic::class,'id_user');
+        return $this->hasMany(SuggestedTopic::class,'id_user');
     }
 
     public function contents() {
@@ -75,11 +75,11 @@ class User extends Authenticatable
     }
 
     public function follow_organizations() {
-        return $this->hasMany(Follow_Organization::class,'id_following');
+        return $this->hasMany(FollowOrganization::class,'id_following');
     }
 
     public function follow_tags() {
-        return $this->hasMany(Follow_Tag::class,'id_following');
+        return $this->hasMany(FollowTag::class,'id_following');
     }
 
     public function follow_topics() {

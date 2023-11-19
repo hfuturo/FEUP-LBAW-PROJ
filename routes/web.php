@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\News_ItemController;
+use App\Http\Controllers\NewsItemController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -58,6 +58,6 @@ Route::controller(RegisterController::class)->group(function () {
 
 
 // News
-Route::controller(News_ItemController::class)->group(function () {
+Route::controller(NewsItemController::class)->group(function () {
     Route::get('/news/{id}', 'show')->name('new');
 });
