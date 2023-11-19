@@ -8,15 +8,16 @@
         <div class = "news_head">
             <a href="" class="topic">{{$news_item->topic->name}}</a>
             <h2 class = "title" >{{$news_item->title}}</h2>
-            </div>
-                <span>Posted by</span>
-                <a href="" class = "author">{{$news_item->content->authenticated_user->name}}</a>
-                @if ($news_item->content->organization !== NULL)
+            <span>Posted by</span>
+            <a href="" class = "author">{{$news_item->content->authenticated_user->name}}</a>
+            @if ($news_item->content->organization !== NULL)
                 <span>Associated with</span>
                 <a href="" class = "org"> {{$news_item->content->organization->name}}</a>
-                </div>
             @endif
         </div>
+        @if($news_item->image !== NULL)
+            <img src="/img/news_image/{{$news_item->image}}" >
+        @endif
         <p class = "news_text">{{$news_item->content->content}}</p>
         <p  class = "date" >{{$news_item->content->date}}</p>
         <div class = tags>
@@ -25,8 +26,8 @@
             @endforeach
         </div>
         <div class="votes">
-            <a href="" class="like">Like </a>
-            <a href="" class="like">Dislike</a>
+            <a href="" class="like"><p>{{$likes}}</p>Like </a>
+            <a href="" class="like"><p>{{$dislikes}}</p>Dislike</a>
         </div>
     </article>
 </section>
