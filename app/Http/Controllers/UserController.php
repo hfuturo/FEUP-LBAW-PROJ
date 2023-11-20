@@ -81,7 +81,7 @@ class UserController extends Controller
             ->with('success', 'Successfully changed!');
         }
         else{
-            return redirect()->route('profile',[$user])->withErrors(['error', 'The parameters are invalid!']);;
+            return redirect()->route('profile',[$user])->withErrors(['error', 'The parameters are invalid!']);
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\NewsItem;
+use App\Models\Comment;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,19 @@ class NewsItemController extends Controller
         $comments = $news_itens->comments()->paginate(10);
 
         return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
+    }
+
+    public function destroy(int $id)
+    {
+        //$this->authorize('destroy',\App\NewsItem::class);
+
+        $comments = Comment::where('id_news',$id)->get();
+        if($comments->isEmpty())
+        {
+            NewsItem::where('id', $id)->delete();
+            return view('pages.news')->with('success', 'Eliminated with sucess!');
+        }
+        return redirect()->route('new',[$id])->withErrors(['error', 'Cannot be eliminated because it has comments!']);
     }
 
 }    

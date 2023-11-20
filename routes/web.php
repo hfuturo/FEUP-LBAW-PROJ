@@ -58,11 +58,10 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
-
-
 // News
 Route::controller(NewsItemController::class)->group(function () {
     Route::get('/news/{id}', 'show')->name('new');
+    Route::post('/news/{id}', 'destroy')->name('destroy');
 });
 
 // Admin
