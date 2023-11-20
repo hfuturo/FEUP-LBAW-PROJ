@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\FollowUser;
+use Exception;
 use Illuminate\Http\Request;
 
 class FollowUserController extends Controller
@@ -25,10 +26,13 @@ class FollowUserController extends Controller
         if ($request->input('id_following') == null) {
             return redirect()->route('profile', [Auth::user()->id]);
         }
-        FollowUser::create([
-            'id_follower' => Auth::user()->id,
-            'id_following' => $request->input('id_following'),
-        ]);
+        try {
+            FollowUser::create([
+                'id_follower' => Auth::user()->id,
+                'id_following' => $request->input('id_following'),
+            ]);
+        } catch (Exception $e) {
+        }
         return redirect()->route('profile', [$request->input('id_following')]);
     }
 
@@ -73,10 +77,12 @@ class FollowUserController extends Controller
             return redirect()->route('profile', [Auth::user()->id]);
         }
 
-        FollowUser::where('id_follower', Auth::user()->id)
-            ->where('id_following', $request->input('id_following'))
-            ->delete();
-
+        try {
+            FollowUser::where('id_follower', Auth::user()->id)
+                ->where('id_following', $request->input('id_following'))
+                ->delete();
+        } catch (Exception $e) {
+        }
         return redirect()->route('profile', [$request->input('id_following')]);
     }
 }

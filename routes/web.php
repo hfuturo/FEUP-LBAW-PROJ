@@ -63,10 +63,10 @@ Route::controller(RegisterController::class)->group(function () {
 // News
 Route::controller(NewsItemController::class)->group(function () {
     Route::post('/news/{id}', 'destroy')->name('destroy');
-    Route::get('/news/create','create')->name('create_news');
-    Route::post('/api/news/create','store')->name('create_news_api');
-    Route::get('/news/{id}/edit','edit')->name('edit_news');
-    Route::post('/api/news/{id}/edit','update')->name('edit_news_api');
+    Route::get('/news/create', 'create')->name('create_news');
+    Route::post('/api/news/create', 'store')->name('create_news_api');
+    Route::get('/news/{id}/edit', 'edit')->name('edit_news');
+    Route::post('/api/news/{id}/edit', 'update')->name('edit_news_api');
     Route::get('/news/{id}', 'show')->name('news_page');
 });
 

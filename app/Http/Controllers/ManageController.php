@@ -13,7 +13,7 @@ class ManageController extends Controller
 {
     public function show()
     {
-        $this->authorize('show',\App\Manage::class);
+        $this->authorize('show', \App\Manage::class);
 
         $users = User::all();
         return view('pages.manage', [
@@ -21,16 +21,19 @@ class ManageController extends Controller
         ]);
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $users = DB::table('authenticated_user')
+            ->select(['id', 'name'])
             ->where('name', 'LIKE', "{$request->input('search')}%")
             ->get();
-            
+
         return response()->json($users);
     }
 
-    public function show_suggested_topic(){
-        $this->authorize('show_suggested_topic',\App\Manage::class);
+    public function show_suggested_topic()
+    {
+        $this->authorize('show_suggested_topic', \App\Manage::class);
         $suggested_topic = SuggestedTopic::join('authenticated_user', 'suggested_topic.id_user', '=', 'authenticated_user.id')
             ->select('suggested_topic.*', 'authenticated_user.name as user_name');
         return view('pages.manage_topic', [
