@@ -9,7 +9,7 @@
     <button class="feed_button recent_feed">Recent Feed</button>
 </div>
 <div class="all_news">
-    <span class="paginate"></span>
+    @include('partials.list_feed', ['news_list' => DB::table('news_item')->select(DB::raw('content.*, news_item.title, sum(vote.vote)'))->leftJoin('vote','vote.id_content','=','news_item.id')->join('content','content.id','=','news_item.id')->groupBy('news_item.id')->groupBy('content.id')->orderByRaw('sum(vote.vote) DESC'), 'perPage' => 10])
 </div>
 
 @endsection
