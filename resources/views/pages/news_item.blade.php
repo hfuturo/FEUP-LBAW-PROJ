@@ -4,12 +4,19 @@
 @section('content')
 
 <section id = "news">
+    @include('partials.error_message')
+    @if (Auth::check() && (Auth::user()->id === $news_item->content->authenticated_user->id))
+        <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
+            @csrf
+            <button type="submit">Delete</button>
+        </form>
+    @endif
     <article class = "news_body">
         <div class = "news_head">
             <a href="" class="topic">{{$news_item->topic->name}}</a>
             <h2 class = "title" >{{$news_item->title}}</h2>
             <span>Posted by</span>
-            <a href="" class = "author">{{$news_item->content->authenticated_user->name}}</a>
+            <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}" class = "author">{{$news_item->content->authenticated_user->name}}</a>
             @if ($news_item->content->organization !== NULL)
                 <span>Associated with</span>
                 <a href="" class = "org"> {{$news_item->content->organization->name}}</a>
