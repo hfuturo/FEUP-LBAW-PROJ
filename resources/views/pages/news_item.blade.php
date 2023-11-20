@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+<?php
+ use Carbon\Carbon;
+?>
 
 @section('content')
 
@@ -9,6 +11,7 @@
         <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
             @csrf
             <button type="submit">Delete</button>
+            <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button" style="display:inline-block;">Edit Post</a>
         </form>
     @endif
     <article class = "news_body">
@@ -30,17 +33,24 @@
             <img src="/img/news_image/{{$news_item->image}}" alt="{{$news_item->title}}" >
         @endif
         <p class = "news_text">{{$news_item->content->content}}</p>
+
         @if (Auth::check())
-            <p  class = "date" >{{$news_item->content->date}}</p>
-            <div class = tags>
-                @foreach ($news_item->tags as $tag)
-                    <a href="" class="tag">{{$tag->name}}</a>
-                @endforeach
-            </div>
-            <div class="votes">
-                <a href="" class="like">Like </a>
-                <a href="" class="like">Dislike</a>
-            </div>
+        <div class="dates">
+            <span  class = "date" >{{explode('.',date("Y/m/d H:i:s",Carbon::parse($news_item->content->date)->timestamp))[0]}}</span>
+            @if ($news_item->content->edit_date !== NULL)
+                <span  class = "date" >Edited last time</span>
+                <span  class = "date" >{{ explode('.',date("Y/m/d H:i:s",Carbon::parse($news_item->content->edit_date)->timestamp))[0]}}</span>
+            @endif
+        </div>
+        <div class = tags>
+            @foreach ($news_item->tags as $tag)
+                <a href="" class="tag">{{$tag->name}}</a>
+            @endforeach
+        </div>
+        <div class="votes">
+            <a href="" class="like">Like </a>
+            <a href="" class="like">Dislike</a>
+        </div>
         @endif
     </article>
 </section>

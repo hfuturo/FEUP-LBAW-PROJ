@@ -30,15 +30,15 @@ class NewsItemPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return Auth::check();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, NewsItem $newsItem): bool
+    public function update(User $user, NewsItem $news_item): bool
     {
-        //
+        return $user->id === $news_item->content()->first()->id_author;
     }
 
     /**

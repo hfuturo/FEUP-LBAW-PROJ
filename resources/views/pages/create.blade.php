@@ -18,7 +18,7 @@
         </div>
 
         <div class ="form-group">
-            <label for='image'>Add image</label>
+            <label for='image' class=custom-file-upload>Add image</label>
             <input type="file" id="image" name="image">
         </div>
 
@@ -39,11 +39,11 @@
                 @endforeach
             </datalist>
             <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
-            <button type="button" onclick="createTag()" class= "btn">Add</button>
+            <button type="button" onclick="createTag()" class= "button">Add</button>
             <ul id="tagsList"></ul>
         </div>
+        <button type="submit" form="newsForm" value="Submit" class = "button">Create</button>
     </form>
-    <button type="submit" form="newsForm" value="Submit" class = "btn">Create</button>
 </section>
 
 @endsection

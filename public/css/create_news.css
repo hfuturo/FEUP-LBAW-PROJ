@@ -8,9 +8,17 @@ section#news-create-container{
     font-size: 1rem;
   }
 
-  #news-create-container .btn{
-    color: white;
-    background-color: #9b4dca;
+  .myButton{
+      display: block;
+      padding: 1em;
+      font-size: 2em;
+      text-align: center;
+      text-decoration: none;
+      background-color: #9b4dca;
+      color: #fff;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
   }
   
   #news-create-container h2{
@@ -90,4 +98,6 @@ section#news-create-container{
     cursor: pointer;
     color: white;
   }
+  
+  
   
