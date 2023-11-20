@@ -6,6 +6,9 @@ $paginator = $news_list->paginate($perPage);
 if (isset($basePath)) {
     $paginator->withPath($basePath);
 }
+if (app('request')->input('search') != null) {
+    $paginator->appends(['search' => app('request')->input('search')]);
+}
 ?>
 @foreach ($paginator as $newsItem)
 <a href=" {{ url('/news/' . $newsItem->id) }}">

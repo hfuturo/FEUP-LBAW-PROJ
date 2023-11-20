@@ -25,37 +25,45 @@ class NewsItem extends Model
         'image'
     ];
 
-    public function topic() {
-        return $this->belongsTo(Topic::class,'id_topic');
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class, 'id_topic');
     }
 
-    public function comments() {
-        return $this->hasMany(Comment::class,'id_news');
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'id_news');
     }
 
-    public function content() {
+    public function content()
+    {
         return $this->belongsTo(Content::class, 'id');
     }
 
-    public function tags() {
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class, 'news_tag', 'id_news_item', 'id_tag');
     }
 
-    public function votes(){
+    public function votes()
+    {
         return $this
-          ->belongsToMany(Project::class, 'vote', 'id_content', 'id_user')
-          ->withPivot('vote');
+            ->belongsToMany(Project::class, 'vote', 'id_content', 'id_user')
+            ->withPivot('vote');
     }
 
-    public static function full_text_search($query){
+    public static function full_text_search($query)
+    {
         $sub = (DB::table('news_item')
-                ->select('id')
-                ->from(DB::raw('news_item, plainto_tsquery(\'english\',?) query'))
-                ->whereRaw('tsvectors @@ query')
-                ->orderByRaw('ts_rank(tsvectors, query) desc')
-                ->setBindings([$query]));
-        return Content::joinSub($sub, 'news', function($join)
-            {
+            ->select('*')
+            ->from(DB::raw('news_item, plainto_tsquery(\'english\',?) query'))
+            ->whereRaw('tsvectors @@ query')
+            ->orderByRaw('ts_rank(tsvectors, query) desc')
+            ->setBindings([$query]));
+        return Content::joinSub(
+            $sub,
+            'news',
+            function ($join) {
                 $join->on(DB::Raw('content.id'), '=', DB::Raw('news.id'));
             }
         );

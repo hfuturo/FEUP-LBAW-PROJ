@@ -11,7 +11,7 @@
     <a class="button feed_button" href="{{ route('recent_feed') }}">Recent Feed</a>
 </div>
 <div class="all_news">
-    @include('partials.list_feed', ['news_list' => $news_list, 'perPage' => 10])
+    @include('partials.list_feed', ['news_list' => $news_list, 'perPage' => $perPage])
 </div>
 
 @endsection
