@@ -45,15 +45,14 @@ class NewsItemController extends Controller
         if($comments->isEmpty())
         {
             $news_item->delete();
-            return view('pages.news')->with('success', 'Eliminated with sucess!');
+            return view('pages.news')->with('success', 'Eliminated with success!');
         }
-        return redirect()->route('news_page',[$id])->withErrors(['error', 'Cannot be eliminated because it has comments!']);
+        return redirect()->route('news_page',[$id])->withErrors(['Cannot be eliminated because it has comments!']);
     }
     
     public function store(Request $request){
         if(!Auth::check()){
-            return redirect()->route("login")
-            ->withErrors('error', 'Not authenticated. Please log in');
+            return redirect()->route("login")->withErrors(['Not authenticated. Please log in']);
         }
 
         $validator = $request->validate([
