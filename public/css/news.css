@@ -1,4 +1,8 @@
-.feed_buttons .button {
+.feed_buttons{
+    display: flex;
+}
+
+.feed_buttons .feed_button {
     margin-left: 0;
 }
 
