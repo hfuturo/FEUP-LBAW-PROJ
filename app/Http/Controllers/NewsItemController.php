@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Content;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Models\NewsTag;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
@@ -70,6 +71,9 @@ class NewsItemController extends Controller
             'image' => 'mimes:jpg,png,jped',
 
         ]);
+
+        $tags = json_decode($request->input('tags'));
+
         $imageName = NULL;
 
         if($request->hasFile('image') && $request->file('image')->isValid()){
@@ -81,14 +85,13 @@ class NewsItemController extends Controller
 
         $id_news = NULL;
         try{
-            DB::transaction(function () use(&$id_news, $request, $imageName) {
+            DB::transaction(function () use(&$id_news, $request, $imageName,$tags) {
 
                 $content = new Content();
                 $content->content = $request->input('text');
                 $content->id_author = Auth::user()->id;
                 $content->id_organization = NULL;
                 $content->save();
-
                     // Create a new news item associated with the content
                 $newsItem = new NewsItem();
                 $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
@@ -96,6 +99,16 @@ class NewsItemController extends Controller
                 $newsItem->image = $imageName; // Replace with the image URL or path
                 $newsItem->id = $content->id; // Set the id to link to the content id
                 $newsItem->save();
+                
+
+                foreach($tags as $tag){  
+                    $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
+                    $newsTag = NewsTag::create([
+                        'id_tag' => $takeTag->id, 
+                        'id_news_item' => $newsItem->id
+                    ]);
+
+                }
 
                 $id_news = $content->id;
             
@@ -108,6 +121,7 @@ class NewsItemController extends Controller
         }
 
     }
+
 
     /** 
     * Show the form for creating a news item.
@@ -154,11 +168,29 @@ class NewsItemController extends Controller
         ]);
         $imageName = NULL;
 
+        $tags = json_decode($request->input('tags'));
+
         if($request->hasFile('image') && $request->file('image')->isValid()){
             $requestImage = $request->image;
             $extension = $requestImage->extension();
             $imageName = sha1($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
             $requestImage->move(public_path('img/news_image'), $imageName);
+        }
+
+        $news_item->hasMany(NewsTag::class, 'id_news_item')->delete();
+
+        foreach($news_item->tags as $tag){  
+            $del = Tag::find(['name' => $tag]);
+
+        }
+
+        foreach($tags as $tag){  
+            $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
+            $newsTag = NewsTag::create([
+                'id_tag' => $takeTag->id, 
+                'id_news_item' => $news_item->id
+            ]);
+
         }
         
         $content = Content::find($id);
