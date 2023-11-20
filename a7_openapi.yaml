@@ -31,9 +31,9 @@ paths:
         - "M01: Authentication and User"
       responses:
         "200":
-          description: "Ok. Show Log-in UI"
+          description: "Ok. Show Log-in UI (UI04)"
         "302":
-          description: "Redirect the user if they already are logged in."
+          description: "Redirect the user if they already are logged in. (UI01)"
           headers:
             Location:
               schema:
@@ -71,10 +71,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful authentication. Redirect to news feed."
+                  description: "Successful authentication. Redirect to news feed. (UI01)"
                   value: "/news"
                 302Error:
-                  description: "Failed authentication. Redirect to login form."
+                  description: "Failed authentication. Redirect to login form. (UI04)"
                   value: "/login"
 
   /logout:
@@ -93,7 +93,7 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful logout. Redirect to login form."
+                  description: "Successful logout. Redirect to login form. (UI04)"
                   value: "/login"
 
   /register:
@@ -105,7 +105,7 @@ paths:
         - "M01: Authentication and User"
       responses:
         "200":
-          description: "Ok. Show Sign-Up UI"
+          description: "Ok. Show Sign-Up UI (UI05)"
     post:
       operationId: R105
       summary: "R105: Register Action"
@@ -141,10 +141,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful authentication. Redirect to news feed."
+                  description: "Successful authentication. Redirect to news feed. (UI01)"
                   value: "/news"
                 302Failure:
-                  description: "Failed authentication. Redirect to register form."
+                  description: "Failed authentication. Redirect to register form. (UI05)"
                   value: "/register"
 
   /profile/{user}:
@@ -162,7 +162,7 @@ paths:
           required: true
       responses:
         "200":
-          description: "Ok. Show User Profile UI"
+          description: "Ok. Show User Profile UI (UI06)"
     post:
       operationId: R107
       summary: "R107: Update User profile"
@@ -200,10 +200,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful update. Redirect to user profile."
+                  description: "Successful update. Redirect to user profile. (UI06)"
                   value: "/profile/{user}"
                 302Failure:
-                  description: "Failed update. Redirect to user profile."
+                  description: "Failed update. Redirect to user profile. (UI06)"
                   value: "/profile/{user}"
         "403":
           description: "The User cannot update the desired user"
@@ -235,7 +235,7 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful unfollowed. Redirect to user profile."
+                  description: "Successful unfollowed. Redirect to user profile. (UI06)"
                   value: "/profile/{id_following}"
 
   /profile/follow:
@@ -265,7 +265,7 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful follow. Redirect to user profile."
+                  description: "Successful follow. Redirect to user profile. (UI06)"
                   value: "/profile/{id_following}"
 
   # M02: News and Comments
@@ -289,7 +289,7 @@ paths:
           required: false
       responses:
         "200":
-          description: "Ok. Show default feed or the search results if provided."
+          description: "Ok. Show default feed or the search results if provided. (UI01)"
 
   /news/{id}:
     get:
@@ -306,7 +306,7 @@ paths:
           required: true
       responses:
         "200":
-          description: "Ok. Show news item."
+          description: "Ok. Show news item. (UI11)"
     post:
       operationId: R203
       summary: "R203: Deletes a news item"
@@ -328,10 +328,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successfully deleted. Redirect to news feed."
+                  description: "Successfully deleted. Redirect to news feed. (UI01)"
                   value: "/news"
                 302Failure:
-                  description: "Failed deleting. Redirect to news item page."
+                  description: "Failed deleting. Redirect to news item page. (UI11)"
                   value: "/news/{id}"
 
   /news/create:
@@ -343,7 +343,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "Ok. Show news item creation form."
+          description: "Ok. Show news item creation form. (UI12)"
 
   /api/news/create:
     post:
@@ -382,10 +382,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successfully created news item. Reditect to news item page."
+                  description: "Successfully created news item. Reditect to news item page. (UI11)"
                   value: "/news/{id}"
                 302Failure:
-                  description: "Failure creating news item. Redirect to news item form."
+                  description: "Failure creating news item. Redirect to news item form. (UI12)"
                   value: "/news/create"
   /news/{id}/edit:
     get:
@@ -402,7 +402,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "Ok. Show news item edit form."
+          description: "Ok. Show news item edit form. (UI12)"
 
   /api/news/{id}/create:
     post:
@@ -447,10 +447,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successfully updated news item. Reditect to news item page."
+                  description: "Successfully updated news item. Reditect to news item page. (UI11)"
                   value: "/news/{id}"
                 302Failure:
-                  description: "Failure creating news item. Redirect to news item form."
+                  description: "Failure creating news item. Redirect to news item form. (UI12)"
                   value: "/news/{id}/edit"
 
   /api/news/recent_feed:
@@ -462,7 +462,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "HTML of the recent news feed"
+          description: "HTML of the recent news feed (UI01)"
 
   /api/news/follow_feed:
     get:
@@ -473,7 +473,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "HTML of the followed news feed"
+          description: "HTML of the followed news feed (UI01)"
 
   #check
   /api/news/top_feed:
@@ -485,7 +485,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "HTML of the top news feed"
+          description: "HTML of the top news feed (UI01)"
 
   #check
   /api/news/search_feed:
@@ -508,7 +508,7 @@ paths:
           required: false
       responses:
         "200":
-          description: "HTML of the search results"
+          description: "HTML of the search results (UI01)"
 
     # M03: Topics and Tags
   /topic_proposal:
@@ -540,10 +540,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful creation of the topic proposal. Redirect to the last page."
+                  description: "Successful creation of the topic proposal. Redirect to the last page. (UI01)"
                   value: "/"
                 302Failure:
-                  description: "Failed creation of the topic proposal. Redirect to the last page."
+                  description: "Failed creation of the topic proposal. Redirect to the last page. (UI01)"
                   value: "/"
 
   # M04: Static Pages
@@ -556,7 +556,7 @@ paths:
         - "M04: Static Pages"
       responses:
         "200":
-          description: "Ok. Show About Us Page"
+          description: "Ok. Show About Us Page (UI03)"
 
   /contacts:
     get:
@@ -567,7 +567,7 @@ paths:
         - "M04: Static Pages"
       responses:
         "200":
-          description: "Ok. Show Contacts Page"
+          description: "Ok. Show Contacts Page (UI02)"
 
     # M05: Administration
   /manage:
@@ -579,7 +579,7 @@ paths:
         - "M05: Administration"
       responses:
         "200":
-          description: "Ok. Manage Users Page"
+          description: "Ok. Manage Users Page (UI08)"
 
   /manage_topic:
     get:
