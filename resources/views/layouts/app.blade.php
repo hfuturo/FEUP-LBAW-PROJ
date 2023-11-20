@@ -28,6 +28,9 @@
     <body>
             <header>
                 <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
+                    <form action="/news" style="margin: 0;margin-left: 1rem;">
+                        <input type="text" name="search" value="{{ app('request')->input('search') }}" style="background-color: white;margin: 0;">
+                    </form>
                     @if (Auth::user()->is_admin())
                     <a class="button" href="{{ url('/manage') }}"> Manage Users </a>
                     @endif
