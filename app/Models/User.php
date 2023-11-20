@@ -94,6 +94,10 @@ class User extends Authenticatable
         return $this->hasMany(Follow_User::class,'id_following');
     }
 
+    public function membershipStatuses() {
+        return $this->hasMany(Membership_Status::class, 'id_user');
+    }
+
     public function votes(){
       return $this
         ->belongsToMany(Project::class, 'vote', 'id_user', 'id_content')

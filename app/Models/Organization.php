@@ -27,4 +27,8 @@ class Organization extends Model
     public function notifications() {
         return $this->hasMany(Notification::class,'id_organization');
     }
+
+    public function membershipStatuses() {
+        return $this->hasMany(Membership_Status::class, 'id_user');
+    }
 }

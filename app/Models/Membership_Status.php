@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class Membership_Status extends Model
 {
     use HasFactory;
@@ -19,5 +22,15 @@ class Membership_Status extends Model
     ];
 
     protected $primaryKey = ['id_user','id_organization'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'id_organization');
+    }
 
 }

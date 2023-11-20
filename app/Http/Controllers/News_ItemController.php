@@ -40,7 +40,7 @@ class News_itemController extends Controller
     public function store(Request $request){
         if(!Auth::check()){
             return redirect()->route("login")
-            ->with('fail', 'Not authenticated. Please log in');
+            ->withErrors('fail', 'Not authenticated. Please log in');
         }
 
         $validator = $request->validate([
@@ -50,8 +50,6 @@ class News_itemController extends Controller
             'image' => 'mimes:jpg,png,jped',
 
         ]);
-
-        print_r($request->input('tags'));
 
         if($validator){
 
@@ -86,8 +84,13 @@ class News_itemController extends Controller
         
             });
             return redirect()->route('new',["id"=>$id_news])
-                ->with('success', 'Successfully changed!');
+                ->with('success', 'Successfully Create!');
         }
+        else{
+            return redirect()->route('create_news')
+                ->with('fail', 'The parameters are invalid!');
+        }
+
     }
 
     /** 

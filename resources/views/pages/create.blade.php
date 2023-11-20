@@ -5,7 +5,7 @@
 
 <section id = "news-create-container">
     <h2> Create a Post</h2>
-    <form action="{{ route('create_news_api') }}" method = "POST" id=newsForm enctype="multipart/form-data">
+    <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
         @csrf
 
         <div class ="form-group">
@@ -37,12 +37,11 @@
                 @endforeach
             </datalist>
             <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
-            <button type="button" onclick="createTag()">Add</button>
+            <button type="button" onclick="createTag()" class= "btn">Add</button>
             <ul id="tagsList"></ul>
         </div>
-
-        <input type = "submit" class = "btn">
     </form>
+    <button type="submit" form="newsForm" value="Submit" class = "btn">Create</button>
 </section>
 
 @endsection
