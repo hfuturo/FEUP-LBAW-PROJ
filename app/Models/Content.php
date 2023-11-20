@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class Content extends Model
 {
     use HasFactory;
@@ -37,7 +40,7 @@ class Content extends Model
 
     public function news_items()
     {
-        return $this->hasOne(News_Item::class, 'id');
+        return $this->hasOne(NewsItem::class, 'id');
     }
 
     public function comments()

@@ -2,8 +2,8 @@
 
 @section('content')
 
-<section id="cards">
+<div>
     ola
-</section>
+</div>
 
 @endsection

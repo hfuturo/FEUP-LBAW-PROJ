@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Follow_User extends Model
+class FollowUser extends Model
 {
     use HasFactory;
     public $timestamps  = false;
+    public $incrementing = false;
     protected $table = 'follow_user';
-
+    
     protected $fillable = [
         'id_follower',
         'id_following'

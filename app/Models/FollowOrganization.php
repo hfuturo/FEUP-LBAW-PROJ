@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Follow_Organization extends Model
+class FollowOrganization extends Model
 {
     use HasFactory;
     public $timestamps  = false;

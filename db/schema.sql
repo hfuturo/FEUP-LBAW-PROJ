@@ -321,12 +321,30 @@ CREATE TRIGGER follow_user_notification
         FOR EACH ROW
         EXECUTE PROCEDURE add_follow_notification();
 
+DROP FUNCTION IF EXISTS remove_follow_notification() CASCADE;
+CREATE FUNCTION remove_follow_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    DELETE FROM notified
+        WHERE id_notification IN (
+            SELECT id FROM notification WHERE id_user = old.id_follower
+        ) AND id_notified = old.id_following;
+    RETURN NEW;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER unfollow_user_notification
+        AFTER DELETE ON follow_user
+        FOR EACH ROW
+        EXECUTE PROCEDURE remove_follow_notification();
+
 DROP FUNCTION IF EXISTS remove_topic_sugestions_on_creation() CASCADE;
 CREATE FUNCTION remove_topic_sugestions_on_creation() RETURNS TRIGGER AS
 $BODY$
 BEGIN
   DELETE FROM suggested_topic WHERE name = new.name;
-  RETURN NULL;
+  RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;
@@ -347,7 +365,7 @@ BEGIN
     THEN
         RAISE EXCEPTION 'Cannot create sugestion for an existing topic';
     END IF;
-  RETURN NULL;
+  RETURN NEW;
 END
 $BODY$
 LANGUAGE plpgsql;
