@@ -28,9 +28,7 @@ class NewsItemController extends Controller
         $news_itens = NewsItem::findOrFail($id);
         $comments = $news_itens->comments()->paginate(10);
 
-        // Use the pages.card template to display the card.
         return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
-
     }
 
 }    

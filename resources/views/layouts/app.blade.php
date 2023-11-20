@@ -20,9 +20,6 @@
         <link href="{{ url('css/news.css') }}" rel="stylesheet">
         <link href="{{ url('css/info.css') }}" rel="stylesheet">
 
-
-        <script src="{{ url('js/profile.js') }}"></script>
-
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -32,7 +29,7 @@
     </head>
     <body>
             <header>
-                <h1><a href="{{ url('/news') }}">Thingy!</a></h1>
+                <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
                     <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
                     <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
                     @if (Auth::check())
