@@ -157,7 +157,7 @@ paths:
     post:
         operationId: R107
         summary: 'R107: Update User profile'
-        description: 'Process the changes made to profile. Access: USR'
+        description: 'Process the changes made to profile. Access: OWN'
         tags:
           - 'M01: Authentication and User'
         requestBody:
@@ -533,7 +533,7 @@ paths:
                   total: 54
 
 #check
-/api/news/top_feed:
+/api/news/search_feed:
     get:
       operationId: R209
       summary: 'R209: Search the news items, filtreing according by an input'
