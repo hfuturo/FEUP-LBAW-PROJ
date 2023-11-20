@@ -33,7 +33,7 @@ paths:
         "200":
           description: "Ok. Show Log-in UI"
         "302":
-          description: "Redirect if the user is logged in."
+          description: "Redirect the user if they already are logged in."
           headers:
             Location:
               schema:
@@ -206,13 +206,13 @@ paths:
                   description: "Failed update. Redirect to user profile."
                   value: "/profile/{user}"
         "403":
-          description: "The User is cannot update the desired user"
+          description: "The User cannot update the desired user"
 
   /profile/unfollow:
     post:
       operationId: R108
       summary: "R108: Unfollow an user"
-      description: "Process action of unfollow an user. Access: USR"
+      description: "Process action of unfollowing an user. Access: USR"
       tags:
         - "M01: Authentication and User"
       requestBody:
@@ -228,21 +228,21 @@ paths:
                 - id_following
       responses:
         "302":
-          description: "Redirect after processing the action of unfollow."
+          description: "Redirect after processing the action of unfollowing."
           headers:
             Location:
               schema:
                 type: string
               examples:
                 302Success:
-                  description: "Successful unfollow. Redirect to user profile."
+                  description: "Successful unfollowed. Redirect to user profile."
                   value: "/profile/{id_following}"
 
   /profile/follow:
     post:
       operationId: R109
       summary: "R109: Follow an user"
-      description: "Process action of follow an user. Access: USR"
+      description: "Process action of following an user. Access: USR"
       tags:
         - "M01: Authentication and User"
       requestBody:
@@ -258,7 +258,7 @@ paths:
                 - id_following
       responses:
         "302":
-          description: "Redirect after processing the action of follow."
+          description: "Redirect after processing the action of following a user."
           headers:
             Location:
               schema:
@@ -327,10 +327,10 @@ paths:
               schema:
                 type: string
               examples:
-                304Success:
+                302Success:
                   description: "Successfully deleted. Redirect to news feed."
                   value: "/news"
-                304Failure:
+                302Failure:
                   description: "Failed deleting. Redirect to news item page."
                   value: "/news/{id}"
 
@@ -355,7 +355,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -365,6 +365,7 @@ paths:
                   type: string
                 file:
                   type: string
+                  format: binary
                 topic:
                   type: string
                 tags:
@@ -374,7 +375,7 @@ paths:
                 - text
       responses:
         "302":
-          description: "Redirect after processing the new user information."
+          description: "Redirect after processing the new news item information."
           headers:
             Location:
               schema:
@@ -385,13 +386,78 @@ paths:
                   value: "/news/{id}"
                 302Failure:
                   description: "Failure creating news item. Redirect to news item form."
-                  value: "/api/news/create"
+                  value: "/news/create"
+  /news/{id}/edit:
+    get:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      operationId: R206
+      summary: "R206: News item edit form"
+      description: "Displays the form to create a news item . Access: OWN"
+      tags:
+        - "M02: News and Comments"
+      responses:
+        "200":
+          description: "Ok. Show news item edit form."
+
+  /api/news/{id}/create:
+    post:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      operationId: R207
+      summary: "R207: Edit a news item"
+      description: "Process action to edit a news item. Access: OWN"
+      tags:
+        - "M02: News and Comments"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+                topic:
+                  type: string
+                tags:
+                  type: string
+              required:
+                - title
+                - text
+      responses:
+        "302":
+          description: "Redirect after processing the new news item information."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Successfully updated news item. Reditect to news item page."
+                  value: "/news/{id}"
+                302Failure:
+                  description: "Failure creating news item. Redirect to news item form."
+                  value: "/news/{id}/edit"
 
   /api/news/recent_feed:
     get:
-      operationId: R206
-      summary: "R206: Search the news items chronologically"
-      description: "Search the news items chronologically from the most recent to the oldest and return the results. Access: PUB."
+      operationId: R208
+      summary: "R208: Return the news items chronologically"
+      description: "Return the news items chronologically from the most recent to the oldest. Access: PUB."
       tags:
         - "M02: News and Comments"
       responses:
@@ -400,9 +466,9 @@ paths:
 
   /api/news/follow_feed:
     get:
-      operationId: R207
-      summary: "R207: Search the news items created by followed users"
-      description: "Searches the news items created by followed users and returns the results. Access: USR."
+      operationId: R209
+      summary: "R209: Return the news items created by followed users"
+      description: "Return the news items created by followed users chronologically from the most recent to the oldest. Access: USR."
       tags:
         - "M02: News and Comments"
       responses:
@@ -412,9 +478,9 @@ paths:
   #check
   /api/news/top_feed:
     get:
-      operationId: R208
-      summary: "R208: Search the news items, ordering by their votes"
-      description: "Search the news items ordering by their votes. Access: PUB."
+      operationId: R210
+      summary: "R210: Return the news items ordered by their votes"
+      description: "Return the news items ordered by their votes. Access: PUB."
       tags:
         - "M02: News and Comments"
       responses:
@@ -424,9 +490,9 @@ paths:
   #check
   /api/news/search_feed:
     get:
-      operationId: R209
-      summary: "R209: Search the news items, filtreing according by an input"
-      description: "Search the news items, filtreing according by an input. Access: PUB."
+      operationId: R211
+      summary: "R211: Search the news items, filtreing according to a query"
+      description: "Search the news items, filtreing according to a query. Access: PUB."
       tags:
         - "M02: News and Comments"
       parameters:
@@ -474,10 +540,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful creation the topic proposal. Redirect to last page."
+                  description: "Successful creation of the topic proposal. Redirect to the last page."
                   value: "/"
                 302Failure:
-                  description: "Failed creation the topic proposal. Redirect to last page."
+                  description: "Failed creation of the topic proposal. Redirect to the last page."
                   value: "/"
 
   # M04: Static Pages
