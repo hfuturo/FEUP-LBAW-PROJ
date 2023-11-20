@@ -25,15 +25,15 @@ paths:
   /login:
     get:
       operationId: R101
-      summary: "R101: Login Form"
+      summary: "R101: Login Form (UI04)"
       description: "Provide login form. Access: PUB"
       tags:
         - "M01: Authentication and User"
       responses:
         "200":
-          description: "Ok. Show Log-in UI (UI04)"
+          description: "Ok. Show Log-in UI"
         "302":
-          description: "Redirect the user if they already are logged in. (UI01)"
+          description: "Redirect the user if they already are logged in."
           headers:
             Location:
               schema:
@@ -71,10 +71,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful authentication. Redirect to news feed. (UI01)"
+                  description: "Successful authentication. Redirect to news feed."
                   value: "/news"
                 302Error:
-                  description: "Failed authentication. Redirect to login form. (UI04)"
+                  description: "Failed authentication. Redirect to login form."
                   value: "/login"
 
   /logout:
@@ -93,19 +93,19 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful logout. Redirect to login form. (UI04)"
+                  description: "Successful logout. Redirect to login form."
                   value: "/login"
 
   /register:
     get:
       operationId: R104
-      summary: "R104: Register Form"
+      summary: "R104: Register Form (UI05)"
       description: "Provide new user registration form. Access: PUB"
       tags:
         - "M01: Authentication and User"
       responses:
         "200":
-          description: "Ok. Show Sign-Up UI (UI05)"
+          description: "Ok. Show Sign-Up UI"
     post:
       operationId: R105
       summary: "R105: Register Action"
@@ -141,16 +141,16 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful authentication. Redirect to news feed. (UI01)"
+                  description: "Successful authentication. Redirect to news feed."
                   value: "/news"
                 302Failure:
-                  description: "Failed authentication. Redirect to register form. (UI05)"
+                  description: "Failed authentication. Redirect to register form."
                   value: "/register"
 
   /profile/{user}:
     get:
       operationId: R106
-      summary: "R106: View User profile"
+      summary: "R106: View User profile (UI06)"
       description: "Show the individual user profile. Access: USR"
       tags:
         - "M01: Authentication and User"
@@ -162,7 +162,7 @@ paths:
           required: true
       responses:
         "200":
-          description: "Ok. Show User Profile UI (UI06)"
+          description: "Ok. Show User Profile UI"
     post:
       operationId: R107
       summary: "R107: Update User profile"
@@ -200,10 +200,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful update. Redirect to user profile. (UI06)"
+                  description: "Successful update. Redirect to user profile."
                   value: "/profile/{user}"
                 302Failure:
-                  description: "Failed update. Redirect to user profile. (UI06)"
+                  description: "Failed update. Redirect to user profile."
                   value: "/profile/{user}"
         "403":
           description: "The User cannot update the desired user"
@@ -235,7 +235,7 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful unfollowed. Redirect to user profile. (UI06)"
+                  description: "Successful unfollowed. Redirect to user profile."
                   value: "/profile/{id_following}"
 
   /profile/follow:
@@ -265,14 +265,14 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful follow. Redirect to user profile. (UI06)"
+                  description: "Successful follow. Redirect to user profile."
                   value: "/profile/{id_following}"
 
   # M02: News and Comments
   /news:
     get:
       operationId: R201
-      summary: "R201: Displays the default feed"
+      summary: "R201: Displays the default feed (UI01)"
       description: "Displays the default feed when the user enters the website. Access: PUB"
       tags:
         - "M02: News and Comments"
@@ -289,12 +289,12 @@ paths:
           required: false
       responses:
         "200":
-          description: "Ok. Show default feed or the search results if provided. (UI01)"
+          description: "Ok. Show default feed or the search results if provided."
 
   /news/{id}:
     get:
       operationId: R202
-      summary: "R202: Displays a specific news item"
+      summary: "R202: Displays a specific news item (UI11)"
       description: "Displays a specific news item with its details and comments. Access: PUB"
       tags:
         - "M02: News and Comments"
@@ -306,7 +306,7 @@ paths:
           required: true
       responses:
         "200":
-          description: "Ok. Show news item. (UI11)"
+          description: "Ok. Show news item."
     post:
       operationId: R203
       summary: "R203: Deletes a news item"
@@ -328,22 +328,22 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successfully deleted. Redirect to news feed. (UI01)"
+                  description: "Successfully deleted. Redirect to news feed."
                   value: "/news"
                 302Failure:
-                  description: "Failed deleting. Redirect to news item page. (UI11)"
+                  description: "Failed deleting. Redirect to news item page."
                   value: "/news/{id}"
 
   /news/create:
     get:
       operationId: R204
-      summary: "R204: News item creation form"
+      summary: "R204: News item creation form (UI12)"
       description: "Displays the form to create a news item . Access: USR"
       tags:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "Ok. Show news item creation form. (UI12)"
+          description: "Ok. Show news item creation form."
 
   /api/news/create:
     post:
@@ -382,41 +382,41 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successfully created news item. Reditect to news item page. (UI11)"
+                  description: "Successfully created news item. Reditect to news item page."
                   value: "/news/{id}"
                 302Failure:
-                  description: "Failure creating news item. Redirect to news item form. (UI12)"
+                  description: "Failure creating news item. Redirect to news item form."
                   value: "/news/create"
   /news/{id}/edit:
     get:
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
       operationId: R206
-      summary: "R206: News item edit form"
+      summary: "R206: News item edit form (UI12)"
       description: "Displays the form to create a news item . Access: OWN"
       tags:
         - "M02: News and Comments"
-      responses:
-        "200":
-          description: "Ok. Show news item edit form. (UI12)"
-
-  /api/news/{id}/create:
-    post:
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
+      responses:
+        "200":
+          description: "Ok. Show news item edit form."
+
+  /api/news/{id}/create:
+    post:
       operationId: R207
       summary: "R207: Edit a news item"
       description: "Process action to edit a news item. Access: OWN"
       tags:
         - "M02: News and Comments"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       requestBody:
         required: true
         content:
@@ -447,10 +447,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successfully updated news item. Reditect to news item page. (UI11)"
+                  description: "Successfully updated news item. Reditect to news item page."
                   value: "/news/{id}"
                 302Failure:
-                  description: "Failure creating news item. Redirect to news item form. (UI12)"
+                  description: "Failure creating news item. Redirect to news item form."
                   value: "/news/{id}/edit"
 
   /api/news/recent_feed:
@@ -462,7 +462,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "HTML of the recent news feed (UI01)"
+          description: "HTML of the recent news feed"
 
   /api/news/follow_feed:
     get:
@@ -473,7 +473,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "HTML of the followed news feed (UI01)"
+          description: "HTML of the followed news feed"
 
   #check
   /api/news/top_feed:
@@ -485,7 +485,7 @@ paths:
         - "M02: News and Comments"
       responses:
         "200":
-          description: "HTML of the top news feed (UI01)"
+          description: "HTML of the top news feed"
 
   #check
   /api/news/search_feed:
@@ -508,7 +508,7 @@ paths:
           required: false
       responses:
         "200":
-          description: "HTML of the search results (UI01)"
+          description: "HTML of the search results"
 
     # M03: Topics and Tags
   /topic_proposal:
@@ -540,46 +540,46 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: "Successful creation of the topic proposal. Redirect to the last page. (UI01)"
+                  description: "Successful creation of the topic proposal. Redirect to the last page."
                   value: "/"
                 302Failure:
-                  description: "Failed creation of the topic proposal. Redirect to the last page. (UI01)"
+                  description: "Failed creation of the topic proposal. Redirect to the last page."
                   value: "/"
 
   # M04: Static Pages
   /about_us:
     get:
       operationId: R401
-      summary: "R402: Show About Us page"
+      summary: "R401: Show About Us page (UI03)"
       description: "Provide information about the website. Access: PUB"
       tags:
         - "M04: Static Pages"
       responses:
         "200":
-          description: "Ok. Show About Us Page (UI03)"
+          description: "Ok. Show About Us Page"
 
   /contacts:
     get:
       operationId: R402
-      summary: "R407: Show Contacts page"
+      summary: "R402: Show Contacts page (UI02)"
       description: "Provide information about who are the responsibles for the website and their contacts. Access: PUB"
       tags:
         - "M04: Static Pages"
       responses:
         "200":
-          description: "Ok. Show Contacts Page (UI02)"
+          description: "Ok. Show Contacts Page"
 
     # M05: Administration
   /manage:
     get:
       operationId: R501
-      summary: "R501: View Manage Users Page"
+      summary: "R501: View Manage Users Page (UI08)"
       description: "Provide acess to all the users. Access: ADM"
       tags:
         - "M05: Administration"
       responses:
         "200":
-          description: "Ok. Manage Users Page (UI08)"
+          description: "Ok. Manage Users Page"
 
   /manage_topic:
     get:
