@@ -1,0 +1,668 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0'
+  title: 'LBAW MediaLibrary Web API'
+  description: 'Web Resources Specification (A7) for MediaLibrary'
+
+servers:
+- url: http://lbaw.fe.up.pt
+description: Production server
+
+externalDocs:
+  description: Find more info here.
+  url: https://web.fe.up.pt/~ssn/wiki/teach/lbaw/medialib/a07
+
+tags:
+  - name: 'M01: Authentication and Individual Profile'
+  - name: 'M02: Follow and Unfollow Users and Topics'
+  - name: 'M03: News and its content'
+  
+  - name: 'M05: User Administration and Static pages'
+
+paths:
+
+  # Authentication
+  /login:
+    get:
+      operationId: R101
+      summary: 'R101: Login Form'
+      description: 'Provide login form. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Ok. Show Log-in UI'
+    post:
+      operationId: R102
+      summary: 'R102: Login Action'
+      description: 'Processes the login form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '302':
+          description: 'Redirect after processing the login credentials.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful authentication. Redirect to news feed.'
+                  value: '/news'
+                302Error:
+                  description: 'Failed authentication. Redirect to login form.'
+                  value: '/login'
+
+  /logout:
+    post:
+      operationId: R103
+      summary: 'R103: Logout Action'
+      description: 'Logout the current authenticated user. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '302':
+          description: 'Redirect after processing logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful logout. Redirect to login form.'
+                  value: '/login'
+
+  /register:
+    get:
+      operationId: R104
+      summary: 'R104: Register Form'
+      description: 'Provide new user registration form. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Ok. Show Sign-Up UI'
+    post:
+      operationId: R105
+      summary: 'R105: Register Action'
+      description: 'Processes the new user registration form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password-confirm:
+                  type: string
+             required:
+                - name
+                - email
+                - password
+                - password-confirm
+      responses:
+        '302':
+          description: 'Redirect after processing the new user information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful authentication. Redirect to news feed.'
+                  value: '/news'
+                302Failure:
+                  description: 'Failed authentication. Redirect to register form.'
+                  value: '/register'
+  
+  # Static Pages
+  /about_us:
+    get:
+      operationId: R106
+      summary: 'R106: Show AboutUs page'
+      description: 'Provide information about the website. Access: PUB'
+      tags:
+        - 'M05: User Administration and Static pages'
+      responses:
+        '200':
+          description: 'Ok. Show AbouUs Page'
+
+  /contacts:
+    get:
+      operationId: R107
+      summary: 'R107: Show Contacts page'
+      description: 'Provide information about who are the responsibles for the website and their contacts. Access: PUB'
+      tags:
+        - 'M05: User Administration and Static pages'
+      responses:
+        '200':
+          description: 'Ok. Show Contacts Page'
+
+  # Profile
+  /profile/{user}:
+    get:
+      operationId: R108
+      summary: 'R108: View User profile'
+      description: 'Show the individual user profile. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      parameters:
+        - in: path
+          name: user
+          schema:
+            type: User
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Show User Profile UI' 
+    post:
+        operationId: R109
+        summary: 'R109: Update User profile'
+        description: 'Process the changes made to profile. Access: USR'
+        tags:
+          - 'M01: Authentication and Individual Profile'
+        requestBody:
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  bio:
+                    type: string
+              required:
+                  - name
+                  - email
+        responses:
+          '304':
+            description: 'Redirect after processing the new user information.'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  304Success:
+                    description: 'Successful update. Redirect to user profile.'
+                    value: '/profile/{user}'
+                  304Failure:
+                    description: 'Failed update. Redirect to user profile.'
+                    value: '/profile/{user}'
+
+  # Follow and Unfollow
+  /profile/unfollow/{id_follower}/{id_following}:
+      post:
+          operationId: R110
+          summary: 'R110: Unfollow an user'
+          description: 'Process action of unfollow an user. Access: USR'
+          tags:
+            - 'M02: Follow and Unfollow Users and Topics'
+          parameters:
+            - in: path
+              name: id_follower
+              schema:
+                type: int
+              required: true
+            - in: path
+              name: id_following
+              schema:
+                type: int
+              required: true
+          responses:
+            '304':
+              description: 'Redirect after processing the action of unfollow.'
+              headers:
+                Location:
+                  schema:
+                    type: string
+                  examples:
+                    304Success:
+                      description: 'Successful unfollow. Redirect to user profile.'
+                      value: '/profile/{id_following}'
+                    304Failure:
+                      description: 'Failed unfollow. Redirect to user profile.'
+                      value: '/profile/{id_following}'
+
+  /profile/follow/{id_follower}/{id_following}:
+      post:
+          operationId: R111
+          summary: 'R111: Follow an user'
+          description: 'Process action of follow an user. Access: USR'
+          tags:
+            - 'M02: Follow and Unfollow Users and Topics'
+          parameters:
+            - in: path
+              name: id_follower
+              schema:
+                type: int
+              required: true
+            - in: path
+              name: id_following
+              schema:
+                type: int
+              required: true
+          responses:
+            '304':
+              description: 'Redirect after processing the action of follow.'
+              headers:
+                Location:
+                  schema:
+                    type: string
+                  examples:
+                    304Success:
+                      description: 'Successful follow. Redirect to user profile.'
+                      value: '/profile/{id_following}'
+                    304Failure:
+                      description: 'Failed follow. Redirect to user profile.'
+                      value: '/profile/{id_following}'
+
+  # Manage Admin
+  /manage:
+    get:
+      operationId: R112
+      summary: 'R112: View Manage Users Page'
+      description: 'Provide acess to all the users. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static pages'
+      responses:
+        '200':
+          description: 'Ok. Manage Users Page'
+  
+  /manage_topic:
+    get:
+      operationId: R113
+      summary: 'R113: View Manage Topics Proposal page'
+      description: 'Provide acess to the topics proposals made by other users. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static pages'
+      responses:
+        '200':
+          description: 'Ok. Show Manage Topics Proposal page'
+
+  /manage_topic/delete_suggested_topic/{topic}:
+    post:
+      operationId: R114
+      summary: 'R114: Delete a topic proposal'
+      description: 'Process action of deleting a topic proposal. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static pages'
+      parameters:
+        - in: path
+          name: topic
+          schema:
+          type: int
+          required: true
+      responses:
+        '304':
+          description: 'Redirect after processing the action of deleting topic proposal.'
+          headers:
+          Location:
+            schema:
+              type: string
+              examples:
+                304Success:
+                  description: 'Successful delete the topic proposal. Redirect to manage topic proposals page.'
+                  value: '/manage_topic'
+                304Failure:
+                  description: 'Failed delete the topic proposal. Redirect to manage topic proposals page.'
+                  value: '/manage_topic'
+
+  /manage_topic/accept_suggested_topic/{name}:
+    post:
+      operationId: R115
+      summary: 'R115: Accept a topic proposal'
+      description: 'Process action of accepting a topic proposal. Access: ADM'
+      tags:
+        - 'M05: User Administration and Static pages'
+      parameters:
+        - in: path
+          name: name
+          schema:
+          type: string
+          required: true
+      responses:
+        '304':
+          description: 'Redirect after processing the action of accepting topic proposal.'
+          headers:
+          Location:
+            schema:
+              type: string
+              examples:
+                304Success:
+                  description: 'Successful accept the topic proposal. Redirect to manage topic proposals page.'
+                  value: '/manage_topic'
+                304Failure:
+                  description: 'Failed accept the topic proposal. Redirect to manage topic proposals page.'
+                  value: '/manage_topic'
+
+
+  /topic_proposal:
+    post:
+      operationId: RXXX
+      summary: 'RXX: Create a topic proposal'
+      description: 'Process action of creating a topic proposal. Access: USR'
+      tags:
+        - 'M04: Topics and Tags'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                justification:
+                  type: string
+              required:
+                - name
+      responses:
+        '304':
+          description: 'Redirect after processing the action of creating a topic proposal.'
+          headers:
+          Location:
+            schema:
+              type: string
+              examples:
+                304Success:
+                  description: 'Successful creation the topic proposal. Redirect to last page.'
+                  value: '/'
+                304Failure:
+                  description: 'Failed creation the topic proposal. Redirect to last page.'
+                  value: '/'
+
+  # News
+  /news:
+    get:
+      operationId: RXXX
+      summary: 'RXXX: Displays the default feed'
+      description: 'Displays the default feed when the user enters the website. Access: PUB'
+      tags:
+        - 'M03: News and its content'
+      reponses:
+        '200':
+          description: 'Ok. Show default feed.'
+
+  # NewsItem
+  /news/{id}:
+    get:
+      operationId: RXXX
+      summary: 'RXXX: Displays a specific news item'
+      description: 'Displays a specific news item with its details and comments. Access: PUB'
+      tags:
+        - 'M03: News and its content'
+      responses:
+        '200':
+          description: 'Ok. Show news item.'
+    post:
+      operationId: RXXX
+      summary: 'RXXX: Deletes a news item'
+      description: 'Deletes a news item if it has no comments or votes. Access: OWN'
+      tags:
+        - 'M03: News and its content'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: int
+                required:
+                  - id
+      responses:
+        '304':
+          description: 'Redirect after processing delete request'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                304Success:
+                  description: 'Successfully deleted. Redirect to news feed.'
+                  value: '/news'
+                304Failure:
+                  description: 'Failed deleting. Redirect to news item page.'
+                  value: '/news{id}'
+
+  /news/create:
+    get:
+      operationId: RXXX
+      summary: 'RXXX: News item creation form'
+      description: 'Displays the form to create a news item . Access: USR'
+      tags:
+        - 'M03: News and its content'
+      responses:
+        '200':
+          description: 'Ok. Show form.'
+
+  /api/news/create:
+    post:
+      operationId: RXXX
+      summary: 'RXXX: Creates a news item'
+      description: 'Process action to create a news item. Access: OWN'
+      tags:
+        - 'M03: News and its content'
+      requestBody:
+        required: true
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                text:
+                  type: string
+                file:
+                  type: string
+                topics:
+                  type: string
+                tags:
+                  type: string
+              required:
+                - title
+                - text
+      responses:
+        '302':
+          description: 'Redirect after processing the new user information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successfully created news item. Reditect to news item page.'
+                  value: '/news{id}'
+                302Failure:
+                  description: 'Failure creating news item. Redirect to news item form.'
+                  value: '/api/news/create'
+
+
+                  
+  /api/manage:
+    get:
+      operationId: R201
+      summary: 'R201: Filters users based on input'
+      description: 'Filters users based on input and returns the results as JSON. Access: ADM'
+      tags:
+        - name: 'M05: User Administration and Static pages'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                bio:
+                  type: string
+                blocked:
+                  type: boolean
+                email:
+                  type: string       
+                id:
+                  type: int
+                id_topic:
+                  type: int
+                image:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+                rememeber_token:
+                  type: string
+                reputation:
+                  type: int
+                type:
+                  type: string
+                example:
+                - bio:
+                  blocked: false
+                  email: jane_smith@yahoo.com
+                  id: 2
+                  id_topic: 1
+                  image: pfp_default.png
+                  name: Jane Smith
+                  password: Smith123
+                  remember_token: null
+                  reputation: 0
+                  type: moderator
+
+  /api/news/recent_feed:
+    get:
+      operationId: R202
+      summary: 'R202: Search the news items chronologically'
+      description: 'Search the news items chronologically from the most recent to the oldest and return the results as JSON. Access: PUB.'
+      tags:
+        - name: 'M03: News and its content'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: Object
+                properties:
+                current_page:
+                  type: int
+                data:
+                  type: array
+                first_page_url:
+                  type: string
+                from:
+                  type: int
+                last_page:
+                  type: int
+                last_page_url:
+                  type: string
+                links:
+                  type: array
+                next_page_url:
+                  type: string
+                path:
+                  type: string
+                per_page:
+                  type: int
+                prev_page_url:
+                  type: string
+                to:
+                  type: int
+                total:
+                  type: int
+                example:
+                - current_page: 1
+                  data: 
+                  first_page_url: http://127.0.0.1:8000/api/news/recent_feed?page=1
+                  from: 1
+                  last_page: 6
+                  last_page_url: http://127.0.0.1:8000/api/news/recent_feed?page=6
+                  links: 
+                  next_page_url: http://127.0.0.1:8000/api/news/recent_feed?page=2
+                  path: http://127.0.0.1:8000/api/news/recent_feed
+                  per_page: 10
+                  prev_page_url: null
+                  to: 10
+                  total: 54
+
+  /api/news/follow_feed:
+    get:
+      operationId: R203
+      summary: 'R203: Search the news items created by followed users'
+      description: 'Searches the news items created by followed users and returns the results as JSON. Access: USR.'
+      tags:
+        - name: 'M03: News and its content'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: Object
+                properties:
+                current_page:
+                  type: int
+                data:
+                  type: array
+                first_page_url:
+                  type: string
+                from:
+                  type: int
+                last_page:
+                  type: int
+                last_page_url:
+                  type: string
+                links:
+                  type: array
+                next_page_url:
+                  type: string
+                path:
+                  type: string
+                per_page:
+                  type: int
+                prev_page_url:
+                  type: string
+                to:
+                  type: int
+                total:
+                  type: int
+                example:
+                - current_page: 1
+                  data: 
+                  first_page_url: http://127.0.0.1:8000/api/news/follow_feed?page=1
+                  from: 1
+                  last_page: 3
+                  last_page_url: http://127.0.0.1:8000/api/news/follow_feed?page=3
+                  links: 
+                  next_page_url: http://127.0.0.1:8000/api/news/follow_feed?page=2
+                  path: http://127.0.0.1:8000/api/news/follow_feed
+                  per_page: 10
+                  prev_page_url: null
+                  to: 10
+                  total: 23
