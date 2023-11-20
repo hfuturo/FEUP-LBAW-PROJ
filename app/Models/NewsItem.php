@@ -56,7 +56,7 @@ class NewsItem extends Model
     {
         $sub = (DB::table('news_item')
             ->select('*')
-            ->from(DB::raw('news_item, plainto_tsquery(\'english\',?) query'))
+            ->from(DB::raw('news_item, websearch_to_tsquery(\'english\',?) query'))
             ->whereRaw('tsvectors @@ query')
             ->orderByRaw('ts_rank(tsvectors, query) desc')
             ->setBindings([$query]));
