@@ -47,8 +47,9 @@ class NewsItemController extends Controller
             $news_item->delete();
             return view('pages.news')->with('success', 'Eliminated with sucess!');
         }
-        return redirect()->route('new',[$id])->withErrors(['error', 'Cannot be eliminated because it has comments!']);
-
+        return redirect()->route('news_page',[$id])->withErrors(['error', 'Cannot be eliminated because it has comments!']);
+    }
+    
     public function store(Request $request){
         if(!Auth::check()){
             return redirect()->route("login")
