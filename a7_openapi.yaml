@@ -475,6 +475,119 @@ paths:
                   to: 10
                   total: 23
 
+#check
+/api/news/top_feed:
+    get:
+      operationId: R209
+      summary: 'R209: Search the news items, ordering by their votes'
+      description: 'Search the news items ordering by their votes. Access: PUB.'
+      tags:
+        - 'M02: News and Comments'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: Object
+                properties:
+                current_page:
+                  type: int
+                data:
+                  type: array
+                first_page_url:
+                  type: string
+                from:
+                  type: int
+                last_page:
+                  type: int
+                last_page_url:
+                  type: string
+                links:
+                  type: array
+                next_page_url:
+                  type: string
+                path:
+                  type: string
+                per_page:
+                  type: int
+                prev_page_url:
+                  type: string
+                to:
+                  type: int
+                total:
+                  type: int
+                example:
+                - current_page: 1
+                  data: 
+                  first_page_url: http://127.0.0.1:8000/api/news/top_feed?page=1
+                  from: 1
+                  last_page: 6
+                  last_page_url: http://127.0.0.1:8000/api/news/top_feed?page=6
+                  links: 
+                  next_page_url: http://127.0.0.1:8000/api/news/top_feed?page=2
+                  path: http://127.0.0.1:8000/api/news/top_feed
+                  per_page: 10
+                  prev_page_url: null
+                  to: 10
+                  total: 54
+
+#check
+/api/news/top_feed:
+    get:
+      operationId: R210
+      summary: 'R210: Search the news items, filtreing according by an input'
+      description: 'Search the news items, filtreing according by an input. Access: PUB.'
+      tags:
+        - 'M02: News and Comments'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                search:
+                  type: string
+                search_type:
+                  type: string
+                required:
+                  - search_type
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: Object
+                properties:
+                current_page:
+                  type: int
+                data:
+                  type: array
+                first_page_url:
+                  type: string
+                from:
+                  type: int
+                last_page:
+                  type: int
+                last_page_url:
+                  type: string
+                links:
+                  type: array
+                next_page_url:
+                  type: string
+                path:
+                  type: string
+                per_page:
+                  type: int
+                prev_page_url:
+                  type: string
+                to:
+                  type: int
+                total:
+                  type: int
+
   # M03: Topics and Tags
   /topic_proposal:
     post:
@@ -614,9 +727,9 @@ paths:
                   value: '/manage_topic'
 
 /api/manage:
-  get:
-    operationId: R201
-    summary: 'R201: Filters users based on input'
+  post:
+    operationId: R505
+    summary: 'R505: Filters users based on input'
     description: 'Filters users based on input and returns the results as JSON. Access: ADM'
     tags:
       - 'M05: Administration'
