@@ -478,8 +478,8 @@ paths:
 #check
 /api/news/top_feed:
     get:
-      operationId: R209
-      summary: 'R209: Search the news items, ordering by their votes'
+      operationId: R208
+      summary: 'R208: Search the news items, ordering by their votes'
       description: 'Search the news items ordering by their votes. Access: PUB.'
       tags:
         - 'M02: News and Comments'
@@ -535,8 +535,8 @@ paths:
 #check
 /api/news/top_feed:
     get:
-      operationId: R210
-      summary: 'R210: Search the news items, filtreing according by an input'
+      operationId: R209
+      summary: 'R209: Search the news items, filtreing according by an input'
       description: 'Search the news items, filtreing according by an input. Access: PUB.'
       tags:
         - 'M02: News and Comments'
@@ -639,7 +639,7 @@ paths:
   /contacts:
     get:
       operationId: R402
-      summary: 'R107: Show Contacts page'
+      summary: 'R407: Show Contacts page'
       description: 'Provide information about who are the responsibles for the website and their contacts. Access: PUB'
       tags:
         - 'M04: Static Pages'
