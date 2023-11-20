@@ -10,6 +10,7 @@
             @csrf
             <button type="submit">Delete</button>
         </form>
+        <a href="{{ route('edit_news', ['id' => $news_item->id]) }}">Edit Post</a>
     @endif
     <article class = "news_body">
         <div class = "news_head">

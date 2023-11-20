@@ -1,32 +1,35 @@
-
 @extends('layouts.app')
 
 @section('content')
 
 <section id = "news-create-container">
-    <h2> Create a Post</h2>
+    <h2> Edit Post</h2>
     @include('partials.error_message')
-    <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
+    <form action="{{ route('edit_news_api') }}" method = "POST" id="newsEditForm" enctype="multipart/form-data">
         @csrf
 
         <div class ="form-group">
-            <textarea maxlength="255" type="text" id="title" name="title" placeholder="Title" rows="1"></textarea>
+            <textarea maxlength="255" type="text" id="title" name="title" placeholder="Title" rows="1">{{$news_item->title}}</textarea>
         </div>
 
         <div class ="form-group">
-            <textarea id="text" name="text" placeholder="Write something" rows="6"></textarea>
+            <textarea id="text" name="text" placeholder="Write something" rows="6">{{$news_item->content->content}}</textarea>
         </div>
 
         <div class ="form-group">
-            <label for='image' class=custom-file-upload>Add image</label>
-            <input type="file" id="image" name="image">
+            <label for='image'>Add image</label>
+            <input type="file" id="image" name="image" value="{{$news_item->image}}">
         </div>
 
         <div class ="form-group">
             <label for='topics'>Choose the topic</label>
             <select id="topic" name="topic">
                 @foreach($topics as $topic)
-                    <option value="{{$topic->id}}">{{$topic->name}}</option>
+                    <option value="{{$topic->id}}"
+                        @if($topic->id === $news_item->title )
+                            selected
+                        @endif>
+                        {{$topic->name}}</option>
                 @endforeach
             </select>
         </div>
@@ -40,11 +43,11 @@
             </datalist>
             <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
             <button type="button" onclick="createTag()" class= "btn">Add</button>
-            <ul id="tagsList"></ul>
+            <ul id="tagsList">
+            </ul>
         </div>
     </form>
-    <button type="submit" form="newsForm" value="Submit" class = "btn">Create</button>
+    <button type="submit" form="newsEditForm" value="Submit" class = "btn">Create</button>
 </section>
 
 @endsection
-

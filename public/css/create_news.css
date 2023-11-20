@@ -91,3 +91,34 @@ section#news-create-container{
     color: white;
   }
   
+  
+  input[type="file"] {
+    display: none;
+  }
+  
+  /* Style the custom file upload button */
+  .custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid #3498db;
+  }
+  
+  /* Hover effect for the custom button */
+  .custom-file-upload:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Styling for the file upload container */
+  .file-upload {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* You can add an icon or background image to indicate image upload */
+  .custom-file-upload::before {
+    content: 'Upload Image'; /* Display text or add an image using 'url()' */
+  }
