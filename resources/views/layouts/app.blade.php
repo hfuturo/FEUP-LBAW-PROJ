@@ -34,34 +34,43 @@
     <header>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form action="/news" style="margin: 0;margin-left: 2rem; margin-right:1rem; display:flex;">
-            <input type="text" name="search" value="{{ app('request')->input('search') }}" style="background-color: white;margin: 0;">
-            <button type="submit" style="margin-bottom: 0;"><svg focusable="false" style="scale: 2;fill: white;" xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+            <select name="search_type"
+                style="background-color: white;width:auto;margin:0;background-position-x: calc(100% + 0.5em);">
+                <option value="normal" @if (app('request')->input('search_type') == 'normal') selected @endif>Normal</option>
+                <option value="exact" @if (app('request')->input('search_type') == 'exact') selected @endif>Exact</option>
+            </select>
+            <input type="text" name="search" value="{{ app('request')->input('search') }}"
+                style="background-color: white;margin: 0;">
+            <button type="submit" style="margin-bottom: 0;"><svg focusable="false" style="scale: 2;fill: white;"
+                    xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                    </path>
                 </svg></button>
         </form>
         <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
         <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
         @if (Auth::check())
-        <a class="button" href="{{ url('/logout') }}"> Logout </a>
-        <a href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
+            <a class="button" href="{{ url('/logout') }}"> Logout </a>
+            <a href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
         @endif
         @if (!Auth::check())
-        <a class="button" href="{{ url('/login') }}">Log in</a>
-        <a class="button" href="{{ url('/register') }}">Sign Up</a>
+            <a class="button" href="{{ url('/login') }}">Log in</a>
+            <a class="button" href="{{ url('/register') }}">Sign Up</a>
         @endif
     </header>
     @if (Auth::check())
-    <nav>
-        @if (Auth::user()->is_admin())
-        <section id="admin_buttons">
-            <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
-            <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-        </section>
-        @endif
-        <a href="{{route('create_news')}}" class="button"> Create Post</a>
-        <a href="" class="button"> Create Organization</a>
-        @include('partials.topic_proposal')
-    </nav>
+        <nav>
+            @if (Auth::user()->is_admin())
+                <section id="admin_buttons">
+                    <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                    <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                </section>
+            @endif
+            <a href="{{ route('create_news') }}" class="button"> Create Post</a>
+            <a href="" class="button"> Create Organization</a>
+            @include('partials.topic_proposal')
+        </nav>
     @endif
     <main>
         <section id="content">

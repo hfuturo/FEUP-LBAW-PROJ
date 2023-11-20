@@ -12,6 +12,13 @@ class NewsController extends Controller
     public function list_default_feed(Request $request)
     {
         if ($request->input("search") != null) {
+            if ($request->input('search_type') == 'exact') {
+                return view('pages.news', [
+                    "news_list" => NewsItem::exact_match_search($request->input("search")),
+                    "perPage" => 10,
+                    'basePath' => '/api/news/search_feed'
+                ]);
+            }
             return view('pages.news', [
                 "news_list" => NewsItem::full_text_search($request->input("search")),
                 "perPage" => 10,
@@ -46,6 +53,14 @@ class NewsController extends Controller
 
     public function search_list(Request $request)
     {
+        if ($request->input('search') == null)
+            return $this->top_list($request);
+        if ($request->input('search_type') == 'exact') {
+            return view('partials.list_feed', [
+                "news_list" => NewsItem::exact_match_search($request->input("search")),
+                "perPage" => 10
+            ]);
+        }
         return view('partials.list_feed', [
             "news_list" => NewsItem::full_text_search($request->input("search")),
             "perPage" => 10
