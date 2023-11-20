@@ -34,12 +34,13 @@ class NewsItemController extends Controller
 
     public function destroy(int $id)
     {
-        //$this->authorize('destroy',\App\NewsItem::class);
+        $news_item = NewsItem::find($id);
+        $this->authorize('destroy',$news_item);
 
         $comments = Comment::where('id_news',$id)->get();
         if($comments->isEmpty())
         {
-            NewsItem::where('id', $id)->delete();
+            $news_item->delete();
             return view('pages.news')->with('success', 'Eliminated with sucess!');
         }
         return redirect()->route('new',[$id])->withErrors(['error', 'Cannot be eliminated because it has comments!']);

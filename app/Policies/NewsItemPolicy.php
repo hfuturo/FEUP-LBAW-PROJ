@@ -65,8 +65,8 @@ class NewsItemPolicy
         //
     }
 
-    public function destroy(int $id): bool
+    public function destroy(User $user, NewsItem $news_item): bool
     {
-        return Auth::user()->id === NewsItem::find($id)->id_author;
+        return $user->id === $news_item->content()->first()->id_author;
     }
 }
