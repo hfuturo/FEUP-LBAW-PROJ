@@ -13,9 +13,9 @@ class NewsItem extends Model
 {
     use HasFactory;
 
-    public $timestamps  = true;
+    public $timestamps  = false;
 
-    public $incrementing = true;
+    public $incrementing = false;
 
     protected $table = 'news_item';
 
