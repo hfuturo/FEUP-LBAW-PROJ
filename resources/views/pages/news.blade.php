@@ -2,6 +2,7 @@
 
 @section('content')
 
+@include('partials.error_message')
 <div class="feed_buttons">
     <a class="button feed_button" href="{{ route('top_feed') }}">Top Feed</a>
     @if (Auth::check())

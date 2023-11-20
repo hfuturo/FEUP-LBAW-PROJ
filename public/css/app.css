@@ -1,8 +1,7 @@
-/*
-  /**
-   * Override milligram colors
-   * Some styles might be missing
-   **/
+/**
+  * Override milligram colors
+  * Some styles might be missing
+  **/
   button {
     background-color: #9b4dca;
     border-color: #9b4dca;
@@ -52,7 +51,6 @@
   section#news article.news_body .news_text{
     margin-top: 1em;
     margin-bottom: 1em;
-    
   }
   
   section#news article.news_body .date{
@@ -68,7 +66,6 @@
   section#news article.news_body .tags .tag{
     padding: 0.5em;
     background-color: #9b4dca;
-
     border-radius: 10px;
     color: white;
   }
@@ -113,18 +110,20 @@
     margin-top: 1em;
     margin-bottom: 1em;
   }
+
   
   
-  .news img {
+  #news img {
     display: block;
     margin: 1em;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
     max-width: 500px; 
     max-height: 500px;
     height: auto;
+    width: auto;
   }
+
 
   svg{
     width: 1em;
@@ -155,7 +154,9 @@ body > nav {
 p.error{
   color: rgb(115, 3, 3);
   text-align: center;
+  font-size: medium;
 }
+
 p.success{
   color: rgb(2, 60, 2);
   text-align: center;
