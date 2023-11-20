@@ -13,6 +13,7 @@
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
+        <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
         <link href="{{ url('css/manage.css') }}" rel="stylesheet">
         <link href="{{ url('css/profile.css') }}" rel="stylesheet">
@@ -24,8 +25,8 @@
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
         </script>
-        <script type="text/javascript" src={{ url('js/app.js') }} defer>
-        </script>
+        <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
+        <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
     </head>
     <body>
             <header>
@@ -45,7 +46,7 @@
                         <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
                     </section>
                 @endif
-                <a href="" class="button"> Create Post</a>
+                <a href="{{route('create_news')}}" class="button"> Create Post</a>
                 <a href="" class="button"> Create Organization</a>
                 @include('partials.topic_proposal')
             </nav>
