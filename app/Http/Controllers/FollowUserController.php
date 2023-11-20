@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\FollowUser;
@@ -19,13 +20,16 @@ class FollowUserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id_follower,$id_following)
+    public function create(Request $request)
     {
+        if ($request->input('id_following') == null) {
+            return redirect()->route('profile', [Auth::user()->id]);
+        }
         FollowUser::create([
-            'id_follower' => $id_follower,
-            'id_following' => $id_following,
+            'id_follower' => Auth::user()->id,
+            'id_following' => $request->input('id_following'),
         ]);
-        return redirect()->route('profile',[$id_following]);
+        return redirect()->route('profile', [$request->input('id_following')]);
     }
 
     /**
@@ -63,12 +67,16 @@ class FollowUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id_follower, $id_following)
+    public function destroy(Request $request)
     {
-        FollowUser::where('id_follower', $id_follower)
-               ->where('id_following', $id_following)
-               ->delete();
+        if ($request->input('id_following') == null) {
+            return redirect()->route('profile', [Auth::user()->id]);
+        }
 
-        return redirect()->route('profile',[$id_following]);
+        FollowUser::where('id_follower', Auth::user()->id)
+            ->where('id_following', $request->input('id_following'))
+            ->delete();
+
+        return redirect()->route('profile', [$request->input('id_following')]);
     }
 }
