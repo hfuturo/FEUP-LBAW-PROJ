@@ -52,7 +52,27 @@ class NewsItem extends Model
             ->withPivot('vote');
     }
 
-    public static function full_text_search($query)
+    public static function exact_match_search(string $query)
+    {
+        $query = str_replace('%', '\%', $query);
+        return DB::table('news_item')
+            ->selectRaw('content.*,news_item.*')
+            ->join('content', 'content.id', '=', 'news_item.id')
+
+            ->where('news_item.title', 'LIKE', '% ' . trim($query) . ' %', 'or')
+            ->where('news_item.title', 'LIKE', trim($query) . ' %', 'or')
+            ->where('news_item.title', 'LIKE', '% ' . trim($query) . ' %', 'or')
+            ->where('news_item.title', 'LIKE', trim($query), 'or')
+
+            ->where('content.content', 'LIKE', '% ' . trim($query) . ' %', 'or')
+            ->where('content.content', 'LIKE',  trim($query) . ' %', 'or')
+            ->where('content.content', 'LIKE', '% ' . trim($query), 'or')
+            ->where('content.content', 'LIKE', trim($query), 'or')
+
+            ->orderBy('date', 'DESC');
+    }
+
+    public static function full_text_search(string $query)
     {
         $sub = (DB::table('news_item')
             ->select('*')
