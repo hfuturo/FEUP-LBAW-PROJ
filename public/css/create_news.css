@@ -71,7 +71,6 @@ section#news-create-container{
     border-radius: 10px;
     border: 1px solid #9b4dca;
     min-height: 4em;
-    
     overflow-x: auto;
     flex-wrap: wrap;
   }
