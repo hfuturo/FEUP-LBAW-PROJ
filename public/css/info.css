@@ -10,6 +10,14 @@ header.info_header h1 {
     font-size: 50px;
 }
 
-header.info_header * , section.info_section {
+
+header.info_header *, 
+section.info_section,
+section.main_features *
+{
     color: black;
+}
+
+section.main_features {
+    margin-top: 3em;
 }
