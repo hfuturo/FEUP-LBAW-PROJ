@@ -42,10 +42,14 @@ class NewsItemController extends Controller
     {
         $news_item = NewsItem::find($id);
         $this->authorize('destroy',$news_item);
+        
 
         $comments = Comment::where('id_news',$id)->get();
         if($comments->isEmpty())
         {
+            if ($news_item->image !== NULL) {
+                unlink(public_path("img/news_image/" . $news_item->image));
+            }
             $news_item->delete();
             return view('pages.news')->with('success', 'Eliminated with success!');
         }
@@ -56,6 +60,8 @@ class NewsItemController extends Controller
     * Store a newly created resource in storage.
     */
     public function store(Request $request){
+
+        $this->authorize('create',\App\NewsItem::class);
 
         $validator = $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
@@ -137,6 +143,8 @@ class NewsItemController extends Controller
      */
     public function update(Request $request, int $id)
     {
+        $news_item = NewsItem::find($id);
+        $this->authorize('update', $news_item);
         $validator = $request->validate([
             'title' => 'required|max:255|string',
             'text' => 'required|string',
@@ -158,12 +166,15 @@ class NewsItemController extends Controller
         $content->id_organization = NULL;
         $content->edit_date = 'now()';
         $content->save();
-        
-        $newsItem = NewsItem::find($id);
-        $newsItem->id_topic = $request->input('topic'); 
-        $newsItem->title = $request->input('title');
-        $newsItem->image = $imageName;
-        $newsItem->save();
+
+        if ($news_item->image !== NULL) {
+            unlink(public_path("img/news_image/" . $news_item->image));
+        }
+
+        $news_item->id_topic = $request->input('topic'); 
+        $news_item->title = $request->input('title');
+        $news_item->image = $imageName;
+        $news_item->save();
         
         return redirect()->route('news_page',["id"=>$id])
                 ->with('success', 'Successfully edited!');
