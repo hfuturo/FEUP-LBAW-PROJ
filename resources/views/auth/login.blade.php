@@ -28,10 +28,6 @@
         Login
     </button>
     <a class="button button-outline authentication" href="{{ route('register') }}">Register</a>
-    @if (session('success'))
-        <p class="success">
-            {{ session('success') }}
-        </p>
-    @endif
+    @include('partials.error_message')
 </form>
 @endsection
