@@ -16,7 +16,7 @@ class Tag extends Model
     ];
 
     public function followers() {
-        return $this->hasMany(Follow_Tag::class,'id_tag');
+        return $this->hasMany(FollowTag::class,'id_tag');
     }
 
     public function reports() {

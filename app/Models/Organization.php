@@ -21,7 +21,7 @@ class Organization extends Model
     }
 
     public function followers() {
-        return $this->hasMany(Follow_Organization::class,'id_organization');
+        return $this->hasMany(FollowOrganization::class,'id_organization');
     }
 
     public function notifications() {

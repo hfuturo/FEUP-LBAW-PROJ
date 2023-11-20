@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\News_Item;
+use App\Models\NewsItem;
 use App\Models\Topic;
 use App\Models\User;
 use App\Models\Content;
@@ -14,7 +14,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 
 
-class News_itemController extends Controller
+class NewsItemController extends Controller
 {
 
     /**
@@ -22,19 +22,17 @@ class News_itemController extends Controller
      */
     public function index()
     {
-        $news_itens = News_Item::all();
+        $news_itens = NewsItem::all();
 
         return view('pages.feed', ['news_itens' => $news_itens]);
     }
 
     public function show(int $id): View
     {
-        $news_itens = News_Item::findOrFail($id);
+        $news_itens = NewsItem::findOrFail($id);
         $comments = $news_itens->comments()->paginate(10);
 
-        // Use the pages.card template to display the card.
-        return view('pages.news', ['news_item' => $news_itens, 'comments' => $comments]);
-
+        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
     }
 
     public function store(Request $request){

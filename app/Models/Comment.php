@@ -18,7 +18,7 @@ class Comment extends Model
     ];
 
     public function news_item() {
-        return $this->belongsTo(News_Item::class,'id_news');
+        return $this->belongsTo(NewsItem::class,'id_news');
     }
 
     public function content() {

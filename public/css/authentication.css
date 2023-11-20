@@ -1,0 +1,23 @@
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus {
+  border-color: #9b4dca;
+}
+
+main {
+    grid-column-start: start;
+    grid-column-end: end;
+    grid-row-start: content;
+    grid-row-end: footer;
+    padding: 1em;
+    margin: auto;
+    min-width: 33vw;
+}
+
+form .authentication{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0em;
+}

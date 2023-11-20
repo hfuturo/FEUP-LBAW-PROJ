@@ -1,7 +1,4 @@
-<li class="item" data-id="{{$item->id}}">
-    <label>
-        <input type="checkbox" {{ $item->done?'checked':''}}>
-        <span>{{ $item->description }}</span>
-        <a href="#" class="delete">&#10761;</a>
-    </label>
-</li>
+<article class="user_news">
+    <h4>{{ $news->news_items->id }}<h4>
+    <span>{{ $news->content }}</span>
+</article>

@@ -37,4 +37,14 @@ class Content extends Model
     public function notifications() {
         return $this->hasMany(Notification::class,'id_content');
     }
+
+    public function news_items()
+    {
+        return $this->hasOne(NewsItem::class, 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasOne(Comment::class, 'id');
+    }
 }
