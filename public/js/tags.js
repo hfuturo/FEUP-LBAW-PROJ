@@ -36,9 +36,9 @@ function removeTag(tagToRemove){
 };
 
 
-/*  
 const form = document.getElementById('newsForm');
 
+if(form){
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     const tagsInput = document.createElement("input");
@@ -48,7 +48,7 @@ form.addEventListener('submit', (event) => {
     let tagsList = document.getElementById('tagsList');
     let liElements = tagsList.getElementsByClassName('tagText');
     let tagArray = [];
-    for (var i = 0; i < liElements.length; i++) {
+    for (let i = 0; i < liElements.length; i++) {
       tagArray.push(liElements[i].textContent);
     }
 
@@ -59,51 +59,4 @@ form.addEventListener('submit', (event) => {
     form.submit()
 
   });
-
-*/
-
-/*
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector("form#newsForm");
-
-    if(form){
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const tagsInput = document.createElement("input");
-        tagsInput.type = "hidden";
-        tagsInput.name = "tags";
-
-        const tagsList = document.getElementById('tagsList');
-        const liElements = tagsList.getElementsByClassName('tagText');
-        const tagArray = Array.from(liElements).map(li => li.textContent);
-
-        tagsInput.value = JSON.stringify(tagArray);
-
-        form.appendChild(tagsInput);
-
-        // Prevent double submission if the input is successfully added
-        if (!form.submitted) {
-
-            form.submitted = true; // Mark the form as submitted
-            form.submit();
-        }
-    });}
-});
-
-function encodeForAjax(data) {
-  if (data == null) return null;
-  return Object.keys(data).map(function(k){
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-  }).join('&');
-}
-
-function sendAjaxRequest(method, url, data) {
-  let request = new XMLHttpRequest();
-
-  request.open(method, url, true);
-  request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  request.send(encodeForAjax(data));
-}
-
-*/
+};

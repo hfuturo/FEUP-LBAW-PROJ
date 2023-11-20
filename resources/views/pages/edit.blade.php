@@ -5,7 +5,7 @@
 <section id = "news-create-container">
     <h2> Edit Post</h2>
     @include('partials.error_message')
-    <form action="{{ route('edit_news_api', ['id' => $news_item->id]) }}" method = "POST" id="newsEditForm" enctype="multipart/form-data">
+    <form action="{{ route('edit_news_api', ['id' => $news_item->id]) }}" method = "POST" id="newsForm" enctype="multipart/form-data">
         @csrf
 
         <div class ="form-group">
@@ -44,9 +44,12 @@
             <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
             <button type="button" onclick="createTag()" class= "btn">Add</button>
             <ul id="tagsList">
+                @foreach($news_item->tags as $newsTag)
+                    <li><span class="tagText" id="{{$newsTag->name}}">{{$newsTag->name}}</span><span class="remove" onclick = "removeTag(this.parentElement)">X</span></li>
+                @endforeach
             </ul>
         </div>
-        <button type="submit" form="newsEditForm" value="Submit" class = "button">Edit</button>
+        <button type="submit" form="newsForm" value="Submit" class = "button">Edit</button>
         <a href={{ route('news_page', ['id' => $news_item->id]) }}  class="button" style="display:inline-block;">Cancel</a>
     </form>
 </section>
