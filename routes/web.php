@@ -76,6 +76,12 @@ Route::controller(ManageController::class)->group(function () {
     Route::get('/manage_topic', 'show_suggested_topic')->name('manage_topic');
 });
 
+// Follow User
+Route::controller(FollowUserController::class)->group(function () {
+    Route::post('/profile/unfollow', 'destroy')->name('unfollow');
+    Route::post('/profile/follow', 'create')->name('follow');
+});
+
 // Profile
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
@@ -87,11 +93,6 @@ Route::controller(AboutUsController::class)->group(function () {
     Route::get('/about_us', 'show');
 });
 
-// Follow User
-Route::controller(FollowUserController::class)->group(function () {
-    Route::post('/profile/unfollow/{id_follower}/{id_following}', 'destroy')->name('unfollow');
-    Route::post('/profile/follow/{id_follower}/{id_following}', 'create')->name('follow');
-});
 
 Route::controller(SuggestedTopicController::class)->group(function () {
     Route::post('/topic_proposal', 'create')->name('topic_proposal');
