@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\News_Item;
+use App\Models\NewsItem;
 
 use Illuminate\Support\Facades\Auth;
 

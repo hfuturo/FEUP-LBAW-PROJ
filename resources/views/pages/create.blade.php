@@ -5,6 +5,7 @@
 
 <section id = "news-create-container">
     <h2> Create a Post</h2>
+    @include('partials.error_message')
     <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
         @csrf
 
@@ -22,6 +23,7 @@
         </div>
 
         <div class ="form-group">
+            <label for='topics'>Choose the topic</label>
             <select id="topic" name="topic">
                 @foreach($topics as $topic)
                     <option value="{{$topic->id}}">{{$topic->name}}</option>

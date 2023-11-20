@@ -38,7 +38,7 @@ class NewsItemController extends Controller
     public function store(Request $request){
         if(!Auth::check()){
             return redirect()->route("login")
-            ->withErrors('fail', 'Not authenticated. Please log in');
+            ->withErrors('error', 'Not authenticated. Please log in');
         }
 
         $validator = $request->validate([
@@ -71,7 +71,7 @@ class NewsItemController extends Controller
                 $content->save();
 
                 // Create a new news item associated with the content
-                $newsItem = new News_Item();
+                $newsItem = new NewsItem();
                 $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
                 $newsItem->title = $request->input('title');
                 $newsItem->image = $imageName; // Replace with the image URL or path
@@ -81,12 +81,12 @@ class NewsItemController extends Controller
                 $id_news = $content->id;
         
             });
-            return redirect()->route('new',["id"=>$id_news])
+            return redirect()->route('news_page',["id"=>$id_news])
                 ->with('success', 'Successfully Create!');
         }
         else{
             return redirect()->route('create_news')
-                ->with('fail', 'The parameters are invalid!');
+                ->with('error', 'The parameters are invalid!');
         }
 
     }

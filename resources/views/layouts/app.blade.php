@@ -46,7 +46,7 @@
                         <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
                     </section>
                 @endif
-                <a href="" class="button"> Create Post</a>
+                <a href="{{route('create_news')}}" class="button"> Create Post</a>
                 <a href="" class="button"> Create Organization</a>
                 @include('partials.topic_proposal')
             </nav>
