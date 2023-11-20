@@ -65,12 +65,12 @@ class SuggestedTopicPolicy
         //
     }
 
-    public function destroy($topic)
+    public function destroy()
     {
         return Auth::check() && Auth::user()->is_admin();
     }
 
-    public function accept($name)
+    public function accept()
     {
         return Auth::check() && Auth::user()->is_admin();
     }

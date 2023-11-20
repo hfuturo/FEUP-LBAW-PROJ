@@ -51,7 +51,7 @@ class NewsItemController extends Controller
                 unlink(public_path("img/news_image/" . $news_item->image));
             }
             $news_item->delete();
-            return view('pages.news')->with('success', 'Eliminated with success!');
+            return redirect()->route('news')->with('success', 'Eliminated with success!');
         }
         return redirect()->route('news_page',[$id])->withErrors(['Cannot be eliminated because it has comments!']);
     }

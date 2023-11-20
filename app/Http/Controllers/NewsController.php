@@ -2,77 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\NewsItem;
-use App\Models\User;
-use App\Models\Content;
 
 class NewsController extends Controller
 {
-    public function list_default_feed() {
-        return view('pages.news');
+    public function list_default_feed(Request $request)
+    {
+        if ($request->input("search") != null) {
+            if ($request->input('search_type') == 'exact') {
+                return view('pages.news', [
+                    "news_list" => NewsItem::exact_match_search($request->input("search")),
+                    "perPage" => 10,
+                    'basePath' => '/api/news/search_feed'
+                ]);
+            }
+            return view('pages.news', [
+                "news_list" => NewsItem::full_text_search($request->input("search")),
+                "perPage" => 10,
+                'basePath' => '/api/news/search_feed'
+            ]);
+        }
+
+        $posts = DB::table('news_item')->select(DB::raw('content.*, news_item.title, sum(vote.vote)'))->leftJoin('vote', 'vote.id_content', '=', 'news_item.id')->join('content', 'content.id', '=', 'news_item.id')->groupBy('news_item.id')->groupBy('content.id')->orderByRaw('sum(vote.vote) DESC');
+        return view('pages.news', ['news_list' => $posts, 'perPage' => 10, 'basePath' => '/api/news/top_feed']);
     }
-    
+
     public function follow_list(Request $request)
     {
         $this->authorize('follow_list', \App\News::class);
-
         // users que segue
         $following = Auth::user()->following()->get('id_following');
-
-        $all_news = NewsItem::all('id');
-
-        $now = Carbon::now();
-
-        // posts dos users que segue por ordem DESC
-        $posts = Content::whereIn('id_author',$following)->whereIn('id',$all_news)->orderBy('date','DESC')->paginate(10);
-
-        // obtem titulos dos posts
-        for ($i = 0; $i < count($posts); $i++) {
-            $news = NewsItem::where('id', $posts[$i]['id'])->get();
-            $posts[$i]['title'] = $news[0]['title'];
-            $posts[$i]['seconds'] = $now->diffInSeconds($posts[$i]['date']);
-            $posts[$i]['minutes'] = $now->diffInMinutes($posts[$i]['date']);
-            $posts[$i]['hours'] = $now->diffInHours($posts[$i]['date']);
-            $posts[$i]['days'] = $now->diffInDays($posts[$i]['date']);
-            $posts[$i]['weeks'] = $now->diffInWeeks($posts[$i]['date']);
-            $posts[$i]['months'] = $now->diffInMonths($posts[$i]['date']);
-            $posts[$i]['years'] = $now->diffInYears($posts[$i]['date']);
-        }
-
-        return response()->json([
-            'posts' => $posts,
-            'links' => (string)$posts->links()
-        ]);
+        $posts = DB::table('news_item')->join('content', 'content.id', '=', 'news_item.id')->whereIn('id_author', $following)->orderBy('date', 'DESC');
+        return view('partials.list_feed', ['news_list' => $posts, 'perPage' => 10]);
     }
 
     public function recent_list(Request $request)
     {
-        $all_news = NewsItem::all('id');
-        $posts = Content::whereIn('id',$all_news)->orderBy('date','DESC')->paginate(10);
+        $posts = DB::table('news_item')->join('content', 'content.id', '=', 'news_item.id')->orderBy('date', 'DESC');
+        return view('partials.list_feed', ['news_list' => $posts, 'perPage' => 10]);
+    }
 
-        $now = Carbon::now();
+    public function top_list(Request $request)
+    {
+        $posts = DB::table('news_item')->select(DB::raw('content.*, news_item.title, sum(vote.vote)'))->leftJoin('vote', 'vote.id_content', '=', 'news_item.id')->join('content', 'content.id', '=', 'news_item.id')->groupBy('news_item.id')->groupBy('content.id')->orderByRaw('sum(vote.vote) DESC');
+        return view('partials.list_feed', ['news_list' => $posts, 'perPage' => 10]);
+    }
 
-        for ($i = 0; $i < count($posts); $i++) {
-            $news = NewsItem::where('id', $posts[$i]['id'])->get();
-            $posts[$i]['title'] = $news[0]['title'];
-            $posts[$i]['seconds'] = $now->diffInSeconds($posts[$i]['date']);
-            $posts[$i]['minutes'] = $now->diffInMinutes($posts[$i]['date']);
-            $posts[$i]['hours'] = $now->diffInHours($posts[$i]['date']);
-            $posts[$i]['days'] = $now->diffInDays($posts[$i]['date']);
-            $posts[$i]['weeks'] = $now->diffInWeeks($posts[$i]['date']);
-            $posts[$i]['months'] = $now->diffInMonths($posts[$i]['date']);
-            $posts[$i]['years'] = $now->diffInYears($posts[$i]['date']);
-        } 
-
-        return response()->json([
-            'posts' => $posts,
-            'links' => (string)$posts->links()
-        ]); 
+    public function search_list(Request $request)
+    {
+        if ($request->input('search') == null)
+            return $this->top_list($request);
+        if ($request->input('search_type') == 'exact') {
+            return view('partials.list_feed', [
+                "news_list" => NewsItem::exact_match_search($request->input("search")),
+                "perPage" => 10
+            ]);
+        }
+        return view('partials.list_feed', [
+            "news_list" => NewsItem::full_text_search($request->input("search")),
+            "perPage" => 10
+        ]);
     }
 }
