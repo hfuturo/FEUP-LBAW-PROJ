@@ -45,7 +45,7 @@ class NewsItemController extends Controller
         if($comments->isEmpty())
         {
             $news_item->delete();
-            return view('pages.news')->with('success', 'Eliminated with success!');
+            return redirect()->route('news')->with('success', 'Eliminated with success!');
         }
         return redirect()->route('news_page',[$id])->withErrors(['Cannot be eliminated because it has comments!']);
     }
