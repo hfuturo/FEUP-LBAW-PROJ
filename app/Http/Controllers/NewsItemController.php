@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 
+use Carbon\Carbon;
+
 
 class NewsItemController extends Controller
 {
@@ -133,11 +135,10 @@ class NewsItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, NewsItem $news_item)
+    public function update(Request $request, int $id)
     {
-        /*
         $validator = $request->validate([
-            'title' => 'required|unique:news_item,title|max:255|string',
+            'title' => 'required|max:255|string',
             'text' => 'required|string',
             'topic' => 'required',
             'image' => 'mimes:jpg,png,jped',
@@ -151,21 +152,20 @@ class NewsItemController extends Controller
             $imageName = sha1($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
             $requestImage->move(public_path('img/news_image'), $imageName);
         }
-        $content = Content::find();
+        
+        $content = Content::find($id);
         $content->content = $request->input('text');
-        $content->id_author = Auth::user()->id;
         $content->id_organization = NULL;
+        $content->edit_date = 'now()';
         $content->save();
-
-            // Create a new news item associated with the content
-        $newsItem = new NewsItem();
-        $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
+        
+        $newsItem = NewsItem::find($id);
+        $newsItem->id_topic = $request->input('topic'); 
         $newsItem->title = $request->input('title');
-        $newsItem->image = $imageName; // Replace with the image URL or path
-        $newsItem->id = $content->id; // Set the id to link to the content id
+        $newsItem->image = $imageName;
         $newsItem->save();
-        */
-        return redirect()->route('news_page',["id"=>$id_news])
-        ->with('success', 'Successfully Create!');
+        
+        return redirect()->route('news_page',["id"=>$id])
+                ->with('success', 'Successfully edited!');
     }
 }    

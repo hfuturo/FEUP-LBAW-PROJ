@@ -529,13 +529,13 @@ CREATE FUNCTION update_full_text_content() RETURNS TRIGGER AS $$
 DECLARE
     title_text TEXT;
 BEGIN
-  IF EXISTS (SELECT id FROM news_item WHERE id_content=NEW.id) THEN
+  IF EXISTS (SELECT id FROM news_item WHERE id=NEW.id) THEN
     IF NEW.content != OLD.content THEN
       SELECT title into title_text FROM news_item WHERE news_item.id=NEW.id;
       UPDATE news_item SET tsvectors = (
         setweight(to_tsvector('english', title_text),'A') ||
         setweight(to_tsvector('english', NEW.content),'B')
-      ) WHERE id_content=NEW.id;
+      ) WHERE id=NEW.id;
     END IF;
   END IF;
 RETURN NEW;

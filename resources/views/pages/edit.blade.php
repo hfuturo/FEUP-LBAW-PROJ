@@ -5,7 +5,7 @@
 <section id = "news-create-container">
     <h2> Edit Post</h2>
     @include('partials.error_message')
-    <form action="{{ route('edit_news_api') }}" method = "POST" id="newsEditForm" enctype="multipart/form-data">
+    <form action="{{ route('edit_news_api', ['id' => $news_item->id]) }}" method = "POST" id="newsEditForm" enctype="multipart/form-data">
         @csrf
 
         <div class ="form-group">
@@ -25,11 +25,11 @@
             <label for='topics'>Choose the topic</label>
             <select id="topic" name="topic">
                 @foreach($topics as $topic)
-                    <option value="{{$topic->id}}"
-                        @if($topic->id === $news_item->title )
-                            selected
-                        @endif>
-                        {{$topic->name}}</option>
+                    @if($topic->id === $news_item->topic->id)
+                        <option value="{{$topic->id}}" selected>{{$topic->name}}</option>  
+                    @else
+                    <option value="{{$topic->id}}">{{$topic->name}}</option> 
+                    @endif
                 @endforeach
             </select>
         </div>
@@ -46,8 +46,9 @@
             <ul id="tagsList">
             </ul>
         </div>
+        <button type="submit" form="newsEditForm" value="Submit" class = "button">Edit</button>
+        <a href={{ route('news_page', ['id' => $news_item->id]) }}  class="button" style="display:inline-block;">Cancel</a>
     </form>
-    <button type="submit" form="newsEditForm" value="Submit" class = "btn">Create</button>
 </section>
 
 @endsection

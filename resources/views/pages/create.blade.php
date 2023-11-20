@@ -39,11 +39,11 @@
                 @endforeach
             </datalist>
             <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
-            <button type="button" onclick="createTag()" class= "btn">Add</button>
+            <button type="button" onclick="createTag()" class= "button">Add</button>
             <ul id="tagsList"></ul>
         </div>
+        <button type="submit" form="newsForm" value="Submit" class = "button">Create</button>
     </form>
-    <button type="submit" form="newsForm" value="Submit" class = "btn">Create</button>
 </section>
 
 @endsection
