@@ -22,7 +22,12 @@
   input[type=password]:focus {
     border-color: #9b4dca;
   }
-  */
+
+  .top_feed {
+    background-color: #606c76;
+    border-color: #606c76;
+  }
+
 
 /*News */
 

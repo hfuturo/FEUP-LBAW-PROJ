@@ -6,11 +6,13 @@ function addEventListeners() {
       })
   }
 
+  const top_feed = document.querySelector('.feed_button.top_feed');
+
   const follow_feed = document.querySelector('.feed_button.follow_feed');
   if (follow_feed) {
     follow_feed.addEventListener('click', async function() {
           sendAjaxRequest('get', '/api/news/follow_feed', null, updateFeedHandler)
-          updateButtonColor(follow_feed,recent_feed)
+          updateButtonColor(follow_feed,recent_feed,top_feed)
     })
   }
 
@@ -18,7 +20,7 @@ function addEventListeners() {
   if (recent_feed) {
     recent_feed.addEventListener('click', async function() {
           sendAjaxRequest('get', '/api/news/recent_feed', null, updateFeedHandler)
-          updateButtonColor(recent_feed,follow_feed)
+          updateButtonColor(recent_feed,follow_feed,top_feed)
     })
   }
 }
@@ -30,11 +32,13 @@ function encodeForAjax(data) {
   }).join('&');
 }
 
-function updateButtonColor(button_clicked, button_reset) {
+function updateButtonColor(button_clicked, button_reset, button_reset2) {
   button_clicked.style.background = '#606c76'
   button_clicked.style.border = '#606c76'
   button_reset.style.background = '#9b4dca'
   button_reset.style.border = '#9b4dca'
+  button_reset2.style.background = '#9b4dca'
+  button_reset2.style.border = '#9b4dca'
 }
 
 function sendAjaxRequest(method, url, data, handler) {

@@ -3,6 +3,7 @@
 @section('content')
 
 <div class="feed_buttons">
+    <button class="feed_button top_feed">Top Feed</button>
     @if (Auth::check())
     <button class="feed_button follow_feed">Following Feed</button>
     @endif

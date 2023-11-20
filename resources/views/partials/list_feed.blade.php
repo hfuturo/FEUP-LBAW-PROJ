@@ -10,4 +10,4 @@
         </article>
     </a>
 @endforeach
-<span>{{ $news_list->paginate($perPage)->links() }}</span>
+<span class="paginate">{{ $news_list->paginate($perPage)->links() }}</span>
