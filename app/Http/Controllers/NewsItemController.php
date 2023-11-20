@@ -51,9 +51,6 @@ class NewsItemController extends Controller
     }
     
     public function store(Request $request){
-        if(!Auth::check()){
-            return redirect()->route("login")->withErrors(['Not authenticated. Please log in']);
-        }
 
         $validator = $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
@@ -75,32 +72,36 @@ class NewsItemController extends Controller
             }
 
             $id_news = NULL;
-        
-            DB::transaction(function () use(&$id_news, $request, $imageName) {
+            try{
+                DB::transaction(function () use(&$id_news, $request, $imageName) {
 
-                $content = new Content();
-                $content->content = $request->input('text');
-                $content->id_author = Auth::user()->id;
-                $content->id_organization = NULL;
-                $content->save();
+                    $content = new Content();
+                    $content->content = $request->input('text');
+                    $content->id_author = Auth::user()->id;
+                    $content->id_organization = NULL;
+                    $content->save();
 
-                // Create a new news item associated with the content
-                $newsItem = new NewsItem();
-                $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
-                $newsItem->title = $request->input('title');
-                $newsItem->image = $imageName; // Replace with the image URL or path
-                $newsItem->id = $content->id; // Set the id to link to the content id
-                $newsItem->save();
+                    // Create a new news item associated with the content
+                    $newsItem = new NewsItem();
+                    $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
+                    $newsItem->title = $request->input('title');
+                    $newsItem->image = $imageName; // Replace with the image URL or path
+                    $newsItem->id = $content->id; // Set the id to link to the content id
+                    $newsItem->save();
 
-                $id_news = $content->id;
-        
-            });
-            return redirect()->route('news_page',["id"=>$id_news])
-                ->with('success', 'Successfully Create!');
+                    $id_news = $content->id;
+            
+                });
+                return redirect()->route('news_page',["id"=>$id_news])
+                    ->with('success', 'Successfully Create!');
+            }catch(Exception $e){
+                return redirect()->route('create_news')
+                    ->withErrors('The parameters are invalid!');
+            }
         }
         else{
             return redirect()->route('create_news')
-                ->with('error', 'The parameters are invalid!');
+                ->withErrors('The parameters are invalid!');
         }
 
     }
@@ -109,6 +110,10 @@ class NewsItemController extends Controller
     * Show the form for creating a new resource.
     */
     public function create(){
+        if(!Auth::check()){
+            return redirect()->route("login")
+                ->withErrors('Not authenticated. Please log in');
+        }
         $topics = Topic::all();
         $tags = Tag::all();
         return view('pages.create', ['topics' => $topics, 'tags' =>$tags]);
