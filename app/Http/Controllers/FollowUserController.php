@@ -31,7 +31,7 @@ class FollowUserController extends Controller
         ]);
 
         $response = [
-            'follow' => 'follow',
+            'follow' => 'unfollow',
             'data' => $follow,
         ];
         
@@ -84,7 +84,7 @@ class FollowUserController extends Controller
             ->delete();
 
         $response = [
-            'follow' => 'unfollow',
+            'follow' => 'follow',
             'data' => $unfollow,
         ];
         

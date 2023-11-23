@@ -7,10 +7,9 @@
     ?>
     <input type="hidden" id="following" name="id_following" value="{{ $user->id }}">
     @if ($follow_user)
-            <button onclick=follow(event) id="unfollow">Unfollow</button>
+        <button id="follow" data-operation="unfollow">Unfollow</button>
     @else
-            <button onclick=follow(event) id="follow">Follow</button>
-        </form>
+        <button id="follow" data-operation="follow">Follow</button>
     @endif
 </div>
 

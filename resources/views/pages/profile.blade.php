@@ -17,7 +17,7 @@
                 </div>
                 <div class="user_info">
                     <h4>Followers</h4>
-                    <p>{{ $user->followers()->count() }}</p>    
+                    <p id="folowers_count">{{ $user->followers()->count() }}</p>    
                 </div>
                 <div class="user_info">
                     <h4>Following</h4>
