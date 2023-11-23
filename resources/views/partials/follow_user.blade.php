@@ -5,17 +5,12 @@
         ->where('id_following', $user->id)
         ->first();
     ?>
+    <input type="hidden" id="following" name="id_following" value="{{ $user->id }}">
     @if ($follow_user)
-        <form action="{{ route('unfollow') }}" method="post">
-            @csrf
-            <input type="hidden" name="id_following" value="{{ $user->id }}">
-            <button type="submit">Unfollow</button>
-        </form>
+        <button id="follow" data-operation="unfollow">Unfollow</button>
     @else
-        <form action="{{ route('follow') }}" method="post">
-            @csrf
-            <input type="hidden" name="id_following" value="{{ $user->id }}">
-            <button type="submit">Follow</button>
-        </form>
+        <button id="follow" data-operation="follow">Follow</button>
     @endif
 </div>
+
+<script type="text/javascript" src={{ url('js/profile.js') }} defer></script>

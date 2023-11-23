@@ -23,17 +23,20 @@ class FollowUserController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->input('id_following') == null) {
+        if ($request->input('user') == null) {
             return redirect()->route('profile', [Auth::user()->id]);
         }
-        try {
-            FollowUser::create([
-                'id_follower' => Auth::user()->id,
-                'id_following' => $request->input('id_following'),
-            ]);
-        } catch (Exception $e) {
-        }
-        return redirect()->route('profile', [$request->input('id_following')]);
+        $follow = FollowUser::create([
+            'id_follower' => Auth::user()->id,
+            'id_following' => $request->input('user'),
+        ]);
+
+        $response = [
+            'follow' => 'unfollow',
+            'data' => $follow,
+        ];
+        
+        return response()->json($response);
     }
 
     /**
@@ -73,16 +76,19 @@ class FollowUserController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->input('id_following') == null) {
+        if ($request->input('user') == null) {
             return redirect()->route('profile', [Auth::user()->id]);
         }
 
-        try {
-            FollowUser::where('id_follower', Auth::user()->id)
-                ->where('id_following', $request->input('id_following'))
-                ->delete();
-        } catch (Exception $e) {
-        }
-        return redirect()->route('profile', [$request->input('id_following')]);
+        $unfollow = FollowUser::where('id_follower', Auth::user()->id)
+            ->where('id_following', $request->input('user'))
+            ->delete();
+
+        $response = [
+            'follow' => 'follow',
+            'data' => $unfollow,
+        ];
+        
+        return response()->json($response);
     }
 }

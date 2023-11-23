@@ -9,10 +9,6 @@ function addEventListeners() {
   document.querySelectorAll('.feed_button').forEach(button => {
     button.addEventListener('click', feedLinksHandler)
   })
-  
-  document.querySelectorAll('.all_news .paginate a').forEach(link => {
-    link.addEventListener('click', feedLinksHandler)
-  })
 }
   
 function encodeForAjax(data) {
@@ -78,15 +74,6 @@ function openTopicProposal() {
 
 function closeTopicProposal() {
   document.getElementById('topic_proposal_popup').style.display = 'none';
-}
-
-/* open profile edit form */
-function openEditForm() {
-  document.getElementById('edit_profile_popup').style.display = 'block';
-}
-
-function closeEditForm() {
-  document.getElementById('edit_profile_popup').style.display = 'none';
 }
 
 addEventListeners();
