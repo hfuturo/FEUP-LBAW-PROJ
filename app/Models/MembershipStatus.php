@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Membership_Status extends Model
+class MembershipStatus extends Model
 {
     use HasFactory;
     public $timestamps  = false;
@@ -19,5 +19,15 @@ class Membership_Status extends Model
     ];
 
     protected $primaryKey = ['id_user','id_organization'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'id_organization');
+    }
 
 }

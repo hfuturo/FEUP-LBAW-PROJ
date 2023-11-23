@@ -1,4 +1,8 @@
-.feed_buttons .button {
+.feed_buttons{
+    display: flex;
+}
+
+.feed_buttons .feed_button {
     margin-left: 0;
 }
 
@@ -6,11 +10,21 @@
     border-color: #606c76;
 }
 
-.news_title,
+.news_header_feed,
 .news_content {
     color: black;
 }
 
+.news_header_feed h4:nth-child(2) {
+    margin-left: 1em;
+}
+
 .paginate a:hover {
     cursor: pointer;
+}
+
+.news_header_feed {
+    background-color: white;
+    margin: 0;
+    padding: 0;
 }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Suggested_Topic;
+use App\Models\SuggestedTopic;
 use App\Models\Topic;
 use App\Models\User;
-
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Suggested_TopicController extends Controller
+class SuggestedTopicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,12 +24,13 @@ class Suggested_TopicController extends Controller
      */
     public function create(Request $request)
     {
-        $validator=$request->validate([
+        $this->authorize('create', \App\SuggestedTopic::class);
+        $validator = $request->validate([
             'name' => 'string|unique:suggested_topic|unique:topic',
             'justification' => 'nullable|string',
         ]);
         if ($validator) {
-            Suggested_Topic::create([
+            SuggestedTopic::create([
                 'name' => $request->input('name'),
                 'justification' => empty($request->input('justification')) ? '' : $request->input('justification'),
                 'id_user' => Auth::user()->id,
@@ -49,7 +50,7 @@ class Suggested_TopicController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Suggested_Topic $suggested_Topic)
+    public function show(SuggestedTopic $suggested_Topic)
     {
         //
     }
@@ -57,7 +58,7 @@ class Suggested_TopicController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Suggested_Topic $suggested_Topic)
+    public function edit(SuggestedTopic $suggested_Topic)
     {
         //
     }
@@ -65,7 +66,7 @@ class Suggested_TopicController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Suggested_Topic $suggested_Topic)
+    public function update(Request $request, SuggestedTopic $suggested_Topic)
     {
         //
     }
@@ -75,14 +76,21 @@ class Suggested_TopicController extends Controller
      */
     public function destroy(int $topic)
     {
-        Suggested_Topic::where('id', $topic)
-        ->delete();
+        $this->authorize('destroy', \App\SuggestedTopic::class);
+        try {
+            SuggestedTopic::where('id', $topic)->delete();
+        } catch (Exception $e) {
+        }
         return redirect()->route('manage_topic');
     }
 
     public function accept(string $name)
     {
-        Topic::create(['name' => $name]);
+        try {
+            $this->authorize('accept', \App\SuggestedTopic::class);
+            Topic::create(['name' => $name]);
+        } catch (Exception $e) {
+        }
         return redirect()->route('manage_topic');
     }
 }

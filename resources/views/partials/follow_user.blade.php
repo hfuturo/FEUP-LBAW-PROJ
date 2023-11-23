@@ -1,16 +1,16 @@
 <div>
     <?php
-        $follow_user = Auth::user()->following()->where('id_following', $user->id)->first();
+    $follow_user = Auth::user()
+        ->following()
+        ->where('id_following', $user->id)
+        ->first();
     ?>
+    <input type="hidden" id="following" name="id_following" value="{{ $user->id }}">
     @if ($follow_user)
-        <form action="{{ route('unfollow', ['id_follower' => Auth::user()->id, 'id_following' => $user->id]) }}" method="post">
-            @csrf
-            <button type="submit">Unfollow</button>
-        </form>
+        <button id="follow" data-operation="unfollow">Unfollow</button>
     @else
-        <form action="{{ route('follow', ['id_follower' => Auth::user()->id, 'id_following' => $user->id]) }}" method="post">
-            @csrf
-            <button type="submit">Follow</button>
-        </form>
+        <button id="follow" data-operation="follow">Follow</button>
     @endif
 </div>
+
+<script type="text/javascript" src={{ url('js/profile.js') }} defer></script>

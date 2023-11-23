@@ -2,11 +2,16 @@
 
 @section('content')
 
+@include('partials.error_message')
 <div class="feed_buttons">
-    <button class="feed_button">Following Feed</button>
+    <a class="button feed_button" href="{{ route('top_feed') }}">Top Feed</a>
+    @if (Auth::check())
+    <a class="button feed_button" href="{{ route('follow_feed') }}">Following Feed</a>
+    @endif
+    <a class="button feed_button" href="{{ route('recent_feed') }}">Recent Feed</a>
 </div>
 <div class="all_news">
-    <span class="paginate"></span>
+    @include('partials.list_feed', ['news_list' => $news_list, 'perPage' => $perPage])
 </div>
 
 @endsection

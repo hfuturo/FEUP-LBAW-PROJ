@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Comment extends Model
 {
     use HasFactory;
@@ -16,10 +18,10 @@ class Comment extends Model
     ];
 
     public function news_item() {
-        return $this->belongsTo(News_Item::class,'id_news');
+        return $this->belongsTo(NewsItem::class,'id_news');
     }
 
     public function content() {
-        return $this->belongsTo(Content::class);
+        return $this->belongsTo(Content::class, 'id');
     }
 }

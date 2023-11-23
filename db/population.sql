@@ -73,7 +73,7 @@ INSERT INTO "authenticated_user" (id,name, email, password) VALUES (14,'Hannah M
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (15,'Aaron Fox', 'aaron_fox@rediffmail.com', 'F0x@r0n'); --he-c
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (16,'Audrey Woods', 'audrey_woods@gmail.com', 'W00ds@ud'); --TU
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (17,'Connor Fisher', 'connor_fisher@yahoo.com', 'F!$h3rC0n'); --TEC
-INSERT INTO "authenticated_user" (id,name, email, password) VALUES (18,'Bella Peterson', 'bella_peterson@hotmail.com', 'P3t3rs0nB');--tec-c --TEC member
+INSERT INTO "authenticated_user" (id,name, email, password) VALUES (18,'Bella Peterson', 'bella_peterson@hotmail.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W');--tec-c --TEC member
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (19,'Grayson Reed', 'grayson_reed@outlook.com', 'R33dGr@y');--TEC --TEC leader
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (20,'Layla Griffin', 'layla_griffin@live.com', 'Gr1ff1nL@');--HE
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (21,'Ruby West', 'ruby_west@icloud.com', 'W3$tRb');--FI
@@ -83,7 +83,7 @@ INSERT INTO "authenticated_user" (id,name, email, password) VALUES (23,'Violet C
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (24,'Jeremiah Russell', 'jeremiah_russell@yandex.com', 'Ru$$3llJ3r'); -- member
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (25,'Madison Silva', 'madison_silva@rediffmail.com', 'S!lv@Mad');--tec-c --HE member
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (26,'Hudson Stone', 'hudson_stone@gmail.com', 'St0n3Hu$'); --TU
-INSERT INTO "authenticated_user" (id,name, email, password) VALUES (27,'Skylar Hawkins', 'skylar_hawkins@yahoo.com', 'H@wk!n$Sky'); --TEC
+INSERT INTO "authenticated_user" (id,name, email, password) VALUES (27,'Skylar Hawkins', 'skylar_hawkins@yahoo.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W'); --TEC
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (28,'Penelope Kennedy', 'penelope_kennedy@hotmail.com', 'K3nn3dyP3'); --he-c
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (29,'Easton Cole', 'easton_cole@outlook.com', 'C0l3E@st'); --report
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (30,'Savannah Lane', 'savannah_lane@live.com', 'L@n3S@v');--TEC
@@ -106,7 +106,7 @@ INSERT INTO "authenticated_user" (id,name, email, password) VALUES (44,'Natalie 
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (45,'Adrian Stone', 'adrian_stone@rediffmail.com', 'St0n3Adr'); --HE
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (46,'Liam Johnson', 'liam.j22@gmail.com', 'J0hnL!am'); -- asking
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (47,'Olivia Garcia', 'olivia_89@yahoo.com', 'G@rCi@89'); --TEC
-INSERT INTO "authenticated_user" (id,name, email, password) VALUES (48,'Noah Williams', 'williamsnoah44@hotmail.com', 'W1ll!4ms'); --tec-C --TEC invited
+INSERT INTO "authenticated_user" (id,name, email, password) VALUES (48,'Noah Williams', 'williamsnoah44@hotmail.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W'); --tec-C --TEC invited
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (49,'Emma Smith', 'emma.smith93@outlook.com', 'Sm!th@93'); -- asking
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (50,'Oliver Brown', 'brown.oliver22@live.com', 'Br0wN22!'); --followOrg
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (51,'Ava Wilson', 'wilson.ava99@icloud.com', 'W!l$0n99');--TEC followOrg

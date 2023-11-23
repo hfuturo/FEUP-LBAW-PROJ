@@ -21,10 +21,14 @@ class Organization extends Model
     }
 
     public function followers() {
-        return $this->hasMany(Follow_Organization::class,'id_organization');
+        return $this->hasMany(FollowOrganization::class,'id_organization');
     }
 
     public function notifications() {
         return $this->hasMany(Notification::class,'id_organization');
+    }
+
+    public function membershipStatuses() {
+        return $this->hasMany(Membership_Status::class, 'id_user');
     }
 }

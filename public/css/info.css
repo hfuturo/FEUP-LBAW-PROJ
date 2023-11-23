@@ -1,0 +1,23 @@
+header.info_header {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    display: block;
+}
+
+header.info_header h1 {
+    margin-bottom: 1em;
+    font-size: 50px;
+}
+
+
+header.info_header *, 
+section.info_section,
+section.main_features *
+{
+    color: black;
+}
+
+section.main_features {
+    margin-top: 3em;
+}
