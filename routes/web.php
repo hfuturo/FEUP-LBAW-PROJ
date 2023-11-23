@@ -8,7 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\FollowUserController;
+
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
 use App\Http\Controllers\AboutUsController;
@@ -72,12 +72,6 @@ Route::controller(NewsItemController::class)->group(function () {
 Route::controller(ManageController::class)->group(function () {
     Route::get('/manage', 'show');
     Route::get('/manage_topic', 'show_suggested_topic')->name('manage_topic');
-});
-
-// Follow User
-Route::controller(FollowUserController::class)->group(function () {
-    Route::post('/api/profile/unfollow', 'destroy')->name('unfollow');
-    Route::post('/api/profile/follow', 'create')->name('follow');
 });
 
 // Profile
