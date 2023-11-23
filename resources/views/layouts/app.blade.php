@@ -40,7 +40,7 @@
                 <option value="exact" @if (app('request')->input('search_type') == 'exact') selected @endif>Exact</option>
             </select>
             <input type="text" name="search" value="{{ app('request')->input('search') }}"
-                style="background-color: white;margin: 0;">
+                style="background-color: white;margin: 0;" placeholder="Search">
             <button type="submit" style="margin-bottom: 0;"><svg focusable="false" style="scale: 2;fill: white;"
                     xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path

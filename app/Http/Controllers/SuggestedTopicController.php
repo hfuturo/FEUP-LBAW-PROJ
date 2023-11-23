@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SuggestedTopic;
 use App\Models\Topic;
 use App\Models\User;
-
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,8 +24,8 @@ class SuggestedTopicController extends Controller
      */
     public function create(Request $request)
     {
-        $this->authorize('create',\App\SuggestedTopic::class);
-        $validator=$request->validate([
+        $this->authorize('create', \App\SuggestedTopic::class);
+        $validator = $request->validate([
             'name' => 'string|unique:suggested_topic|unique:topic',
             'justification' => 'nullable|string',
         ]);
@@ -76,16 +76,21 @@ class SuggestedTopicController extends Controller
      */
     public function destroy(int $topic)
     {
-        $this->authorize('destroy',\App\SuggestedTopic::class);
-        SuggestedTopic::where('id', $topic)
-        ->delete();
+        $this->authorize('destroy', \App\SuggestedTopic::class);
+        try {
+            SuggestedTopic::where('id', $topic)->delete();
+        } catch (Exception $e) {
+        }
         return redirect()->route('manage_topic');
     }
 
     public function accept(string $name)
     {
-        $this->authorize('accept',\App\SuggestedTopic::class);
-        Topic::create(['name' => $name]);
+        try {
+            $this->authorize('accept', \App\SuggestedTopic::class);
+            Topic::create(['name' => $name]);
+        } catch (Exception $e) {
+        }
         return redirect()->route('manage_topic');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\FollowUser;
+use Exception;
 use Illuminate\Http\Request;
 
 class FollowUserController extends Controller

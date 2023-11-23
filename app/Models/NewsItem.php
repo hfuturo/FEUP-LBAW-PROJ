@@ -48,8 +48,7 @@ class NewsItem extends Model
     public function votes()
     {
         return $this
-            ->belongsToMany(Project::class, 'vote', 'id_content', 'id_user')
-            ->withPivot('vote');
+            ->hasMany(Vote::class, 'id_content');
     }
 
     public static function exact_match_search(string $query)
