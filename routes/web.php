@@ -76,8 +76,8 @@ Route::controller(ManageController::class)->group(function () {
 
 // Follow User
 Route::controller(FollowUserController::class)->group(function () {
-    Route::post('/profile/unfollow', 'destroy')->name('unfollow');
-    Route::post('/profile/follow', 'create')->name('follow');
+    Route::post('/api/profile/unfollow', 'destroy')->name('unfollow');
+    Route::post('/api/profile/follow', 'create')->name('follow');
 });
 
 // Profile
