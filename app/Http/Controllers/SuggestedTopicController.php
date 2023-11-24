@@ -74,23 +74,21 @@ class SuggestedTopicController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $topic)
+    public function destroy(Request $request)
     {
         $this->authorize('destroy', \App\SuggestedTopic::class);
-        try {
-            SuggestedTopic::where('id', $topic)->delete();
-        } catch (Exception $e) {
-        }
-        return redirect()->route('manage_topic');
+        $idTopic = $request->input('idTopic');
+        SuggestedTopic::where('id', $idTopic)->delete();
+        return response()->json($idTopic);
     }
 
-    public function accept(string $name)
+    public function accept(Request $request)
     {
-        try {
-            $this->authorize('accept', \App\SuggestedTopic::class);
-            Topic::create(['name' => $name]);
-        } catch (Exception $e) {
-        }
-        return redirect()->route('manage_topic');
+        $this->authorize('accept', \App\SuggestedTopic::class);
+        $idTopic = $request->input('idTopic');
+        $name = SuggestedTopic::find($idTopic);
+        SuggestedTopic::where('id', $request->input('idTopic'))->delete();
+        Topic::create(['name' => $name]);
+        return response()->json($idTopic);
     }
 }
