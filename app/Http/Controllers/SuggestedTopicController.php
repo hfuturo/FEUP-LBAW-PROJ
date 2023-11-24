@@ -86,7 +86,7 @@ class SuggestedTopicController extends Controller
     {
         $this->authorize('accept', \App\SuggestedTopic::class);
         $idTopic = $request->input('idTopic');
-        $name = SuggestedTopic::find($idTopic);
+        $name = SuggestedTopic::find($idTopic)->name;
         SuggestedTopic::where('id', $request->input('idTopic'))->delete();
         Topic::create(['name' => $name]);
         return response()->json($idTopic);
