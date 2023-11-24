@@ -65,51 +65,9 @@ header .button{
   width: 100%;
 }
 
-.button, main button {
-  display: flex;
-  justify-content: center;
-  justify-self: center;
-  background-color: var(--primary-color);
-  border: 0.1em solid var(--primary-color);
-  color: white;
-  padding: 0.5em;
-  line-height: 2;
-  min-width: 6em;
-  margin: auto;
-  font-size: 1em;
-}
-
-.button:hover{
-  background-color: var(--hover-color);
-}
-
-a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
- 
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus {
-  border-color: #9b4dca;
-}
-
 #button_profile {
   background-color: var(--secundary-color);
   color: var(--primary-color);
-}
-
-main textarea,
-main input,
-main select{
-  margin: 0em 0em 1em 0em;
-  box-sizing: border-box;
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
-  color: var(--main-text-color);
-  width: 100%;
-  padding: 1em;
-  min-height: 3em;
 }
 
 header form input,

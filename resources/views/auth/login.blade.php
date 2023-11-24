@@ -1,6 +1,7 @@
 @extends('layouts.authentication')
 
 @section('authentication')
+<h2> Login </h2>
 <form method="POST" action="{{ route('login') }}">
     {{ csrf_field() }}
 
@@ -20,14 +21,14 @@
         </span>
     @endif
 
-    <label>
+    <label id="remember">
         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
     </label>
 
     <button type="submit" class="button authentication">
         Login
     </button>
-    <a class="button button-outline authentication" href="{{ route('register') }}">Register</a>
+    <p class="authentication">Don't Have an account?<a href="{{ route('register') }}">Sign Up</a></p>
     @include('partials.error_message')
 </form>
 @endsection

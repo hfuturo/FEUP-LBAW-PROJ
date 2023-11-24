@@ -2,6 +2,7 @@
 
 @section('authentication')
 
+<h2> Register </h2>
 <form method="POST" action="{{ route('register') }}">
     {{ csrf_field() }}
 
@@ -35,6 +36,6 @@
     <button type="submit" class="button authentication">
       Register
     </button>
-    <a class="button button-outline authentication" href="{{ route('login') }}">Login</a>
+    <p class="authentication">Already have an account?<a href="{{ route('login') }}">Sign In</a></p>
 </form>
 @endsection

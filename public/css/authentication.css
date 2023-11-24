@@ -14,10 +14,18 @@ main {
     min-width: 33vw;
 }
 
-form .authentication{
+.authentication{
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 1em 0em;
+}
+
+.authentication a::before{
+  content: "\00a0";
+}
+
+#remember input{
+  width: 2em;
 }
