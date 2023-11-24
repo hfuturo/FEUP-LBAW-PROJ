@@ -15,7 +15,7 @@ header.info_header *,
 section.info_section,
 section.main_features *
 {
-    color: black;
+    color: var(--main-text-color);
 }
 
 section.main_features {

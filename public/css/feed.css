@@ -1,0 +1,35 @@
+.feed_buttons{
+    display: flex;
+}
+
+.feed_buttons .feed_button {
+    margin-left: 0;
+}
+
+.news_header_feed,
+.news_content {
+    color: var(--main-text-color);
+}
+
+.news_header_feed h4:nth-child(2) {
+    margin-left: 1em;
+}
+
+.news_header_feed {
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.top_feed {
+    background-color: #606c76;
+    border-color: #606c76;
+}
+
+.paginate a:hover {
+    cursor: pointer;
+}
+
+.user_news:hover {
+    border-color: #606c76;
+}

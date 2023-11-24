@@ -1,7 +1,15 @@
+:root {
+    --primary-color: rgb(25, 134, 209);
+    --secundary-color: rgb(199, 232, 255);
+    --hover-color: grey;
+    --main-text-color: rgb(0, 0, 0);
+}
+
 body {
     display: grid;
     grid-template-columns:  [start] 1fr  [content] 6fr [end];
     grid-template-rows: [header] 1fr [content] auto [footer];
+    font-family:'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 
 header {
@@ -10,30 +18,12 @@ header {
     grid-row-start: header;
     grid-row-end: content;
     display: grid;
-    grid-template-columns: auto 1fr auto auto auto auto;
+    grid-template-columns: auto auto auto;
     align-items: center;
-    background-color: #d2afe7;
+    background-color: var(--secundary-color);
     padding: 1em;
-    margin: 1em;
 }
 
 header h1 {
     margin: 0;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
-    background-color: #9b4dca;
-    border-color: #9b4dca;
-    justify-self: center;
-    margin: 1em;
-}
-  
-.button.button-outline {
-    color: #9b4dca;
-}
-  
-a {
-    color: #9b4dca;
 }

@@ -1,135 +1,8 @@
-/**
-  * Override milligram colors
-  * Some styles might be missing
-  **/
-  button {
-    background-color: #9b4dca;
-    border-color: #9b4dca;
-  }
-  a.button {
-    background-color: #9b4dca;
-    border-color: #9b4dca;
-  }
-  a.button.button-outline {
-    color: #9b4dca;
-  }
-  a {
-    color: #9b4dca;
-  }
-  input[type=text]:focus,
-  input[type=email]:focus,
-  input[type=password]:focus {
-    border-color: #9b4dca;
-  }
-
-  .top_feed {
-    background-color: #606c76;
-    border-color: #606c76;
-  }
-
-
-/*News */
-
-  main section#news {
-    color: black;
-    margin: 1em;
-  }
-  
-  section#news article.news_body{
-    padding: 1em;
-    border: 1px solid #9b4dca;
-  }
-  
-  
-  section#news article.news_body .title {
-    font-weight: bold;
-    font-size: 2em;
-    margin-top: 1em;
-    margin-bottom: 0;
-  }
-  
-  section#news article.news_body .news_text{
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  
-  section#news article.news_body .date{
-    margin: 0;
-    color: grey;
-  }
-
-  section#news article.news_body .tags{
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  
-  section#news article.news_body .tags .tag{
-    padding: 0.5em;
-    background-color: #9b4dca;
-    border-radius: 10px;
-    color: white;
-  }
-
-  /* Comments in news page*/
-
-  main section#comments {
-    color: black;
-    margin: 1em;
-    padding: 1em;
-    border: 1px solid #9b4dca;
-  }
-  
-  section#comments article.comment{
-    padding: 1em;
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-
-  
-  section#comments article.comment .comment_header .comment_author{
-    display: inline;
-    color: black;
-    font-size: 1em;
-  }
-  
-  section#comments article.comment .comment_header p{
-    display: inline;
-    color: grey;
-  }
-  
-  
-  
-  section#comments article.news_body .title {
-    font-weight: bold;
-    font-size: 2em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  
-  section#comments article.comment  .comment_text{
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-
-  
-  
-  #news img {
-    display: block;
-    margin: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 500px; 
-    max-height: 500px;
-    height: auto;
-    width: auto;
-  }
-
-
-  svg{
-    width: 1em;
-    height: 1em;
-    vertical-align: middle; 
-  }
+svg{
+  width: 1em;
+  height: 1em;
+  vertical-align: middle; 
+}
   
 main {
   grid-column-start: content;
@@ -145,9 +18,15 @@ body > nav {
   grid-column-end: content;
   grid-row-start: content;
   grid-row-end: footer;
-  background-color: #d2afe7;
-  padding: 1em;
-  margin: 1em;
+  background-color: var(--secundary-color);
+}
+
+.header_nav {
+  display: flex;
+}
+
+.header_nav a {
+  flex: 1;
 }
 
 /* error message */
@@ -161,6 +40,7 @@ p.success{
   color: rgb(2, 60, 2);
   text-align: center;
 }
+
 body > nav #admin_buttons {
   border-bottom: 2px solid black;
 }
@@ -174,5 +54,70 @@ body > nav #admin_buttons {
 .button.remove{
   background-color: red;
   border-color: red;
+  width: 0;
+}
+
+nav .button{
+  margin: 0em 0em 0.5em 0em;
+}
+
+header .button{
   width: 100%;
+}
+
+.button, main button {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  background-color: var(--primary-color);
+  border: 0.1em solid var(--primary-color);
+  color: white;
+  padding: 0.5em;
+  line-height: 2;
+  min-width: 6em;
+  margin: auto;
+  font-size: 1em;
+}
+
+.button:hover{
+  background-color: var(--hover-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+ 
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus {
+  border-color: #9b4dca;
+}
+
+#button_profile {
+  background-color: var(--secundary-color);
+  color: var(--primary-color);
+}
+
+main textarea,
+main input,
+main select{
+  margin: 0em 0em 1em 0em;
+  box-sizing: border-box;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  color: var(--main-text-color);
+  width: 100%;
+  padding: 1em;
+  min-height: 3em;
+}
+
+header form input,
+header form select,
+header form button {
+  margin: 0em 0em 1em 0em;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  color: var(--main-text-color);
+  padding: 1em;
 }
