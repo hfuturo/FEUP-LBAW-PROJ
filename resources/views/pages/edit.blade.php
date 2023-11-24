@@ -49,7 +49,7 @@
                 @endforeach
             </ul>
         </div>
-        <button type="submit" form="newsForm" value="Submit" class = "button">Edit</button>
+        <button type="submit" form="newsForm" value="Submit">Edit</button>
         <a href={{ route('news_page', ['id' => $news_item->id]) }}  class="button" style="display:inline-block;">Cancel</a>
     </form>
 </section>

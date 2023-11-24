@@ -46,15 +46,24 @@ body > nav #admin_buttons {
 }
 
 /* em list_suggested_topics */
-.button.accept{
+#container_choices{
+  display: flex;
+}
+
+.accept, .remove {
+  margin: 1em;
+  border-radius: 1em;
+}
+
+.accept{
   background-color: green;
   border-color: green;
-  width: 100%;
+  margin-right: 1em;
 }
-.button.remove{
+
+.remove{
   background-color: red;
   border-color: red;
-  width: 0;
 }
 
 nav .button{

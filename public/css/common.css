@@ -28,7 +28,7 @@ header h1 {
     margin: 0;
 }
 
-.button, main button {
+.button, button:not(header button) {
     display: flex;
     justify-content: center;
     justify-self: center;
@@ -46,9 +46,9 @@ header h1 {
     background-color: var(--hover-color);
   }
 
-  main textarea,
-  main input,
-  main select{
+  textarea:not(header textarea),
+  input:not(header input),
+  select:not(header select){
     margin: 0em 0em 1em 0em;
     box-sizing: border-box;
     border: 1px solid var(--primary-color);

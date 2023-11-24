@@ -25,7 +25,7 @@
         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
     </label>
 
-    <button type="submit" class="button authentication">
+    <button type="submit" class="authentication">
         Login
     </button>
     <p class="authentication">Don't Have an account?<a href="{{ route('register') }}">Sign Up</a></p>

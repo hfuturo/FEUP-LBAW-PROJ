@@ -23,4 +23,4 @@
     </div>
 </div>
 
-<button class="button" onclick="openEditForm()">Edit</button>
+<button onclick="openEditForm()">Edit</button>

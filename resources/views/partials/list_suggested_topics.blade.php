@@ -9,8 +9,10 @@
                 <a href="{{ route('profile', ['user' => $topic->id_user]) }}">{{ $topic->user_name }}</a>
             </p>
             <p>Justification: {{ $topic->justification }}<p>
-            <button class="button accept" data-operation="accept_suggested_topic">Accept</button>
-            <button class="button remove" data-operation="delete_suggested_topic">Remove</button>
+            <span id="container_choices">
+                <button class="accept" data-operation="accept_suggested_topic">Accept</button>
+                <button class="remove" data-operation="delete_suggested_topic">Remove</button>
+            </span>
         </article>
     @endforeach
 @endif
