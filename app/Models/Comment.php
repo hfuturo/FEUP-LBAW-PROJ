@@ -24,4 +24,22 @@ class Comment extends Model
     public function content() {
         return $this->belongsTo(Content::class, 'id');
     }
+
+    public function votes()
+    {
+        return $this
+            ->hasMany(Vote::class, 'id_content');
+    }
+    
+    public function dislikes()
+    {
+        return $this
+            ->votes()->where('vote',-1)->count();
+    }
+
+    public function likes()
+    {
+        return $this
+            ->votes()->where('vote',1)->count();
+    }
 }

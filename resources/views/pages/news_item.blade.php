@@ -51,19 +51,7 @@ use Carbon\Carbon;
                         <a href="" class="tag">{{ $tag->name }}</a>
                     @endforeach
                 </div>
-                <div class="votes">
-                    <a href="" class="like">Like </a>
-                    <?php
-                    $rating = $news_item
-                        ->votes()
-                        ->selectRaw('sum(vote)')
-                        ->groupBy('id_content')
-                        ->get();
-                    $rating = count($rating) > 0 ? $rating[0]->sum : '0';
-                    ?>
-                    {{ $rating }}
-                    <a href="" class="like">Dislike</a>
-                </div>
+                @include('partials.vote',['item' => $news_item])
             @endif
         </article>
     </section>
@@ -84,10 +72,7 @@ use Carbon\Carbon;
                     </div>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())
-                        <div class="votes">
-                            <a href="" class="like">Like </a>
-                            <a href="" class="like">Dislike</a>
-                        </div>
+                        @include('partials.vote',['item' => $comment])
                     @endif
                 </article>
             @endforeach
