@@ -33,6 +33,10 @@ class CommentController extends Controller
      */
     public function store(Request $request, int $id)
     {
+        if(!Auth::check()){
+            return redirect()->route("login")
+                ->withErrors('Not authenticated. Please log in to comment');
+        }
             
         $validatedData = $request->validate([
             'content' => 'required|string|max:350',
@@ -51,7 +55,7 @@ class CommentController extends Controller
             $comment->id_news = $id;
             $comment->save();
             
-            return ['success' => true, 'date' => explode('.', date('Y/m/d H:i:s', Carbon::parse($content->date)->timestamp))[0] ,'content'=>$content->content, 'author' =>$content->authenticated_user];
+            return ['success' => true, 'date' => Carbon::parse($content->date)->diffForHumans() ,'content'=>$content->content, 'author' =>$content->authenticated_user];
         
         });
 

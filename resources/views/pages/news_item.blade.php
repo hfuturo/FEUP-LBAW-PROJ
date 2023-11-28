@@ -56,10 +56,13 @@ use Carbon\Carbon;
         </article>
     </section>
     <section id = "new_comment">
+        <div class="header">
+            <h3>Leave a comment</h3>
+        </div>
         <form id="commentForm" data-news-id="{{$news_item->id}}">
             @csrf
-            <textarea id="commentContent" name="content" rows="3" placeholder="Write your comment here"></textarea>
-            <button type="submit" class="button">Submit</button>
+            <textarea id="commentContent" name="content" rows="3" maxlength="500" required placeholder="Write your comment here"></textarea>
+            <button type="submit" class="button" id="postComment">Post</button>
         </form>
     </section>    
     <section id = "comments">
@@ -70,10 +73,10 @@ use Carbon\Carbon;
                 <article class="comment">
                     <div class="comment_header">
                         @if (Auth::check())
-                            <a href="" class="comment_author"> {{ $comment->content->authenticated_user->name }}</a>
-                            <p class="date"> {{ explode('.', date('Y/m/d H:i:s', Carbon::parse($comment->content->date)->timestamp))[0] }}</p>
+                            <a href="" class="comment_author">{{$comment->content->authenticated_user->name }}</a>
+                            <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class="date"> {{ explode('.', date('Y/m/d H:i:s', Carbon::parse($news_item->content->edit_date)->timestamp))[0] }}</p>
+                                <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @endif
                         @endif
                     </div>

@@ -1,23 +1,48 @@
-main section#comments {
+main section#comments, 
+main section#new_comment{
     color: var(--main-text-color);
     margin: 1em;
     padding: 1em;
     border: 1px solid var(--primary-color);
 }
-   
+
+section#new_comment h3{
+    color: var(--primary-color);
+    margin-top: 0;
+
+}
+
+section#new_comment textarea{
+    overflow:hidden;
+    resize: none;
+    padding: 1em;
+}
+
+section#new_comment #postComment{
+    border-radius: 15px;
+    margin: 0;
+    margin-left: auto;
+}
+
+
 section#comments article.comment {
     padding: 1em;
     border: 1px solid var(--main-text-color);
     border-collapse: collapse;
 }
-   
-section#comments article.comment .comment_header .comment_author {
+
+section#comments article.comment:not(:first-child) {
+    border-top: 0;
+}
+
+.comment_author {
     display: inline;
     color: var(--main-text-color);
+    margin-right: 1em;
     font-size: 1em;
 }
    
-section#comments article.comment .comment_header p {
+.comment_header .date {
     display: inline;
     color: grey;
 }
@@ -29,7 +54,10 @@ section#comments article.news_body .title {
     margin-bottom: 1em;
 }
     
-section#comments article.comment  .comment_text{
+.comment_text{
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1em;
     margin-top: 1em;
     margin-bottom: 1em;
 }
+

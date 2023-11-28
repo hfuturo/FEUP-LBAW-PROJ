@@ -71,75 +71,70 @@ addEventListeners();
 
 
 // new comment
-document.getElementById('commentForm').addEventListener('submit', function(event) {
+document.getElementById('commentForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
   const newsId = this.getAttribute('data-news-id');
   const commentContent = document.getElementById('commentContent').value;
 
-  fetch('/api/news/' + newsId + '/comment', {
+  const data = await fetch('/api/news/' + newsId + '/comment', {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       },
-      body: encodeForAjax({content: commentContent})
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {          
-          const noComments = document.getElementById('no_comments');
-          if(noComments) {noComments.remove();}
-          const commentSection = document.getElementById('comments');
-          const newComment = document.createElement('article');
-          newComment.className = "comment";
-          const commentHead = document.createElement('div');
-          commentHead.className = "comment_header";
-          const commentAuth = document.createElement('a');
-          commentAuth.className = "comment_author";
-          commentAuth.textContent = data.author.name;
-          const commentDate = document.createElement('p');
-          commentDate.className = "date";
-          commentDate.textContent = data.date;
-          const commentText = document.createElement('p');
-          commentText.className = "comment_text";
-          commentText.textContent= data.content;
-          commentHead.appendChild(commentAuth);
-          commentHead.appendChild(commentDate);
-          newComment.appendChild(commentHead);
-          newComment.appendChild(commentText);
-          
-          const votes = document.createElement('div');
-          votes.className = "votes";
-          const like = document.createElement('button');
-          like.className = "accept";
-          const sibLike = document.createElement('span');
-          sibLike.className = "material-symbols-outlined";
-          sibLike.textContent = "thumb_up";
-          const nLikes = document.createElement('p');
-          like.appendChild(sibLike);
-          nLikes.textContent = 0;
-          const dislike = document.createElement('button');
-          dislike.className = "remove";
-          const sibDislike = document.createElement('span');
-          sibDislike.className = "material-symbols-outlined";
-          sibDislike.textContent = "thumb_down";
-          dislike.appendChild(sibDislike);
-          const nDislikes = document.createElement('p');
-          nDislikes.textContent = 0;
-          votes.appendChild(like);
-          votes.appendChild(nLikes);
-          votes.appendChild(dislike);
-          votes.appendChild(nDislikes);
-          newComment.appendChild(votes);
+      body: JSON.stringify({content: commentContent})
+  }).then(response=>response.json())
 
-          commentSection.prepend(newComment);
-          document.getElementById('commentContent').value = '';
-      } else {
-          console.error('Failed to add comment');
-      }
-  })
-  .catch(error => {
-    console.error("Error:", error);
-  });
+  if (data.success) {          
+      const noComments = document.getElementById('no_comments');
+      if(noComments) {noComments.remove();}
+      const commentSection = document.getElementById('comments');
+      const newComment = document.createElement('article');
+      newComment.className = "comment";
+      const commentHead = document.createElement('div');
+      commentHead.className = "comment_header";
+      const commentAuth = document.createElement('a');
+      commentAuth.className = "comment_author";
+      commentAuth.textContent = data.author.name;
+      const commentDate = document.createElement('p');
+      commentDate.className = "date";
+      commentDate.textContent = data.date;
+      const commentText = document.createElement('p');
+      commentText.className = "comment_text";
+      commentText.textContent= data.content;
+      commentHead.appendChild(commentAuth);
+      commentHead.appendChild(commentDate);
+      newComment.appendChild(commentHead);
+      newComment.appendChild(commentText);
+      
+      const votes = document.createElement('div');
+      votes.className = "votes";
+      const like = document.createElement('button');
+      like.className = "accept";
+      const sibLike = document.createElement('span');
+      sibLike.className = "material-symbols-outlined";
+      sibLike.textContent = "thumb_up";
+      const nLikes = document.createElement('p');
+      like.appendChild(sibLike);
+      nLikes.textContent = 0;
+      const dislike = document.createElement('button');
+      dislike.className = "remove";
+      const sibDislike = document.createElement('span');
+      sibDislike.className = "material-symbols-outlined";
+      sibDislike.textContent = "thumb_down";
+      dislike.appendChild(sibDislike);
+      const nDislikes = document.createElement('p');
+      nDislikes.textContent = 0;
+      votes.appendChild(like);
+      votes.appendChild(nLikes);
+      votes.appendChild(dislike);
+      votes.appendChild(nDislikes);
+      newComment.appendChild(votes);
+
+      commentSection.prepend(newComment);
+      document.getElementById('commentContent').value = '';
+  } else {
+      console.error('Failed to add comment');
+  }
 });
