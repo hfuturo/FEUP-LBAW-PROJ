@@ -55,18 +55,25 @@ use Carbon\Carbon;
             @endif
         </article>
     </section>
+    <section id = "new_comment">
+        <form id="commentForm" data-news-id="{{$news_item->id}}">
+            @csrf
+            <textarea id="commentContent" name="content" rows="3" placeholder="Write your comment here"></textarea>
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </section>    
     <section id = "comments">
         @if ($comments->count() === 0)
-            <p class="not_comments"> There are no comments yet</p>
+            <p id="no_comments"> There are no comments yet</p>
         @else
             @foreach ($comments as $comment)
                 <article class="comment">
                     <div class="comment_header">
                         @if (Auth::check())
                             <a href="" class="comment_author"> {{ $comment->content->authenticated_user->name }}</a>
-                            <p class=date> {{ $comment->content->date }}</p>
+                            <p class="date"> {{ explode('.', date('Y/m/d H:i:s', Carbon::parse($comment->content->date)->timestamp))[0] }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class=date> {{ $comment->content->edit_date }}</p>
+                                <p class="date"> {{ explode('.', date('Y/m/d H:i:s', Carbon::parse($news_item->content->edit_date)->timestamp))[0] }}</p>
                             @endif
                         @endif
                     </div>
