@@ -55,3 +55,13 @@ section#news article.news_body .tags .tag{
 .votes p {
     margin: auto 2em auto 0.5em;
 }
+
+#edit_or_cancel_edition_news, #add_tag_to_news {
+    display: flex;
+    justify-items: center;
+}
+
+#add_tag_to_news > *, #edit_or_cancel_edition_news > *  {
+    margin: 0.5em;
+    margin-left: 0;
+}

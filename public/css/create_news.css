@@ -33,7 +33,7 @@ section#news-create-container{
   list-style-type: none;
   display: flex;
   border-radius: 10px;
-  min-height: 4em;
+  min-height: 1em;
   overflow-x: auto;
   flex-wrap: wrap;
 }
