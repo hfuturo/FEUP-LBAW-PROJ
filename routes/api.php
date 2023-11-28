@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowUserController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(FollowUserController::class)->group(function () {
     Route::post('/profile/unfollow', 'destroy')->name('unfollow');
     Route::post('/profile/follow', 'create')->name('follow');
+});
+
+Route::controller(ReportController::class)->group(function () {
+    Route::post('/profile/report', 'create_user');
 });
