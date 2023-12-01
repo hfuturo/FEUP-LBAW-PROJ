@@ -41,16 +41,20 @@
                     <option value="{{$tag->name}}">{{$tag->name}}</option>
                 @endforeach
             </datalist>
-            <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
-            <button type="button" onclick="createTag()" class= "btn">Add</button>
+            <span id="add_tag_to_news">
+                <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?" title="This field most not be empty" />
+                <button type="button" onclick="createTag()" class= "btn">Add</button>
+            </span>
             <ul id="tagsList">
                 @foreach($news_item->tags as $newsTag)
                     <li><span class="tagText" id="{{$newsTag->name}}">{{$newsTag->name}}</span><span class="remove" onclick = "removeTag(this.parentElement)">X</span></li>
                 @endforeach
             </ul>
         </div>
-        <button type="submit" form="newsForm" value="Submit">Edit</button>
-        <a href={{ route('news_page', ['id' => $news_item->id]) }}  class="button" style="display:inline-block;">Cancel</a>
+        <span id="edit_or_cancel_edition_news">
+            <button type="submit" form="newsForm" value="Submit">Edit</button>
+            <a href={{ route('news_page', ['id' => $news_item->id]) }}  class="button">Cancel</a>     
+        </span>
     </form>
 </section>
 
