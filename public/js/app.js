@@ -138,3 +138,60 @@ document.getElementById('commentForm').addEventListener('submit', async function
       console.error('Failed to add comment');
   }
 });
+
+
+
+
+function toggleMenu() {
+  var dropdown = document.getElementById("myDropdown");
+  if (dropdown.style.display === "block") {
+    dropdown.style.display = "none";
+  } else {
+    dropdown.style.display = "block";
+  }
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  var dropdown = document.getElementById("myDropdown");
+  if (event.target !== dropdown && !dropdown.contains(event.target)) {
+    dropdown.style.display = "none";
+  }
+}
+
+
+const comments = document.querySelectorAll('.comment');
+
+comments.forEach(function(comment) {
+    const delComment = comment.getElementsByClassName('delete')
+    delComment.addEventListener('click', async function(event) {
+        event.preventDefault();
+
+        const commentId = comment.getAttribute('comment-id');
+
+        const data = await fetch('/comment/' + commentId, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({content: commentContent})
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        const section = document.getElementById('comments');
+        const message = document.createElement('p');
+
+        if (data.success) {
+            message.className = 'success';
+            message.textContent = data.success;
+        } else {
+            message.className = 'error';
+            message.textContent = data.error;
+        }
+        section.prepend(message);
+    });
+
+});

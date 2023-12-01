@@ -28,4 +28,5 @@ Route::controller(FollowUserController::class)->group(function () {
 
 Route::controller(CommentController::class)->group(function () {
     Route::post('/news/{id}/comment','store')->name('news.comments.store');
+    Route::post('/comment/{id_comment}','destroy')->name('news.comments.destroy');
 });
