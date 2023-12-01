@@ -70,7 +70,7 @@ use Carbon\Carbon;
             <p id="no_comments"> There are no comments yet</p>
         @else
             @foreach ($comments as $comment)
-                <article class="comment">
+                <article class="comment" comment-id="{{$comment->id}}">
                     <div class="comment_header">
                         @if (Auth::check())
                             <a href="" class="comment_author">{{$comment->content->authenticated_user->name }}</a>
@@ -78,7 +78,13 @@ use Carbon\Carbon;
                             @if ($comment->content->edit_date !== null)
                                 <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @endif
+                            <span onclick="toggleMenu()" class="material-symbols-outlined more">more_vert</span>
                         @endif
+                    </div>
+                    <div class="dropdown-content" id="myDropdown">
+                        <a href="">Report</a>
+                        <a class="delete" href="">Delete</a>
+                        <a href="">Edit</a>
                     </div>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())

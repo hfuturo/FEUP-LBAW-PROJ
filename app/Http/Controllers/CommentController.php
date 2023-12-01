@@ -89,8 +89,16 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $comment = Comment::find($id);
+        $this->authorize('destroy',$comment);
+
+        if($comment->votes()->isEmpty()){
+            $comment->delete();
+            return response()->json(['success' => 'Comment deleted successfully']);
+        } else {
+            return response()->json(['error' => 'Cannot delete comment with votes'], 422);
+        }
     }
 }
