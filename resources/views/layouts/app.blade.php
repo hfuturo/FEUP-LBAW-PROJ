@@ -21,6 +21,7 @@
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     
+    
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/comments.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">

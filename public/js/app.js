@@ -147,7 +147,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
 
 function toggleMenu() {
-  var dropdown = document.getElementById("myDropdown");
+  var dropdown = document.getElementById('myDropdown');
   if (dropdown.style.display === "block") {
     dropdown.style.display = "none";
   } else {
@@ -155,47 +155,59 @@ function toggleMenu() {
   }
 }
 
-// Close the dropdown if the user clicks outside of it
+
 window.onclick = function(event) {
-  var dropdown = document.getElementById("myDropdown");
+  var dropdown = document.getElementById('myDropdown');
   if (event.target !== dropdown && !dropdown.contains(event.target)) {
     dropdown.style.display = "none";
   }
 }
 
 
-const comments = document.querySelectorAll('.comment');
+function deleteComment() {
+  const comments = document.querySelectorAll('.comment');
 
-comments.forEach(function(comment) {
-    const delComment = comment.getElementsByClassName('delete')
-    delComment.addEventListener('click', async function(event) {
-        event.preventDefault();
+  comments.forEach(function(comment) {
+      const delComment = comment.querySelector('.delete');
+      delComment.addEventListener('click', async function(event) {
+          event.preventDefault();
 
-        const commentId = comment.getAttribute('comment-id');
+          const commentId = comment.getAttribute('comment-id');
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          try {
+              const data = await fetch('/api/comment/' + commentId, {
+                  method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRF-TOKEN': csrfToken
+                  },
+              }).then(response=>response.json());
 
-        const data = await fetch('/comment/' + commentId, {
-          method: 'DELETE',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({content: commentContent})
-        }).then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
+              const section = document.getElementById('comments');
+              const message = document.createElement('p');
+
+              if (data.success) {
+                if(comments.length === 1){
+                  const noCommentsDiv = document.createElement('div');
+                  const noComments = document.createElement('p');
+                  noCommentsDiv.className = "no_comments";
+                  noComments.textContent = "There are no comments yet";
+                  noCommentsDiv.appendChild(noComments);
+                  section.appendChild(noCommentsDiv);
+                }
+                message.className = 'success';
+                message.textContent = data.success;
+                comment.remove(); 
+              } else {
+                  message.className = 'error';
+                  message.textContent = data.error;
+              }
+              section.prepend(message);
+          } catch (error) {
+              console.error('Error:', error);
           }
-          return response.json();
-        })
-        const section = document.getElementById('comments');
-        const message = document.createElement('p');
+      });
+  });
+}
 
-        if (data.success) {
-            message.className = 'success';
-            message.textContent = data.success;
-        } else {
-            message.className = 'error';
-            message.textContent = data.error;
-        }
-        section.prepend(message);
-    });
-
-});
+deleteComment();

@@ -92,13 +92,15 @@ class CommentController extends Controller
     public function destroy(int $id)
     {
         $comment = Comment::find($id);
-        $this->authorize('destroy',$comment);
+        $content = Content::find($id);
+        /*$this->authorize('destroy', $comment);*/
 
-        if($comment->votes()->isEmpty()){
-            $comment->delete();
-            return response()->json(['success' => 'Comment deleted successfully']);
+        if($comment->votes()->exists()){
+            return response()->json(['error' => 'Cannot delete comment with votes']);
         } else {
-            return response()->json(['error' => 'Cannot delete comment with votes'], 422);
+            $content->delete();
+            return response()->json(['success' => 'Comment deleted successfully']);
+            
         }
     }
 }

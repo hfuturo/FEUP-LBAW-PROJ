@@ -36,7 +36,7 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment): bool
     {
-        
+        //
     }
 
     /**
@@ -44,16 +44,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): bool
     {
-        if($user->id != $comment->content->author->id){
-            return false;
-        }
-        else{
-            if($comment->votes->count()>0){
-                return false;
-            } 
-            return true;
-        }
-
+        return $user->id === $comment->content->author->id;
     }
 
     /**
@@ -72,9 +63,11 @@ class CommentPolicy
         //
     }
 
+    /*
     public function destroy(User $user, Comment $comment): bool
     {
-        
+        //
     }
+    */
 }
 
