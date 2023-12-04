@@ -55,7 +55,11 @@ class CommentController extends Controller
             $comment->id_news = $id;
             $comment->save();
             
-            return ['success' => true, 'date' => Carbon::parse($content->date)->diffForHumans() ,'content'=>$content->content, 'author' =>$content->authenticated_user];
+            return ['success' => true,
+                    'id' => $content->id, 
+                    'date' => Carbon::parse($content->date)->diffForHumans(),
+                    'content'=>$content->content, 
+                    'author' =>$content->authenticated_user];
         
         });
 

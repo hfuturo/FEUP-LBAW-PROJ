@@ -75,56 +75,7 @@ addEventListeners();
 
 
 // new comment
-function makeDropDown(){
-  const options = [
-    { icon: 'flag', label: 'Report' },
-    { icon: 'delete', label: 'Delete', class: 'delete' },
-    { icon: 'edit', label: 'Edit' }
-  ];
 
-  const dropdown = document.createElement('div');
-  dropdown.className = "dropdown";
-
-  const moreButton = document.createElement('button');
-  moreButton.className = "more";
-  moreButton.onclick = toggleMenu(this);
-
-  const moreIcon = document.createElement('span');
-  moreIcon.className = "material-symbols-outlined";
-  moreIcon.textContent = "more_vert";
-
-  moreButton.appendChild(moreIcon);
-
-  const dropdownContent = document.createElement('div');
-  dropdownContent.className = "dropdown-content";
-
-  options.forEach(option =>{
-    const optionDiv = document.createElement('div');
-    optionDiv.className = "dropdown-option";
-
-    const icon = document.createElement('span');
-    icon.className = "material-symbols-outlined";
-    icon.textContent = option.icon;
-
-    const label = document.createElement('span');
-    label.textContent = option.label;
-
-    optionDiv.appendChild(icon);
-    optionDiv.appendChild(label);
-
-    if (option.class) {
-      optionDiv.classList.add(option.class);
-    }
-
-    dropdownContent.appendChild(optionDiv);
-
-  });
-
-  dropdown.appendChild(moreButton);
-  dropdown.appendChild(dropdownContent);
-
-  return dropdown;
-}
 
 
 document.getElementById('commentForm').addEventListener('submit', async function(event) {
@@ -149,6 +100,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
       const commentSection = document.getElementById('comments');
       const newComment = document.createElement('article');
       newComment.className = "comment";
+      newComment.setAttribute("comment-id", data.id);
 
       const commentHead = document.createElement('div');
       commentHead.className = "comment_header";
@@ -297,3 +249,56 @@ function deleteComment() {
 }
 
 deleteComment();
+
+function makeDropDown(){
+  const options = [
+    { icon: 'flag', label: 'Report' },
+    { icon: 'delete', label: 'Delete', class: 'delete' },
+    { icon: 'edit', label: 'Edit' }
+  ];
+
+  const dropdown = document.createElement('div');
+  dropdown.className = "dropdown";
+
+  const moreButton = document.createElement('button');
+  moreButton.className = "more";
+  moreButton.addEventListener('click', function() {
+    toggleMenu(this);
+  });
+
+  const moreIcon = document.createElement('span');
+  moreIcon.className = "material-symbols-outlined";
+  moreIcon.textContent = "more_vert";
+
+  moreButton.appendChild(moreIcon);
+
+  const dropdownContent = document.createElement('div');
+  dropdownContent.className = "dropdown-content";
+
+  options.forEach(option =>{
+    const optionDiv = document.createElement('div');
+    optionDiv.className = "dropdown-option";
+
+    const icon = document.createElement('span');
+    icon.className = "material-symbols-outlined";
+    icon.textContent = option.icon;
+
+    const label = document.createElement('span');
+    label.textContent = option.label;
+
+    optionDiv.appendChild(icon);
+    optionDiv.appendChild(label);
+
+    if (option.class) {
+      optionDiv.classList.add(option.class);
+    }
+
+    dropdownContent.appendChild(optionDiv);
+
+  });
+
+  dropdown.appendChild(moreButton);
+  dropdown.appendChild(dropdownContent);
+
+  return dropdown;
+}
