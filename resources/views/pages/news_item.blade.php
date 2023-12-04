@@ -80,15 +80,26 @@ use Carbon\Carbon;
                             @if ($comment->content->edit_date !== null)
                                 <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @endif
-                            <button  class="more" onclick="toggleMenu()"><span class="material-symbols-outlined">
-                                more_vert
-                            </span></button>
                         @endif
-                    </div>
-                    <div class="dropdown-content" id="myDropdown">
-                        <button>Report</button>
-                        <button class="delete">Delete</button>
-                        <button>Edit</button>
+                        <div class="dropdown">
+                            <button class="more" onclick="toggleMenu(this)">
+                                <span class="material-symbols-outlined">more_vert</span>
+                            </button>
+                            <div class="dropdown-content">
+                                <div class="dropdown-option">
+                                    <span class="material-symbols-outlined">flag</span>
+                                    <span>Report</span>
+                                </div>
+                                <div class="dropdown-option delete">
+                                    <span class="material-symbols-outlined">delete</span>
+                                    <span class="delete">Delete</span>
+                                </div>
+                                <div class="dropdown-option">
+                                    <span class="material-symbols-outlined">edit</span>
+                                    <span>Edit</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())

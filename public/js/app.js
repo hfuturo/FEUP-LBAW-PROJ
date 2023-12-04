@@ -75,6 +75,58 @@ addEventListeners();
 
 
 // new comment
+function makeDropDown(){
+  const options = [
+    { icon: 'flag', label: 'Report' },
+    { icon: 'delete', label: 'Delete', class: 'delete' },
+    { icon: 'edit', label: 'Edit' }
+  ];
+
+  const dropdown = document.createElement('div');
+  dropdown.className = "dropdown";
+
+  const moreButton = document.createElement('button');
+  moreButton.className = "more";
+  moreButton.onclick = toggleMenu(this);
+
+  const moreIcon = document.createElement('span');
+  moreIcon.className = "material-symbols-outlined";
+  moreIcon.textContent = "more_vert";
+
+  moreButton.appendChild(moreIcon);
+
+  const dropdownContent = document.createElement('div');
+  dropdownContent.className = "dropdown-content";
+
+  options.forEach(option =>{
+    const optionDiv = document.createElement('div');
+    optionDiv.className = "dropdown-option";
+
+    const icon = document.createElement('span');
+    icon.className = "material-symbols-outlined";
+    icon.textContent = option.icon;
+
+    const label = document.createElement('span');
+    label.textContent = option.label;
+
+    optionDiv.appendChild(icon);
+    optionDiv.appendChild(label);
+
+    if (option.class) {
+      optionDiv.classList.add(option.class);
+    }
+
+    dropdownContent.appendChild(optionDiv);
+
+  });
+
+  dropdown.appendChild(moreButton);
+  dropdown.appendChild(dropdownContent);
+
+  return dropdown;
+}
+
+
 document.getElementById('commentForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -91,24 +143,35 @@ document.getElementById('commentForm').addEventListener('submit', async function
   }).then(response=>response.json())
 
   if (data.success) {          
-      const noComments = document.getElementById('no_comments');
-      if(noComments) {noComments.remove();}
+      const noComments = document.getElementById("no_comments");
+      console.log(noComments);
+      if(noComments) {noComments.remove();};
       const commentSection = document.getElementById('comments');
       const newComment = document.createElement('article');
       newComment.className = "comment";
+
       const commentHead = document.createElement('div');
       commentHead.className = "comment_header";
+
       const commentAuth = document.createElement('a');
       commentAuth.className = "comment_author";
       commentAuth.textContent = data.author.name;
+
       const commentDate = document.createElement('p');
       commentDate.className = "date";
       commentDate.textContent = data.date;
+
       const commentText = document.createElement('p');
       commentText.className = "comment_text";
       commentText.textContent= data.content;
+
+      const more = makeDropDown();
+
       commentHead.appendChild(commentAuth);
       commentHead.appendChild(commentDate);
+      commentHead.appendChild(more);
+
+
       newComment.appendChild(commentHead);
       newComment.appendChild(commentText);
       
@@ -122,6 +185,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
       const nLikes = document.createElement('p');
       like.appendChild(sibLike);
       nLikes.textContent = 0;
+
       const dislike = document.createElement('button');
       dislike.className = "remove";
       const sibDislike = document.createElement('span');
@@ -130,6 +194,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
       dislike.appendChild(sibDislike);
       const nDislikes = document.createElement('p');
       nDislikes.textContent = 0;
+
       votes.appendChild(like);
       votes.appendChild(nLikes);
       votes.appendChild(dislike);
@@ -138,30 +203,52 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
       commentSection.prepend(newComment);
       document.getElementById('commentContent').value = '';
+      deleteComment();
   } else {
       console.error('Failed to add comment');
   }
 });
 
 
+/*
+function createLikeDislick(className, symbol) {
+  const button = document.createElement('button');
+  button.className = className;
+  
+  const span = document.createElement('span');
+  span.className = "material-symbols-outlined";
+  span.textContent = symbol;
+  
+  const countElement = document.createElement('p');
+  countElement.textContent = 0;
+  
+  button.appendChild(span);
+  button.appendChild(countElement);
+  
+  return button;
+}
+*/
 
 
-function toggleMenu() {
-  var dropdown = document.getElementById('myDropdown');
-  if (dropdown.style.display === "block") {
-    dropdown.style.display = "none";
+
+
+
+
+function toggleDisplay(element) {
+  if (element.style.display === "block") {
+    element.style.display = "none";
   } else {
-    dropdown.style.display = "block";
+    element.style.display = "block";
   }
 }
 
-
-window.onclick = function(event) {
-  var dropdown = document.getElementById('myDropdown');
-  if (event.target !== dropdown && !dropdown.contains(event.target)) {
-    dropdown.style.display = "none";
+function toggleMenu(button) {
+  const dropdown = button.nextElementSibling;
+  if (dropdown) {
+    toggleDisplay(dropdown);
   }
 }
+
 
 
 function deleteComment() {
@@ -173,13 +260,12 @@ function deleteComment() {
           event.preventDefault();
 
           const commentId = comment.getAttribute('comment-id');
-          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
           try {
               const data = await fetch('/api/comment/' + commentId, {
                   method: 'DELETE',
                   headers: {
                       'Content-Type': 'application/json',
-                      'X-CSRF-TOKEN': csrfToken
+                      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                   },
               }).then(response=>response.json());
 
@@ -187,10 +273,10 @@ function deleteComment() {
               const message = document.createElement('p');
 
               if (data.success) {
-                if(comments.length === 1){
+                if(section.querySelectorAll('.comment').length === 1){
                   const noCommentsDiv = document.createElement('div');
                   const noComments = document.createElement('p');
-                  noCommentsDiv.className = "no_comments";
+                  noCommentsDiv.id = "no_comments";
                   noComments.textContent = "There are no comments yet";
                   noCommentsDiv.appendChild(noComments);
                   section.appendChild(noCommentsDiv);
