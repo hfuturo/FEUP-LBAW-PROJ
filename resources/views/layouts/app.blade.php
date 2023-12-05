@@ -73,6 +73,7 @@
                 <section id="admin_buttons">
                     <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                     <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                    <a class="button admin_button" href="{{ url('/report') }}"> Report </a>
                 </section>
             @endif
             <a href="{{ route('create_news') }}" class="button"> Create Post</a>

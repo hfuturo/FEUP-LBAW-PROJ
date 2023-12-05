@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,10 @@ Route::controller(FollowUserController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
     Route::post('/profile/report', 'create_user');
+    Route::delete('/delete_report', 'destroy');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::post('/block_user','block');
+    Route::delete('/delete_user','destroy');
 });

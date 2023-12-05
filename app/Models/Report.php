@@ -21,8 +21,12 @@ class Report extends Model
         'id_user'
     ];
     
-    public function author() {
-        return $this->belongsTo(Authenticated::class,'id_reporter');
+    public function reporter() {
+        return $this->belongsTo(User::class,'id_reporter');
+    }
+    
+    public function reported() {
+        return $this->belongsTo(User::class,'id_user');
     }
 
     /* types */
@@ -35,6 +39,6 @@ class Report extends Model
     }
 
     public function user() {
-        return $this->belongsTo(Authenticated::class,'id_user');
+        return $this->belongsTo(User::class,'id_user');
     }
 }
