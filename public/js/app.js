@@ -71,6 +71,11 @@ addEventListeners();
 
 
 // new comment
+
+
+
+
+
 document.getElementById('commentForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -89,20 +94,26 @@ document.getElementById('commentForm').addEventListener('submit', async function
   if (data.success) {          
       const noComments = document.getElementById('no_comments');
       if(noComments) {noComments.remove();}
+
       const commentSection = document.getElementById('comments');
       const newComment = document.createElement('article');
       newComment.className = "comment";
+
       const commentHead = document.createElement('div');
       commentHead.className = "comment_header";
+
       const commentAuth = document.createElement('a');
       commentAuth.className = "comment_author";
       commentAuth.textContent = data.author.name;
+
       const commentDate = document.createElement('p');
       commentDate.className = "date";
       commentDate.textContent = data.date;
+
       const commentText = document.createElement('p');
       commentText.className = "comment_text";
       commentText.textContent= data.content;
+      
       commentHead.appendChild(commentAuth);
       commentHead.appendChild(commentDate);
       newComment.appendChild(commentHead);
@@ -110,22 +121,16 @@ document.getElementById('commentForm').addEventListener('submit', async function
       
       const votes = document.createElement('div');
       votes.className = "votes";
-      const like = document.createElement('button');
-      like.className = "accept";
-      const sibLike = document.createElement('span');
-      sibLike.className = "material-symbols-outlined";
-      sibLike.textContent = "thumb_up";
+
+      
+      const like = createLikeDislick("accept", "thumb_up");
       const nLikes = document.createElement('p');
-      like.appendChild(sibLike);
       nLikes.textContent = 0;
-      const dislike = document.createElement('button');
-      dislike.className = "remove";
-      const sibDislike = document.createElement('span');
-      sibDislike.className = "material-symbols-outlined";
-      sibDislike.textContent = "thumb_down";
-      dislike.appendChild(sibDislike);
+
+      const dislike = createLikeDislick("remove", "thumb_down");
       const nDislikes = document.createElement('p');
       nDislikes.textContent = 0;
+  
       votes.appendChild(like);
       votes.appendChild(nLikes);
       votes.appendChild(dislike);
@@ -138,3 +143,16 @@ document.getElementById('commentForm').addEventListener('submit', async function
       console.error('Failed to add comment');
   }
 });
+
+function createLikeDislick(className, symbol) {
+  const button = document.createElement('button');
+  button.className = className;
+  
+  const icon = document.createElement('span');
+  icon.className = "material-symbols-outlined";
+  icon.textContent = symbol;
+  
+  button.appendChild(icon);
+  
+  return button;
+}
