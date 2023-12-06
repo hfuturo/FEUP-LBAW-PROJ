@@ -75,9 +75,6 @@ addEventListeners();
 
 
 // new comment
-
-
-
 document.getElementById('commentForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -154,34 +151,12 @@ document.getElementById('commentForm').addEventListener('submit', async function
       newComment.appendChild(votes);
 
       commentSection.prepend(newComment);
-      document.getElementById('commentContent').value = '';
       deleteComment();
+      document.getElementById('commentContent').value = '';
   } else {
       console.error('Failed to add comment');
   }
 });
-
-
-/*
-function createLikeDislick(className, symbol) {
-  const button = document.createElement('button');
-  button.className = className;
-  
-  const span = document.createElement('span');
-  span.className = "material-symbols-outlined";
-  span.textContent = symbol;
-  
-  const countElement = document.createElement('p');
-  countElement.textContent = 0;
-  
-  button.appendChild(span);
-  button.appendChild(countElement);
-  
-  return button;
-}
-*/
-
-
 
 
 

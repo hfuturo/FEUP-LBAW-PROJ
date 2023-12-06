@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -97,14 +98,19 @@ class CommentController extends Controller
     {
         $comment = Comment::find($id);
         $content = Content::find($id);
-        /*$this->authorize('destroy', $comment);*/
 
-        if($comment->votes()->exists()){
-            return response()->json(['error' => 'Cannot delete comment with votes']);
-        } else {
-            $content->delete();
-            return response()->json(['success' => 'Comment deleted successfully']);
-            
+        try {
+            $this->authorize('delete', $comment);
+
+            if($comment->votes()->exists()){
+                return response()->json(['error' => 'Cannot delete comment with votes']);
+            } else {
+                $content->delete();
+                return response()->json(['success' => 'Comment deleted successfully']);
+            }
+        }
+        catch (AuthorizationException $e) {
+            return response()->json(['error' => 'Unauthorized action'], 403);
         }
     }
 }
