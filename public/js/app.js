@@ -114,7 +114,9 @@ document.getElementById('commentForm').addEventListener('submit', async function
       commentText.className = "comment_text";
       commentText.textContent= data.content;
 
-      const more = makeDropDown();
+
+
+      const more = makeDropDown(newComment);
 
       commentHead.appendChild(commentAuth);
       commentHead.appendChild(commentDate);
@@ -151,7 +153,6 @@ document.getElementById('commentForm').addEventListener('submit', async function
       newComment.appendChild(votes);
 
       commentSection.prepend(newComment);
-      deleteComment();
       document.getElementById('commentContent').value = '';
   } else {
       console.error('Failed to add comment');
@@ -183,53 +184,56 @@ function deleteComment() {
 
   comments.forEach(function(comment) {
       const delComment = comment.querySelector('.delete');
-      delComment.addEventListener('click', async function(event) {
+      delComment.addEventListener('click', (event) => {
           event.preventDefault();
-
-          const commentId = comment.getAttribute('comment-id');
-          try {
-              const data = await fetch('/api/comment/' + commentId, {
-                  method: 'DELETE',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                  },
-              }).then(response=>response.json());
-
-              const section = document.getElementById('comments');
-              const message = document.createElement('p');
-
-              if (data.success) {
-                if(section.querySelectorAll('.comment').length === 1){
-                  const noCommentsDiv = document.createElement('div');
-                  const noComments = document.createElement('p');
-                  noCommentsDiv.id = "no_comments";
-                  noComments.textContent = "There are no comments yet";
-                  noCommentsDiv.appendChild(noComments);
-                  section.appendChild(noCommentsDiv);
-                }
-                message.className = 'success';
-                message.textContent = data.success;
-                comment.remove(); 
-              } else {
-                  message.className = 'error';
-                  message.textContent = data.error;
-              }
-              section.prepend(message);
-          } catch (error) {
-              console.error('Error:', error);
-          }
+          deleteCommentItem(comment);
       });
   });
 }
 
 deleteComment();
 
-function makeDropDown(){
+async function deleteCommentItem(comment){
+  const commentId = comment.getAttribute('comment-id');
+  try {
+      const data = await fetch('/api/comment/' + commentId, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+      }).then(response=>response.json());
+
+      const section = document.getElementById('comments');
+      const message = document.createElement('p');
+
+      if (data.success) {
+        if(section.querySelectorAll('.comment').length === 1){
+          const noCommentsDiv = document.createElement('div');
+          const noComments = document.createElement('p');
+          noCommentsDiv.id = "no_comments";
+          noComments.textContent = "There are no comments yet";
+          noCommentsDiv.appendChild(noComments);
+          section.appendChild(noCommentsDiv);
+        }
+        message.className = 'success';
+        message.textContent = data.success;
+        comment.remove(); 
+      } else {
+          message.className = 'error';
+          message.textContent = data.error;
+      }
+      section.prepend(message);
+  } catch (error) {
+      console.error('Error:', error);
+  }
+}
+
+function makeDropDown(comment){
   const options = [
-    { icon: 'flag', label: 'Report' },
-    { icon: 'delete', label: 'Delete', class: 'delete' },
-    { icon: 'edit', label: 'Edit' }
+    { icon: 'flag', label: 'Report',fn:()=>{} },
+    { icon: 'delete', label: 'Delete', class: 'delete',fn:deleteCommentItem},
+    { icon: 'edit', label: 'Edit', class: 'edit',fn:editCommentItem}
   ];
 
   const dropdown = document.createElement('div');
@@ -267,6 +271,10 @@ function makeDropDown(){
     if (option.class) {
       optionDiv.classList.add(option.class);
     }
+    optionDiv.addEventListener("click",(e)=>{
+      e.stopPropagation();
+      option.fn(comment);
+    })
 
     dropdownContent.appendChild(optionDiv);
 
@@ -277,3 +285,80 @@ function makeDropDown(){
 
   return dropdown;
 }
+
+function editCommentItem(comment){
+  const form = comment.querySelector('.editForm');
+  const commentText = comment.querySelector('.comment_text');
+  comment.querySelector('textarea').value=commentText.textContent;
+  form.removeAttribute("hidden");
+  commentText.setAttribute("hidden", "true");
+}
+
+function editComment() {
+  const comments = document.querySelectorAll('.comment');
+  comments.forEach(function(comment) {
+      const editButton = comment.querySelector('.edit');
+      const form = comment.querySelector('.editForm');
+      form.addEventListener('submit', saveEdit);
+      editButton.addEventListener('click', function(event) {
+          event.preventDefault();
+          editCommentItem(comment);
+      });
+  });
+}
+editComment();
+
+
+async function saveEdit(event){
+  event.preventDefault();
+  const comment = event.target.parentElement;
+  const commentId = comment.getAttribute('comment-id');
+  const commentContent = comment.querySelector('.commentContent').value;
+  try {
+    const data = await fetch('/api/comment/' + commentId + '/edit', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({content: commentContent}),
+    }).then(response=>response.json());
+
+    const content = comment.querySelector('.comment_text');
+    const message = document.createElement('p');
+
+    if (data.success) {
+      content.textContent = commentContent;
+      message.className = 'success';
+      message.textContent = data.success;
+    } else {
+        message.className = 'error';
+        message.textContent = data.error;
+    }
+    editCancel(comment);
+
+    document.body.appendChild(message);
+
+  } catch (error) {
+    console.error('Error:', error);
+};}
+
+
+function editCancel(comment){
+
+  const content = comment.querySelector('.comment_text');
+  content.removeAttribute("hidden");
+
+  const form = comment.querySelector('.editForm');
+  form.setAttribute("hidden", "true");
+
+}
+
+function cleanUpMessages(){
+  document.querySelectorAll("p.success").forEach(message=>{
+    if(getComputedStyle(message).display=="none"){
+      message.remove()
+    }
+  })
+}
+setInterval(cleanUpMessages, 1000);

@@ -94,13 +94,19 @@ use Carbon\Carbon;
                                     <span class="material-symbols-outlined">delete</span>
                                     <span class="delete">Delete</span>
                                 </div>
-                                <div class="dropdown-option">
+                                <div class="dropdown-option edit">
                                     <span class="material-symbols-outlined">edit</span>
-                                    <span>Edit</span>
+                                    <span class="edit">Edit</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <form class="editForm" hidden>
+                        @csrf
+                        <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content }}</textarea>
+                        <button type="submit" class="button editButton">Edit</button>
+                        <button type="button" class="button cancelButton" onclick="editCancel(this.parentElement.parentElement)">Cancel</button>
+                    </form>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())
                         @include('partials.vote',['item' => $comment])

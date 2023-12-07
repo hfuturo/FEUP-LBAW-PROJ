@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -86,9 +87,26 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $validatedData = $request->validate([
+            'content' => 'required|string|max:350',
+        ]);
+        $comment = Comment::find($id);
+        $content = Content::find($id);
+
+        try{
+            $this->authorize('update', $comment);
+            
+            $content->content = $request->input('content');
+            $content->save();
+
+            return response()->json(['success' => 'Comment edited successfully']);
+            
+        }
+        catch (AuthorizationException $e) {
+            return response()->json(['error' => 'Unauthorized action'], 403);
+        }
     }
 
     /**
