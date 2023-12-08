@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('head')
+@section('head')
+    <link href="{{ url('css/profile.css') }}" rel="stylesheet">
+    <link href="{{ url('css/feed.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
+@endsection
+
 @section('content')
 
 <section class="info_section">

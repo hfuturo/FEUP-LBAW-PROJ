@@ -39,7 +39,7 @@ function removeTag(tagToRemove) {
 
 const form = document.getElementById("newsForm");
 
-form.addEventListener("submit", (event) => {
+form?.addEventListener("submit", (event) => {
     event.preventDefault();
     const tagsInput = document.createElement("input");
     tagsInput.type = "hidden";
@@ -55,11 +55,11 @@ form.addEventListener("submit", (event) => {
 
     form.appendChild(tagsInput);
 
-    form.submit()
+    form.submit();
 
   });
 
-document.querySelector('#follow_tag').addEventListener('click', event => {
+document.querySelector('#follow_tag')?.addEventListener('click', event => {
   const tag =  document.querySelector('#id_tag').value;
   sendAjaxRequest(
         'POST',
