@@ -85,9 +85,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function delete(User $user)
     {
-        $this->authorize('destroy', $user);
+        $this->authorize('delete', $user);
         return $user->delete() ?
             redirect()->route('news')->with('success', 'Account deleted successfully!') :
             redirect()->route('profile', [$user->id])->withErrors(['Error deleting account!']);

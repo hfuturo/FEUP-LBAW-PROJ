@@ -44,7 +44,7 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function destroy(User $user): bool
+    public function delete(User $user): bool
     {
         return Auth::check() && (Auth::user()->id === $user->id || Auth::user()->is_admin());
     }
