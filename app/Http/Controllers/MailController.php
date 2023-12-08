@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\User;
+use Mail;
+use App\Mail\MailModel;
 
 class MailController extends Controller
 {
@@ -13,7 +16,7 @@ class MailController extends Controller
         if ($user === NULL) {
             return redirect()->route('login')->withErrors(['error', 'Invalid email']);
         }
-                
+        
         $mailData = [
             'name' => $user->name,
             'email' => $request->email,
@@ -21,6 +24,8 @@ class MailController extends Controller
         ];
 
         Mail::to($request->email)->send(new MailModel($mailData));
+        User::where('email', '=', $request->email)->update(['recover_password_code' => $mailData['code']]);
+
         return redirect()->route('news');
     }
 }

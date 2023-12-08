@@ -55,6 +55,7 @@ CREATE TABLE "authenticated_user"
   blocked BOOLEAN NOT NULL DEFAULT false,
   type user_type NOT NULL DEFAULT 'authenticated'::user_type,
   remember_token VARCHAR,
+  recover_password_code INTEGER DEFAULT NULL,
   PRIMARY KEY(id),
   -- data specific to each authenticated_user type
   id_topic INTEGER REFERENCES "topic" (id) ON UPDATE CASCADE ON DELETE SET NULL, -- moderator

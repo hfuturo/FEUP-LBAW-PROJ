@@ -28,7 +28,14 @@
     <button type="submit" class="authentication">
         Login
     </button>
-    <p class="authentication">Don't Have an account?<a href="{{ route('register') }}">Sign Up</a></p>
+
+    <div class="authentication_auth_links">
+        <p class="authentication">Don't Have an account?<a href="{{ route('register') }}">Sign Up</a></p>
+        <button class="authentication" onclick="openRecoverPasswordForm()">Forgot my password</button>
+    </div>
+
     @include('partials.error_message')
 </form>
+
+@include('partials.recover_password')
 @endsection

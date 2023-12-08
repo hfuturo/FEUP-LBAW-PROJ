@@ -14,6 +14,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\MailController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -109,5 +110,5 @@ Route::controller(ReportController::class)->group(function () {
 
 // email
 Route::controller(MailController::class)->group(function() {
-    Route::post('/send', 'send');
+    Route::post('/send', 'send')->name('send_email');
 });
