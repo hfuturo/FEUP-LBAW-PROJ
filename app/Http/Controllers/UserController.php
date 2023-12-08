@@ -82,11 +82,29 @@ class UserController extends Controller
         }
     }
 
+    public function block(Request $request)
+    {
+        $update = User::where('id', $request->input("request"))
+            ->update(['blocked' => true]);
+        $response = [
+            'action' => 'block_user',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        //
+        $delete = User::where('id', $request->input("request"))
+            ->delete();
+        $response = [
+            'action' => 'delete_user',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
     }
+
 }
