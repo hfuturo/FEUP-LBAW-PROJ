@@ -44,3 +44,7 @@ svg{
     height: 1em;
     vertical-align: middle; 
 }
+
+#follow{
+    text-transform: capitalize;
+}
