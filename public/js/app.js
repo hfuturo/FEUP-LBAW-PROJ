@@ -114,6 +114,32 @@ document.getElementById('commentForm').addEventListener('submit', async function
       commentText.className = "comment_text";
       commentText.textContent= data.content;
 
+       
+      const form = document.createElement('form');
+      form.className = "editForm"
+
+      const textarea = document.createElement('textarea');
+      textarea.setAttribute("id", "commentContent");
+      textarea.setAttribute("nama", "content");
+      textarea.setAttribute("rows", "3");
+      textarea.setAttribute("maxlength", "500");
+      textarea.setAttribute("required", "true");
+      textarea.setAttribute("hidden", "true");
+      textarea.textContent = data.content;
+      form.appendChild(textarea);
+        
+      const postButton = document.createElement('button');
+      postButton.setAttribute("type", "submit");
+      postButton.classList.add("button" , "editButton")
+      postButton.textContent = "Post"
+      form.appendChild(postButton);
+
+      const cancelButton = document.createElement('button');
+      cancelButton.setAttribute("type", "button");
+      cancelButton.classList.add("button","cancelButton")
+      cancelButton.textContent = "Cancel";
+      cancelButton.addEventListener('click', editCancel(newComment));
+      form.appendChild(cancelButton);
 
 
       const more = makeDropDown(newComment);
@@ -124,6 +150,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
 
       newComment.appendChild(commentHead);
+      newComment.append(form);
       newComment.appendChild(commentText);
       
       const votes = document.createElement('div');
