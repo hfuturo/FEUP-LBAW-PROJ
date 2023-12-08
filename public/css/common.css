@@ -69,3 +69,9 @@ header h1 {
   input[type=password]:focus {
     border-color: var(--primary-color);
   }
+
+.sub-options .button {
+  background-color: white;
+  border: 0.1em solid var(--secundary-color);
+  color: var(--primary-color);
+}

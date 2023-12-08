@@ -24,10 +24,6 @@ class Report extends Model
     public function reporter() {
         return $this->belongsTo(User::class,'id_reporter');
     }
-    
-    public function reported() {
-        return $this->belongsTo(User::class,'id_user');
-    }
 
     /* types */
     public function content() {

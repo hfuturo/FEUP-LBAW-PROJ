@@ -101,5 +101,7 @@ Route::controller(ContactUsController::class)->group(function () {
 });
 
 Route::controller(ReportController::class)->group(function () {
-    Route::get('/report', 'show');
+    Route::get('/report_users', 'show_users')->name('user_reports');
+    Route::get('/report_news', 'show_news')->name('news_reports');
+    Route::get('/report_comments', 'show_comments')->name('comments_reports');
 });

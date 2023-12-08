@@ -2,7 +2,7 @@ document.querySelectorAll('.action_report').forEach(button => {
     button.addEventListener('click', event => {
         let action = event.target.dataset.operation;
         let method, request;
-        if(action == 'delete_user'){
+        if(action == 'delete_user' || action == 'delete_news_item' || action == "delete_comment"){
             request = event.target.parentNode.parentNode.querySelector('h4').id;
             method = 'DELETE';
         }
@@ -14,8 +14,6 @@ document.querySelectorAll('.action_report').forEach(button => {
             request = event.target.parentNode.parentNode.querySelector('h4').id;
             method = 'POST';
         }
-        console.log(method);
-        console.log(request);
         sendAjaxRequest(
             `${method}`,
             `/api/${action}`,
@@ -26,22 +24,22 @@ document.querySelectorAll('.action_report').forEach(button => {
   })
 
 function reportHandler() {
-    //if (this.status != 200) window.location = '/';
+    if (this.status != 200) window.location = '/';
     const action = JSON.parse(this.responseText).action;
-    if(action == 'delete_user'){
-        let selector = 'article h4[id="' + JSON.parse(this.responseText).user + '"]';        
+    if(action == 'delete_news_item' || action == 'delete_user'){
+        let selector = 'h4[id="' + JSON.parse(this.responseText).id + '"]';        
         let elements = document.querySelectorAll(selector);
         elements.forEach(function(element) {
             element.parentNode.remove();
         });
     }
     if(action == "delete_report") {
-        let selector = 'article[id="' + JSON.parse(this.responseText).report + '"]';        
+        let selector = 'article[id="' + JSON.parse(this.responseText).id + '"]';        
         let element = document.querySelector(selector);
         element.remove();
     }
     if(action == "block_user") {
-        let selector = 'article h4[id="' + JSON.parse(this.responseText).user + '"]';        
+        let selector = 'article h4[id="' + JSON.parse(this.responseText).id + '"]';        
         let elements = document.querySelectorAll(selector);
         elements.forEach(function(element) {
             element.textContent += "(this user is blocked)";

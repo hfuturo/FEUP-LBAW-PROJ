@@ -88,7 +88,7 @@ class UserController extends Controller
             ->update(['blocked' => true]);
         $response = [
             'action' => 'block_user',
-            'user' => $request->input("request"),
+            'id' => $request->input("request"),
         ];
         return response()->json($response);
     }
@@ -102,7 +102,7 @@ class UserController extends Controller
             ->delete();
         $response = [
             'action' => 'delete_user',
-            'user' => $request->input("request"),
+            'id' => $request->input("request"),
         ];
         return response()->json($response);
     }
