@@ -7,9 +7,9 @@
 
 body {
     display: grid;
-    grid-template-columns:  [start] 1fr  [content] 6fr [end];
+    grid-template-columns: [start] 1fr [content] 6fr [end];
     grid-template-rows: [header] 1fr [content] auto [footer];
-    font-family:'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 header {
@@ -28,7 +28,8 @@ header h1 {
     margin: 0;
 }
 
-.button, button:not(header button) {
+.button,
+button:not(header button) {
     display: flex;
     justify-content: center;
     justify-self: center;
@@ -41,101 +42,114 @@ header h1 {
     margin: auto;
     font-size: 1em;
 }
-  
-.button:hover{
-  background-color: var(--hover-color);
+
+.button:hover {
+    background-color: var(--hover-color);
 }
 
 textarea:not(header textarea),
 input:not(header input),
-select:not(header select){
-  margin: 0em 0em 1em 0em;
-  box-sizing: border-box;
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
-  color: var(--main-text-color);
-  width: 100%;
-  padding: 1em;
-  min-height: 3em;
+select:not(header select) {
+    margin: 0em 0em 1em 0em;
+    box-sizing: border-box;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    color: var(--main-text-color);
+    width: 100%;
+    padding: 1em;
+    min-height: 3em;
 }
 
-  a {
+a {
     color: var(--primary-color);
     text-decoration: none;
-  }
-   
-  input[type=text]:focus,
-  input[type=email]:focus,
-  input[type=password]:focus {
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
     border-color: var(--primary-color);
-  }
+}
 
 .sub-options .button {
-  background-color: white;
-  border: 0.1em solid var(--secundary-color);
-  color: var(--primary-color);
+    background-color: white;
+    border: 0.1em solid var(--secundary-color);
+    color: var(--primary-color);
 }
 
 /* error message */
-p.error{
-  background-color: lightcoral;
-  color: darkred;
-  text-align: center;
+p.error {
+    background-color: lightcoral;
+    color: darkred;
+    text-align: center;
 }
 
-p.success{
-  background-color: lightgreen;
-  color: darkgreen;
-  text-align: center;
+p.success {
+    background-color: lightgreen;
+    color: darkgreen;
+    text-align: center;
 }
 
 @keyframes fadeOut {
-  0% { opacity: 1;}
-  75% { opacity: 1;}
-  100% { opacity: 0;display: none;}
+    0% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
 
 @keyframes progressBar {
-  0% { width: 100%;}
-  75% { width: 0;}
-  100% { width: 0;}
+    0% {
+        width: 100%;
+    }
+    75% {
+        width: 0;
+    }
+    100% {
+        width: 0;
+    }
 }
 
 p.error,
 p.success {
-  /* -webkit-animation: fadeOut 3s; */
-  animation: fadeOut 3s;
-  animation-fill-mode: forwards;
-  z-index: 1000;
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 4.7rem;
-  padding: 15px;
+    /* -webkit-animation: fadeOut 3s; */
+    animation: fadeOut 3s;
+    animation-fill-mode: forwards;
+    z-index: 1000;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 4.7rem;
+    padding: 15px;
 }
 
 p.success::after,
 p.error::after {
-  content: "\00D7";
-  vertical-align: text-bottom;
+    content: "\00D7";
+    vertical-align: text-bottom;
 }
 
 p.success::before,
-p.error::before{
-  content: "";
-  animation: progressBar 3s;
-  display: inline-block;
-  position: absolute;
-  bottom: 0;
-  height: 5px;
-  left: 0;
-  width: 100%;
+p.error::before {
+    content: "";
+    animation: progressBar 3s;
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    height: 5px;
+    left: 0;
+    width: 100%;
 }
 
 p.success::before {
-  background: darkgreen;
+    background: darkgreen;
 }
 
 p.error::before {
-  background: darkred;
+    background: darkred;
 }
