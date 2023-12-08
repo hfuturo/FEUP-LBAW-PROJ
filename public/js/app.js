@@ -9,6 +9,10 @@ function addEventListeners() {
   document.querySelectorAll('.feed_button').forEach(button => {
     button.addEventListener('click', feedLinksHandler)
   })
+
+  document.querySelectorAll('.paginate a').forEach(link => {
+    link.addEventListener('click', feedLinksHandler)
+  })
 }
   
 function encodeForAjax(data) {
