@@ -36,7 +36,11 @@
     <script type="text/javascript" src={{ url('js/profile.js') }} defer></script>
 
 </head>
-
+<style>
+        .sub-options {
+            display: none;
+        }
+    </style>
 <body>
     <header>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
@@ -74,7 +78,15 @@
                 <section id="admin_buttons">
                     <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                     <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                    <a class="button admin_button" id="manage_report_button"> Manage Report </a>
+                    <div class="sub-options" id="report_sub_options">
+                        <a class="button" href="{{ route('user_reports') }}">Users</a>
+                        <a class="button" href="{{ route('news_reports') }}">News</a>
+                        <a class="button" href="{{ route('comments_reports') }}">Comments</a>
+                        <a class="button" href="{{ route('news_reports') }}">Tags</a>
+                    </div>
                 </section>
+                <!--href="{{ url('/report') }}"-->
             @endif
             <a href="{{ route('create_news') }}" class="button"> Create Post</a>
             <a href="" class="button"> Create Organization</a>
@@ -87,5 +99,4 @@
         </section>
     </main>
 </body>
-
 </html>

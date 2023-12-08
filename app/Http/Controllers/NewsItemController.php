@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NewsItem;
 use App\Models\Comment;
+use App\Models\Vote;
 use App\Models\Topic;
 use App\Models\User;
 use App\Models\Content;
@@ -56,7 +57,22 @@ class NewsItemController extends Controller
         }
         return redirect()->route('news_page',[$id])->withErrors(['Cannot be eliminated because it has comments!']);
     }
-    
+
+    public function destroy_admin(Request $request)
+    {
+        $this->authorize('destroy_admin',\App\NewsItem::class);
+
+        Comment::where('id_news',$request->input('request'))->delete();
+        Vote::where('id_content',$request->input('request'))->delete();
+        NewsItem::where('id',$request->input('request'))->delete();
+        
+        $response = [
+            'action' => 'delete_news_item',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);        
+    }
+
     /** 
     * Store a newly created resource in storage.
     */

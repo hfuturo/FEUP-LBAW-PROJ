@@ -69,4 +69,9 @@ class NewsItemPolicy
     {
         return $user->id === $news_item->content()->first()->id_author;
     }
+
+    public function destroy_admin(User $user): bool
+    {
+        return  $user->is_admin();
+    }
 }

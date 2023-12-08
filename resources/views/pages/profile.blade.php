@@ -4,14 +4,17 @@
 <div class="user_page">
     <div class="profile">
         <div id="user_card">
-            @if (Auth::user()->id === $user->id)
-                @include('partials.edit_profile', ['user' => $user])
-            @else
-                @include('partials.follow_user')
-            @endif
-            @if (Auth::user()->id === $user->id || Auth::user()->is_admin())
-                @include('partials.delete_account', ['user' => $user])
-            @endif
+            <div id="nav_profile">
+                @if (Auth::user()->id === $user->id)
+                    @include('partials.edit_profile', ['user' => $user])
+                @else
+                    @include('partials.follow_user')
+                    @include('partials.report_user')
+                @endif
+                @if (Auth::user()->id === $user->id || Auth::user()->is_admin())
+                    @include('partials.delete_account', ['user' => $user])
+                @endif
+            </div>
             <h2>{{ $user->name }}</h2>
             <div id="user_details">
                 <div class="user_info">

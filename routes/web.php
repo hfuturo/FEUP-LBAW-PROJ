@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
@@ -98,4 +99,10 @@ Route::controller(SuggestedTopicController::class)->group(function () {
 // Contact Us
 Route::controller(ContactUsController::class)->group(function () {
     Route::get('/contacts', 'show');
+});
+
+Route::controller(ReportController::class)->group(function () {
+    Route::get('/report_users', 'show_users')->name('user_reports');
+    Route::get('/report_news', 'show_news')->name('news_reports');
+    Route::get('/report_comments', 'show_comments')->name('comments_reports');
 });

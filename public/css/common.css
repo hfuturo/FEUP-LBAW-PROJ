@@ -59,15 +59,21 @@ select:not(header select){
   min-height: 3em;
 }
 
-a {
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+   
+  input[type=text]:focus,
+  input[type=email]:focus,
+  input[type=password]:focus {
+    border-color: var(--primary-color);
+  }
+
+.sub-options .button {
+  background-color: white;
+  border: 0.1em solid var(--secundary-color);
   color: var(--primary-color);
-  text-decoration: none;
-}
-  
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus {
-  border-color: var(--primary-color);
 }
 
 /* error message */
@@ -118,7 +124,6 @@ p.success::before,
 p.error::before{
   content: "";
   animation: progressBar 3s;
-  width: 100%;
   display: inline-block;
   position: absolute;
   bottom: 0;
