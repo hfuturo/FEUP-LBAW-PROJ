@@ -18,7 +18,7 @@ use Carbon\Carbon;
         <article class = "news_body">
             <div class = "news_head">
                 @if (Auth::check())
-                    <a href="" class="topic">{{ $news_item->topic->name }}</a>
+                    <a href="{{ route('topic', ['topic' => $news_item->topic->id]) }}">{{ $news_item->topic->name }}</a>
                 @endif
                 <h2 class = "title">{{ $news_item->title }}</h2>
                 @if (Auth::check())
