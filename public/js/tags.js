@@ -55,5 +55,29 @@ form.addEventListener("submit", (event) => {
 
     form.appendChild(tagsInput);
 
-    form.submit();
-});
+    form.submit()
+
+  });
+
+document.querySelector('#follow_tag').addEventListener('click', event => {
+  const tag =  document.querySelector('#id_tag').value;
+  sendAjaxRequest(
+        'POST',
+        `/api/tag/${event.target.dataset.operation}`,
+        {tag},
+        followTagHandler
+  );
+})
+
+function followTagHandler() {
+ // if (this.status != 200) window.location = '/';
+  const action = JSON.parse(this.responseText).follow;
+  const count = document.querySelector("#folowers_tag_count");
+  const oldValue = parseInt(count.textContent.trim());
+  const button = document.querySelector("#follow_tag");
+  button.dataset.operation = action;
+  button.textContent = action;
+  if(action=="follow") count.textContent = oldValue - 1;
+  else count.textContent = oldValue + 1
+}
+

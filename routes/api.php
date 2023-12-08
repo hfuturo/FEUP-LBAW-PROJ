@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowTopicController;
+use App\Http\Controllers\FollowTagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +52,9 @@ Route::controller(Comment::class)->group(function () {
 Route::controller(FollowTopicController::class)->group(function () {
     Route::post('/topic/unfollow', 'destroy')->name('unfollow');
     Route::post('/topic/follow', 'create')->name('follow');
+});
+
+Route::controller(FollowTagController::class)->group(function () {
+    Route::post('/tag/unfollow', 'destroy')->name('unfollow');
+    Route::post('/tag/follow', 'create')->name('follow');
 });

@@ -56,7 +56,7 @@
                 </div>
                 <div class=tags>
                     @foreach ($news_item->tags as $tag)
-                        <a href="" class="tag">{{ $tag->name }}</a>
+                        <a href="{{ route('tag', ['tag' => $tag->id]) }}" class="tag">{{ $tag->name }}</a>
                     @endforeach
                 </div>
                 @include('partials.vote', ['item' => $news_item])
