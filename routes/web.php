@@ -106,3 +106,8 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/report_news', 'show_news')->name('news_reports');
     Route::get('/report_comments', 'show_comments')->name('comments_reports');
 });
+
+// email
+Route::controller(MailController::class)->group(function() {
+    Route::post('/send', 'send');
+});
