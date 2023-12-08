@@ -9,6 +9,9 @@
             @else
                 @include('partials.follow_user')
             @endif
+            @if (Auth::user()->id === $user->id || Auth::user()->is_admin())
+                @include('partials.delete_account', ['user' => $user])
+            @endif
             <h2>{{ $user->name }}</h2>
             <div id="user_details">
                 <div class="user_info">

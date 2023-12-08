@@ -33,6 +33,7 @@
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/topic.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/profile.js') }} defer></script>
 
 </head>
 

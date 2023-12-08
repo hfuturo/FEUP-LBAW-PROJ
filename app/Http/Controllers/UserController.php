@@ -87,6 +87,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $this->authorize('destroy', $user);
+        return $user->delete() ?
+            redirect()->route('news')->with('success', 'Account deleted successfully!') :
+            redirect()->route('profile', [$user->id])->withErrors(['Error deleting account!']);
     }
 }

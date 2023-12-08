@@ -7,13 +7,15 @@ use Carbon\Carbon;
 
     <section id = "news">
         @include('partials.error_message')
-        @if (Auth::check() && Auth::user()->id === $news_item->content->authenticated_user->id)
-            <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
-                @csrf
-                <button type="submit">Delete</button>
-                <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button" style="display:inline-block;">Edit
-                    Post</a>
-            </form>
+        @if (Auth::check() && $news_item->content->authenticated_user !== null)
+            @if (Auth::user()->id === $news_item->content->authenticated_user->id)
+                <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
+                    @csrf
+                    <button type="submit">Delete</button>
+                    <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button" style="display:inline-block;">Edit
+                        Post</a>
+                </form>
+            @endif
         @endif
         <article class = "news_body">
             <div class = "news_head">
@@ -23,8 +25,12 @@ use Carbon\Carbon;
                 <h2 class = "title">{{ $news_item->title }}</h2>
                 @if (Auth::check())
                     <span>Posted by</span>
-                    <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
+                    @if ($news_item->content->authenticated_user !== null)
+                        <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
                         class = "author">{{ $news_item->content->authenticated_user->name }}</a>
+                    @else
+                        <p class="author">Anonymous</p>
+                    @endif
                     @if ($news_item->content->organization !== null)
                         <span>Associated with</span>
                         <a href="" class = "org"> {{ $news_item->content->organization->name }}</a>
@@ -63,7 +69,11 @@ use Carbon\Carbon;
                 <article class="comment">
                     <div class="comment_header">
                         @if (Auth::check())
-                            <a href="" class="comment_author"> {{ $comment->content->authenticated_user->name }}</a>
+                            @if ($comment->content->authenticated_user !== null)
+                                <a href="" class="comment_author"> {{ $comment->content->authenticated_user->name }}</a>
+                            @else
+                                <p class="comment_author">Anonymous</p>
+                            @endif
                             <p class=date> {{ $comment->content->date }}</p>
                             @if ($comment->content->edit_date !== null)
                                 <p class=date> {{ $comment->content->edit_date }}</p>
