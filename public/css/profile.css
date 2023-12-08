@@ -49,6 +49,6 @@ svg{
     vertical-align: middle; 
 }
 
-#follow, #follow_topic{
+#follow, #follow_topic, #follow_tag{
     text-transform: capitalize;
 }
