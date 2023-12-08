@@ -45,12 +45,10 @@ main {
   margin-right: 0;
 }
 
-.authentication_auth_links button {
-  border: none;
-  background-color: transparent;
+.authentication_auth_links a,
+.authentication_auth_links p:nth-child(2) {
   text-align: right;
   margin-left: auto;
   padding-right: 0;
-  color: var(--primary-color);
 }
 

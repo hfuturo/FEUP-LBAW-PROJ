@@ -26,6 +26,6 @@ class MailController extends Controller
         Mail::to($request->email)->send(new MailModel($mailData));
         User::where('email', '=', $request->email)->update(['recover_password_code' => $mailData['code']]);
 
-        return redirect()->route('news');
+        return view('auth.verify_code', ['email' => $request->email]);
     }
 }

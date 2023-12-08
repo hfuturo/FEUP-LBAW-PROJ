@@ -31,11 +31,10 @@
 
     <div class="authentication_auth_links">
         <p class="authentication">Don't Have an account?<a href="{{ route('register') }}">Sign Up</a></p>
-        <button class="authentication" onclick="openRecoverPasswordForm()">Forgot my password</button>
+        <a href=" {{ route('recover_password') }}" class="authentication">Forgot my password</a>
     </div>
 
     @include('partials.error_message')
 </form>
 
-@include('partials.recover_password')
 @endsection

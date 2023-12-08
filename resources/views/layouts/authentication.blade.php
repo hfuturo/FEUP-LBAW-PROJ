@@ -13,7 +13,6 @@
         <!-- Styles -->
         <link href="{{ asset('css/authentication.css') }}" rel="stylesheet">
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/popup.css') }}" rel="stylesheet">
 
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
