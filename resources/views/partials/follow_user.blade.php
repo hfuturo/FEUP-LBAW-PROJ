@@ -13,4 +13,3 @@
     @endif
 </div>
 
-<script type="text/javascript" src={{ url('js/profile.js') }} defer></script>
