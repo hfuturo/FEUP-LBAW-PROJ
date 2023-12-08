@@ -67,6 +67,11 @@ header .button{
   color: var(--primary-color);
 }
 
+.delete_button {
+  background-color: red;
+  border-color: red;
+}
+
 header form input,
 header form select,
 header form button {

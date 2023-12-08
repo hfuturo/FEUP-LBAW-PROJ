@@ -2,7 +2,11 @@ main section#news {
     color: var(--main-text-color);
     margin: 1em;
 }
-    
+
+section#news article.news_body div.news_head p.author {
+    display: inline;
+}
+
 section#news article.news_body{
     padding: 1em;
     border: 1px solid var(--primary-color);

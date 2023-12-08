@@ -96,6 +96,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    public function delete(User $user)
+    {
+        $this->authorize('delete', $user);
+        return $user->delete() ?
+            redirect()->route('news')->with('success', 'Account deleted successfully!') :
+            redirect()->route('profile', [$user->id])->withErrors(['Error deleting account!']);
+    }
+
     public function destroy(Request $request)
     {
         $delete = User::where('id', $request->input("request"))
@@ -106,5 +114,4 @@ class UserController extends Controller
         ];
         return response()->json($response);
     }
-
 }

@@ -6,6 +6,14 @@ function closeEditForm() {
     document.getElementById('edit_profile_popup').style.display = 'none';
 }
 
+function openDeleteForm() {
+    document.getElementById('delete_account_popup').style.display = 'block';
+}
+
+function closeDeleteForm() {
+    document.getElementById('delete_account_popup').style.display = 'none';
+}
+
 function openReportUserForm() {
     document.getElementById('report_user_popup').style.display = 'block';
 }
