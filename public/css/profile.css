@@ -44,6 +44,19 @@
     margin: 0em;
 }
 
-#follow {
+.user_news {
+    border: 0.5em solid var(--secundary-color);
+    padding: 1em;
+    margin: 1em 0em;
+}
+
+svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+}
+
+#follow,
+#follow_topic {
     text-transform: capitalize;
 }

@@ -18,8 +18,6 @@
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
-    {{-- Devia de estar no app ou com melhor nome --}}
-    <script type="text/javascript" src={{ url('js/topic.js') }} defer></script>
 
     @yield('head')
 
