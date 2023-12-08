@@ -12,4 +12,3 @@
         <button id="follow" data-operation="follow">Follow</button>
     @endif
 </div>
-

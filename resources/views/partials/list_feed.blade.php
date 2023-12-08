@@ -1,5 +1,4 @@
 <?php
-
 use Carbon\Carbon;
 
 $paginator = $news_list->paginate($perPage);
