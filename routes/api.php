@@ -38,6 +38,7 @@ Route::controller(ReportController::class)->group(function () {
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/block_user','block');
+    Route::post('/unblock_user','unblock');
     Route::delete('/delete_user','destroy');
 });
 

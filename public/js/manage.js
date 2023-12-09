@@ -30,3 +30,32 @@ function filterUsersHandler() {
         usersList.appendChild(li);
     }
 }
+
+document.querySelectorAll(".block").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const request = event.target.parentNode.id;
+        sendAjaxRequest(
+            "POST",
+            `/api/${event.target.dataset.operation}`,
+            { request },
+            blockHandler
+        );
+    });
+});
+
+function blockHandler() {
+    if (this.status != 200) window.location = '/';
+    const action = JSON.parse(this.responseText).action;
+    let selector = 'li[id="' + JSON.parse(this.responseText).id + '"] .block';
+    const button = document.querySelector(selector);
+    console.log(button)
+    console.log
+    if (action == "block_user"){
+        button.dataset.operation = "unblock_user";
+        button.textContent = "Unblock";
+    }
+    else {
+        button.dataset.operation = "block_user";
+        button.textContent = "Block";
+    }
+}
