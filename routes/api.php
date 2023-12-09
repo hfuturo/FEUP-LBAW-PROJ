@@ -36,6 +36,7 @@ Route::controller(FollowUserController::class)->group(function () {
 
 Route::controller(CommentController::class)->group(function () {
     Route::post('/news/{id}/comment','store')->name('news.comments.store');
+});
 
 Route::controller(ReportController::class)->group(function () {
     Route::post('/profile/report', 'create_user');
