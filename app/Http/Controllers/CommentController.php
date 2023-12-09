@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +56,11 @@ class CommentController extends Controller
             $comment->id_news = $id;
             $comment->save();
             
-            return ['success' => true, 'date' => Carbon::parse($content->date)->diffForHumans() ,'content'=>$content->content, 'author' =>$content->authenticated_user];
+            return ['success' => true,
+                    'id' => $content->id, 
+                    'date' => Carbon::parse($content->date)->diffForHumans(),
+                    'content'=>$content->content, 
+                    'author' =>$content->authenticated_user];
         
         });
 
@@ -89,8 +94,23 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $comment = Comment::find($id);
+        $content = Content::find($id);
+
+        try {
+            $this->authorize('delete', $comment);
+
+            if($comment->votes()->exists()){
+                return response()->json(['error' => 'Cannot delete comment with votes']);
+            } else {
+                $content->delete();
+                return response()->json(['success' => 'Comment deleted successfully']);
+            }
+        }
+        catch (AuthorizationException $e) {
+            return response()->json(['error' => 'Unauthorized action'], 403);
+        }
     }
 }

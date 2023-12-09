@@ -75,10 +75,12 @@
     </section>    
     <section id = "comments">
         @if ($comments->count() === 0)
-            <p id="no_comments"> There are no comments yet</p>
+            <div id="no_comments">
+                <p> There are no comments yet</p>
+            </div>
         @else
             @foreach ($comments as $comment)
-                <article class="comment">
+                <article class="comment" comment-id="{{$comment->id}}">
                     <div class="comment_header">
                         @if (Auth::check())
                             @if ($comment->content->authenticated_user !== null)
@@ -92,6 +94,25 @@
                                 <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @endif
                         @endif
+                        <div class="dropdown">
+                            <button class="more" onclick="toggleMenu(this)">
+                                <span class="material-symbols-outlined">more_vert</span>
+                            </button>
+                            <div class="dropdown-content">
+                                <div class="dropdown-option">
+                                    <span class="material-symbols-outlined">flag</span>
+                                    <span>Report</span>
+                                </div>
+                                <div class="dropdown-option delete">
+                                    <span class="material-symbols-outlined">delete</span>
+                                    <span class="delete">Delete</span>
+                                </div>
+                                <div class="dropdown-option">
+                                    <span class="material-symbols-outlined">edit</span>
+                                    <span>Edit</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())

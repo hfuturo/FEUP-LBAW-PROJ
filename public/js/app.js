@@ -54,12 +54,13 @@ document.getElementById('commentForm').addEventListener('submit', async function
   }).then(response=>response.json())
 
   if (data.success) {          
-      const noComments = document.getElementById('no_comments');
-      if(noComments) {noComments.remove();}
+      const noComments = document.getElementById("no_comments");
 
+      if(noComments) {noComments.remove();};
       const commentSection = document.getElementById('comments');
       const newComment = document.createElement('article');
       newComment.className = "comment";
+      newComment.setAttribute("comment-id", data.id);
 
       const commentHead = document.createElement('div');
       commentHead.className = "comment_header";
@@ -75,9 +76,14 @@ document.getElementById('commentForm').addEventListener('submit', async function
       const commentText = document.createElement('p');
       commentText.className = "comment_text";
       commentText.textContent= data.content;
-      
+
+      const more = makeDropDown();
+
       commentHead.appendChild(commentAuth);
       commentHead.appendChild(commentDate);
+      commentHead.appendChild(more);
+
+
       newComment.appendChild(commentHead);
       newComment.appendChild(commentText);
       
@@ -100,11 +106,133 @@ document.getElementById('commentForm').addEventListener('submit', async function
       newComment.appendChild(votes);
 
       commentSection.prepend(newComment);
+      deleteComment();
       document.getElementById('commentContent').value = '';
   } else {
       console.error('Failed to add comment');
   }
 });
+
+
+
+
+
+function toggleDisplay(element) {
+  if (element.style.display === "block") {
+    element.style.display = "none";
+  } else {
+    element.style.display = "block";
+  }
+}
+
+function toggleMenu(button) {
+  const dropdown = button.nextElementSibling;
+  if (dropdown) {
+    toggleDisplay(dropdown);
+  }
+}
+
+
+
+function deleteComment() {
+  const comments = document.querySelectorAll('.comment');
+
+  comments.forEach(function(comment) {
+      const delComment = comment.querySelector('.delete');
+      delComment.addEventListener('click', async function(event) {
+          event.preventDefault();
+
+          const commentId = comment.getAttribute('comment-id');
+          try {
+              const data = await fetch('/api/comment/' + commentId, {
+                  method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                  },
+              }).then(response=>response.json());
+
+              const section = document.getElementById('comments');
+              const message = document.createElement('p');
+
+              if (data.success) {
+                if(section.querySelectorAll('.comment').length === 1){
+                  const noCommentsDiv = document.createElement('div');
+                  const noComments = document.createElement('p');
+                  noCommentsDiv.id = "no_comments";
+                  noComments.textContent = "There are no comments yet";
+                  noCommentsDiv.appendChild(noComments);
+                  section.appendChild(noCommentsDiv);
+                }
+                message.className = 'success';
+                message.textContent = data.success;
+                comment.remove(); 
+              } else {
+                  message.className = 'error';
+                  message.textContent = data.error;
+              }
+              section.prepend(message);
+          } catch (error) {
+              console.error('Error:', error);
+          }
+      });
+  });
+}
+
+deleteComment();
+
+function makeDropDown(){
+  const options = [
+    { icon: 'flag', label: 'Report' },
+    { icon: 'delete', label: 'Delete', class: 'delete' },
+    { icon: 'edit', label: 'Edit' }
+  ];
+
+  const dropdown = document.createElement('div');
+  dropdown.className = "dropdown";
+
+  const moreButton = document.createElement('button');
+  moreButton.className = "more";
+  moreButton.addEventListener('click', function() {
+    toggleMenu(this);
+  });
+
+  const moreIcon = document.createElement('span');
+  moreIcon.className = "material-symbols-outlined";
+  moreIcon.textContent = "more_vert";
+
+  moreButton.appendChild(moreIcon);
+
+  const dropdownContent = document.createElement('div');
+  dropdownContent.className = "dropdown-content";
+
+  options.forEach(option =>{
+    const optionDiv = document.createElement('div');
+    optionDiv.className = "dropdown-option";
+
+    const icon = document.createElement('span');
+    icon.className = "material-symbols-outlined";
+    icon.textContent = option.icon;
+
+    const label = document.createElement('span');
+    label.textContent = option.label;
+
+    optionDiv.appendChild(icon);
+    optionDiv.appendChild(label);
+
+    if (option.class) {
+      optionDiv.classList.add(option.class);
+    }
+
+    dropdownContent.appendChild(optionDiv);
+
+  });
+
+  dropdown.appendChild(moreButton);
+  dropdown.appendChild(dropdownContent);
+
+  return dropdown;
+}
 
 function createLikeDislick(className, symbol) {
   const button = document.createElement('button');
@@ -118,3 +246,4 @@ function createLikeDislick(className, symbol) {
   
   return button;
 }
+
