@@ -1,6 +1,11 @@
 @extends('layouts.authentication')
 
 @section('authentication')
+
+@if ($errors->any())
+    <p class="error">{{ $errors->first() }}</p>
+@endif
+
 <h2> Recover Password </h2>
 <form method="POST" action={{ route('verify_code') }}>
     @csrf

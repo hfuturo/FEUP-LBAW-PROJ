@@ -1,14 +1,19 @@
 @extends('layouts.authentication')
 
 @section('authentication')
+
+@if ($errors->any())
+    <p class="error">{{ $errors->first() }}</p>
+@endif
+
 <h2> Change Password </h2>
 <form method="POST" action={{ route('change_password') }}>
     @csrf
     <label for="email">Email</label>
     <input id="email" type="email" name="email" placeholder="Email" value={{ $email }} required readonly>
-    <label for="password">Email</label>
+    <label for="password">Password</label>
     <input id="password" type="password" name="password" placeholder="password" required>
-    <label for="password-confirm">Code</label>
+    <label for="password-confirm">Confirm Password</label>
     <input id="password-confirm" type="password" name="password_confirmation" placeholder="Password" required>
     <button class="authentication" type="submit">Change password</button>
     <div class="authentication_auth_links">

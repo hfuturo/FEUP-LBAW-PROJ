@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-//use Illuminate\Http\RedirectResponse;
-//use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\View\View;
@@ -17,6 +15,10 @@ class RecoverPasswordController extends Controller
 {
     public function show_recover_password_form() {
         return view('auth.recover_password');
+    }
+
+    public function verify_code_form($email) {
+        return view('auth.verify_code', ['email' => $email]);
     }
 
     public function verify_code(Request $request) {
@@ -35,7 +37,11 @@ class RecoverPasswordController extends Controller
             return back()->withErrors(['code' => 'Wrong code.'])->onlyInput('email');
         }
 
-        return view('auth.change_password', ['email' => $request->email]);
+        return redirect()->route('change_password_form', [$request->email]);
+    }
+
+    public function change_password_form($email) {
+        return view('auth.change_password', ['email' => $email]);
     }
 
     public function change_password(Request $request) {
