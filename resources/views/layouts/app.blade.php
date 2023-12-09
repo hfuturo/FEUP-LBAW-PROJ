@@ -19,7 +19,6 @@
     
     
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
-    <link href="{{ url('css/comments.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>

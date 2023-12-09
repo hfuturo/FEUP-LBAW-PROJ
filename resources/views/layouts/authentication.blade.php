@@ -14,8 +14,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/authentication.css') }}" rel="stylesheet">
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">
-
-    <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
 </head>
 
 <body>

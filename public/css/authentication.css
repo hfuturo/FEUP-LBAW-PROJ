@@ -28,6 +28,15 @@ main {
 
 #remember input {
     width: 2em;
+    margin: 0;
+}
+
+label#remember {
+  display: flex;
+}
+
+label#remember p{
+  margin-left: 0.5em;
 }
 
 #authentication button[type="submit"] {
@@ -51,4 +60,3 @@ main {
   margin-left: auto;
   padding-right: 0;
 }
-

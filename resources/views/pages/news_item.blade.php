@@ -85,7 +85,8 @@
                     <div class="comment_header">
                         @if (Auth::check())
                             @if ($comment->content->authenticated_user !== null)
-                                <a href="" class="comment_author">
+                                <img class="author_comment_pfp" src="{{ $comment->content->authenticated_user->getProfileImage() }}">
+                                <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}" class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
                             @else
                                 <p class="comment_author">Anonymous</p>

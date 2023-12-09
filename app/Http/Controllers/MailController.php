@@ -10,13 +10,14 @@ use App\Mail\MailModel;
 
 class MailController extends Controller
 {
-    function send(Request $request) {
+    function send(Request $request)
+    {
         $user = User::where('email', '=', $request->email)->first();
 
         if ($user === NULL) {
-           return back()->withErrors(['Invalid email']);
+            return back()->withErrors(['Invalid email']);
         }
-        
+
         $mailData = [
             'name' => $user->name,
             'email' => $request->email,
@@ -24,8 +25,8 @@ class MailController extends Controller
         ];
 
         Mail::to($request->email)->send(new MailModel($mailData));
-        User::where('email', '=', $request->email)->update(['recover_password_code' => $mailData['code']]);
+        User::where('email', '=', $request->email)->update(['recover_password_code' => $mailData['code'], 'recover_password_tries' => 5]);
 
-        return redirect()->route('verify_code_form', [$request->email])->withSuccess('An email was sent with the verification code.');
+        return redirect()->route('verify_code_form', ['user' => $user->id])->withSuccess('An email was sent with the verification code.');
     }
 }

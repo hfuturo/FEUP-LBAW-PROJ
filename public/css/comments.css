@@ -38,12 +38,14 @@ section#comments article.comment:not(:first-child) {
 
 .comment_header{
     display: flex;
+    align-items: center;
 }
 
 .comment_author {
     color: var(--main-text-color);
     margin-right: 1em;
     font-size: 1em;
+    margin-left: 1em;
 }
    
 .comment_header .date {
@@ -89,18 +91,25 @@ article.news_body .title {
     border-radius: 10px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-  }
-  
-  .dropdown-content .dropdown-option {
+}
+
+.dropdown-content .dropdown-option {
     display: flex;
     padding: 12px 16px;
     align-items: center;
     gap: 0.2em;
     text-decoration: none;
     color: black;
-  }
-  
-  .dropdown-content .dropdown-option:hover {
+}
+
+.dropdown-content .dropdown-option:hover {
     background-color: #d3d3d3;
-  }
+}
+
+.author_comment_pfp {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+}
+
 
