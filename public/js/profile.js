@@ -79,10 +79,3 @@ function reportUserHandler() {
     if (this.status != 200) window.location = "/";
     closeReportUserForm();
 }
-
-// const edit_image = document.querySelector('.edit_pfp_image')
-// if (edit_image) {
-//     edit_image.addEventListener('click', function() {
-        
-//     })
-// }
