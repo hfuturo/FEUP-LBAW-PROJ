@@ -17,6 +17,7 @@ use App\Http\Controllers\SuggestedTopicController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\FileController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -131,4 +132,10 @@ Route::controller(TopicController::class)->group(function () {
 
 Route::controller(TagController::class)->group(function () {
     Route::get('/tag/{tag}', 'show')->name('tag');
+});
+
+// file
+Route::controller(FileController::class)->group(function() {
+    Route::post('/file/upload', 'upload');
+    Route::post('/file/delete', 'remove_pfp');
 });

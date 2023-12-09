@@ -46,8 +46,15 @@
                     </p>
                 </div>
             </div>
-            <img id="user_picture"
-                src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg">
+            <div class="image_wrapper">
+                <img id="user_picture" src="{{ $user->getProfileImage() }}">
+                @if (Auth::user()->id === $user->id)
+                    <div class="image_buttons_wrapper">
+                        @include('partials.image_form')
+                        @include('partials.remove_pfp_form')
+                    </div>
+                @endif
+            </div>
         </div>
         <h3>News made by {{ $user->name }} ...</h3>
         <div>

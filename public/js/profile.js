@@ -24,6 +24,22 @@ function closeReportUserForm() {
     document.getElementById("report_user_popup").style.display = "none";
 }
 
+function openEditPfpForm() {
+    document.getElementById("edit_pfp_popup").style.display = "block";
+}
+
+function closeEditPfpForm() {
+    document.getElementById("edit_pfp_popup").style.display = "none";
+}
+
+function openRemovePfpForm() {
+    document.getElementById("remove_pfp_popup").style.display = "block";
+}
+
+function closeRemovePfpForm() {
+    document.getElementById("remove_pfp_popup").style.display = "none";
+}
+
 document.querySelector("#follow")?.addEventListener("click", (event) => {
     const user = document.querySelector("#following").value;
     sendAjaxRequest(
