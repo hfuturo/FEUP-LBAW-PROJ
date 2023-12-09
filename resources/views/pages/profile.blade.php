@@ -46,8 +46,10 @@
                     </p>
                 </div>
             </div>
-            <img id="user_picture"
-                src="{{ $user->getProfileImage() }}">
+            <div class="image_wrapper">
+                <img id="user_picture" src="{{ $user->getProfileImage() }}">
+                @include('partials.image_form', ['user' => $user])
+            </div>
         </div>
         <h3>News made by {{ $user->name }} ...</h3>
         <div>
