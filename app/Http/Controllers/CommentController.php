@@ -99,6 +99,7 @@ class CommentController extends Controller
             $this->authorize('update', $comment);
             
             $content->content = $request->input('content');
+            $content->edit_date = 'now()';
             $content->save();
 
             return response()->json(['success' => 'Comment edited successfully']);
