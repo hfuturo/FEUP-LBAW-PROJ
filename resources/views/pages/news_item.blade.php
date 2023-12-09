@@ -4,6 +4,7 @@
 @section('head')
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/comments.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
 @endsection
 
 @section('content')

@@ -14,11 +14,13 @@ class Vote extends Model
 
   public $timestamps  = false;
 
-  public $incrementing = true;
+  public $incrementing = false;
 
   protected $table = 'vote';
 
   protected $fillable = [
+    'id_user',
+    'id_content',
     'vote'
   ];
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowTopicController;
 use App\Http\Controllers\FollowTagController;
+use App\Http\Controllers\VoteController;
 
 
 /*
@@ -67,4 +68,11 @@ Route::controller(FollowTopicController::class)->group(function () {
 Route::controller(FollowTagController::class)->group(function () {
     Route::post('/tag/unfollow', 'destroy')->name('unfollow');
     Route::post('/tag/follow', 'create')->name('follow');
+});
+
+Route::controller(VoteController::class)->group(function () {
+    Route::post('/vote/update', 'update');
+    Route::post('/vote/create', 'create');
+    Route::delete('/vote/destroy', 'destroy');
+
 });
