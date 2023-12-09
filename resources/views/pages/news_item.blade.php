@@ -63,9 +63,19 @@
             @endif
         </article>
     </section>
+    <section id = "new_comment">
+        <div class="header">
+            <h3>Leave a comment</h3>
+        </div>
+        <form id="commentForm" data-news-id="{{$news_item->id}}">
+            @csrf
+            <textarea id="commentContent" name="content" rows="3" maxlength="500" required placeholder="Write your comment here"></textarea>
+            <button type="submit" class="button" id="postComment">Post</button>
+        </form>
+    </section>    
     <section id = "comments">
         @if ($comments->count() === 0)
-            <p class="not_comments"> There are no comments yet</p>
+            <p id="no_comments"> There are no comments yet</p>
         @else
             @foreach ($comments as $comment)
                 <article class="comment">
@@ -79,7 +89,7 @@
                             @endif
                             <p class=date> {{ $comment->content->date }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class=date> {{ $comment->content->edit_date }}</p>
+                                <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @endif
                         @endif
                     </div>

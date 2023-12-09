@@ -3,12 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowUserController;
+
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowTopicController;
 use App\Http\Controllers\FollowTagController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(FollowUserController::class)->group(function () {
     Route::post('/profile/unfollow', 'destroy')->name('unfollow');
     Route::post('/profile/follow', 'create')->name('follow');
+});
+
+
+Route::controller(CommentController::class)->group(function () {
+    Route::post('/news/{id}/comment','store')->name('news.comments.store');
 });
 
 Route::controller(ReportController::class)->group(function () {
