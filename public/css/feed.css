@@ -1,4 +1,4 @@
-.feed_buttons{
+.feed_buttons {
     display: flex;
 }
 
@@ -21,15 +21,6 @@
     padding: 0;
 }
 
-.top_feed {
-    background-color: #606c76;
-    border-color: #606c76;
-}
-
 .paginate a:hover {
     cursor: pointer;
-}
-
-.user_news:hover {
-    border-color: #606c76;
 }

@@ -3,19 +3,29 @@
     display: flex;
 }
 
-#user_picture{
+#user_picture {
     flex: 1;
     height: 20em;
     width: auto;
     object-fit: contain;
 }
 
-#user_card{
+#user_card {
     flex: 2;
     padding: 1em;
 }
 
-#user_details, #user_details > div{
+#user_card > button {
+    display: inline;
+}
+
+#user_card .button {
+    margin: auto;
+    margin-bottom: 1em;
+}
+
+#user_details,
+#user_details > div {
     display: flex;
     width: 100%;
 }
@@ -29,18 +39,43 @@
     white-space: pre-line;
 }
 
-#user_card p , #user_card h4{
+#user_card p,
+#user_card h4 {
     margin: 0em;
 }
 
-.user_news{
-    border: 0.5em solid var(--secundary-color); 
+.user_news {
+    border: 0.5em solid var(--secundary-color);
     padding: 1em;
     margin: 1em 0em;
 }
 
-svg{
+svg {
     width: 1em;
     height: 1em;
-    vertical-align: middle; 
+    vertical-align: middle;
+}
+
+#follow, #follow_topic, #follow_tag {
+    text-transform: capitalize;
+}
+
+.image_buttons_wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.image_buttons_wrapper > button:first-of-type {
+    margin-left: 0;
+    width: 10em;
+}
+
+.image_buttons_wrapper > button:last-of-type {
+    margin-right: 0;
+    width: 10em;
+}
+
+.remove_pfp_image {
+    background-color: red;
+    border-color: red;
 }

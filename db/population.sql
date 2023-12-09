@@ -516,6 +516,8 @@ INSERT INTO "report" (reason, date, type, id_reporter, id_content) VALUES ('Cont
 INSERT INTO "report" (reason, date, type, id_reporter, id_user) VALUES ('Troll/abusive writer', TO_TIMESTAMP('20/10/2023 09:39:00', 'DD/MM/YYYY HH24:MI:SS'),'user',31,41);
 INSERT INTO "report" (reason, date, type, id_reporter, id_user) VALUES ('Troll/abusive writer',TO_TIMESTAMP('21/10/2023 23:42:00', 'DD/MM/YYYY HH24:MI:SS'),'user',23,41);
 
+INSERT INTO "report" (reason, date, type, id_reporter, id_content) VALUES ('Contains insults or inappropriate language',TO_TIMESTAMP('20/10/2023 09:39:00', 'DD/MM/YYYY HH24:MI:SS'),'content',31,41);
+INSERT INTO "report" (reason, date, type, id_reporter, id_content) VALUES ('Contains insults or inappropriate language',TO_TIMESTAMP('21/10/2023 23:39:00', 'DD/MM/YYYY HH24:MI:SS'),'content',23,41);
 
 
 -- 3 FI Fora do topico

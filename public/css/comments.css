@@ -46,7 +46,7 @@ section#comments article.comment:not(:first-child) {
     display: inline;
     color: grey;
 }
-      
+
 section#comments article.news_body .title {
     font-weight: bold;
     font-size: 2em;
