@@ -18,6 +18,7 @@ use App\Http\Controllers\MailController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RecoverPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,9 +56,13 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'authenticate');
     Route::get('/logout', 'logout')->name('logout');
-    Route::get('/login/recover', 'show_recover_password_form')->name('recover_password');
-    Route::post('/login/verify_code', 'verify_code')->name('verify_code');
-    Route::post('/login/change_password', 'change_password')->name('change_password');
+});
+
+// Recover Password
+Route::controller(RecoverPasswordController::class)->group(function() {
+    Route::get('/recover', 'show_recover_password_form')->name('recover_password');
+    Route::post('/recover/verify_code', 'verify_code')->name('verify_code');
+    Route::post('/recover/change_password', 'change_password')->name('change_password');
 });
 
 Route::controller(RegisterController::class)->group(function () {

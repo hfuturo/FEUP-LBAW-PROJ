@@ -14,7 +14,7 @@ class MailController extends Controller
         $user = User::where('email', '=', $request->email)->first();
 
         if ($user === NULL) {
-            return redirect()->route('login')->withErrors(['error', 'Invalid email']);
+           return back()->withErrors(['Invalid email']);
         }
         
         $mailData = [
