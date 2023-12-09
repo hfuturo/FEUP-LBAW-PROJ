@@ -102,9 +102,7 @@ class User extends Authenticatable
     }
 
     public function votes(){
-      return $this
-        ->belongsToMany(Project::class, 'vote', 'id_user', 'id_content')
-        ->withPivot('vote');
+      return $this->hasMany(Vote::class, 'id_user');
     }
     
     public function news_items() {
