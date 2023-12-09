@@ -16,11 +16,11 @@ main {
 
 .authentication {
     width: 100%;
-    display: flex;
+     display: flex; 
     justify-content: center;
     align-items: center;
     margin: 1em 0em;
-}
+} 
 
 .authentication a::before {
     content: "\00a0";
@@ -29,3 +29,26 @@ main {
 #remember input {
     width: 2em;
 }
+
+#authentication button[type="submit"] {
+  margin-bottom: 0;
+}
+
+.authentication_auth_links {
+  display: flex;
+  align-items: center;
+  height: 3em;
+}
+
+.authentication_auth_links > * {
+  display: inline-block;
+  margin-right: 0;
+}
+
+.authentication_auth_links a,
+.authentication_auth_links p:nth-child(2) {
+  text-align: right;
+  margin-left: auto;
+  padding-right: 0;
+}
+

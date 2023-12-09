@@ -16,9 +16,11 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\MailController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RecoverPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +58,15 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'authenticate');
     Route::get('/logout', 'logout')->name('logout');
+});
+
+// Recover Password
+Route::controller(RecoverPasswordController::class)->group(function() {
+    Route::get('/recover', 'show_recover_password_form')->name('recover_password');
+    Route::post('/recover/verify_code', 'verify_code')->name('verify_code');
+    Route::get('/recover/verify_code/{email}', 'verify_code_form')->name('verify_code_form');
+    Route::post('/recover/change_password', 'change_password')->name('change_password');
+    Route::get('/recover/change_password/{email}', 'change_password_form')->name('change_password_form');
 });
 
 Route::controller(RegisterController::class)->group(function () {
@@ -107,6 +118,11 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/report_users', 'show_users')->name('user_reports');
     Route::get('/report_news', 'show_news')->name('news_reports');
     Route::get('/report_comments', 'show_comments')->name('comments_reports');
+});
+
+// email
+Route::controller(MailController::class)->group(function() {
+    Route::post('/send', 'send')->name('send_email');
 });
 
 Route::controller(TopicController::class)->group(function () {
