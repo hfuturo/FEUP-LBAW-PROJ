@@ -67,5 +67,4 @@ Route::controller(FollowTopicController::class)->group(function () {
 Route::controller(FollowTagController::class)->group(function () {
     Route::post('/tag/unfollow', 'destroy')->name('unfollow');
     Route::post('/tag/follow', 'create')->name('follow');
->>>>>>> routes/api.php
 });
