@@ -82,11 +82,47 @@ class UserController extends Controller
         }
     }
 
+    public function block(Request $request)
+    {
+        $update = User::where('id', $request->input("request"))
+            ->update(['blocked' => true]);
+        $response = [
+            'action' => 'block_user',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
+    }
+
+    public function unblock(Request $request)
+    {
+        $update = User::where('id', $request->input("request"))
+            ->update(['blocked' => false]);
+        $response = [
+            'action' => 'unblock_user',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function delete(User $user)
     {
-        //
+        $this->authorize('delete', $user);
+        return $user->delete() ?
+            redirect()->route('news')->with('success', 'Account deleted successfully!') :
+            redirect()->route('profile', [$user->id])->withErrors(['Error deleting account!']);
+    }
+
+    public function destroy(Request $request)
+    {
+        $delete = User::where('id', $request->input("request"))
+            ->delete();
+        $response = [
+            'action' => 'delete_user',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
     }
 }

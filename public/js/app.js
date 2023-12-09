@@ -1,80 +1,43 @@
-function addEventListeners() {
-  const filterUsersInput = document.querySelector('#users input')
-  if (filterUsersInput) {
-      filterUsersInput.addEventListener('input', async function() {
-          sendAjaxRequest('post','/api/manage', {search: filterUsersInput.value}, filterUsersHandler)
-      })
-  }
+"use strict";
 
-  document.querySelectorAll('.feed_button').forEach(button => {
-    button.addEventListener('click', feedLinksHandler)
-  })
+document
+    .getElementById("manage_report_button")
+    .addEventListener("click", function () {
+        let subOptions = document.getElementById("report_sub_options");
+        subOptions.style.display =
+            subOptions.style.display === "block" ? "none" : "block";
+    });
 
-  document.querySelectorAll('.paginate a').forEach(link => {
-    link.addEventListener('click', feedLinksHandler)
-  })
-}
-  
-function encodeForAjax(data) {
-  if (data == null) return null;
-  return Object.keys(data).map(function(k){
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-  }).join('&');
+function openTopicProposal() {
+    document.getElementById("topic_proposal_popup").style.display = "block";
 }
 
-function sendAjaxRequest(method, url, data, handler) {
-  let request = new XMLHttpRequest();
-
-  request.open(method, url, true);
-  request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  request.addEventListener('load', handler);
-  request.send(encodeForAjax(data));
+function closeTopicProposal() {
+    document.getElementById("topic_proposal_popup").style.display = "none";
 }
 
-async function feedLinksHandler(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const response = await fetch(e.target.href)
-  const raw_data = await response.text()
-  updateFeed(raw_data)
-  document.getElementById('content').scrollIntoView({behavior: 'smooth'})
+document.querySelectorAll(".topics_proposal").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const idTopic = button.id;
+        sendAjaxRequest(
+            "post",
+            `/manage_topic/${event.target.dataset.operation}`,
+            { idTopic },
+            topicProposalHandler
+        );
+    });
+});
+
+function topicProposalHandler() {
+    if (this.status != 200) window.location = "/";
+    let idTopic = JSON.parse(this.responseText);
+    let element = document.getElementById(idTopic);
+    element.remove();
 }
-
-function updateFeed(raw_data) {
-  let all_news = document.querySelector('.all_news')
-  all_news.innerHTML = raw_data;
-  document.querySelectorAll('.all_news .paginate a').forEach(link => {
-    link.addEventListener('click', feedLinksHandler)
-  })
-  return;
-}
-
-function filterUsersHandler() {
-    if (this.status != 200) window.location = '/'
-    const users = JSON.parse(this.responseText)
-
-    let usersList = document.querySelector('#all_users')
-    
-    // limpa a lista
-    usersList.innerHTML = ''
-
-    // reconstroi lista
-    for (const user of users) {
-        let li = document.createElement('li')
-        li.classList.add('user')
-        let link = document.createElement('a')
-        link.href = "/profile/" + user.id
-        link.innerHTML = user.name
-        li.appendChild(link)
-        usersList.appendChild(li)
-    }
-}
-
-addEventListeners();
 
 
 // new comment
+
 document.getElementById('commentForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -92,7 +55,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
   if (data.success) {          
       const noComments = document.getElementById("no_comments");
-      console.log(noComments);
+
       if(noComments) {noComments.remove();};
       const commentSection = document.getElementById('comments');
       const newComment = document.createElement('article');
@@ -126,24 +89,16 @@ document.getElementById('commentForm').addEventListener('submit', async function
       
       const votes = document.createElement('div');
       votes.className = "votes";
-      const like = document.createElement('button');
-      like.className = "accept";
-      const sibLike = document.createElement('span');
-      sibLike.className = "material-symbols-outlined";
-      sibLike.textContent = "thumb_up";
+
+      
+      const like = createLikeDislick("accept", "thumb_up");
       const nLikes = document.createElement('p');
-      like.appendChild(sibLike);
       nLikes.textContent = 0;
 
-      const dislike = document.createElement('button');
-      dislike.className = "remove";
-      const sibDislike = document.createElement('span');
-      sibDislike.className = "material-symbols-outlined";
-      sibDislike.textContent = "thumb_down";
-      dislike.appendChild(sibDislike);
+      const dislike = createLikeDislick("remove", "thumb_down");
       const nDislikes = document.createElement('p');
       nDislikes.textContent = 0;
-
+  
       votes.appendChild(like);
       votes.appendChild(nLikes);
       votes.appendChild(dislike);
@@ -157,6 +112,7 @@ document.getElementById('commentForm').addEventListener('submit', async function
       console.error('Failed to add comment');
   }
 });
+
 
 
 
@@ -277,3 +233,17 @@ function makeDropDown(){
 
   return dropdown;
 }
+
+function createLikeDislick(className, symbol) {
+  const button = document.createElement('button');
+  button.className = className;
+  
+  const icon = document.createElement('span');
+  icon.className = "material-symbols-outlined";
+  icon.textContent = symbol;
+  
+  button.appendChild(icon);
+  
+  return button;
+}
+

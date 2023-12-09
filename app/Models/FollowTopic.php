@@ -9,6 +9,7 @@ class FollowTopic extends Model
 {
     use HasFactory;
     public $timestamps  = false;
+    public $incrementing = false;
     protected $table = 'follow_topic';
 
     protected $fillable = [

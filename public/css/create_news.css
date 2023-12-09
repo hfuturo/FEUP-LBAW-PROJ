@@ -1,54 +1,53 @@
-
-section#news-create-container{
-  padding: 1em;
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
+section#news-create-container {
+    padding: 1em;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
 }
 
-#news-create-container h2{
-  font-size: 2em;
-  font-weight: bold;
-  margin: 0em;
-  color: var(--primary-color);
+#news-create-container h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0em;
+    color: var(--primary-color);
 }
 
-#news-create-container label{
-  font-size: 1.5em;
-  font-weight: bold;
-  color: var(--primary-color);
+#news-create-container label {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
 #news-create-container #title {
-  margin-top: 1em;
-  font-size: 1.5em;
+    margin-top: 1em;
+    font-size: 1.5em;
 }
 
-#news-create-container .topic{
-  display: block;
-  width: 100%;
-  padding: 0.5em;
+#news-create-container .topic {
+    display: block;
+    width: 100%;
+    padding: 0.5em;
 }
-  
-#news-create-container ul{
-  list-style-type: none;
-  display: flex;
-  border-radius: 10px;
-  min-height: 1em;
-  overflow-x: auto;
-  flex-wrap: wrap;
+
+#news-create-container ul {
+    list-style-type: none;
+    display: flex;
+    border-radius: 10px;
+    min-height: 1em;
+    overflow-x: auto;
+    flex-wrap: wrap;
 }
-  
-#news-create-container li{
-  display: flex;
-  margin: 0.5em 0.25em 0.5em 0.5em;
-  padding: 1em;
-  border-radius: 10px;
-  background-color: var(--primary-color);
-  color: white;
+
+#news-create-container li {
+    display: flex;
+    margin: 0.5em 0.25em 0.5em 0.5em;
+    padding: 1em;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: white;
 }
-  
-#news-create-container li span{
-  margin-left: 0.5em;
-  cursor: pointer;
-  color: white;
+
+#news-create-container li span {
+    margin-left: 0.5em;
+    cursor: pointer;
+    color: white;
 }

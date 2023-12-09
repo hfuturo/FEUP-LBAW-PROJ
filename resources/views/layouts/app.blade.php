@@ -12,12 +12,8 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
-
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
-    <link href="{{ url('css/manage.css') }}" rel="stylesheet">
-    <link href="{{ url('css/profile.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     
@@ -26,19 +22,20 @@
     <link href="{{ url('css/comments.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
-    <link href="{{ url('css/info.css') }}" rel="stylesheet">
-
-    <script type="text/javascript">
-        // Fix for Firefox autofocus CSS bug
-        // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
-    </script>
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/topic.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
+
+    @yield('head')
 
 </head>
+<style>
+    .sub-options {
+        display: none;
+    }
+</style>
 
 <body>
+    @include('partials.error_message')
     <header>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form action="/news" style="margin: 0;margin-left: 2rem; margin-right:1rem; display:flex;">
@@ -61,7 +58,8 @@
             <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
-                <a class="button" id="button_profile" href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
+                <a class="button" id="button_profile"
+                    href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
             @endif
             @if (!Auth::check())
                 <a class="button" href="{{ url('/login') }}">Log in</a>
@@ -75,7 +73,15 @@
                 <section id="admin_buttons">
                     <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                     <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                    <a class="button admin_button" id="manage_report_button"> Manage Report </a>
+                    <div class="sub-options" id="report_sub_options">
+                        <a class="button" href="{{ route('user_reports') }}">Users</a>
+                        <a class="button" href="{{ route('news_reports') }}">News</a>
+                        <a class="button" href="{{ route('comments_reports') }}">Comments</a>
+                        <a class="button" href="{{ route('news_reports') }}">Tags</a>
+                    </div>
                 </section>
+                <!--href="{{ url('/report') }}"-->
             @endif
             <a href="{{ route('create_news') }}" class="button"> Create Post</a>
             <a href="" class="button"> Create Organization</a>
