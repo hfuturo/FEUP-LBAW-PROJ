@@ -9,6 +9,8 @@ use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TopicController;
+use App\Http\Controllers\TagController;
 
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
@@ -121,4 +123,12 @@ Route::controller(ReportController::class)->group(function () {
 // email
 Route::controller(MailController::class)->group(function() {
     Route::post('/send', 'send')->name('send_email');
+});
+
+Route::controller(TopicController::class)->group(function () {
+    Route::get('/topic/{topic}', 'show')->name('topic');
+});
+
+Route::controller(TagController::class)->group(function () {
+    Route::get('/tag/{tag}', 'show')->name('tag');
 });

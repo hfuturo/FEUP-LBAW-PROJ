@@ -7,7 +7,7 @@
             <label for="name">Name</label>
             <input id="name" type="text" name="name" placeholder="Name" required autofocus>
 
-            <label for="justification" >Justification</label>
+            <label for="justification">Justification</label>
             <input id="justification" type="text" name="justification" placeholder="Justification">
 
             <button type="submit"> Submit </button>

@@ -1,83 +1,95 @@
-svg{
-  width: 1em;
-  height: 1em;
-  vertical-align: middle; 
+svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
 }
-  
+
 main {
-  grid-column-start: content;
-  grid-column-end: end;
-  grid-row-start: content;
-  grid-row-end: footer;
-  padding: 1em;
-  margin: 1em;
+    grid-column-start: content;
+    grid-column-end: end;
+    grid-row-start: content;
+    grid-row-end: footer;
+    padding: 1em;
+    margin: 1em;
 }
 
 body > nav {
-  grid-column-start: start;
-  grid-column-end: content;
-  grid-row-start: content;
-  grid-row-end: footer;
-  background-color: var(--secundary-color);
+    grid-column-start: start;
+    grid-column-end: content;
+    grid-row-start: content;
+    grid-row-end: footer;
+    background-color: var(--secundary-color);
 }
 
 .header_nav {
-  display: flex;
+    display: flex;
 }
 
 .header_nav a {
-  flex: 1;
+    flex: 1;
 }
 
 body > nav #admin_buttons {
-  border-bottom: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 /* em list_suggested_topics */
-#container_choices{
-  display: flex;
+#container_choices {
+    display: flex;
 }
 
-.accept, .remove {
-  margin: 1em;
-  border-radius: 1em;
+.accept,
+.remove {
+    margin: 1em;
+    border-radius: 1em;
 }
 
-.accept{
-  background-color: green;
-  border-color: green;
-  margin-right: 1em;
+.accept {
+    background-color: green;
+    border-color: green;
+    margin-right: 1em;
 }
 
-.remove{
-  background-color: red;
-  border-color: red;
+.remove {
+    background-color: red;
+    border-color: red;
 }
 
-nav .button{
-  margin: 0em 0em 0.5em 0em;
+nav .button {
+    margin: 0em 0em 0.5em 0em;
 }
 
-header .button{
-  width: 100%;
+header .button {
+    width: 100%;
 }
 
 #button_profile {
-  background-color: var(--secundary-color);
-  color: var(--primary-color);
+    background-color: var(--secundary-color);
+    color: var(--primary-color);
 }
 
 .delete_button {
-  background-color: red;
-  border-color: red;
+    background-color: red;
+    border-color: red;
 }
 
 header form input,
 header form select,
 header form button {
-  margin: 0em 0em 1em 0em;
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
-  color: var(--main-text-color);
-  padding: 1em;
+    margin: 0em 0em 1em 0em;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    color: var(--main-text-color);
+    padding: 1em;
+}
+
+/* n sei exatamente onde por */
+.user_news {
+    border: 0.5em solid var(--secundary-color);
+    padding: 1em;
+    margin: 1em 0em;
+}
+
+.user_news:hover {
+    border-color: #606c76;
 }

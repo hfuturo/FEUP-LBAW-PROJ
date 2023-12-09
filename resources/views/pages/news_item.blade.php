@@ -1,18 +1,20 @@
 @extends('layouts.app')
-<?php
-use Carbon\Carbon;
-?>
+<?php use Carbon\Carbon; ?>
+
+@section('head')
+    <link href="{{ url('css/news.css') }}" rel="stylesheet">
+    <link href="{{ url('css/comments.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
-
     <section id = "news">
-        @include('partials.error_message')
         @if (Auth::check() && $news_item->content->authenticated_user !== null)
             @if (Auth::user()->id === $news_item->content->authenticated_user->id)
                 <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
                     @csrf
                     <button type="submit">Delete</button>
-                    <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button" style="display:inline-block;">Edit
+                    <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button"
+                        style="display:inline-block;">Edit
                         Post</a>
                 </form>
             @endif
@@ -20,14 +22,14 @@ use Carbon\Carbon;
         <article class = "news_body">
             <div class = "news_head">
                 @if (Auth::check())
-                    <a href="" class="topic">{{ $news_item->topic->name }}</a>
+                    <a href="{{ route('topic', ['topic' => $news_item->topic->id]) }}">{{ $news_item->topic->name }}</a>
                 @endif
                 <h2 class = "title">{{ $news_item->title }}</h2>
                 @if (Auth::check())
                     <span>Posted by</span>
                     @if ($news_item->content->authenticated_user !== null)
                         <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
-                        class = "author">{{ $news_item->content->authenticated_user->name }}</a>
+                            class = "author">{{ $news_item->content->authenticated_user->name }}</a>
                     @else
                         <p class="author">Anonymous</p>
                     @endif
@@ -54,10 +56,10 @@ use Carbon\Carbon;
                 </div>
                 <div class=tags>
                     @foreach ($news_item->tags as $tag)
-                        <a href="" class="tag">{{ $tag->name }}</a>
+                        <a href="{{ route('tag', ['tag' => $tag->id]) }}" class="tag">{{ $tag->name }}</a>
                     @endforeach
                 </div>
-                @include('partials.vote',['item' => $news_item])
+                @include('partials.vote', ['item' => $news_item])
             @endif
         </article>
     </section>
@@ -70,7 +72,8 @@ use Carbon\Carbon;
                     <div class="comment_header">
                         @if (Auth::check())
                             @if ($comment->content->authenticated_user !== null)
-                                <a href="" class="comment_author"> {{ $comment->content->authenticated_user->name }}</a>
+                                <a href="" class="comment_author">
+                                    {{ $comment->content->authenticated_user->name }}</a>
                             @else
                                 <p class="comment_author">Anonymous</p>
                             @endif
@@ -82,7 +85,7 @@ use Carbon\Carbon;
                     </div>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())
-                        @include('partials.vote',['item' => $comment])
+                        @include('partials.vote', ['item' => $comment])
                     @endif
                 </article>
             @endforeach
@@ -91,5 +94,4 @@ use Carbon\Carbon;
             </div>
         @endif
     </section>
-
 @endsection

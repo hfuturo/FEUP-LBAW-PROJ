@@ -10,11 +10,9 @@ header.info_header h1 {
     font-size: 50px;
 }
 
-
-header.info_header *, 
+header.info_header *,
 section.info_section,
-section.main_features *
-{
+section.main_features * {
     color: var(--main-text-color);
 }
 

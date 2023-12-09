@@ -3,7 +3,7 @@
         {{ session('success') }}
     </p>
 @endif
-@if($errors->any())
+@if ($errors->any())
     <p class="error" onclick="this.style.display='none'">
         {{ $errors->first() }}
     </p>

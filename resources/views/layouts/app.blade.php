@@ -12,36 +12,24 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
-
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
-    <link href="{{ url('css/manage.css') }}" rel="stylesheet">
-    <link href="{{ url('css/profile.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
-    
-    <link href="{{ url('css/news.css') }}" rel="stylesheet">
-    <link href="{{ url('css/comments.css') }}" rel="stylesheet">
-    <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
-    <link href="{{ url('css/info.css') }}" rel="stylesheet">
-
-    <script type="text/javascript">
-        // Fix for Firefox autofocus CSS bug
-        // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
-    </script>
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/topic.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/profile.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
+
+    @yield('head')
 
 </head>
 <style>
-        .sub-options {
-            display: none;
-        }
-    </style>
+    .sub-options {
+        display: none;
+    }
+</style>
+
 <body>
+    @include('partials.error_message')
     <header>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form action="/news" style="margin: 0;margin-left: 2rem; margin-right:1rem; display:flex;">
@@ -64,7 +52,8 @@
             <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
-                <a class="button" id="button_profile" href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
+                <a class="button" id="button_profile"
+                    href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
             @endif
             @if (!Auth::check())
                 <a class="button" href="{{ url('/login') }}">Log in</a>
@@ -99,4 +88,5 @@
         </section>
     </main>
 </body>
+
 </html>
