@@ -22,9 +22,9 @@ class FileController extends Controller
     }
 
     private static function isValidExtension(String $type, String $extension) {
-        $allowedExtesnsions = self::$systemTypes[$type];
+        $allowedExtensions = self::$systemTypes[$type];
 
-        return in_array(strtolower($extension), $allowedExtesnsions);
+        return in_array(strtolower($extension), $allowedExtensions);
     }
 
     private static function defaultAsset(String $type) {
@@ -39,6 +39,9 @@ class FileController extends Controller
             case 'profile':
                 $fileName = User::find($id)->image;
                 break;
+            
+            default:
+                return null;
         }
 
         return $fileName;
@@ -63,12 +66,13 @@ class FileController extends Controller
 
     private static function delete(String $type, int $id) {
         $existingFileName = self::getFileName($type, $id);
-        if ($existingFileName) {
+        if ($existingFileName && $existingFileName !== self::$default) {
+
             Storage::disk(self::$diskName)->delete($type . '/' . $existingFileName);
 
             switch ($type) {
                 case 'profile':
-                    User::find($id)->image = 'pfp_default.jpeg';
+                    User::find($id)->image = self::$default;
                     break;
             }
         }
@@ -88,7 +92,7 @@ class FileController extends Controller
         $file = $request->file('file');
         $type = $request->type;
         $id = Auth::user()->id;
-        $extension = $file->getClientOriginalExtension();
+        $extension = $file->extension();
 
         if (!$this->isValidExtension($type, $extension)) {
             return back()->withErrors('Error: Unsupported upload extension');
