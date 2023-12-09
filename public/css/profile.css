@@ -67,10 +67,12 @@ svg {
 
 .image_buttons_wrapper > button:first-of-type {
     margin-left: 0;
+    width: 10em;
 }
 
 .image_buttons_wrapper > button:last-of-type {
     margin-right: 0;
+    width: 10em;
 }
 
 .remove_pfp_image {
