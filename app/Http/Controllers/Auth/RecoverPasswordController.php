@@ -51,7 +51,7 @@ class RecoverPasswordController extends Controller
             'password' => 'required|min:8|confirmed'
         ]);
 
-        User::where('email', '=', $request->email)->update(['password' => Hash::make($request->password)]);
+        User::where('email', '=', $request->email)->update(['password' => Hash::make($request->password), 'recover_password_code' => null]);
 
         return redirect()->route('login')->withSuccess('Password changed successfully');
     } 
