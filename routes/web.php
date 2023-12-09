@@ -137,4 +137,5 @@ Route::controller(TagController::class)->group(function () {
 // file
 Route::controller(FileController::class)->group(function() {
     Route::post('/file/upload', 'upload');
+    Route::post('/file/delete', 'remove_pfp');
 });

@@ -48,7 +48,12 @@
             </div>
             <div class="image_wrapper">
                 <img id="user_picture" src="{{ $user->getProfileImage() }}">
-                @include('partials.image_form', ['user' => $user])
+                @if (Auth::user()->id === $user->id)
+                    <div class="image_buttons_wrapper">
+                        @include('partials.image_form')
+                        @include('partials.remove_pfp_form')
+                    </div>
+                @endif
             </div>
         </div>
         <h3>News made by {{ $user->name }} ...</h3>

@@ -59,3 +59,21 @@ svg {
 #follow, #follow_topic, #follow_tag {
     text-transform: capitalize;
 }
+
+.image_buttons_wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.image_buttons_wrapper > button:first-of-type {
+    margin-left: 0;
+}
+
+.image_buttons_wrapper > button:last-of-type {
+    margin-right: 0;
+}
+
+.remove_pfp_image {
+    background-color: red;
+    border-color: red;
+}

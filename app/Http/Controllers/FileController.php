@@ -128,4 +128,21 @@ class FileController extends Controller
         $file->storeAs($type, $fileName, self::$diskName);
         return back()->withSuccess('Image changed successfully.');
     }
+
+    function remove_pfp(Request $request) {
+        if (!$this->isValidType($request->type)) {
+            return back()->withErrors('Error: Unsupported upload type');
+        }
+
+        $existingFileName = self::getFileName($request->type, Auth::user()->id);
+
+        if (Auth::user()->image === self::$default)
+            return back()->withErrors("Error: can't remove default profile picture");
+
+        $this->delete($request->type, Auth::user()->id);
+        Auth::user()->image = self::$default;
+        Auth::user()->save();
+
+        return back()->withSuccess("Profile picture removed successfully");
+    }
 }
