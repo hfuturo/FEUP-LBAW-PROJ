@@ -12,7 +12,7 @@
     <label for="email">Email</label>
     <input id="email" type="email" name="email" placeholder="Email" value={{ $email }} required readonly>
     <label for="password">Password</label>
-    <input id="password" type="password" name="password" placeholder="password" required>
+    <input id="password" type="password" name="password" placeholder="Password" required>
     <label for="password-confirm">Confirm Password</label>
     <input id="password-confirm" type="password" name="password_confirmation" placeholder="Password" required>
     <button class="authentication" type="submit">Change password</button>

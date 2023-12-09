@@ -6,6 +6,10 @@
     <p class="error">{{ $errors->first() }}</p>
 @endif
 
+@if (session()->has('success'))
+    <p class="success"> {{ session()->get('success') }}</p>
+@endif
+
 <h2> Recover Password </h2>
 <form method="POST" action={{ route('verify_code') }}>
     @csrf
