@@ -6,22 +6,22 @@
 }
 
 body {
+    min-height: 100%;
+    margin: 0;
     display: grid;
     grid-template-columns: [start] 1fr [content] 6fr [end];
-    grid-template-rows: [header] 1fr [content] auto [footer] auto [end];
+    grid-template-rows: [header] auto [content] 1fr [footer] auto [end];
     font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 header {
     grid-column-start: start;
     grid-column-end: end;
-    grid-row-start: header;
-    grid-row-end: content;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    align-items: center;
+    display: flex;
     background-color: var(--secundary-color);
     padding: 1em;
+    align-items: center;
+    justify-content: space-between;
 }
 
 header h1 {

@@ -38,9 +38,8 @@
     @include('partials.error_message')
     <header>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
-        <form action="/news" style="margin: 0;margin-left: 2rem; margin-right:1rem; display:flex;">
-            <select name="search_type"
-                style="background-color: white;width:auto;margin:0;background-position-x: calc(100% + 0.5em);">
+        <form class="search_form" action="/news">
+            <select name="search_type">
                 <option value="normal" @if (app('request')->input('search_type') == 'normal') selected @endif>Normal</option>
                 <option value="exact" @if (app('request')->input('search_type') == 'exact') selected @endif>Exact</option>
             </select>
@@ -71,7 +70,8 @@
                 <section id="admin_buttons">
                     <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                     <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-                    <a class="button admin_button" id="manage_report_button"> Manage Report<span class="material-symbols-outlined">expand_more</span></a>
+                    <a class="button admin_button" id="manage_report_button"> Manage Report<span
+                            class="material-symbols-outlined">expand_more</span></a>
                     <div class="sub-options" id="report_sub_options">
                         <a class="button" href="{{ route('user_reports') }}">Users</a>
                         <a class="button" href="{{ route('news_reports') }}">News</a>
@@ -93,11 +93,9 @@
         </section>
     </main>
     <footer>
-        <div id="wrapped">
-            <a href=" {{ url('/about_us') }}"> About Us </a>
-            <h3><a href="{{ url('/news') }}">NewsCore</a></h3>
-            <a href=" {{ url('/contacts') }}"> Contact Us </a>
-</div>
+        <a href=" {{ url('/about_us') }}"> About Us </a>
+        <h3><a href="{{ url('/news') }}">NewsCore</a></h3>
+        <a href=" {{ url('/contacts') }}"> Contact Us </a>
     </footer>
 </body>
 
