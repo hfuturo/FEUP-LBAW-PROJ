@@ -101,8 +101,16 @@ document
 
             commentHead.appendChild(commentAuthorPfp);
             commentHead.appendChild(commentAuth);
+            if (data.news_author){
+                const authrIcon = document.createElement('span');
+                authrIcon.className = "material-symbols-outlined author";
+                authrIcon.textContent = "person_edit";
+                commentHead.appendChild(authrIcon);
+            }
             commentHead.appendChild(commentDate);
             commentHead.appendChild(more);
+
+
 
             newComment.appendChild(commentHead);
             newComment.appendChild(commentText);
