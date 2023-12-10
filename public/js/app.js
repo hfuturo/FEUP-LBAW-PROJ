@@ -6,6 +6,10 @@ document
         let subOptions = document.getElementById("report_sub_options");
         subOptions.style.display =
             subOptions.style.display === "block" ? "none" : "block";
+        let buttonSpan = document.getElementById("manage_report_button").querySelector("span");
+        console.log(buttonSpan)
+        buttonSpan.textContent =
+        buttonSpan.textContent === "expand_more" ? "expand_less" : "expand_more";
     });
 
 function openTopicProposal() {

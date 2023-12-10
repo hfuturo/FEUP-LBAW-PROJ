@@ -8,7 +8,7 @@
 body {
     display: grid;
     grid-template-columns: [start] 1fr [content] 6fr [end];
-    grid-template-rows: [header] 1fr [content] auto [footer];
+    grid-template-rows: [header] 1fr [content] auto [footer] auto [end];
     font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 

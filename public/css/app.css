@@ -13,6 +13,25 @@ main {
     margin: 1em;
 }
 
+footer{
+    grid-column-start: start;
+    grid-column-end: end;
+    grid-row-start: footer;
+    grid-row-end: end;
+    background-color: var(--secundary-color);
+}
+
+footer #wrapped{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer #wrapped > a{
+    margin: 1em;
+    text-align: center;
+}
+
 a {
     cursor: pointer;
 }

@@ -54,8 +54,6 @@
                 </svg></button>
         </form>
         <span class="header_nav">
-            <a href=" {{ url('/about_us') }}" class="button"> About Us </a>
-            <a href=" {{ url('/contacts') }}" class="button"> Contact Us </a>
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <a class="button" id="button_profile"
@@ -73,7 +71,7 @@
                 <section id="admin_buttons">
                     <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                     <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-                    <a class="button admin_button" id="manage_report_button"> Manage Report </a>
+                    <a class="button admin_button" id="manage_report_button"> Manage Report<span class="material-symbols-outlined">expand_more</span></a>
                     <div class="sub-options" id="report_sub_options">
                         <a class="button" href="{{ route('user_reports') }}">Users</a>
                         <a class="button" href="{{ route('news_reports') }}">News</a>
@@ -94,6 +92,13 @@
             @yield('content')
         </section>
     </main>
+    <footer>
+        <div id="wrapped">
+            <a href=" {{ url('/about_us') }}"> About Us </a>
+            <h3><a href="{{ url('/news') }}">NewsCore</a></h3>
+            <a href=" {{ url('/contacts') }}"> Contact Us </a>
+</div>
+    </footer>
 </body>
 
 </html>

@@ -44,12 +44,6 @@
     margin: 0em;
 }
 
-.user_news {
-    border: 0.5em solid var(--secundary-color);
-    padding: 1em;
-    margin: 1em 0em;
-}
-
 svg {
     width: 1em;
     height: 1em;
@@ -78,4 +72,13 @@ svg {
 .remove_pfp_image {
     background-color: red;
     border-color: red;
+}
+
+.profile h2 button{
+    display: inline-block;
+    background: none;
+    border: none;
+    min-width: 1em;
+    line-height: 1;
+    color: var(--primary-color);
 }

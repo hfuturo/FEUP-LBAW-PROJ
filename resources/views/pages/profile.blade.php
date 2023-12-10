@@ -9,18 +9,19 @@
     <div class="user_page">
         <div class="profile">
             <div id="user_card">
-                <div id="nav_profile">
-                    @if (Auth::user()->id === $user->id)
-                        @include('partials.edit_profile', ['user' => $user])
-                    @else
-                        @include('partials.follow_user')
+                <div class="action_buttons_wrapper">
+                    @if (Auth::user()->id !== $user->id)
                         @include('partials.report_user')
                     @endif
                     @if (Auth::user()->id === $user->id || Auth::user()->is_admin())
                         @include('partials.delete_account', ['user' => $user])
                     @endif
                 </div>
-                <h2>{{ $user->name }}</h2>
+                @if (Auth::user()->id === $user->id)
+                    @include('partials.edit_profile', ['user' => $user])
+                @else
+                    <h2>{{ $user->name }}@include('partials.follow_user')</h2>          
+                @endif
                 <div id="user_details">
                     <div class="user_info">
                         <h4>Reputation</h4>

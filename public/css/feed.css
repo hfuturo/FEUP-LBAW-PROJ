@@ -37,7 +37,7 @@
 }
 
 .user_news {
-    border: 0.5em solid var(--secundary-color);
+    border: 1px solid var(--primary-color);
     padding: 1em;
     margin: 1em 0em;
 }
