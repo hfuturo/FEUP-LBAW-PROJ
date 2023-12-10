@@ -66,25 +66,27 @@
     </header>
     @if (Auth::check())
         <nav>
-            @if (Auth::user()->is_admin())
-                <section id="admin_buttons">
-                    <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
-                    <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-                    <a class="button admin_button" id="manage_report_button"> Manage Report<span
-                            class="material-symbols-outlined">expand_more</span></a>
-                    <div class="sub-options" id="report_sub_options">
-                        <a class="button" href="{{ route('user_reports') }}">Users</a>
-                        <a class="button" href="{{ route('news_reports') }}">News</a>
-                        <a class="button" href="{{ route('comments_reports') }}">Comments</a>
-                        <a class="button" href="{{ route('news_reports') }}">Tags</a>
-                    </div>
+            <div class="sticky_nav">
+                @if (Auth::user()->is_admin())
+                    <section id="admin_buttons">
+                        <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                        <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                        <a class="button admin_button" id="manage_report_button"> Manage Report<span
+                                class="material-symbols-outlined">expand_more</span></a>
+                        <div class="sub-options" id="report_sub_options">
+                            <a class="button" href="{{ route('user_reports') }}">Users</a>
+                            <a class="button" href="{{ route('news_reports') }}">News</a>
+                            <a class="button" href="{{ route('comments_reports') }}">Comments</a>
+                            <a class="button" href="{{ route('news_reports') }}">Tags</a>
+                        </div>
+                    </section>
+                @endif
+                <section id="nav_normal_buttons">
+                    <a href="{{ route('create_news') }}" class="button"> Create Post</a>
+                    <a href="" class="button"> Create Organization</a>
+                    @include('partials.topic_proposal')
                 </section>
-            @endif
-            <section id="nav_normal_buttons">
-                <a href="{{ route('create_news') }}" class="button"> Create Post</a>
-                <a href="" class="button"> Create Organization</a>
-                @include('partials.topic_proposal')
-            </section>
+            </div>
         </nav>
     @endif
     <main>
