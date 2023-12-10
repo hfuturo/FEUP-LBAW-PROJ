@@ -57,7 +57,8 @@
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <a class="button" id="button_profile"
                     href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
-            @endif
+                <a class="button" href="{{ url('/notification') }}"> Notification </a>
+                @endif
             @if (!Auth::check())
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>

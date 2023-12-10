@@ -80,6 +80,11 @@ class FollowUserController extends Controller
             return redirect()->route('profile', [Auth::user()->id]);
         }
 
+        $followUser = FollowUser::where('id_follower', Auth::user()->id)
+        ->where('id_following', $request->input('user'))->first();
+        $this->authorize('destroy', $followUser);
+
+
         $unfollow = FollowUser::where('id_follower', Auth::user()->id)
             ->where('id_following', $request->input('user'))
             ->delete();
