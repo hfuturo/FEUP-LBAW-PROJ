@@ -65,9 +65,7 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RecoverPasswordController::class)->group(function() {
     Route::get('/recover', 'show_recover_password_form')->name('recover_password');
     Route::post('/recover/verify_code', 'verify_code')->name('verify_code');
-    Route::get('/recover/verify_code/{email}', 'verify_code_form')->name('verify_code_form');
-    Route::post('/recover/change_password', 'change_password')->name('change_password');
-    Route::get('/recover/change_password/{email}', 'change_password_form')->name('change_password_form');
+    Route::get('/recover/verify_code/{user}', 'verify_code_form')->name('verify_code_form');
 });
 
 Route::controller(RegisterController::class)->group(function () {

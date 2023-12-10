@@ -41,7 +41,7 @@ section#news article.news_body .tags .tag {
     color: white;
 }
 
-#news img {
+#news .post_image {
     display: block;
     margin: 1em;
     margin-left: auto;
@@ -70,4 +70,17 @@ section#news article.news_body .tags .tag {
 #edit_or_cancel_edition_news > * {
     margin: 0.5em;
     margin-left: 0;
+}
+
+.post_owner_info_wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.author_post_pfp {
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }

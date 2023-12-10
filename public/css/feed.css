@@ -4,6 +4,7 @@
 
 .feed_buttons .feed_button {
     margin-left: 0;
+    margin-right: 0.5em;
 }
 
 .news_header_feed,
@@ -19,8 +20,24 @@
     background-color: white;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.news_header_feed > h4 {
+    margin-top: 0;
 }
 
 .paginate a:hover {
     cursor: pointer;
+}
+
+.user_news:hover {
+    border-color: #606c76;
+}
+
+.user_news {
+    border: 1px solid var(--primary-color);
+    padding: 1em;
+    margin: 1em 0em;
 }

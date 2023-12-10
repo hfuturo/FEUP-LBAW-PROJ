@@ -23,4 +23,7 @@
     </div>
 </div>
 
-<button onclick="openEditForm()">Edit</button>
+<h2>
+    {{ $user->name }}
+    <button onclick="openEditForm()"><span class="material-symbols-outlined">edit</span></button>
+</h2>

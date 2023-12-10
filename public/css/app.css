@@ -1,3 +1,7 @@
+html {
+    height: 100%;
+}
+
 svg {
     width: 1em;
     height: 1em;
@@ -11,6 +15,23 @@ main {
     grid-row-end: footer;
     padding: 1em;
     margin: 1em;
+    z-index: 0;
+}
+
+footer {
+    grid-column-start: start;
+    grid-column-end: end;
+    grid-row-start: footer;
+    grid-row-end: end;
+    background-color: var(--secundary-color);
+    display: flex;
+    align-items: center;
+    gap: 3em;
+    justify-content: center;
+}
+
+a {
+    cursor: pointer;
 }
 
 body > nav {
@@ -19,6 +40,7 @@ body > nav {
     grid-row-start: content;
     grid-row-end: footer;
     background-color: var(--secundary-color);
+    height: 100%;
 }
 
 .header_nav {
@@ -29,8 +51,34 @@ body > nav {
     flex: 1;
 }
 
+.search_form {
+    margin: 0;
+    margin-inline: 1rem;
+    display: flex;
+    flex-grow: 1;
+    max-width: 45rem;
+}
+
+.search_form select {
+    background-color: white;
+    margin: 0;
+}
+
+.search_form input {
+    flex-grow: 1;
+}
+
+.sticky_nav {
+    position: sticky;
+    top: 5rem;
+}
+
 body > nav #admin_buttons {
     border-bottom: 2px solid black;
+}
+
+#nav_normal_buttons > a:first-of-type {
+    margin-top: 0.5em;
 }
 
 /* em list_suggested_topics */
@@ -59,6 +107,10 @@ nav .button {
     margin: 0em 0em 0.5em 0em;
 }
 
+nav .button:last-of-type {
+    margin-bottom: 0;
+}
+
 header .button {
     width: 100%;
 }
@@ -81,15 +133,4 @@ header form button {
     border-radius: 5px;
     color: var(--main-text-color);
     padding: 1em;
-}
-
-/* n sei exatamente onde por */
-.user_news {
-    border: 0.5em solid var(--secundary-color);
-    padding: 1em;
-    margin: 1em 0em;
-}
-
-.user_news:hover {
-    border-color: #606c76;
 }

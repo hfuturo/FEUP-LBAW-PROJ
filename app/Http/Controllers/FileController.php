@@ -17,29 +17,33 @@ class FileController extends Controller
         'profile' => ['png', 'jpg', 'jpeg']
     ];
 
-    private static function isValidType(String $type) {
+    private static function isValidType(String $type)
+    {
         return array_key_exists($type, self::$systemTypes);
     }
 
-    private static function isValidExtension(String $type, String $extension) {
+    private static function isValidExtension(String $type, String $extension)
+    {
         $allowedExtensions = self::$systemTypes[$type];
 
         return in_array(strtolower($extension), $allowedExtensions);
     }
 
-    private static function defaultAsset(String $type) {
+    private static function defaultAsset(String $type)
+    {
         return asset($type . '/' . self::$default);
     }
 
-    private static function getFileName(String $type, int $id) {
+    private static function getFileName(String $type, int $id)
+    {
 
         $fileName = null;
 
-        switch($type) {
+        switch ($type) {
             case 'profile':
                 $fileName = User::find($id)->image;
                 break;
-            
+
             default:
                 return null;
         }
@@ -47,8 +51,9 @@ class FileController extends Controller
         return $fileName;
     }
 
-    static function get(String $type, int $userId) {
-        
+    static function get(String $type, int $userId)
+    {
+
         // Validation: upload type
         if (!self::isValidType($type)) {
             return self::defaultAsset($type);
@@ -64,7 +69,8 @@ class FileController extends Controller
         return self::defaultAsset($type);
     }
 
-    private static function delete(String $type, int $id) {
+    private static function delete(String $type, int $id)
+    {
         $existingFileName = self::getFileName($type, $id);
         if ($existingFileName && $existingFileName !== self::$default) {
 
@@ -78,7 +84,8 @@ class FileController extends Controller
         }
     }
 
-    function upload(Request $request) {
+    function upload(Request $request)
+    {
 
         if (!$request->hasFile('file')) {
             return back()->withErrors('Error: File not found');
@@ -105,14 +112,13 @@ class FileController extends Controller
         $fileName = $file->hashName();
 
         $error = null;
-        switch($request->type) {
+        switch ($request->type) {
             case 'profile':
                 $user = User::findOrFail($id);
                 if ($user) {
                     $user->image = $fileName;
                     $user->save();
-                }
-                else {
+                } else {
                     $error = "Unknown user";
                 }
                 break;
@@ -129,12 +135,11 @@ class FileController extends Controller
         return back()->withSuccess('Image changed successfully.');
     }
 
-    function remove_pfp(Request $request) {
+    function remove_pfp(Request $request)
+    {
         if (!$this->isValidType($request->type)) {
             return back()->withErrors('Error: Unsupported upload type');
         }
-
-        $existingFileName = self::getFileName($request->type, Auth::user()->id);
 
         if (Auth::user()->image === self::$default)
             return back()->withErrors("Error: can't remove default profile picture");

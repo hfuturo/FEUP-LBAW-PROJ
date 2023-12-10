@@ -6,22 +6,27 @@
 }
 
 body {
+    min-height: 100%;
+    margin: 0;
     display: grid;
     grid-template-columns: [start] 1fr [content] 6fr [end];
-    grid-template-rows: [header] 1fr [content] auto [footer];
+    grid-template-rows: [header] auto [content] 1fr [footer] auto [end];
     font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 header {
     grid-column-start: start;
     grid-column-end: end;
-    grid-row-start: header;
-    grid-row-end: content;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    align-items: center;
+    display: flex;
     background-color: var(--secundary-color);
     padding: 1em;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    height: 5rem;
 }
 
 header h1 {
@@ -45,6 +50,7 @@ button:not(header button) {
 
 .button:hover {
     background-color: var(--hover-color);
+    border-color: var(--hover-color);
 }
 
 textarea:not(header textarea),
@@ -88,6 +94,11 @@ p.success {
     background-color: lightgreen;
     color: darkgreen;
     text-align: center;
+}
+
+p.input_error {
+    color: darkred;
+    margin-top: 0;
 }
 
 @keyframes fadeOut {
