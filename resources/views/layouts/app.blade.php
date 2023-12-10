@@ -15,9 +15,10 @@
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    
-    
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
@@ -80,11 +81,12 @@
                         <a class="button" href="{{ route('news_reports') }}">Tags</a>
                     </div>
                 </section>
-                <!--href="{{ url('/report') }}"-->
             @endif
-            <a href="{{ route('create_news') }}" class="button"> Create Post</a>
-            <a href="" class="button"> Create Organization</a>
-            @include('partials.topic_proposal')
+            <section id="nav_normal_buttons">
+                <a href="{{ route('create_news') }}" class="button"> Create Post</a>
+                <a href="" class="button"> Create Organization</a>
+                @include('partials.topic_proposal')
+            </section>
         </nav>
     @endif
     <main>

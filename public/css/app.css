@@ -13,6 +13,10 @@ main {
     margin: 1em;
 }
 
+a {
+    cursor: pointer;
+}
+
 body > nav {
     grid-column-start: start;
     grid-column-end: content;
@@ -31,6 +35,10 @@ body > nav {
 
 body > nav #admin_buttons {
     border-bottom: 2px solid black;
+}
+
+#nav_normal_buttons > a:first-of-type {
+    margin-top: 0.5em;
 }
 
 /* em list_suggested_topics */
@@ -81,15 +89,4 @@ header form button {
     border-radius: 5px;
     color: var(--main-text-color);
     padding: 1em;
-}
-
-/* n sei exatamente onde por */
-.user_news {
-    border: 0.5em solid var(--secundary-color);
-    padding: 1em;
-    margin: 1em 0em;
-}
-
-.user_news:hover {
-    border-color: #606c76;
 }

@@ -27,21 +27,25 @@
                 @endif
                 <h2 class = "title">{{ $news_item->title }}</h2>
                 @if (Auth::check())
-                    <span>Posted by</span>
-                    @if ($news_item->content->authenticated_user !== null)
-                        <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
-                            class = "author">{{ $news_item->content->authenticated_user->name }}</a>
-                    @else
-                        <p class="author">Anonymous</p>
-                    @endif
-                    @if ($news_item->content->organization !== null)
-                        <span>Associated with</span>
-                        <a href="" class = "org"> {{ $news_item->content->organization->name }}</a>
-                    @endif
+                    <div class="post_owner_info_wrapper">
+                        <span>Posted by</span>
+                        @if ($news_item->content->authenticated_user !== null)
+                            <img class="author_post_pfp"
+                                src="{{ $news_item->content->authenticated_user->getProfileImage() }}">
+                            <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
+                                class = "author">{{ $news_item->content->authenticated_user->name }}</a>
+                        @else
+                            <p class="author">Anonymous</p>
+                        @endif
+                        @if ($news_item->content->organization !== null)
+                            <span>Associated with</span>
+                            <a href="" class = "org"> {{ $news_item->content->organization->name }}</a>
+                        @endif
+                    </div>
                 @endif
             </div>
             @if ($news_item->image !== null)
-                <img src="/img/news_image/{{ $news_item->image }}" alt="{{ $news_item->title }}">
+                <img class="post_image" src="/img/news_image/{{ $news_item->image }}" alt="{{ $news_item->title }}">
             @endif
             <p class = "news_text">{{ $news_item->content->content }}</p>
 
@@ -68,12 +72,13 @@
         <div class="header">
             <h3>Leave a comment</h3>
         </div>
-        <form id="commentForm" data-news-id="{{$news_item->id}}">
+        <form id="commentForm" data-news-id="{{ $news_item->id }}">
             @csrf
-            <textarea id="commentContent" name="content" rows="3" maxlength="500" required placeholder="Write your comment here"></textarea>
+            <textarea id="commentContent" name="content" rows="3" maxlength="500" required
+                placeholder="Write your comment here"></textarea>
             <button type="submit" class="button" id="postComment">Post</button>
         </form>
-    </section>    
+    </section>
     <section id = "comments">
         @if ($comments->count() === 0)
             <div id="no_comments">
@@ -81,19 +86,21 @@
             </div>
         @else
             @foreach ($comments as $comment)
-                <article class="comment" comment-id="{{$comment->id}}">
+                <article class="comment" comment-id="{{ $comment->id }}">
                     <div class="comment_header">
                         @if (Auth::check())
                             @if ($comment->content->authenticated_user !== null)
-                                <img class="author_comment_pfp" src="{{ $comment->content->authenticated_user->getProfileImage() }}">
-                                <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}" class="comment_author">
+                                <img class="author_comment_pfp"
+                                    src="{{ $comment->content->authenticated_user->getProfileImage() }}">
+                                <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}"
+                                    class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
                             @else
                                 <p class="comment_author">Anonymous</p>
                             @endif
                             <p class=date> {{ $comment->content->date }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class="date">{{Carbon::parse($comment->content->date)->diffForHumans() }}</p>
+                                <p class="date">{{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @endif
                         @endif
                         <div class="dropdown">

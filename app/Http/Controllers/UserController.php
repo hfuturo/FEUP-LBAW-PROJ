@@ -125,4 +125,10 @@ class UserController extends Controller
         ];
         return response()->json($response);
     }
+
+    public function fetch_pfp(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        return response()->json(['image' => $user->getProfileImage()]);
+    }
 }
