@@ -45,7 +45,7 @@
                 @endif
             </div>
             @if ($news_item->image !== null)
-                <img class="post_image" src="/img/news_image/{{ $news_item->image }}" alt="{{ $news_item->title }}">
+                <img class="post_image" src="/post/{{ $news_item->image }}" alt="{{ $news_item->title }}">
             @endif
             <p class = "news_text">{{ $news_item->content->content }}</p>
 
