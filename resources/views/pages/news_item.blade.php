@@ -87,7 +87,7 @@
                             @if ($comment->content->authenticated_user !== null)
                                 <a href="{{route('profile', ['user' => $comment->content->authenticated_user])}}" class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
-                                @if (Auth::user()->id === $comment->content->authenticated_user->id) 
+                                @if ($news_item->content->authenticated_user->id === $comment->content->authenticated_user->id) 
                                     <span class="material-symbols-outlined author">person_edit</span>
                                 @endif
                             @else

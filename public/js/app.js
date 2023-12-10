@@ -68,11 +68,6 @@ document.getElementById('commentForm').addEventListener('submit', async function
       const commentAuth = document.createElement('a');
       commentAuth.className = "comment_author";
       commentAuth.textContent = data.author.name;
-      //commentAuth.href = "{{route('profile', ['user' => $comment->content->authenticated_user])}}";
-
-      const authrIcon = document.createElement('span');
-      authrIcon.className = "material-symbols-outlined author";
-      authrIcon.textContent = "person_edit";
 
       const commentDate = document.createElement('p');
       commentDate.className = "date";
@@ -85,7 +80,12 @@ document.getElementById('commentForm').addEventListener('submit', async function
       const more = makeDropDown();
 
       commentHead.appendChild(commentAuth);
-      commentHead.appendChild(authrIcon);
+      if (data.news_author){
+        const authrIcon = document.createElement('span');
+        authrIcon.className = "material-symbols-outlined author";
+        authrIcon.textContent = "person_edit";
+        commentHead.appendChild(authrIcon);
+      }
       commentHead.appendChild(commentDate);
       commentHead.appendChild(more);
 
