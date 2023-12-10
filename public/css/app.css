@@ -30,7 +30,8 @@ footer {
     justify-content: center;
 }
 
-a {
+a,
+button {
     cursor: pointer;
 }
 
@@ -41,6 +42,19 @@ body > nav {
     grid-row-end: footer;
     background-color: var(--secundary-color);
     height: 100%;
+}
+
+.header_user_info {
+    display: flex;
+    align-items: center;
+    border: 1px var(--primary-color) solid;
+}
+
+.header_user_pfp {
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    margin-right: 1em;
 }
 
 .header_nav {
@@ -118,6 +132,9 @@ header .button {
 #button_profile {
     background-color: var(--secundary-color);
     color: var(--primary-color);
+    border: transparent;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .delete_button {

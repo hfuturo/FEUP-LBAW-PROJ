@@ -50,8 +50,37 @@ svg {
     vertical-align: middle;
 }
 
-#follow, #follow_topic, #follow_tag {
+#follow,
+#follow_topic,
+#follow_tag {
     text-transform: capitalize;
+}
+
+.action_buttons_wrapper,
+.user_follow_edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user_follow_edit > button {
+    background: none;
+    border: none;
+    min-width: 1em;
+    line-height: 1;
+    color: var(--primary-color);
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.action_buttons_wrapper > button:first-of-type:not(.delete_button) {
+    margin-right: 0;
+}
+
+.action_buttons_wrapper > button:nth-of-type(2) {
+    margin-left: 0;
 }
 
 .image_buttons_wrapper {
@@ -72,13 +101,4 @@ svg {
 .remove_pfp_image {
     background-color: red;
     border-color: red;
-}
-
-.profile h2 button{
-    display: inline-block;
-    background: none;
-    border: none;
-    min-width: 1em;
-    line-height: 1;
-    color: var(--primary-color);
 }

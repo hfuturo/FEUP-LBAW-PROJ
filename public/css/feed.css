@@ -38,6 +38,6 @@
 
 .user_news {
     border: 1px solid var(--primary-color);
-    padding: 1em;
+    padding: 0em 1em 1em 1em;
     margin: 1em 0em;
 }

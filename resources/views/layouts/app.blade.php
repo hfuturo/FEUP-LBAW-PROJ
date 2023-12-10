@@ -55,8 +55,11 @@
         <span class="header_nav">
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
-                <a class="button" id="button_profile"
-                    href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
+                <div class="header_user_info">
+                    <a class="button" id="button_profile"
+                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
+                    <img class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}">
+                </div>
             @endif
             @if (!Auth::check())
                 <a class="button" href="{{ url('/login') }}">Log in</a>
