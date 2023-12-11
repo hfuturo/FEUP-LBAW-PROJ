@@ -92,9 +92,10 @@ document.getElementById('commentForm').addEventListener('submit', async function
 
   if (data.success) {          
       const noComments = document.getElementById("no_comments");
-      console.log(noComments);
+
       if(noComments) {noComments.remove();};
       const commentSection = document.getElementById('comments');
+
       const newComment = document.createElement('article');
       newComment.className = "comment";
       newComment.setAttribute("comment-id", data.id);
@@ -191,8 +192,6 @@ document.getElementById('commentForm').addEventListener('submit', async function
 });
 
 
-
-
 function toggleDisplay(element) {
   if (element.style.display === "block") {
     element.style.display = "none";
@@ -201,13 +200,23 @@ function toggleDisplay(element) {
   }
 }
 
-function toggleMenu(button) {
+function toggleMenu(button, event) {
   const dropdown = button.nextElementSibling;
   if (dropdown) {
     toggleDisplay(dropdown);
+    event.stopPropagation();
   }
 }
 
+document.addEventListener('click', (event) => {
+  event.preventDefault;
+  const allDropdown = document.querySelectorAll('.dropdown-content');
+  allDropdown.forEach(dropdown => {
+    if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+    }
+  });
+})
 
 
 function deleteComment() {
@@ -272,8 +281,8 @@ function makeDropDown(comment){
 
   const moreButton = document.createElement('button');
   moreButton.className = "more";
-  moreButton.addEventListener('click', function() {
-    toggleMenu(this);
+  moreButton.addEventListener('click', function(event) {
+    toggleMenu(this, event);
   });
 
   const moreIcon = document.createElement('span');
@@ -382,8 +391,8 @@ function editCancel(comment){
 
   const form = comment.querySelector('.editForm');
   form.setAttribute("hidden", "true");
-
 }
+
 
 function cleanUpMessages(){
   document.querySelectorAll("p.success").forEach(message=>{

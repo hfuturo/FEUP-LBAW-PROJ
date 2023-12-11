@@ -82,7 +82,7 @@ use Carbon\Carbon;
                             @endif
                         @endif
                         <div class="dropdown">
-                            <button class="more" onclick="toggleMenu(this)">
+                            <button class="more" onclick="toggleMenu(this, event)">
                                 <span class="material-symbols-outlined">more_vert</span>
                             </button>
                             <div class="dropdown-content">
@@ -103,9 +103,11 @@ use Carbon\Carbon;
                     </div>
                     <form class="editForm" hidden>
                         @csrf
-                        <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content }}</textarea>
-                        <button type="submit" class="button editButton">Edit</button>
-                        <button type="button" class="button cancelButton" onclick="editCancel(this.parentElement.parentElement)">Cancel</button>
+                        <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content}}</textarea>
+                        <div class=buttonsForm>
+                            <button type="submit" class="button editButton">Edit</button>
+                            <button type="button" class="button cancelButton" onclick="editCancel(this.parentElement.parentElement)">Cancel</button>
+                        </div>
                     </form>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())

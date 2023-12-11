@@ -74,11 +74,17 @@ article.news_body .title {
   }
 
   .more{
+    padding: 0.2em;
     border: none;
+    border-radius: 50%;
     min-width: 0;
     color: black;
     background-color: white;
     cursor: pointer;
+  }
+
+  .more:hover {
+    background-color: #d3d3d3;
   }
 
 .dropdown-content {
@@ -104,3 +110,17 @@ article.news_body .title {
     background-color: #d3d3d3;
   }
 
+  .editForm textarea{
+    resize: none;
+  }
+
+  .editForm div{
+    display: flex;
+    gap: 0.2em;
+    justify-content: flex-end;
+  }
+
+  .editForm div button{
+    border-radius: 10px;
+    margin: 0;
+  }
