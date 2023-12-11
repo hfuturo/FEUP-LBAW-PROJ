@@ -36,7 +36,7 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment): bool
     {
-        //
+        return $user->id === $comment->content->id_author;
     }
 
     /**
@@ -63,11 +63,5 @@ class CommentPolicy
         //
     }
 
-    /*
-    public function destroy(User $user, Comment $comment): bool
-    {
-        //
-    }
-    */
 }
 

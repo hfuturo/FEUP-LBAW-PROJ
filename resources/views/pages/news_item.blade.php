@@ -103,31 +103,39 @@
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class="date">{{Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
+                                <p class="date">Edit {{Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
                             @endif
-                            @if(Auth::user()->id === $comment->content->authenticated_user->id)
-                                <div class="dropdown">
-                                    <button class="more" onclick="toggleMenu(this)">
-                                        <span class="material-symbols-outlined">more_vert</span>
-                                    </button>
-                                    <div class="dropdown-content">
-                                        <div class="dropdown-option">
-                                            <span class="material-symbols-outlined">flag</span>
-                                            <span>Report</span>
-                                        </div>
+                            <div class="dropdown">
+                                <button class="more" onclick="toggleMenu(this, event)">
+                                    <span class="material-symbols-outlined">more_vert</span>
+                                </button>
+                                <div class="dropdown-content">
+                                    <div class="dropdown-option">
+                                        <span class="material-symbols-outlined">flag</span>
+                                        <span>Report</span>
+                                    </div>
+                                    @if(Auth::user()->id === $comment->content->authenticated_user->id)
                                         <div class="dropdown-option delete">
                                             <span class="material-symbols-outlined">delete</span>
                                             <span class="delete">Delete</span>
                                         </div>
-                                        <div class="dropdown-option">
+                                        <div class="dropdown-option edit">
                                             <span class="material-symbols-outlined">edit</span>
-                                            <span>Edit</span>
+                                            <span class="edit">Edit</span>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
                         @endif
                     </div>
+                    <form class="editForm" hidden>
+                        @csrf
+                        <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content}}</textarea>
+                        <div class=buttonsForm>
+                            <button type="submit" class="button editButton">Edit</button>
+                            <button type="button" class="button cancelButton" onclick="editCancel(this.closest('.comment'))">Cancel</button>
+                        </div>
+                    </form>
                     <p class="comment_text">{{ $comment->content->content }}</p>
                     @if (Auth::check())
                         @include('partials.vote', ['item' => $comment])
