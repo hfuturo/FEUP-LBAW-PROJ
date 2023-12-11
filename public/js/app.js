@@ -183,8 +183,9 @@ function toggleDisplay(element) {
 function toggleMenu(button, event) {
   const dropdown = button.nextElementSibling;
   if (dropdown) {
-    toggleDisplay(dropdown);
     event.stopPropagation();
+    toggleDisplay(dropdown);
+    //event.stopPropagation();
   }
 }
 

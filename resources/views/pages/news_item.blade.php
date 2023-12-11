@@ -103,7 +103,7 @@
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class="date">{{Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
+                                <p class="date">Edit {{Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
                             @endif
                             <div class="dropdown">
                                 <button class="more" onclick="toggleMenu(this, event)">
@@ -133,7 +133,7 @@
                         <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content}}</textarea>
                         <div class=buttonsForm>
                             <button type="submit" class="button editButton">Edit</button>
-                            <button type="button" class="button cancelButton" onclick="editCancel(this.parentElement.parentElement)">Cancel</button>
+                            <button type="button" class="button cancelButton" onclick="editCancel(this.closest('.comment'))">Cancel</button>
                         </div>
                     </form>
                     <p class="comment_text">{{ $comment->content->content }}</p>
