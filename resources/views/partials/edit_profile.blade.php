@@ -23,7 +23,9 @@
     </div>
 </div>
 
-<h2>
-    {{ $user->name }}
+<div class="user_follow_edit">
+    <h2>
+        {{ $user->name }}
+    </h2>
     <button onclick="openEditForm()"><span class="material-symbols-outlined">edit</span></button>
-</h2>
+</div>

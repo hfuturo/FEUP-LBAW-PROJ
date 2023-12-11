@@ -20,7 +20,10 @@
                 @if (Auth::user()->id === $user->id)
                     @include('partials.edit_profile', ['user' => $user])
                 @else
-                    <h2>{{ $user->name }}@include('partials.follow_user')</h2>          
+                    <div class="user_follow_edit">
+                        <h2>{{ $user->name }}</h2>
+                        @include('partials.follow_user')
+                    </div>
                 @endif
                 <div id="user_details">
                     <div class="user_info">

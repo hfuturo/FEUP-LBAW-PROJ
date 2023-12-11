@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,6 +46,8 @@ class CommentController extends Controller
 
         $comment = DB::transaction(function () use($request,$id) {
 
+            $news_item = Content::find($id);
+
             $content = new Content();
             $content->content = $request->input('content');
             $content->id_author = Auth::user()->id;
@@ -56,8 +59,16 @@ class CommentController extends Controller
             $comment->id_news = $id;
             $comment->save();
             
+            if($news_item->authenticated_user->id === $content->authenticated_user->id){
+                $news_author = TRUE;
+            }
+            else {
+                $news_author = FALSE;
+            }
+
             return ['success' => true,
-                    'id' => $content->id, 
+                    'id' => $content->id,
+                    'news_author' => $news_author,
                     'date' => Carbon::parse($content->date)->diffForHumans(),
                     'content'=>$content->content, 
                     'author' =>$content->authenticated_user];
@@ -86,9 +97,27 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $validatedData = $request->validate([
+            'content' => 'required|string|max:350',
+        ]);
+        $comment = Comment::find($id);
+        $content = Content::find($id);
+
+        try{
+            $this->authorize('update', $comment);
+            
+            $content->content = $request->input('content');
+            $content->edit_date = 'now()';
+            $content->save();
+
+            return response()->json(['success' => 'Comment edited successfully']);
+            
+        }
+        catch (AuthorizationException $e) {
+            return response()->json(['error' => 'Unauthorized action'], 403);
+        }
     }
 
     /**
