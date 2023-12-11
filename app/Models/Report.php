@@ -14,15 +14,15 @@ class Report extends Model
     protected $fillable = [
         'reason',
         'date',
-        'report_type',
+        'type',
         'id_reporter',
         'id_tag',
         'id_content',
         'id_user'
     ];
     
-    public function author() {
-        return $this->belongsTo(Authenticated::class,'id_reporter');
+    public function reporter() {
+        return $this->belongsTo(User::class,'id_reporter');
     }
 
     /* types */
@@ -35,6 +35,6 @@ class Report extends Model
     }
 
     public function user() {
-        return $this->belongsTo(Authenticated::class,'id_user');
+        return $this->belongsTo(User::class,'id_user');
     }
 }

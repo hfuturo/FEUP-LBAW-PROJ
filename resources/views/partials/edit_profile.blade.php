@@ -6,10 +6,10 @@
             <label for="name">Name</label>
             <input id="name" type="text" name="name" value="{{ $user->name }}" required autofocus>
 
-            <label for="email" >Email</label>
+            <label for="email">Email</label>
             <input id="email" type="text" name="email" value="{{ $user->email }}" required>
 
-            <label for="bio" >Bio</label>
+            <label for="bio">Bio</label>
             <textarea id="bio" name="bio">{{ $user->bio }}</textarea>
 
             <button type="submit"> Save Changes </button>
@@ -23,4 +23,9 @@
     </div>
 </div>
 
-<button onclick="openEditForm()">Edit</button>
+<div class="user_follow_edit">
+    <h2>
+        {{ $user->name }}
+    </h2>
+    <button onclick="openEditForm()"><span class="material-symbols-outlined">edit</span></button>
+</div>

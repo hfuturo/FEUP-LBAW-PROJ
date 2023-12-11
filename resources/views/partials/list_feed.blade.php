@@ -1,5 +1,4 @@
 <?php
-
 use Carbon\Carbon;
 
 $paginator = $news_list->paginate($perPage);
@@ -18,7 +17,7 @@ if (app('request')->input('search_type') != null) {
         <article class="user_news">
             <header class="news_header_feed">
                 <h4 class="news_title">{{ $newsItem->title }}</h4>
-                <h4>{{ Carbon::parse($newsItem->date)->diffForHumans() }}</h4>
+                <h4 class="time_elapsed">{{ Carbon::parse($newsItem->date)->diffForHumans() }}</h4>
             </header>
             <p class="news_content">{{ $newsItem->content }}</p>
         </article>

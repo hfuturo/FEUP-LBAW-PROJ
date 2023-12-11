@@ -49,12 +49,14 @@ CREATE TABLE "authenticated_user"
   name TEXT NOT NULL,
   email TEXT NOT NULL CONSTRAINT email_user_uk UNIQUE,
   password TEXT NOT NULL,
-  image TEXT NOT NULL DEFAULT 'pfp_default.png',
+  image TEXT NOT NULL DEFAULT 'pfp_default.jpeg',
   reputation INTEGER NOT NULL DEFAULT 0,
   bio TEXT NOT NULL DEFAULT '',
   blocked BOOLEAN NOT NULL DEFAULT false,
   type user_type NOT NULL DEFAULT 'authenticated'::user_type,
   remember_token VARCHAR,
+  recover_password_tries INTEGER DEFAULT NULL,
+  recover_password_code INTEGER DEFAULT NULL,
   PRIMARY KEY(id),
   -- data specific to each authenticated_user type
   id_topic INTEGER REFERENCES "topic" (id) ON UPDATE CASCADE ON DELETE SET NULL, -- moderator

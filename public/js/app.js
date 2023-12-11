@@ -1,203 +1,183 @@
-function addEventListeners() {
-  const filterUsersInput = document.querySelector('#users input')
-  if (filterUsersInput) {
-      filterUsersInput.addEventListener('input', async function() {
-          sendAjaxRequest('post','/api/manage', {search: filterUsersInput.value}, filterUsersHandler)
-      })
-  }
+"use strict";
 
-  document.querySelectorAll('.feed_button').forEach(button => {
-    button.addEventListener('click', feedLinksHandler)
-  })
+document
+    .getElementById("manage_report_button")
+    .addEventListener("click", function () {
+        let subOptions = document.getElementById("report_sub_options");
+        subOptions.style.display =
+            subOptions.style.display === "block" ? "none" : "block";
+        let buttonSpan = document.getElementById("manage_report_button").querySelector("span");
+        console.log(buttonSpan)
+        buttonSpan.textContent =
+        buttonSpan.textContent === "expand_more" ? "expand_less" : "expand_more";
+    });
 
-  document.querySelectorAll('.paginate a').forEach(link => {
-    link.addEventListener('click', feedLinksHandler)
-  })
-}
-  
-function encodeForAjax(data) {
-  if (data == null) return null;
-  return Object.keys(data).map(function(k){
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-  }).join('&');
+function openTopicProposal() {
+    document.getElementById("topic_proposal_popup").style.display = "block";
 }
 
-function sendAjaxRequest(method, url, data, handler) {
-  let request = new XMLHttpRequest();
-
-  request.open(method, url, true);
-  request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  request.addEventListener('load', handler);
-  request.send(encodeForAjax(data));
+function closeTopicProposal() {
+    document.getElementById("topic_proposal_popup").style.display = "none";
 }
 
-async function feedLinksHandler(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const response = await fetch(e.target.href)
-  const raw_data = await response.text()
-  updateFeed(raw_data)
-  document.getElementById('content').scrollIntoView({behavior: 'smooth'})
-}
-
-function updateFeed(raw_data) {
-  let all_news = document.querySelector('.all_news')
-  all_news.innerHTML = raw_data;
-  document.querySelectorAll('.all_news .paginate a').forEach(link => {
-    link.addEventListener('click', feedLinksHandler)
-  })
-  return;
-}
-
-function filterUsersHandler() {
-    if (this.status != 200) window.location = '/'
-    const users = JSON.parse(this.responseText)
-
-    let usersList = document.querySelector('#all_users')
-    
-    // limpa a lista
-    usersList.innerHTML = ''
-
-    // reconstroi lista
-    for (const user of users) {
-        let li = document.createElement('li')
-        li.classList.add('user')
-        let link = document.createElement('a')
-        link.href = "/profile/" + user.id
-        link.innerHTML = user.name
-        li.appendChild(link)
-        usersList.appendChild(li)
-    }
-}
-
-addEventListeners();
-
-
-// new comment
-document.getElementById('commentForm').addEventListener('submit', async function(event) {
-  event.preventDefault();
-
-  const newsId = this.getAttribute('data-news-id');
-  const commentContent = document.getElementById('commentContent').value;
-
-  const data = await fetch('/api/news/' + newsId + '/comment', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      },
-      body: JSON.stringify({content: commentContent})
-  }).then(response=>response.json())
-
-  if (data.success) {          
-      const noComments = document.getElementById("no_comments");
-
-      if(noComments) {noComments.remove();};
-      const commentSection = document.getElementById('comments');
-
-      const newComment = document.createElement('article');
-      newComment.className = "comment";
-      newComment.setAttribute("comment-id", data.id);
-
-      const commentHead = document.createElement('div');
-      commentHead.className = "comment_header";
-
-      const commentAuth = document.createElement('a');
-      commentAuth.className = "comment_author";
-      commentAuth.textContent = data.author.name;
-
-      const commentDate = document.createElement('p');
-      commentDate.className = "date";
-      commentDate.textContent = data.date;
-
-      const commentText = document.createElement('p');
-      commentText.className = "comment_text";
-      commentText.textContent= data.content;
-
-       
-      const form = document.createElement('form');
-      form.className = "editForm"
-
-      const textarea = document.createElement('textarea');
-      textarea.classList.add("commentContent");
-      textarea.setAttribute("name", "content");
-      textarea.setAttribute("rows", "3");
-      textarea.setAttribute("maxlength", "500");
-      textarea.setAttribute("required", "true");
-      textarea.textContent = data.content;
-      form.appendChild(textarea);
-        
-      const postButton = document.createElement('button');
-      postButton.setAttribute("type", "submit");
-      postButton.classList.add("button" , "editButton");
-      postButton.textContent = "Post";
-      form.appendChild(postButton);
-
-      const cancelButton = document.createElement('button');
-      cancelButton.setAttribute("type", "button");
-      cancelButton.classList.add("button","cancelButton");
-      cancelButton.textContent = "Cancel";
-      cancelButton.addEventListener('click', event => {
-        event.preventDefault;
-        editCancel(newComment)});
-      form.appendChild(cancelButton);
-
-      form.addEventListener('submit', saveEdit);
-      form.setAttribute("hidden", "true");
-
-
-      const more = makeDropDown(newComment);
-
-      commentHead.appendChild(commentAuth);
-      commentHead.appendChild(commentDate);
-      commentHead.appendChild(more);
-
-
-      newComment.appendChild(commentHead);
-      newComment.append(form);
-      newComment.appendChild(commentText);
-      
-      const votes = document.createElement('div');
-      votes.className = "votes";
-      const like = document.createElement('button');
-      like.className = "accept";
-      const sibLike = document.createElement('span');
-      sibLike.className = "material-symbols-outlined";
-      sibLike.textContent = "thumb_up";
-      const nLikes = document.createElement('p');
-      like.appendChild(sibLike);
-      nLikes.textContent = 0;
-
-      const dislike = document.createElement('button');
-      dislike.className = "remove";
-      const sibDislike = document.createElement('span');
-      sibDislike.className = "material-symbols-outlined";
-      sibDislike.textContent = "thumb_down";
-      dislike.appendChild(sibDislike);
-      const nDislikes = document.createElement('p');
-      nDislikes.textContent = 0;
-
-      votes.appendChild(like);
-      votes.appendChild(nLikes);
-      votes.appendChild(dislike);
-      votes.appendChild(nDislikes);
-      newComment.appendChild(votes);
-
-      commentSection.prepend(newComment);
-      document.getElementById('commentContent').value = '';
-  } else {
-      console.error('Failed to add comment');
-  }
+document.querySelectorAll(".topics_proposal").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const idTopic = button.id;
+        sendAjaxRequest(
+            "post",
+            `/manage_topic/${event.target.dataset.operation}`,
+            { idTopic },
+            topicProposalHandler
+        );
+    });
 });
 
+function topicProposalHandler() {
+    if (this.status != 200) window.location = "/";
+    let idTopic = JSON.parse(this.responseText);
+    let element = document.getElementById(idTopic);
+    element.remove();
+}
+
+// new comment
+
+document
+    .getElementById("commentForm")
+    .addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const newsId = this.getAttribute("data-news-id");
+        const commentContent = document.getElementById("commentContent").value;
+
+        const data = await fetch("/api/news/" + newsId + "/comment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+            body: JSON.stringify({ content: commentContent }),
+        }).then((response) => response.json());
+
+        if (data.success) {
+            const noComments = document.getElementById("no_comments");
+
+            if (noComments) {
+                noComments.remove();
+            }
+            const commentSection = document.getElementById("comments");
+            const newComment = document.createElement("article");
+            newComment.className = "comment";
+            newComment.setAttribute("comment-id", data.id);
+
+            const commentHead = document.createElement("div");
+            commentHead.className = "comment_header";
+
+            const author_image = await fetch(
+                "/api/fetch_pfp/" + data.author.id,
+                {
+                    method: "GET",
+                }
+            ).then((response) => response.json());
+
+            const commentAuthorPfp = document.createElement("img");
+            commentAuthorPfp.className = "author_comment_pfp";
+            commentAuthorPfp.setAttribute("src", author_image.image);
+
+            const commentAuth = document.createElement("a");
+            commentAuth.className = "comment_author";
+            commentAuth.textContent = data.author.name;
+
+            const commentDate = document.createElement("p");
+            commentDate.className = "date";
+            commentDate.textContent = data.date;
+
+            const commentText = document.createElement("p");
+            commentText.className = "comment_text";
+            commentText.textContent = data.content;
+
+                   
+            const form = document.createElement('form');
+            form.className = "editForm"
+
+            const textarea = document.createElement('textarea');
+            textarea.classList.add("commentContent");
+            textarea.setAttribute("name", "content");
+            textarea.setAttribute("rows", "3");
+            textarea.setAttribute("maxlength", "500");
+            textarea.setAttribute("required", "true");
+            textarea.textContent = data.content;
+            form.appendChild(textarea);
+        
+            const postButton = document.createElement('button');
+            postButton.setAttribute("type", "submit");
+            postButton.classList.add("button" , "editButton");
+            postButton.textContent = "Post";
+            form.appendChild(postButton);
+
+            const cancelButton = document.createElement('button');
+            cancelButton.setAttribute("type", "button");
+            cancelButton.classList.add("button","cancelButton");
+            cancelButton.textContent = "Cancel";
+            cancelButton.addEventListener('click', event => {
+                event.preventDefault;
+                editCancel(newComment);
+            });
+            form.appendChild(cancelButton);
+
+            form.addEventListener('submit', saveEdit);
+            form.setAttribute("hidden", "true");
+
+            const more = makeDropDown(newComment);
+
+            commentHead.appendChild(commentAuthorPfp);
+            commentHead.appendChild(commentAuth);
+            if (data.news_author){
+                const authrIcon = document.createElement('span');
+                authrIcon.className = "material-symbols-outlined author";
+                authrIcon.textContent = "person_edit";
+                commentHead.appendChild(authrIcon);
+            }
+            commentHead.appendChild(commentDate);
+            commentHead.appendChild(more);
+
+
+
+            newComment.appendChild(commentHead);
+            newComment.append(form);
+            newComment.appendChild(commentText);
+
+            const votes = document.createElement("div");
+            votes.className = "votes";
+
+            const like = createLikeDislick("accept", "thumb_up");
+            const nLikes = document.createElement("p");
+            nLikes.textContent = 0;
+
+            const dislike = createLikeDislick("remove", "thumb_down");
+            const nDislikes = document.createElement("p");
+            nDislikes.textContent = 0;
+
+            votes.appendChild(like);
+            votes.appendChild(nLikes);
+            votes.appendChild(dislike);
+            votes.appendChild(nDislikes);
+            newComment.appendChild(votes);
+
+            commentSection.prepend(newComment);
+            document.getElementById("commentContent").value = "";
+        } else {
+            console.error("Failed to add comment");
+        }
+    });
 
 function toggleDisplay(element) {
-  if (element.style.display === "block") {
-    element.style.display = "none";
-  } else {
-    element.style.display = "block";
-  }
+    if (element.style.display === "block") {
+        element.style.display = "none";
+    } else {
+        element.style.display = "block";
+    }
 }
 
 function toggleMenu(button, event) {
@@ -219,18 +199,17 @@ document.addEventListener('click', (event) => {
 })
 
 
+
 function deleteComment() {
-  const comments = document.querySelectorAll('.comment');
-
-  comments.forEach(function(comment) {
-      const delComment = comment.querySelector('.delete');
-      delComment.addEventListener('click', (event) => {
-          event.preventDefault();
-          deleteCommentItem(comment);
-      });
-  });
-}
-
+    const comments = document.querySelectorAll(".comment");
+    comments.forEach(function(comment) {
+        const delComment = comment.querySelector('.delete');
+            delComment.addEventListener('click', (event) => {
+                event.preventDefault();
+                deleteCommentItem(comment);
+        });
+    });
+};
 deleteComment();
 
 async function deleteCommentItem(comment){
@@ -270,135 +249,151 @@ async function deleteCommentItem(comment){
 }
 
 function makeDropDown(comment){
-  const options = [
-    { icon: 'flag', label: 'Report',fn:()=>{} },
-    { icon: 'delete', label: 'Delete', class: 'delete',fn:deleteCommentItem},
-    { icon: 'edit', label: 'Edit', class: 'edit',fn:editCommentItem}
-  ];
+    const options = [
+        { icon: 'flag', label: 'Report',fn:()=>{} },
+        { icon: 'delete', label: 'Delete', class: 'delete',fn:deleteCommentItem},
+        { icon: 'edit', label: 'Edit', class: 'edit',fn:editCommentItem}
+    ];
 
-  const dropdown = document.createElement('div');
-  dropdown.className = "dropdown";
+    const dropdown = document.createElement("div");
+    dropdown.className = "dropdown";
 
-  const moreButton = document.createElement('button');
-  moreButton.className = "more";
-  moreButton.addEventListener('click', function(event) {
-    toggleMenu(this, event);
-  });
+    const moreButton = document.createElement('button');
+    moreButton.className = "more";
+    moreButton.addEventListener('click', function(event) {
+        toggleMenu(this, event);
+    });
 
-  const moreIcon = document.createElement('span');
-  moreIcon.className = "material-symbols-outlined";
-  moreIcon.textContent = "more_vert";
+    const moreIcon = document.createElement("span");
+    moreIcon.className = "material-symbols-outlined";
+    moreIcon.textContent = "more_vert";
 
-  moreButton.appendChild(moreIcon);
+    moreButton.appendChild(moreIcon);
 
-  const dropdownContent = document.createElement('div');
-  dropdownContent.className = "dropdown-content";
+    const dropdownContent = document.createElement("div");
+    dropdownContent.className = "dropdown-content";
 
-  options.forEach(option =>{
-    const optionDiv = document.createElement('div');
-    optionDiv.className = "dropdown-option";
+    options.forEach((option) => {
+        const optionDiv = document.createElement("div");
+        optionDiv.className = "dropdown-option";
 
-    const icon = document.createElement('span');
-    icon.className = "material-symbols-outlined";
-    icon.textContent = option.icon;
+        const icon = document.createElement("span");
+        icon.className = "material-symbols-outlined";
+        icon.textContent = option.icon;
 
-    const label = document.createElement('span');
-    label.textContent = option.label;
+        const label = document.createElement("span");
+        label.textContent = option.label;
 
-    optionDiv.appendChild(icon);
-    optionDiv.appendChild(label);
+        optionDiv.appendChild(icon);
+        optionDiv.appendChild(label);
 
-    if (option.class) {
-      optionDiv.classList.add(option.class);
-    }
-    optionDiv.addEventListener("click",(e)=>{
-      e.stopPropagation();
-      option.fn(comment);
-    })
+        if (option.class) {
+            optionDiv.classList.add(option.class);
+        }
 
-    dropdownContent.appendChild(optionDiv);
+        optionDiv.addEventListener("click",(e)=>{
+            e.stopPropagation();
+            option.fn(comment);
+        });
 
-  });
+        dropdownContent.appendChild(optionDiv);
+    });
 
-  dropdown.appendChild(moreButton);
-  dropdown.appendChild(dropdownContent);
+    dropdown.appendChild(moreButton);
+    dropdown.appendChild(dropdownContent);
 
-  return dropdown;
+    return dropdown;
 }
 
+function createLikeDislick(className, symbol) {
+    const button = document.createElement("button");
+    button.className = className;
+
+    const icon = document.createElement("span");
+    icon.className = "material-symbols-outlined";
+    icon.textContent = symbol;
+
+    button.appendChild(icon);
+
+    return button;
+};
+
 function editCommentItem(comment){
-  const form = comment.querySelector('.editForm');
-  const commentText = comment.querySelector('.comment_text');
-  comment.querySelector('textarea').value=commentText.textContent;
-  form.removeAttribute("hidden");
-  commentText.setAttribute("hidden", "true");
+    const form = comment.querySelector('.editForm');
+    const commentText = comment.querySelector('.comment_text');
+    comment.querySelector('textarea').value=commentText.textContent;
+    form.removeAttribute("hidden");
+    commentText.setAttribute("hidden", "true");
 }
 
 function editComment() {
-  const comments = document.querySelectorAll('.comment');
-  comments.forEach(function(comment) {
-      const editButton = comment.querySelector('.edit');
-      const form = comment.querySelector('.editForm');
-      form.addEventListener('submit', saveEdit);
-      editButton.addEventListener('click', function(event) {
-          event.preventDefault();
-          editCommentItem(comment);
-      });
-  });
+    const comments = document.querySelectorAll('.comment');
+    comments.forEach(function(comment) {
+        const editButton = comment.querySelector('.edit');
+        const form = comment.querySelector('.editForm');
+        form.addEventListener('submit', saveEdit);
+        editButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            editCommentItem(comment);
+        });
+    });
 }
 editComment();
 
 
 async function saveEdit(event){
-  event.preventDefault();
-  const comment = event.target.parentElement;
-  const commentId = comment.getAttribute('comment-id');
-  const commentContent = comment.querySelector('.commentContent').value;
-  try {
-    const data = await fetch('/api/comment/' + commentId + '/edit', {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({content: commentContent}),
-    }).then(response=>response.json());
+    event.preventDefault();
+    const comment = event.target.parentElement;
+    const commentId = comment.getAttribute('comment-id');
+    const commentContent = comment.querySelector('.commentContent').value;
+    try {
+        const data = await fetch('/api/comment/' + commentId + '/edit', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({content: commentContent}),
+        }).then(response=>response.json());
 
-    const content = comment.querySelector('.comment_text');
-    const message = document.createElement('p');
+        const content = comment.querySelector('.comment_text');
+        const message = document.createElement('p');
 
-    if (data.success) {
-      content.textContent = commentContent;
-      message.className = 'success';
-      message.textContent = data.success;
-    } else {
-        message.className = 'error';
-        message.textContent = data.error;
-    }
-    editCancel(comment);
+        if (data.success) {
+            content.textContent = commentContent;
+            message.className = 'success';
+            message.textContent = data.success;
+        } else {
+            message.className = 'error';
+            message.textContent = data.error;
+        }
+        editCancel(comment);
 
-    document.body.appendChild(message);
+        document.body.appendChild(message);
 
-  } catch (error) {
-    console.error('Error:', error);
-};}
+    } catch (error) {
+        console.error('Error:', error);
+    };
+}
 
 
 function editCancel(comment){
 
-  const content = comment.querySelector('.comment_text');
-  content.removeAttribute("hidden");
+    const content = comment.querySelector('.comment_text');
+    content.removeAttribute("hidden");
 
-  const form = comment.querySelector('.editForm');
-  form.setAttribute("hidden", "true");
+    const form = comment.querySelector('.editForm');
+    form.setAttribute("hidden", "true");
 }
 
 
 function cleanUpMessages(){
-  document.querySelectorAll("p.success").forEach(message=>{
-    if(getComputedStyle(message).display=="none"){
-      message.remove()
-    }
-  })
-}
+    document.querySelectorAll("p.success").forEach(message=>{
+        if(getComputedStyle(message).display=="none"){
+            message.remove();
+        }
+    });
+};
 setInterval(cleanUpMessages, 1000);
+
+

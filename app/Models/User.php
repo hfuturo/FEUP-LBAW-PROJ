@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use App\Http\Controllers\FileController;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -100,9 +102,7 @@ class User extends Authenticatable
     }
 
     public function votes(){
-      return $this
-        ->belongsToMany(Project::class, 'vote', 'id_user', 'id_content')
-        ->withPivot('vote');
+      return $this->hasMany(Vote::class, 'id_user');
     }
     
     public function news_items() {
@@ -114,5 +114,9 @@ class User extends Authenticatable
     public function is_admin()
     {
         return $this->type === 'admin';
+    }
+
+    public function getProfileImage() {
+        return FileController::get('profile', $this->id);
     }
 }
