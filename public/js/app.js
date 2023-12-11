@@ -39,6 +39,17 @@ function topicProposalHandler() {
     element.remove();
 }
 
+const NewOrg = document.querySelector("#create_org_popup");
+
+function openNewOrg(){
+    NewOrg.style.display = "block"
+}
+
+function closeNewOrg(){
+    NewOrg.style.display = "none"
+}
+
+
 // new comment
 
 document

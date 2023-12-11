@@ -11,7 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\TagController;
-
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
 use App\Http\Controllers\AboutUsController;
@@ -136,4 +136,8 @@ Route::controller(TagController::class)->group(function () {
 Route::controller(FileController::class)->group(function() {
     Route::post('/file/upload', 'upload');
     Route::post('/file/delete', 'remove_pfp');
+});
+
+Route::controller(OrganizationController::class)->group(function(){
+    Route::post('organization/{organization}','show')->name('show_org');
 });

@@ -86,7 +86,7 @@
                 @endif
                 <section id="nav_normal_buttons">
                     <a href="{{ route('create_news') }}" class="button"> Create Post</a>
-                    <a href="" class="button"> Create Organization</a>
+                    <a class="button open" onclick="openNewOrg()"> Create Organization</a>
                     @include('partials.topic_proposal')
                 </section>
             </div>
@@ -94,7 +94,9 @@
     @endif
     <main>
         <section id="content">
+            @include('partials.create_organization')
             @yield('content')
+            
         </section>
     </main>
     <footer>
