@@ -60,8 +60,8 @@
                         href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
                     <img class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}">
                 </div>
-            @endif
-            @if (!Auth::check())
+                <a class="button" href="{{ url('/notification') }}"> Notification </a>
+            @else
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
             @endif

@@ -12,7 +12,7 @@ class Notification extends Model
     protected $table = 'notification';
 
     protected $fillable = [
-        'notification_type',
+        'type',
         'member_type',
         'id_organization',
         'id_content',
@@ -30,5 +30,9 @@ class Notification extends Model
 
     public function user() {
         return $this->belongsTo(User::class,'id_user');
+    }
+
+    public function notified() {
+        return $this->hasMany(Notified::class,'id_notification');
     }
 }

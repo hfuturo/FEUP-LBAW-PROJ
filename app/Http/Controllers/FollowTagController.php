@@ -40,9 +40,9 @@ class FollowTagController extends Controller
      */
     public function destroy(Request $request)
     {
-        $unfollow = FollowTag::where('id_following', Auth::user()->id)
-            ->where('id_tag', $request->input('tag'))
-            ->delete();
+        $followTag = FollowTag::where('id_following', Auth::user()->id)->where('id_tag', $request->input('tag'))->first();
+        $this->authorize('destroy', $followTag);
+        $unfollow = FollowTag::where('id_following', Auth::user()->id)->where('id_tag', $request->input('tag'))->delete();
 
         $response = [
             'follow' => 'follow',

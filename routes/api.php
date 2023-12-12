@@ -12,6 +12,7 @@ use App\Http\Controllers\FollowTopicController;
 use App\Http\Controllers\FollowTagController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\NotificationController;
 
 
 /*
@@ -79,4 +80,8 @@ Route::controller(VoteController::class)->group(function () {
 
 Route::controller(OrganizationController::class)->group(function () {
     Route::post('/organization/create', 'store')->name('create_org'); 
+});
+
+Route::controller(NotificationController::class)->group(function () {
+    Route::delete('/notification/destroy', 'destroy');
 });

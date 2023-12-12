@@ -72,8 +72,10 @@ class FollowTopicController extends Controller
      */
     public function destroy(Request $request)
     {
-        $unfollow = FollowTopic::where('id_following', Auth::user()->id)
-            ->where('id_topic', $request->input('topic'))
+        $followTopic = FollowTopic::where('id_following', Auth::user()->id)->where('id_topic', $request->input('topic'))->first();
+        $this->authorize('destroy', $followTopic);
+
+        $unfollow = FollowTopic::where('id_following', Auth::user()->id)->where('id_topic', $request->input('topic'))
             ->delete();
 
         $response = [

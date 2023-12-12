@@ -9,6 +9,7 @@ class Notified extends Model
 {
     use HasFactory;
     public $timestamps  = false;
+    public $incrementing = false;
     protected $table = 'notified';
 
     protected $fillable = [
@@ -18,5 +19,13 @@ class Notified extends Model
         'view'
     ];
 
-    protected $primaryKey = ['id_notification','id_notified'];
+    protected $primaryKey = ['id_notification', 'id_notified'];
+
+    public function notification() {
+        return $this->belongsTo(Notification::class,'id_notification','id');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class,'id_notified','id');
+    }
 }
