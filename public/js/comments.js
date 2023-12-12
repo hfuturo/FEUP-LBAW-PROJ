@@ -105,21 +105,16 @@ document
             newComment.append(form);
             newComment.appendChild(commentText);
 
+
+
             const votes = document.createElement("div");
             votes.className = "votes";
 
-            const like = createLikeDislike("accept", "thumb_up");
-            const nLikes = document.createElement("p");
-            nLikes.textContent = 0;
-
-            const dislike = createLikeDislike("remove", "thumb_down");
-            const nDislikes = document.createElement("p");
-            nDislikes.textContent = 0;
-
+            const like = createLikeDislike("accept", "thumb_up", "up_count");
+            const dislike = createLikeDislike("remove", "thumb_down", "down_count");
+            
             votes.appendChild(like);
-            votes.appendChild(nLikes);
             votes.appendChild(dislike);
-            votes.appendChild(nDislikes);
             newComment.appendChild(votes);
 
             commentSection.prepend(newComment);
@@ -128,6 +123,28 @@ document
             console.error("Failed to add comment");
         }
     });
+
+    
+function createLikeDislike(className, symbol, type) {
+    const button = document.createElement("button");
+    button.className = className;
+
+    const icon = document.createElement("span");
+    icon.className = "material-symbols-outlined";
+    icon.textContent = symbol;
+
+    const number = document.createElement("span");
+    number.textContent = 0;
+    number.className = type;
+
+
+    button.appendChild(icon);
+    button.appendChild(number)
+
+    return button;
+}
+
+
 
 function toggleMenu(button, event) {
     document
@@ -252,19 +269,6 @@ function makeDropDown(comment) {
     dropdown.appendChild(dropdownContent);
 
     return dropdown;
-}
-
-function createLikeDislike(className, symbol) {
-    const button = document.createElement("button");
-    button.className = className;
-
-    const icon = document.createElement("span");
-    icon.className = "material-symbols-outlined";
-    icon.textContent = symbol;
-
-    button.appendChild(icon);
-
-    return button;
 }
 
 function editCommentItem(comment) {

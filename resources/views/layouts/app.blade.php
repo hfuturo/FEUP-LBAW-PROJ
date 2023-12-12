@@ -81,7 +81,7 @@
                 <section id="nav_normal_buttons">
                     <a href="{{ route('create_news') }}" class="button"> Create Post</a>
                     <a href="" class="button"> Create Organization</a>
-                    @include('partials.topic_proposal')
+                    <a class="button" onclick="openTopicProposal()">Propose New Topic</a>
                 </section>
             </div>
         </nav>
@@ -92,24 +92,29 @@
         </section>
 
         @if (Auth::check())
-        <div id="notifications_pop_up">
-            <?php $notifications = Auth::user()->notified_ordered; ?>
-            @foreach ($notifications as $notif)
-                <article class="user_news" id="{{ $notif->notification->id }}">
-                    <h4>
-                    <button class="notification_button"><span class="material-symbols-outlined icon_red">delete</span></button>
-                    @if ($notif->notification->type === "follow")
-                            <a href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a> is following you !
-                    @endif
-                    @if ($notif->notification->type === "content")
-                            <a href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a> has a new comment, go check !
-                    @endif
-                    </h4>
-                </article>
-            @endforeach
-            <a href="{{ url('/notification') }}"> See More </a>
-        </div>
-    @endif
+            <div id="notifications_pop_up">
+                <?php $notifications = Auth::user()->notified_ordered; ?>
+                @foreach ($notifications as $notif)
+                    <article class="user_news" id="{{ $notif->notification->id }}">
+                        <h4>
+                            <button class="notification_button"><span
+                                    class="material-symbols-outlined icon_red">delete</span></button>
+                            @if ($notif->notification->type === 'follow')
+                                <a
+                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                is following you !
+                            @endif
+                            @if ($notif->notification->type === 'content')
+                                <a
+                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                has a new comment, go check !
+                            @endif
+                        </h4>
+                    </article>
+                @endforeach
+                <a href="{{ url('/notification') }}"> See More </a>
+            </div>
+        @endif
 
     </main>
     <footer>
@@ -120,3 +125,5 @@
 </body>
 
 </html>
+
+@include('partials.topic_proposal')
