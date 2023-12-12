@@ -15,5 +15,3 @@
         </form>
     </div>
 </div>
-
-<a class="button" onclick="openTopicProposal()">Propose New Topic</a>
