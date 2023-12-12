@@ -33,8 +33,9 @@ header h1 {
     margin: 0;
 }
 
-.button,
-button:not(header button) {
+nav .button,
+header .button,
+nav button {
     display: flex;
     justify-content: center;
     justify-self: center;
@@ -45,6 +46,15 @@ button:not(header button) {
     line-height: 2;
     min-width: 6em;
     margin: auto;
+    font-size: 1em;
+}
+
+main .button, main button {
+    justify-content: center;
+    background-color: var(--primary-color);
+    border: 0.1em solid var(--primary-color);
+    color: white;
+    padding: 0.5em;
     font-size: 1em;
 }
 
