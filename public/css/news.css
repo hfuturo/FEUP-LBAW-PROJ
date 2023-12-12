@@ -69,6 +69,8 @@ button.remove {
     align-items: center;
     justify-content: center;
     gap: 0.5em;
+    background-color: grey;
+    border-color: grey;
 }
 
 #edit_or_cancel_edition_news,

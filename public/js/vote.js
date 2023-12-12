@@ -3,10 +3,16 @@
 document?.querySelectorAll(".vote_value").forEach((input) => {
     let value = input.value;
     let button;
-    if (value == 1) button = input.parentNode.querySelector(".remove");
-    if (value == -1) button = input.parentNode.querySelector(".accept");
-    button.style.backgroundColor = "grey";
-    button.style.borderColor = "grey";
+    if (value == 1){
+        button = input.parentNode.querySelector(".accept");
+        button.style.backgroundColor = "green";
+        button.style.borderColor = "green";
+    }
+    if (value == -1){
+        button = input.parentNode.querySelector(".remove");
+        button.style.backgroundColor = "red";
+        button.style.borderColor = "red";
+    }
 });
 
 document.querySelectorAll(".vote").forEach((button) => {
@@ -15,29 +21,25 @@ document.querySelectorAll(".vote").forEach((button) => {
         let content = button.parentNode.id;
         let method = "POST";
         let action, value;
-        if (button.style.backgroundColor == "grey") action = "update";
-        else {
-            if (name == "vote accept") {
-                console.log();
-                if (
-                    button.parentNode.querySelector(".remove").style
-                        .backgroundColor == "grey"
-                ) {
-                    action = "destroy";
-                    method = "DELETE";
-                } else action = "create";
-            } else {
-                if (
-                    button.parentNode.querySelector(".accept").style
-                        .backgroundColor == "grey"
-                ) {
-                    action = "destroy";
-                    method = "DELETE";
-                } else action = "create";
-            }
+        if((name == "vote accept" && button.style.backgroundColor == "green") || (name == "vote remove" && button.style.backgroundColor == "red")){
+            action = "destroy";
+            method = "DELETE";
         }
+        else if((name == "vote accept" && button.parentNode.querySelector(".remove").style.backgroundColor == "red") || (name == "vote remove" && button.parentNode.querySelector(".accept").style.backgroundColor == "green")){
+            action = "update";
+            method = "POST";
+        }
+        else{
+            action = "create";
+            method = "POST";      
+        }
+
         if (name == "vote accept") value = 1;
         if (name == "vote remove") value = -1;
+
+        console.log(action)
+        console.log(method)
+
         sendAjaxRequest(
             `${method}`,
             `/api/vote/${action}`,
@@ -69,10 +71,10 @@ function voteHandler() {
         buttonDown.style.backgroundColor = "red";
         buttonDown.style.borderColor = "red";
     } else {
-        buttonUp.style.backgroundColor = "green";
-        buttonUp.style.borderColor = "green";
-        buttonDown.style.backgroundColor = "red";
-        buttonDown.style.borderColor = "red";
+        buttonUp.style.backgroundColor = "grey";
+        buttonUp.style.borderColor = "grey";
+        buttonDown.style.backgroundColor = "grey";
+        buttonDown.style.borderColor = "grey";
     }
     if (action == "create") {
         if (vote == 1) {
