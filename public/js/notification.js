@@ -1,6 +1,6 @@
 document.querySelectorAll(".notification_button").forEach((button) => {
     button.addEventListener("click", (event) => {
-        let notification = event.target.parentNode.parentNode.id;
+        let notification = event.target.parentNode.parentNode.parentNode.id;
         sendAjaxRequest(
             "DELETE",
             "/api/notification/destroy",

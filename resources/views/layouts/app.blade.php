@@ -103,7 +103,7 @@
             @foreach ($notifications as $notif)
                 <article class="user_news" id="{{ $notif->notification->id }}">
                     <h4>
-                    <span class="material-symbols-outlined icon_red notification_button">delete</span>
+                    <button class="notification_button"><span class="material-symbols-outlined icon_red">delete</span></button>
                     @if ($notif->notification->type === "follow")
                             <a href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a> is following you !
                     @endif
