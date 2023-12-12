@@ -61,8 +61,7 @@
                     <img class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}">
                 </div>
                 <a id="notification_icon"><span class="material-symbols-outlined">notifications</span></a>
-                @endif
-            @if (!Auth::check())
+            @else
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
             @endif
