@@ -139,5 +139,5 @@ Route::controller(FileController::class)->group(function() {
 });
 
 Route::controller(OrganizationController::class)->group(function(){
-    Route::post('organization/{organization}','show')->name('show_org');
+    Route::get('organization/{organization}','show')->name('show_org');
 });

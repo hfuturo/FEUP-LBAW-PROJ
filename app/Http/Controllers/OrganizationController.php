@@ -26,25 +26,31 @@ class OrganizationController extends Controller
     public function store(Request $request)
     {
         try{
+            $request->validate([
+                'name' => 'required|unique:organization,name|max:255|string',
+                'bio' => 'required|string',
+            ]);
+
             $result = DB::transaction(function () use ($request) {
                 $org = new Organization();
                 $org->name = $request->input('name');
                 $org->bio = $request->input('bio');
                 $org->save();
-                $org->refresh();
+                $org = $org->refresh();
 
 
                 $leader = new MembershipStatus();
-                $id = User::find($request->input('leader'))->id;
-                $leader->id_user = "1";
                 $leader->id_organization = $org->id;
+                $leader->id_user = Auth::user()->id;
                 $leader->joined_date= 'now()';
                 $leader->member_type='leader';
                 $leader->save();
 
+                return $org;
+
             });
-            return route('show_org', ['organization' => $org->id]);
-        } catch (\Exception $e) {
+            return redirect()->route('show_org', ['organization' => $result->id]);
+        } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
@@ -54,7 +60,7 @@ class OrganizationController extends Controller
      */
     public function show(int $id)
     {
-        $org = NewsItem::findOrFail($id);
+        $org = Organization::findOrFail($id);
 
         return view('pages.organization', ['organization' => $org]);
     }
