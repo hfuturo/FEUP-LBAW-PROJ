@@ -28,7 +28,6 @@ input[id="filter_users"]:focus {
 #all_users .user button {
     margin-right: 0;
     margin-left: 0;
-    padding-right: 0;
     background-color: transparent;
     border: none;
     min-width: 1em;
