@@ -15,4 +15,10 @@ function deleteNotificationHandler() {
     let selector = 'article[id="' + JSON.parse(this.responseText).id + '"]';
     let element = document.querySelector(selector);
     element.remove();
+    let mainElement = document.querySelector("#list_notifications");
+    if (mainElement.children.length <= 2) {
+        let pElement = document.createElement("p");
+        pElement.textContent = "There are no notifications to show.";      
+        mainElement.appendChild(pElement);
+    }
 }

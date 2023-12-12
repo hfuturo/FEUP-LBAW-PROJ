@@ -73,6 +73,10 @@ class User extends Authenticatable
         return $this->hasMany(Report::class,'id_user');
     }
 
+    public function notified() {
+        return $this->hasMany(Notified::class,'id_notified');
+    }
+
     public function notifications() {
         return $this->hasMany(Notification::class,'id_user');
     }
@@ -109,6 +113,11 @@ class User extends Authenticatable
         return $this->contents()
         ->whereHas('news_items')
         ->whereDoesntHave('comments');
+    }
+
+        
+    public function notified_ordered() {
+        return $this->notified()->orderBy('date', 'desc');
     }
 
     public function is_admin()
