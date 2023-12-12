@@ -1,5 +1,11 @@
 "use strict";
 
+document.querySelector("#notification_icon")?.addEventListener("click", (event) => {
+    let lista = document.getElementById("notifications_pop_up");
+    lista.style.display = lista.style.display === "block" ? "none" : "block";
+
+});
+
 document
     .getElementById("manage_report_button")
     .addEventListener("click", function () {

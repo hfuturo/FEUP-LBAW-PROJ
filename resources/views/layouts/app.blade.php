@@ -24,6 +24,7 @@
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
 
     @yield('head')
 
@@ -33,7 +34,6 @@
         display: none;
     }
 </style>
-
 <body>
     @include('partials.error_message')
     <header>
@@ -60,8 +60,7 @@
                         href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
                     <img class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}">
                 </div>
-            @endif
-                <a class="button" href="{{ url('/notification') }}"> Notification </a>
+                <a id="notification_icon"><span class="material-symbols-outlined">notifications</span></a>
                 @endif
             @if (!Auth::check())
                 <a class="button" href="{{ url('/login') }}">Log in</a>
@@ -98,6 +97,27 @@
         <section id="content">
             @yield('content')
         </section>
+
+        @if (Auth::check())
+        <div id="notifications_pop_up">
+            <?php $notifications = Auth::user()->notified_ordered; ?>
+            @foreach ($notifications as $notif)
+                <article class="user_news" id="{{ $notif->notification->id }}">
+                    <h4>
+                    <span class="material-symbols-outlined icon_red notification_button">delete</span>
+                    @if ($notif->notification->type === "follow")
+                            <a href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a> is following you !
+                    @endif
+                    @if ($notif->notification->type === "content")
+                            <a href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a> has a new comment, go check !
+                    @endif
+                    </h4>
+                </article>
+            @endforeach
+            <a href="{{ url('/notification') }}"> See More </a>
+        </div>
+    @endif
+
     </main>
     <footer>
         <a href=" {{ url('/about_us') }}"> About Us </a>
