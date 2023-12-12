@@ -84,12 +84,11 @@ class UserController extends Controller
 
     public function block(Request $request)
     {
-        User::where('id', $request->input("content"))
+        User::where('id', $request->input("request"))
             ->update(['blocked' => true]);
         $response = [
-            //'action' => 'block_user',
-            //'id' => $request->input("content"),
-            'blocked' => User::where('id', $request->input("content"))->get('blocked'),
+            'action' => 'block_user',
+            'id' => $request->input("request"),
         ];
         return response()->json($response);
     }
