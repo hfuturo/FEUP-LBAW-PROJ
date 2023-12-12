@@ -62,8 +62,13 @@ button.remove {
     margin-right: 0;
 }
 
-.votes p {
-    margin: auto 2em auto 0.5em;
+.votes button {
+    margin: 0em 0.5em 0em 0em;
+    padding:0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
 }
 
 #edit_or_cancel_edition_news,
