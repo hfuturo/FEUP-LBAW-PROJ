@@ -1,14 +1,17 @@
 "use strict";
 
 const filterUsersInput = document.querySelector("#users input");
-filterUsersInput.addEventListener("input", async function () {
-    sendAjaxRequest(
-        "post",
-        "/api/manage",
-        { search: filterUsersInput.value },
-        filterUsersHandler
-    );
-});
+
+if (filterUsersInput) {
+    filterUsersInput.addEventListener("input", async function () {
+        sendAjaxRequest(
+            "post",
+            "/api/manage",
+            { search: filterUsersInput.value },
+            filterUsersHandler
+        );
+    });
+}
 
 function filterUsersHandler() {
     if (this.status != 200) window.location = "/";
@@ -44,18 +47,36 @@ document.querySelectorAll(".block").forEach((button) => {
 });
 
 function blockHandler() {
-    if (this.status != 200) window.location = '/';
+    if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
     let selector = 'li[id="' + JSON.parse(this.responseText).id + '"] .block';
     const button = document.querySelector(selector);
-    console.log(button)
-    console.log
-    if (action == "block_user"){
+    console.log(button);
+    console.log;
+    if (action == "block_user") {
         button.dataset.operation = "unblock_user";
         button.textContent = "Unblock";
-    }
-    else {
+    } else {
         button.dataset.operation = "block_user";
         button.textContent = "Block";
     }
+}
+
+document.querySelectorAll(".topics_proposal").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const idTopic = button.id;
+        sendAjaxRequest(
+            "post",
+            `/manage_topic/${event.target.dataset.operation}`,
+            { idTopic },
+            topicProposalHandler
+        );
+    });
+});
+
+function topicProposalHandler() {
+    if (this.status != 200) window.location = "/";
+    let idTopic = JSON.parse(this.responseText);
+    let element = document.getElementById(idTopic);
+    element.remove();
 }

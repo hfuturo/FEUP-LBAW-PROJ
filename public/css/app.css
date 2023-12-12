@@ -44,6 +44,10 @@ body > nav {
     height: 100%;
 }
 
+#manage_report_button span {
+    padding-top: 6px;
+}
+
 .header_user_info {
     display: flex;
     align-items: center;
@@ -55,6 +59,11 @@ body > nav {
     width: 2em;
     height: 2em;
     margin-right: 1em;
+    margin-left: 0.5em;
+}
+
+#button_profile {
+    margin-left: 1em;
 }
 
 .header_nav {

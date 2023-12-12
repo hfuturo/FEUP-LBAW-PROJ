@@ -19,7 +19,7 @@
 .news_header_feed {
     background-color: white;
     margin: 0;
-    padding: 0;
+    padding-top: 1em;
     display: flex;
     justify-content: space-between;
 }

@@ -18,8 +18,6 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-
-    <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
@@ -36,7 +34,7 @@
 </style>
 <body>
     @include('partials.error_message')
-    <header>
+    <header class="app_header">
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form class="search_form" action="/news">
             <select name="search_type">
@@ -57,8 +55,8 @@
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <div class="header_user_info">
                     <a class="button" id="button_profile"
-                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
-                    <img class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}">
+                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
+                            class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
                 <a id="notification_icon"><span class="material-symbols-outlined">notifications</span></a>
             @else
