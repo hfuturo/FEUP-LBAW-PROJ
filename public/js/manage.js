@@ -29,7 +29,15 @@ function filterUsersHandler() {
         let link = document.createElement("a");
         link.href = "/profile/" + user.id;
         link.innerHTML = user.name;
+        let blockButton = document.createElement("button");
+        blockButton.classList.add("block");
+        blockButton.setAttribute("data-operation", "block_user");
+        let buttonSpan = document.createElement("span");
+        buttonSpan.classList.add("material-symbols-outlined");
+        buttonSpan.innerHTML = "block";
+        blockButton.appendChild(buttonSpan);
         li.appendChild(link);
+        li.appendChild(blockButton);
         usersList.appendChild(li);
     }
 }
