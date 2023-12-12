@@ -5,6 +5,7 @@
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/comments.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/comments.js') }} defer></script>
 @endsection
 
 @section('content')
@@ -68,17 +69,19 @@
             @endif
         </article>
     </section>
-    <section id = "new_comment">
-        <div class="header">
-            <h3>Leave a comment</h3>
-        </div>
-        <form id="commentForm" data-news-id="{{ $news_item->id }}">
-            @csrf
-            <textarea id="commentContent" name="content" rows="3" maxlength="500" required
-                placeholder="Write your comment here"></textarea>
-            <button type="submit" class="button" id="postComment">Post</button>
-        </form>
-    </section>
+    @if (Auth::check())
+        <section id = "new_comment">
+            <div class="header">
+                <h3>Leave a comment</h3>
+            </div>
+            <form id="commentForm" data-news-id="{{ $news_item->id }}">
+                @csrf
+                <textarea id="commentContent" name="content" rows="3" maxlength="500" required
+                    placeholder="Write your comment here"></textarea>
+                <button type="submit" class="button" id="postComment">Post</button>
+            </form>
+        </section>
+    @endif
     <section id = "comments">
         @if ($comments->count() === 0)
             <div id="no_comments">
@@ -95,7 +98,7 @@
                                 <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}"
                                     class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
-                                @if ($news_item->content->authenticated_user->id === $comment->content->authenticated_user->id) 
+                                @if ($news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
                                     <span class="material-symbols-outlined author">person_edit</span>
                                 @endif
                             @else
@@ -103,7 +106,8 @@
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class="date">Edit {{Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
+                                <p class="date">Edit
+                                    {{ Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
                             @endif
                             <div class="dropdown">
                                 <button class="more" onclick="toggleMenu(this, event)">
@@ -114,7 +118,7 @@
                                         <span class="material-symbols-outlined">flag</span>
                                         <span>Report</span>
                                     </div>
-                                    @if(Auth::user()->id === $comment->content->authenticated_user->id)
+                                    @if (Auth::user()->id === $comment->content->authenticated_user->id)
                                         <div class="dropdown-option delete">
                                             <span class="material-symbols-outlined">delete</span>
                                             <span class="delete">Delete</span>
@@ -130,10 +134,11 @@
                     </div>
                     <form class="editForm" hidden>
                         @csrf
-                        <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content}}</textarea>
+                        <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content }}</textarea>
                         <div class=buttonsForm>
                             <button type="submit" class="button editButton">Edit</button>
-                            <button type="button" class="button cancelButton" onclick="editCancel(this.closest('.comment'))">Cancel</button>
+                            <button type="button" class="button cancelButton"
+                                onclick="editCancel(this.closest('.comment'))">Cancel</button>
                         </div>
                     </form>
                     <p class="comment_text">{{ $comment->content->content }}</p>
