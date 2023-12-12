@@ -49,7 +49,8 @@ nav button {
     font-size: 1em;
 }
 
-main .button, main button {
+main .button,
+main button {
     justify-content: center;
     background-color: var(--primary-color);
     border: 0.1em solid var(--primary-color);
@@ -173,11 +174,4 @@ p.success::before {
 
 p.error::before {
     background: darkred;
-}
-
-#notification_icon {
-    padding: 0.5em;
-}
-#notification_icon:hover {
-    color: var(--hover-color);
 }

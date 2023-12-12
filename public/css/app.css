@@ -66,8 +66,23 @@ body > nav {
     margin-left: 1em;
 }
 
+.sub-options {
+    display: none;
+}
+
+#notification_icon {
+    padding: 1em 0.5em 0.5em 0.5em;
+    background-color: var(--secundary-color);
+    border: none;
+    color: var(--primary-color);
+}
+#notification_icon:hover {
+    color: var(--hover-color);
+}
+
 .header_nav {
     display: flex;
+    justify-content: center;
 }
 
 .header_nav a {

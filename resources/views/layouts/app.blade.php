@@ -27,11 +27,7 @@
     @yield('head')
 
 </head>
-<style>
-    .sub-options {
-        display: none;
-    }
-</style>
+
 <body>
     @include('partials.error_message')
     <header class="app_header">
@@ -58,7 +54,7 @@
                         href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
                             class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
-                <a id="notification_icon"><span class="material-symbols-outlined">notifications</span></a>
+                <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>
             @else
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
