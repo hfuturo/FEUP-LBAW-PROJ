@@ -1,5 +1,5 @@
 main section#news {
-    color: var(--main-text-color);
+    background-color: var(--background-article-color);
     margin: 1em;
 }
 

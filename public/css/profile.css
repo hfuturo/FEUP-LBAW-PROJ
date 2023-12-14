@@ -11,17 +11,12 @@
 }
 
 #user_card {
+    background-color: var(--background-article-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
     flex: 2;
     padding: 1em;
-}
-
-#user_card > button {
-    display: inline;
-}
-
-#user_card .button {
-    margin: auto;
-    margin-bottom: 1em;
+    margin-right: 1em;
 }
 
 #user_details,

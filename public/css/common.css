@@ -1,11 +1,17 @@
 :root {
-    --primary-color: rgb(25, 134, 209);
-    --secundary-color: rgb(199, 232, 255);
-    --hover-color: grey;
-    --main-text-color: rgb(0, 0, 0);
+    --primary-color: rgb(0, 51, 102);
+    --secundary-color: rgb(255, 166, 0);
+    --title-text-color: rgb(255, 166, 0);
+    --primary-text-color: rgb(0, 0, 0);
+    --secundary-text-color: #F8F8F8;
+    --background-color: #F8F8F8;
+    --background-article-color: white;
+    --hover-color: rgb(255, 166, 0);
 }
 
 body {
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
     min-height: 100%;
     margin: 0;
     display: grid;
@@ -15,10 +21,10 @@ body {
 }
 
 .app_header {
+    background-color: var(--primary-color);
     grid-column-start: start;
     grid-column-end: end;
     display: flex;
-    background-color: var(--secundary-color);
     padding: 1em;
     align-items: center;
     justify-content: space-between;
@@ -29,7 +35,8 @@ body {
     height: 5rem;
 }
 
-header h1 {
+header a, footer a {
+    color: var(--secundary-text-color);
     margin: 0;
 }
 
@@ -40,7 +47,6 @@ nav button {
     justify-content: center;
     justify-self: center;
     background-color: var(--primary-color);
-    border: 0.1em solid var(--primary-color);
     color: white;
     padding: 0.5em;
     line-height: 2;
@@ -53,7 +59,8 @@ main .button,
 main button {
     justify-content: center;
     background-color: var(--primary-color);
-    border: 0.1em solid var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
     color: white;
     padding: 0.5em;
     font-size: 1em;
@@ -61,7 +68,6 @@ main button {
 
 .button:hover {
     background-color: var(--hover-color);
-    border-color: var(--hover-color);
 }
 
 textarea:not(header textarea),
@@ -71,7 +77,7 @@ select:not(header select) {
     box-sizing: border-box;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
     width: 100%;
     padding: 1em;
     min-height: 3em;
@@ -90,7 +96,7 @@ input[type="password"]:focus {
 
 .sub-options .button {
     background-color: white;
-    border: 0.1em solid var(--secundary-color);
+    border: 0.1em solid var(--secundary-text-color);
     color: var(--primary-color);
 }
 

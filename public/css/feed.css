@@ -9,7 +9,7 @@
 
 .news_header_feed,
 .news_content {
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
 }
 
 .news_header_feed h4:nth-child(2) {
@@ -17,7 +17,6 @@
 }
 
 .news_header_feed {
-    background-color: white;
     margin: 0;
     padding-top: 1em;
     display: flex;
@@ -33,11 +32,13 @@
 }
 
 .user_news:hover {
-    border-color: #606c76;
+    border-color: var(--hover-color);
 }
 
 .user_news {
+    background-color: var(--background-article-color);
     border: 1px solid var(--primary-color);
+    border-radius: 5px;
     padding: 0em 1em 1em 1em;
     margin: 1em 0em;
 }

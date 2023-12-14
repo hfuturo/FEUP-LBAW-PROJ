@@ -21,7 +21,7 @@ input[id="filter_users"]:focus {
     list-style-type: none;
     padding: 1em;
     margin-bottom: 0em;
-    border-bottom: 1px solid var(--main-text-color);
+    border-bottom: 1px solid var(--primary-text-color);
     justify-content: space-between;
 }
 
@@ -40,7 +40,7 @@ input[id="filter_users"]:focus {
 
 #all_users .user a {
     text-decoration: none;
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
 }
 
 #all_users .user a:hover {
