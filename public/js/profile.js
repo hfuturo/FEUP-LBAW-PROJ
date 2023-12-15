@@ -62,7 +62,7 @@ document.querySelector("#submit_report")?.addEventListener("click", (event) => {
 });
 
 function followHandler() {
-    if (this.status != 200) window.location = '/';
+    //if (this.status != 200) window.location = '/';
     const action = JSON.parse(this.responseText).follow;
     const count = document.querySelector("#folowers_count");
     const oldValue = parseInt(count.textContent.trim());
