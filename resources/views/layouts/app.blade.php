@@ -34,6 +34,8 @@
 <body>
     @include('partials.error_message')
     <header class="app_header">
+    <input type="checkbox" id="hamburger">
+    <label class="hamburger" for="hamburger"></label>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form class="search_form" action="/news">
             <select name="search_type">
@@ -64,6 +66,7 @@
             @endif
         </span>
     </header>
+    <main>
     @if (Auth::check())
         <nav>
             <div class="sticky_nav">
@@ -89,7 +92,6 @@
             </div>
         </nav>
     @endif
-    <main>
         <section id="content">
             @yield('content')
         </section>
