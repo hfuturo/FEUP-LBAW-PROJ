@@ -62,7 +62,7 @@ document.querySelector("#submit_report")?.addEventListener("click", (event) => {
 });
 
 function followHandler() {
-    //if (this.status != 200) window.location = '/';
+    if (this.status != 200) window.location = '/';
     const action = JSON.parse(this.responseText).follow;
     const count = document.querySelector("#folowers_count");
     const oldValue = parseInt(count.textContent.trim());
@@ -76,9 +76,20 @@ function followHandler() {
         count.textContent = oldValue + 1;
         button.querySelector("span").textContent = "person_remove";
     }
+    Swal.fire({
+        icon: "success",
+        title: "You " + action + " this user!",
+        showConfirmButton: false,
+        timer: 1500
+      });    
 }
 
 function reportUserHandler() {
     if (this.status != 200) window.location = "/";
     closeReportUserForm();
+    Swal.fire({
+        icon: "success",
+        title: "Thank you for reportin",
+        text: "We will now analyse the situation.",
+      }); 
 }
