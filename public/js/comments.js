@@ -105,14 +105,16 @@ document
             newComment.append(form);
             newComment.appendChild(commentText);
 
-
-
             const votes = document.createElement("div");
             votes.className = "votes";
 
             const like = createLikeDislike("accept", "thumb_up", "up_count");
-            const dislike = createLikeDislike("remove", "thumb_down", "down_count");
-            
+            const dislike = createLikeDislike(
+                "remove",
+                "thumb_down",
+                "down_count"
+            );
+
             votes.appendChild(like);
             votes.appendChild(dislike);
             newComment.appendChild(votes);
@@ -124,7 +126,6 @@ document
         }
     });
 
-    
 function createLikeDislike(className, symbol, type) {
     const button = document.createElement("button");
     button.className = className;
@@ -137,14 +138,11 @@ function createLikeDislike(className, symbol, type) {
     number.textContent = 0;
     number.className = type;
 
-
     button.appendChild(icon);
-    button.appendChild(number)
+    button.appendChild(number);
 
     return button;
 }
-
-
 
 function toggleMenu(button, event) {
     document

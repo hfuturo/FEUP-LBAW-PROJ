@@ -84,13 +84,21 @@ class UserController extends Controller
 
     public function block(Request $request)
     {
-        $update = User::where('id', $request->input("request"))
-            ->update(['blocked' => true]);
+        $user = User::find($request->input("request"));
+        $this->authorize('block', $user);
+        $user->update(['blocked' => true]);
         $response = [
             'action' => 'block_user',
             'id' => $request->input("request"),
         ];
         return response()->json($response);
+    }
+
+    public function block_perfil_button(User $user)
+    {
+        $this->authorize('block', $user);
+        $user->update(['blocked' => true]);
+        return back()->with('success', 'Account blocked successfully!');
     }
 
     public function unblock(Request $request)
