@@ -35,16 +35,16 @@ class CommentController extends Controller
      */
     public function store(Request $request, int $id)
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect()->route("login")
                 ->withErrors('Not authenticated. Please log in to comment');
         }
-            
-        $validatedData = $request->validate([
+
+        $request->validate([
             'content' => 'required|string|max:350',
         ]);
 
-        $comment = DB::transaction(function () use($request,$id) {
+        $comment = DB::transaction(function () use ($request, $id) {
 
             $news_item = Content::find($id);
 
@@ -58,40 +58,24 @@ class CommentController extends Controller
             $comment->id = $content->id;
             $comment->id_news = $id;
             $comment->save();
-            
-            if($news_item->authenticated_user->id === $content->authenticated_user->id){
+
+            if ($news_item->authenticated_user->id === $content->authenticated_user->id) {
                 $news_author = TRUE;
-            }
-            else {
+            } else {
                 $news_author = FALSE;
             }
 
-            return ['success' => true,
-                    'id' => $content->id,
-                    'news_author' => $news_author,
-                    'date' => Carbon::parse($content->date)->diffForHumans(),
-                    'content'=>$content->content, 
-                    'author' =>$content->authenticated_user];
-        
+            return [
+                'success' => true,
+                'id' => $content->id,
+                'news_author' => $news_author,
+                'date' => Carbon::parse($content->date)->diffForHumans(),
+                'content' => $content->content,
+                'author' => $content->authenticated_user
+            ];
         });
 
         return response()->json($comment);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(int $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id)
-    {
-        //
     }
 
     /**
@@ -99,23 +83,21 @@ class CommentController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'content' => 'required|string|max:350',
         ]);
         $comment = Comment::find($id);
         $content = Content::find($id);
 
-        try{
+        try {
             $this->authorize('update', $comment);
-            
+
             $content->content = $request->input('content');
             $content->edit_date = 'now()';
             $content->save();
 
             return response()->json(['success' => 'Comment edited successfully']);
-            
-        }
-        catch (AuthorizationException $e) {
+        } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);
         }
     }
@@ -131,14 +113,13 @@ class CommentController extends Controller
         try {
             $this->authorize('delete', $comment);
 
-            if($comment->votes()->exists()){
+            if ($comment->votes()->exists()) {
                 return response()->json(['error' => 'Cannot delete comment with votes']);
             } else {
                 $content->delete();
                 return response()->json(['success' => 'Comment deleted successfully']);
             }
-        }
-        catch (AuthorizationException $e) {
+        } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);
         }
     }
