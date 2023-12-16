@@ -100,6 +100,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{user}', 'show')->name('profile');
     Route::post('/profile/{user}', 'update')->name('profile_update');
     Route::post('/profile/{user}/delete', 'delete')->name('delete_account');
+    Route::post('/profile/{user}/block', 'block_perfil_button')->name('block');
 });
 
 // About Us

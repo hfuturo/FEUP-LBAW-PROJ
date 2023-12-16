@@ -40,6 +40,14 @@ function closeRemovePfpForm() {
     document.getElementById("remove_pfp_popup").style.display = "none";
 }
 
+function closeBlockForm() {
+    document.getElementById("block_account_popup").style.display = "none";
+}
+
+function openBlockForm() {
+    document.getElementById("block_account_popup").style.display = "block";
+}
+
 document.querySelector("#follow")?.addEventListener("click", (event) => {
     const user = document.querySelector("#following").value;
     sendAjaxRequest(
@@ -62,17 +70,16 @@ document.querySelector("#submit_report")?.addEventListener("click", (event) => {
 });
 
 function followHandler() {
-    if (this.status != 200) window.location = '/';
+    if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).follow;
     const count = document.querySelector("#folowers_count");
     const oldValue = parseInt(count.textContent.trim());
     const button = document.querySelector("#follow");
     button.dataset.operation = action;
-    if (action == "follow"){
+    if (action == "follow") {
         count.textContent = oldValue - 1;
         button.querySelector("span").textContent = "person_add";
-    }
-    else{
+    } else {
         count.textContent = oldValue + 1;
         button.querySelector("span").textContent = "person_remove";
     }
