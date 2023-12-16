@@ -46,18 +46,13 @@ Route::controller(BlockController::class)->group(function () {
 // News
 Route::controller(NewsController::class)->group(function () {
     Route::get('/news', 'list_default_feed')->name('news');
+    Route::get('/news/recent_feed', 'recent_list')->name('recent_feed');
+    Route::get('/news/follow_feed', 'follow_list')->name('follow_feed');
 });
 
 // API
 Route::controller(ManageController::class)->group(function () {
     Route::post('/api/manage', 'search');
-});
-
-Route::controller(NewsController::class)->group(function () {
-    Route::get('/api/news/top_feed', 'top_list')->name('top_feed');
-    Route::get('/api/news/recent_feed', 'recent_list')->name('recent_feed');
-    Route::get('/api/news/follow_feed', 'follow_list')->name('follow_feed');
-    Route::get('/api/news/search_feed', 'search_list');
 });
 
 // Authentication
