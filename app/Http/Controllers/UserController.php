@@ -103,8 +103,9 @@ class UserController extends Controller
 
     public function unblock(Request $request)
     {
-        $update = User::where('id', $request->input("request"))
-            ->update(['blocked' => false]);
+        $user = User::find($request->input("request"));
+        $this->authorize('unblock', \App\User::class);
+        $user->update(['blocked' => false]);
         $response = [
             'action' => 'unblock_user',
             'id' => $request->input("request"),

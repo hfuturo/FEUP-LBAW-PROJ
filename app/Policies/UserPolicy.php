@@ -30,8 +30,13 @@ class UserPolicy
         return Auth::check();
     }
 
-    public function block(User $currentUser, User $user) //: bool
+    public function block(User $currentUser, User $user): bool
     {
         return $currentUser->is_admin() && $currentUser->id !== $user->id;
+    }
+
+    public function unblock(): bool
+    {
+        return Auth::user()->is_admin();
     }
 }

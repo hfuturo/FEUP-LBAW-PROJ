@@ -24,37 +24,51 @@ function filterUsersHandler() {
 
     // reconstroi lista
     for (const user of users) {
+        console.log(user.name);
+        console.log(user.blocked);
         let li = document.createElement("li");
         li.classList.add("user");
         li.setAttribute("id", user.id);
         let link = document.createElement("a");
         link.href = "/profile/" + user.id;
         link.innerHTML = user.name;
-        let blockButton = document.createElement("button");
-        blockButton.classList.add("block");
-        blockButton.setAttribute("data-operation", "block_user");
+        let blockUnblockButton = document.createElement("button");
+        blockUnblockButton.classList.add(user.blocked ? "unblock" : "block");
+        // blockUnblockButton.setAttribute("data-operation", "block_user");
         let buttonSpan = document.createElement("span");
         buttonSpan.classList.add("material-symbols-outlined");
-        buttonSpan.innerHTML = "block";
-        blockButton.appendChild(buttonSpan);
+        buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
+        blockUnblockButton.appendChild(buttonSpan);
         li.appendChild(link);
-        li.appendChild(blockButton);
+        li.appendChild(blockUnblockButton);
         usersList.appendChild(li);
 
-        addBlockEventListener(buttonSpan);
+        blockUnblockEventListener(
+            buttonSpan,
+            user.blocked ? "unblock" : "block"
+        );
     }
 }
 
+// block icon
 document
     .querySelectorAll("#all_users .user button.block span")
     ?.forEach((icon) => {
-        addBlockEventListener(icon);
+        blockUnblockEventListener(icon, "block");
     });
 
-function addBlockEventListener(icon) {
-    icon.addEventListener("click", async (event) => {
+// unblock icon
+document
+    .querySelectorAll("#all_users .user button.unblock span")
+    ?.forEach((icon) => {
+        blockUnblockEventListener(icon, "unblock");
+    });
+
+function blockUnblockEventListener(icon, action) {
+    icon.addEventListener("click", async function eventHandler(event) {
+        const method = action === "block" ? "block_user" : "unblock_user";
         const id = event.target.parentNode.parentNode.id;
-        await fetch("/api/block_user", {
+        await fetch("/api/" + method, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -65,11 +79,18 @@ function addBlockEventListener(icon) {
             body: JSON.stringify({ request: id }),
         }).then((response) => response.json());
 
-        icon.innerHTML = "done_outline";
+        icon.innerHTML = action === "block" ? "done_outline" : "block";
 
         const button = icon.parentNode;
-        button.classList.remove("block");
-        button.classList.add("unblock");
+        button.classList.remove(action === "block" ? "block" : "unblock");
+        button.classList.remove(action === "block" ? "unblock" : "block");
+
+        // atualiza event listener
+        icon.removeEventListener("click", eventHandler);
+        blockUnblockEventListener(
+            icon,
+            action === "block" ? "unblock" : "block"
+        );
     });
 }
 
