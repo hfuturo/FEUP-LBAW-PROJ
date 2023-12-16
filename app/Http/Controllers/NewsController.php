@@ -58,6 +58,14 @@ class NewsController extends Controller
             "perPage" => 10
         ]);
     }
+
+    public function advanced_search(Request $request)
+    {
+        return view(choose_view($request, 'pages.advanced_search'), [
+            "news_list" => NewsItem::multi_filter($request->input("title"), $request->input("content")),
+            "perPage" => 10
+        ]);
+    }
 }
 
 function choose_view(Request $request, string $default)

@@ -76,6 +76,21 @@ class NewsItem extends Model
         return $select;
     }
 
+    public static function multi_filter(?string $title, ?string $content)
+    {
+        $select = DB::table('news_item')
+            ->selectRaw('content.*,news_item.*')
+            ->join('content', 'content.id', '=', 'news_item.id')
+            ->orderBy('date', 'DESC');
+        $select->where(function ($select) use ($title) {
+            NewsItem::add_exact_match_text_filter($select, $title, 'news_item.title');
+        });
+        $select->where(function ($select) use ($content) {
+            NewsItem::add_exact_match_text_filter($select, $content, 'content.content');
+        });
+        return $select;
+    }
+
     public static function add_exact_match_text_filter(Builder $select, ?string $query, string $field)
     {
         if (is_null($query) or $query === '') return $select;

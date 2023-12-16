@@ -46,6 +46,7 @@ Route::controller(BlockController::class)->group(function () {
 // News
 Route::controller(NewsController::class)->group(function () {
     Route::get('/news', 'list_default_feed')->name('news');
+    Route::get('/news/advanced_search', 'advanced_search');
     Route::get('/news/recent_feed', 'recent_list')->name('recent_feed');
     Route::get('/news/follow_feed', 'follow_list')->name('follow_feed');
 });
