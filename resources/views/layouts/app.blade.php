@@ -12,6 +12,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
@@ -19,6 +20,8 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
+    
+    <script src="https://kit.fontawesome.com/22c4374990.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/common.js') }} defer></script>

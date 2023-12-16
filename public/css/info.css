@@ -14,7 +14,7 @@ header.info_header .page_title {
 header.info_header *,
 section.info_section,
 section.main_features * {
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
 }
 
 section.main_features {
