@@ -15,8 +15,8 @@
         </div>
         <p>{{ $organization->bio }}</p>
         <div id="followers_members">
-            <a><span>Followers</span><span>{{ $organization->followers->count() }}</span></a>
-            <a><span>Members</span><span>{{ $organization->members->count() }}</span></a>
+            <a href=""><span>Followers</span><span>{{ $organization->followers->count() }}</span></a>
+            <a href=""><span>Members</span><span>{{ $organization->members->count() }}</span></a>
         </div>
     </section>
     <section id="org_feed">

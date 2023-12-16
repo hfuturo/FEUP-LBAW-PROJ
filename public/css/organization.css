@@ -1,9 +1,14 @@
-.header {
+#org_info .header {
     display: flex;
     justify-content: space-between;
 }
 
-.header div{
+#org_info.header div {
     display: flex;
+    gap: 0.2em;
 }
 
+#org_info a {
+    display: inline-flex;
+    gap: 0.2em;
+}
