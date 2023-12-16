@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="image_wrapper">
-                <img id="user_picture" src="{{ $user->getProfileImage() }}">
+                <img id="user_picture" src="{{ $user->getProfileImage() }}" alt="Profile Picture">
                 @if (Auth::user()->id === $user->id)
                     <div class="image_buttons_wrapper">
                         @include('partials.image_form')

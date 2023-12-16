@@ -32,7 +32,8 @@
                         <span>Posted by</span>
                         @if ($news_item->content->authenticated_user !== null)
                             <img class="author_post_pfp"
-                                src="{{ $news_item->content->authenticated_user->getProfileImage() }}">
+                                src="{{ $news_item->content->authenticated_user->getProfileImage() }}"
+                                alt="User Profile Picture">
                             <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
                                 class = "author">{{ $news_item->content->authenticated_user->name }}</a>
                         @else
@@ -94,7 +95,8 @@
                         @if (Auth::check())
                             @if ($comment->content->authenticated_user !== null)
                                 <img class="author_comment_pfp"
-                                    src="{{ $comment->content->authenticated_user->getProfileImage() }}">
+                                    src="{{ $comment->content->authenticated_user->getProfileImage() }}"
+                                    alt="User Profile Picture">
                                 <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}"
                                     class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>

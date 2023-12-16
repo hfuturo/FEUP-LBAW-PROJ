@@ -118,4 +118,10 @@ function voteHandler() {
             element.querySelector(".down_count").textContent = oldValue - 1;
         }
     }
+    Swal.fire({
+        icon: "success",
+        title: "Done successfully!",
+        showConfirmButton: false,
+        timer: 1500
+      }); 
 }

@@ -1,5 +1,10 @@
 "use strict";
 
+document.querySelector("#hamburger")?.addEventListener("click", (event) => {
+    document.querySelector("main > nav").classList.toggle('visivel', event.target.checked);
+    document.querySelector("main > #content").classList.toggle('visivel', event.target.checked);
+});
+
 document.querySelector("#notification_icon")?.addEventListener("click", (event) => {
     let lista = document.getElementById("notifications_pop_up");
     lista.style.display = lista.style.display === "block" ? "none" : "block";
