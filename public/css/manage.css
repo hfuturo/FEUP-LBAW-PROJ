@@ -31,6 +31,7 @@ input[id="filter_users"]:focus {
     background-color: transparent;
     border: none;
     min-width: 1em;
+    padding: 0 0.5em;
 }
 
 #all_users .user button span {
@@ -40,6 +41,7 @@ input[id="filter_users"]:focus {
 #all_users .user a {
     text-decoration: none;
     color: var(--main-text-color);
+    padding: 0.5em;
 }
 
 #all_users .user a:hover {
