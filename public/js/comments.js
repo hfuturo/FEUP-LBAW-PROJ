@@ -145,12 +145,15 @@ function createLikeDislike(className, symbol, type) {
 }
 
 
-
 function toggleMenu(button, event) {
     document
         .querySelectorAll("#comments .dropdown-content")
         .forEach((dropdown) => {
-            dropdown.style.display = "none";
+            /*dropdown.style.display = "none";*/
+            const hidden = dropdown.querySelector(".hidden");
+            if(hidden !== null){
+                dropdown.classList.add("hidden")
+            };
         });
     const dropdown = button.nextElementSibling;
     if (dropdown) {
@@ -158,6 +161,29 @@ function toggleMenu(button, event) {
         toggleDisplay(dropdown);
     }
 }
+
+function toggleDisplay(element) {
+    element.classList.toggle("hidden");
+    /*
+    if (element.style.display === "block") {
+        element.style.display = "none";
+    } else {
+        element.style.display = "block";
+    }
+    */
+}
+
+document.addEventListener("click", (event) => {
+    event.preventDefault;
+    const allDropdown = document.querySelectorAll(".dropdown-content");
+    allDropdown.forEach((dropdown) => {
+        const hidden = dropdown.querySelector(".hidden");
+        if(hidden !== null){
+            dropdown.classList.add("hidden")
+        };
+    });
+});
+
 
 function deleteComment() {
     const comments = document.querySelectorAll(".comment");
@@ -203,7 +229,7 @@ async function deleteCommentItem(comment) {
             message.className = "error";
             message.textContent = data.error;
         }
-        section.prepend(message);
+        document.body.prepend(message);
     } catch (error) {
         console.error("Error:", error);
     }
@@ -336,3 +362,4 @@ function editCancel(comment) {
     const form = comment.querySelector(".editForm");
     form.setAttribute("hidden", "true");
 }
+

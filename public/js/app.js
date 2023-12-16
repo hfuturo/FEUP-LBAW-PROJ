@@ -29,24 +29,6 @@ function closeTopicProposal() {
     document.getElementById("topic_proposal_popup").style.display = "none";
 }
 
-function toggleDisplay(element) {
-    if (element.style.display === "block") {
-        element.style.display = "none";
-    } else {
-        element.style.display = "block";
-    }
-}
-
-document.addEventListener("click", (event) => {
-    event.preventDefault;
-    const allDropdown = document.querySelectorAll(".dropdown-content");
-    allDropdown.forEach((dropdown) => {
-        if (dropdown.style.display === "block") {
-            dropdown.style.display = "none";
-        }
-    });
-});
-
 function cleanUpMessages() {
     document.querySelectorAll("p.success").forEach((message) => {
         if (getComputedStyle(message).display == "none") {
