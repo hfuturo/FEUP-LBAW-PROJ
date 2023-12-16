@@ -39,7 +39,7 @@
                         @endif
                         @if ($news_item->content->organization !== null)
                             <span>Associated with</span>
-                            <a href="" class = "org"> {{ $news_item->content->organization->name }}</a>
+                            <a href="{{route('show_org', ['organization' => $news_item->content->organization])}}" class = "org"> {{ $news_item->content->organization->name }}</a>
                         @endif
                     </div>
                 @endif
