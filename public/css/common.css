@@ -1,10 +1,15 @@
+html {
+    scroll-padding-top: 7rem;
+    overflow: auto;
+}
+
 :root {
     --primary-color: rgb(0, 51, 102);
     --secundary-color: rgb(255, 166, 0);
     --title-text-color: rgb(255, 166, 0);
     --primary-text-color: rgb(0, 0, 0);
-    --secundary-text-color: #F8F8F8;
-    --background-color: #F8F8F8;
+    --secundary-text-color: #f8f8f8;
+    --background-color: #f8f8f8;
     --background-article-color: white;
     --hover-color: rgb(255, 166, 0);
 }
@@ -35,7 +40,8 @@ body {
     height: 5rem;
 }
 
-header a, footer a {
+header a,
+footer a {
     color: var(--secundary-text-color);
     margin: 0;
 }
