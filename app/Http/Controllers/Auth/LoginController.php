@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
 
 use Illuminate\View\View;
 
@@ -34,6 +36,10 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
+        $user = User::where('email', '=', $request->input('email'))->first();
+        if ($user->blocked)
+            return redirect()->route('blocked');
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();

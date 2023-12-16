@@ -7,7 +7,7 @@
 @section('content')
     <section class="info_section">
         <header class="info_header">
-            <h1>NewsCore</h1>
+            <h2 class="page_title">NewsCore</h2>
             <h2>About Us</h2>
         </header>
         <p class="about_text">

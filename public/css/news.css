@@ -1,5 +1,5 @@
 main section#news {
-    color: var(--main-text-color);
+    background-color: var(--background-article-color);
     margin: 1em;
 }
 
@@ -15,7 +15,7 @@ section#news article.news_body {
 section#news article.news_body .title {
     font-weight: bold;
     font-size: 2em;
-    margin-top: 1em;
+    margin-top: 0.5em;
     margin-bottom: 0;
 }
 
@@ -56,8 +56,21 @@ section#news article.news_body .tags .tag {
     display: flex;
 }
 
-.votes p {
-    margin: auto 2em auto 0.5em;
+button.accept,
+button.remove {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.votes button {
+    margin: 0em 0.5em 0em 0em;
+    padding:0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    background-color: grey;
+    border-color: grey;
 }
 
 #edit_or_cancel_edition_news,

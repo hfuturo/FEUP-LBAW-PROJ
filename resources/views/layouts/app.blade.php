@@ -12,31 +12,31 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-
-    <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/22c4374990.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
 
     @yield('head')
 
 </head>
-<style>
-    .sub-options {
-        display: none;
-    }
-</style>
 
 <body>
     @include('partials.error_message')
-    <header>
+    <header class="app_header">
+    <input type="checkbox" id="hamburger">
+    <label class="hamburger" for="hamburger"></label>
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form class="search_form" action="/news">
             <select name="search_type">
@@ -57,16 +57,17 @@
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <div class="header_user_info">
                     <a class="button" id="button_profile"
-                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}</a>
-                    <img class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}">
+                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
+                            class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
-                <a class="button" href="{{ url('/notification') }}"> Notification </a>
+                <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>
             @else
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
             @endif
         </span>
     </header>
+    <main>
     @if (Auth::check())
         <nav>
             <div class="sticky_nav">
@@ -87,17 +88,43 @@
                 <section id="nav_normal_buttons">
                     <a href="{{ route('create_news') }}" class="button"> Create Post</a>
                     <a class="button open" onclick="openNewOrg()"> Create Organization</a>
-                    @include('partials.topic_proposal')
+                    <a class="button" onclick="openTopicProposal()">Propose New Topic</a>
+
                 </section>
             </div>
         </nav>
     @endif
-    <main>
         <section id="content">
             @include('partials.create_organization')
             @yield('content')
             
         </section>
+
+        @if (Auth::check())
+            <div id="notifications_pop_up">
+                <?php $notifications = Auth::user()->notified_ordered; ?>
+                @foreach ($notifications as $notif)
+                    <article class="user_news" id="{{ $notif->notification->id }}">
+                        <h4>
+                            <button class="notification_button"><span
+                                    class="material-symbols-outlined icon_red">delete</span></button>
+                            @if ($notif->notification->type === 'follow')
+                                <a
+                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                is following you !
+                            @endif
+                            @if ($notif->notification->type === 'content')
+                                <a
+                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                has a new comment, go check !
+                            @endif
+                        </h4>
+                    </article>
+                @endforeach
+                <a href="{{ url('/notification') }}"> See More </a>
+            </div>
+        @endif
+
     </main>
     <footer>
         <a href=" {{ url('/about_us') }}"> About Us </a>
@@ -107,3 +134,5 @@
 </body>
 
 </html>
+
+@include('partials.topic_proposal')

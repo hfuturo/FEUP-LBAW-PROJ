@@ -1,9 +1,10 @@
 main section#comments, 
 main section#new_comment{
-    color: var(--main-text-color);
+    background-color: var(--background-article-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-text-color);
     margin: 1em;
     padding: 1em;
-    border: 1px solid var(--primary-color);
 }
 
 section#new_comment h3{
@@ -27,7 +28,7 @@ section#new_comment #postComment{
 
 section#comments article.comment {
     padding: 1em;
-    border: 1px solid var(--main-text-color);
+    border: 1px solid var(--primary-text-color);
     border-collapse: collapse;
 }
 
@@ -52,7 +53,7 @@ section#comments article.comment:not(:first-child) {
 }
 
 .comment_author {
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
     font-size: 1em;
     margin-left: 1em;
 }

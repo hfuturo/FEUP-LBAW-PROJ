@@ -9,21 +9,21 @@ svg {
 }
 
 main {
-    grid-column-start: content;
+    grid-column-start: start;
     grid-column-end: end;
     grid-row-start: content;
     grid-row-end: footer;
-    padding: 1em;
-    margin: 1em;
     z-index: 0;
+    display: flex;
 }
 
 footer {
+    background-color: var(--primary-color);
+    color: var(--secundary-text-color);
     grid-column-start: start;
     grid-column-end: end;
     grid-row-start: footer;
     grid-row-end: end;
-    background-color: var(--secundary-color);
     display: flex;
     align-items: center;
     gap: 3em;
@@ -35,19 +35,26 @@ button {
     cursor: pointer;
 }
 
-body > nav {
+main > nav {
+    background-color: var(--primary-color);
     grid-column-start: start;
     grid-column-end: content;
     grid-row-start: content;
     grid-row-end: footer;
-    background-color: var(--secundary-color);
     height: 100%;
+    width: 0;
+    overflow: hidden;
+    margin: 0;
+    transition: width 0.5s ease-in-out;
+}
+
+#manage_report_button span {
+    padding-top: 6px;
 }
 
 .header_user_info {
     display: flex;
     align-items: center;
-    border: 1px var(--primary-color) solid;
 }
 
 .header_user_pfp {
@@ -55,10 +62,30 @@ body > nav {
     width: 2em;
     height: 2em;
     margin-right: 1em;
+    margin-left: 0.5em;
+}
+
+#button_profile {
+    margin-left: 1em;
+}
+
+.sub-options {
+    display: none;
+}
+
+#notification_icon {
+    background-color: var(--primary-color);
+    color: var(--secundary-text-color);
+    padding: 1em 0.5em 0.5em 0.5em;
+    border: none;
+}
+#notification_icon:hover {
+    color: var(--hover-color);
 }
 
 .header_nav {
     display: flex;
+    justify-content: center;
 }
 
 .header_nav a {
@@ -87,17 +114,8 @@ body > nav {
     top: 5rem;
 }
 
-body > nav #admin_buttons {
+main > nav #admin_buttons {
     border-bottom: 2px solid black;
-}
-
-#nav_normal_buttons > a:first-of-type {
-    margin-top: 0.5em;
-}
-
-/* em list_suggested_topics */
-#container_choices {
-    display: flex;
 }
 
 .accept,
@@ -117,23 +135,15 @@ body > nav #admin_buttons {
     border-color: red;
 }
 
-nav .button {
-    margin: 0em 0em 0.5em 0em;
-}
-
-nav .button:last-of-type {
-    margin-bottom: 0;
-}
-
 header .button {
     width: 100%;
+    border: 1px solid var(--secundary-text-color);
 }
 
 #button_profile {
-    background-color: var(--secundary-color);
+    background-color: var(--secundary-text-color);
     color: var(--primary-color);
     border: transparent;
-    padding-left: 0;
     padding-right: 0;
 }
 
@@ -148,6 +158,53 @@ header form button {
     margin: 0em 0em 1em 0em;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
     padding: 1em;
+}
+
+#notifications_pop_up {
+    display: none;
+    position: fixed;
+    top: 5em;
+    right: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px;
+    width: 25%;
+    max-height: 50%;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+main > nav.visivel {
+    width: 30%;
+}
+
+main > section {
+    width: 100%;
+    margin: 1em;
+}
+
+main > nav .button {
+    height: 2em;
+    overflow-y: hidden;
+}
+
+.hamburger {
+    display: block;
+    color: var(--background-color);
+    align-self: center;
+    width: 2em;
+}
+  
+.hamburger:before {
+    content: "\2630";
+}
+  
+#hamburger:checked + .hamburger:before {
+    content: "\2715";
+}
+
+#hamburger {
+    display: none;
 }

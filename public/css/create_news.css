@@ -1,6 +1,7 @@
 section#news-create-container {
     padding: 1em;
     border: 1px solid var(--primary-color);
+    background-color: var(--background-article-color);
     border-radius: 5px;
 }
 

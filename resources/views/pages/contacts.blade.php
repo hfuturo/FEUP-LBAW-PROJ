@@ -6,7 +6,7 @@
 
 @section('content')
     <header class="info_header">
-        <h1>Contact Us</h1>
+        <h2 class="page_title">Contact Us</h2>
         <h2>This website was developed by</h2>
     </header>
     <section class="info_section">

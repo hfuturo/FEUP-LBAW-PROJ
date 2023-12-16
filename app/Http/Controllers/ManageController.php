@@ -25,7 +25,7 @@ class ManageController extends Controller
     {
         $users = DB::table('authenticated_user')
             ->select(['id', 'name'])
-            ->where('name', 'LIKE', "{$request->input('search')}%")
+            ->where('name', 'ilike', "%{$request->input('search')}%")
             ->get();
 
         return response()->json($users);

@@ -16,17 +16,39 @@ input[id="filter_users"]:focus {
 }
 
 #all_users .user {
+    display: flex;
+    align-items: center;
     list-style-type: none;
     padding: 1em;
     margin-bottom: 0em;
-    border-bottom: 1px solid var(--main-text-color);
+    border-bottom: 1px solid var(--primary-text-color);
+    justify-content: space-between;
+}
+
+#all_users .user button {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: transparent;
+    border: none;
+    min-width: 1em;
+    padding: 0 0.5em;
+}
+
+#all_users .user button span {
+    color: red;
 }
 
 #all_users .user a {
     text-decoration: none;
-    color: var(--main-text-color);
+    padding: 0.5em;
+    color: var(--primary-text-color);
 }
 
 #all_users .user a:hover {
     font-weight: bolder;
+}
+
+.accept {
+    margin-left: 0em;
+    margin-right: 0.5em;
 }

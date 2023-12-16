@@ -5,15 +5,16 @@ header.info_header {
     display: block;
 }
 
-header.info_header h1 {
+header.info_header .page_title {
     margin-bottom: 1em;
     font-size: 50px;
+    margin-top: 0;
 }
 
 header.info_header *,
 section.info_section,
 section.main_features * {
-    color: var(--main-text-color);
+    color: var(--primary-text-color);
 }
 
 section.main_features {
