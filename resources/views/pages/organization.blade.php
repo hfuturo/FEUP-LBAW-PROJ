@@ -2,6 +2,7 @@
 
 @section('head')
     <link href="{{ url('css/organization.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/organization.js') }} defer></script>
 @endsection
 
 @section('content')
@@ -16,7 +17,8 @@
         <p>{{ $organization->bio }}</p>
         <div id="followers_members">
             <a href=""><span>Followers</span><span>{{ $organization->followers->count() }}</span></a>
-            <a href=""><span>Members</span><span>{{ $organization->members->count() }}</span></a>
+            <button class="Button" onclick="openMembersOrg()"><span>Members </span><span>{{ $organization->members->count() }}</span></a></button>
+            @include('partials.organization_members')
         </div>
     </section>
     <section id="org_feed">
