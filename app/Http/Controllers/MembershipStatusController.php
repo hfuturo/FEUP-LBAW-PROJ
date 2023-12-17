@@ -57,6 +57,11 @@ class MembershipStatusController extends Controller
     }
 
     public function upgrade(Request $request){
+        $auth = MembershipStatus::where('id_user', Auth::user()->id)
+        ->where('id_organization', $request->input('organization'))
+        ->first();
+        $this->authorize('upgrade', $auth);  
+
         $update = MembershipStatus::where('id_user', $request->input('user'))
         ->where('id_organization', $request->input('organization'))
         ->update(['member_type' => 'leader']);
@@ -70,6 +75,11 @@ class MembershipStatusController extends Controller
     }
 
     public function expel(Request $request){
+        $auth = MembershipStatus::where('id_user', Auth::user()->id)
+        ->where('id_organization', $request->input('organization'))
+        ->first();
+        $this->authorize('expel', $auth);  
+
         $update = MembershipStatus::where('id_user', $request->input('user'))
         ->where('id_organization', $request->input('organization'))
         ->delete();

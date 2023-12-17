@@ -103,13 +103,14 @@ document.querySelectorAll(".manage").forEach((button) => {
 });
 
 function manageOrganizationHandler() {
-    if (this.status != 200) window.location = "/";
+    // if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
     const user = JSON.parse(this.responseText).user;
     const selector = 'article[id="' + user + '"]';
     let article = document.querySelector(selector);
     if (action === "upgrade") {
         article.querySelector(".upgrade").remove();
+        article.querySelector(".expel").remove();
         article.querySelector(".role").textContent = "(leader)";
     } else if (action === "expel") {
         article.remove();
