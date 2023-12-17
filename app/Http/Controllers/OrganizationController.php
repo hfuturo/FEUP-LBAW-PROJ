@@ -65,6 +65,12 @@ class OrganizationController extends Controller
         return view('pages.organization', ['organization' => $org]);
     }
 
+    public function show_manage(int $id)
+    {
+        $org = Organization::findOrFail($id);
+
+        return view('pages.manage_organization', ['organization' => $org]);
+    }
     /**
      * Show the form for editing the specified resource.
      */

@@ -98,4 +98,7 @@ Route::controller(MembershipStatusController::class)->group(function () {
     Route::post('/organization/status/destroy', 'destroy');
     Route::post('/organization/status/create', 'create');
     Route::post('/organization/status/update', 'update');
+    Route::post('/organization/manage/upgrade', 'upgrade');
+    Route::post('/organization/manage/expel', 'expel');
+
 });

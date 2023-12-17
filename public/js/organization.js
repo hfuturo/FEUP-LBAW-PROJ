@@ -39,7 +39,7 @@ document.querySelector("#status")?.addEventListener("click", (event) => {
         title: "Are you sure?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#ffa600",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes!",
     }).then((result) => {
@@ -56,7 +56,7 @@ document.querySelector("#status")?.addEventListener("click", (event) => {
 });
 
 function statusHandler() {
-    //if (this.status != 200) window.location = "/";
+    if (this.status != 200) window.location = "/";
     const status = JSON.parse(this.responseText).status;
     const button = document.querySelector("#status");
     if (status == "none") {
@@ -75,5 +75,43 @@ function statusHandler() {
         setTimeout(function () {
             window.location = "/";
         }, 3000);
+    }
+}
+
+document.querySelectorAll(".manage").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ffa600",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const organization = document.querySelector("#org").value;
+                const user = event.target.parentNode.parentNode.id;
+                sendAjaxRequest(
+                    "POST",
+                    `/api/organization/manage/${event.target.dataset.operation}`,
+                    { organization, user },
+                    manageOrganizationHandler
+                );
+            }
+        });
+    });
+});
+
+function manageOrganizationHandler() {
+    if (this.status != 200) window.location = "/";
+    const action = JSON.parse(this.responseText).action;
+    const user = JSON.parse(this.responseText).user;
+    const selector = 'article[id="' + user + '"]';
+    let article = document.querySelector(selector);
+    if (action === "upgrade") {
+        article.querySelector(".upgrade").remove();
+        article.querySelector(".role").textContent = "(leader)";
+    } else if (action === "expel") {
+        article.remove();
     }
 }

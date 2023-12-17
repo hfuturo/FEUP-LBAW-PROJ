@@ -21,7 +21,7 @@
                 @if ($status)
                     @if($status->member_type == 'leader')
                     <button class="button" id="status"data-operation="destroy">Leave</button>
-                    <button class="button" onclick="">Requests</button>
+                    <a class="button" href="{{route('show_manage_org', ['organization' => $organization->id])}}">Manage</a>
                     @elseif ($status->member_type == 'member')
                     <button class="button" id="status"data-operation="destroy">Leave</button>
                     @elseif ($status->member_type == 'asking')

@@ -55,4 +55,30 @@ class MembershipStatusController extends Controller
         
         return response()->json($response);
     }
+
+    public function upgrade(Request $request){
+        $update = MembershipStatus::where('id_user', $request->input('user'))
+        ->where('id_organization', $request->input('organization'))
+        ->update(['member_type' => 'leader']);
+
+        $response = [
+            'action' => 'upgrade',
+            'user' => $request->input('user')
+        ];
+    
+        return response()->json($response);
+    }
+
+    public function expel(Request $request){
+        $update = MembershipStatus::where('id_user', $request->input('user'))
+        ->where('id_organization', $request->input('organization'))
+        ->delete();
+
+        $response = [
+            'action' => 'expel',
+            'user' => $request->input('user')
+        ];
+    
+        return response()->json($response);
+    }
 }
