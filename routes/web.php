@@ -41,6 +41,7 @@ Route::redirect('/', '/login');
 
 Route::controller(BlockController::class)->group(function () {
     Route::get('/blocked', 'blockPage')->name('blocked');
+    Route::post('/blocked', 'appeal_unblock')->name('appeal_unblock');
 });
 
 // News
@@ -101,6 +102,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/profile/{user}', 'update')->name('profile_update');
     Route::post('/profile/{user}/delete', 'delete')->name('delete_account');
     Route::post('/profile/{user}/block', 'block_perfil_button')->name('block');
+    Route::post('/profile/{user}/unblock', 'unblock_perfil_button')->name('unblock');
 });
 
 // About Us

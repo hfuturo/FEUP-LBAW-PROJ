@@ -25,6 +25,8 @@
             @yield('authentication')
         </section>
     </main>
+
+    @include('partials.error_message')
 </body>
 
 </html>

@@ -17,7 +17,11 @@
                         @include('partials.delete_account', ['user' => $user])
                     @endif
                     @if (Auth::user()->id !== $user->id && Auth::user()->is_admin())
-                        @include('partials.block_user', ['user' => $user])
+                        @if ($user->blocked)
+                            @include('partials.unblock_user', ['user' => $user])
+                        @else
+                            @include('partials.block_user', ['user' => $user])
+                        @endif
                     @endif
                 </div>
                 @if (Auth::user()->id === $user->id)

@@ -113,6 +113,13 @@ class UserController extends Controller
         return response()->json($response);
     }
 
+    public function unblock_perfil_button(User $user)
+    {
+        $this->authorize('unblock', \App\User::class);
+        $user->update(['blocked' => false]);
+        return back()->with('success', 'Account unblocked successfully!');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -53,6 +53,7 @@ CREATE TABLE "authenticated_user"
   reputation INTEGER NOT NULL DEFAULT 0,
   bio TEXT NOT NULL DEFAULT '',
   blocked BOOLEAN NOT NULL DEFAULT false,
+  blocked_appeal TEXT NOT NULL DEFAULT "",
   type user_type NOT NULL DEFAULT 'authenticated'::user_type,
   remember_token VARCHAR,
   recover_password_tries INTEGER DEFAULT NULL,
