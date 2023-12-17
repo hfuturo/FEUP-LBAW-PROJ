@@ -93,7 +93,7 @@ class UserController extends Controller
             'action' => 'block_user',
             'id' => $request->input("request"),
         ];
-        MailController::send_blocked_account_email($user);
+        MailController::send_blocked_unblocked_account_email($user, true);
         return response()->json($response);
     }
 
@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         $this->authorize('block', $user);
         $user->update(['blocked' => true]);
-        MailController::send_blocked_account_email($user);
+        MailController::send_blocked_unblocked_account_email($user, true);
         return back()->with('success', 'Account blocked successfully!');
     }
 
@@ -114,6 +114,7 @@ class UserController extends Controller
             'action' => 'unblock_user',
             'id' => $request->input("request"),
         ];
+        MailController::send_blocked_unblocked_account_email($user, false);
         return response()->json($response);
     }
 
@@ -121,6 +122,7 @@ class UserController extends Controller
     {
         $this->authorize('unblock', \App\User::class);
         $user->update(['blocked' => false, 'blocked_appeal' => '']);
+        MailController::send_blocked_unblocked_account_email($user, false);
         return back()->with('success', 'Account unblocked successfully!');
     }
 

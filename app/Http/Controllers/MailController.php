@@ -32,13 +32,13 @@ class MailController extends Controller
         return redirect()->route('verify_code_form', ['user' => $user->id])->withSuccess('An email was sent with the verification code.');
     }
 
-    public static function send_blocked_account_email(User $user)
+    public static function send_blocked_unblocked_account_email(User $user, bool $blocked)
     {
         $mailData = [
             'name' => $user->name,
             'email' => $user->email,
-            'subject' => 'Your account has been blocked',
-            'view' => 'emails.account_blocked',
+            'subject' => $blocked ? 'Your account has been blocked' : 'Your account has been unblocked',
+            'view' => $blocked ? 'emails.account_blocked' : 'emails.account_unblocked',
         ];
 
         Mail::to($user->email)->send(new MailModel($mailData));
