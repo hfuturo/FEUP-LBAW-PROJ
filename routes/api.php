@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowUserController;
+use App\Http\Controllers\FollowOrganizationController;
 
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -85,4 +86,9 @@ Route::controller(OrganizationController::class)->group(function () {
 
 Route::controller(NotificationController::class)->group(function () {
     Route::delete('/notification/destroy', 'destroy');
+});
+
+Route::controller(FollowOrganizationController::class)->group(function () {
+    Route::post('/organization/unfollow', 'destroy')->name('unfollow');
+    Route::post('/organization/follow', 'create')->name('follow');
 });
