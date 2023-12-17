@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+
     <section id = "news">
         {{--
         @if (Auth::check() && $news_item->content->authenticated_user !== null)
@@ -33,26 +34,26 @@
                                 <span class="material-symbols-outlined">more_vert</span>
                             </button>
                             <div class="dropdown-content hidden">
-                                {{-- @if (Auth::user()->id !== $news_item->content->authenticated_user->id) --}}
-                                <button class="dropdown-option" onclick="openReportContentForm()">
-                                    <span class="material-symbols-outlined">flag</span>
-                                    <span>Report</span>
-                                </button>
-                                {{-- @else --}}
-                                <form id="deleteForm"
-                                    action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
-                                    @csrf
-                                </form>
-                                <button class="dropdown-option delete" type="submit" form="deleteForm">
-                                    <span class="material-symbols-outlined">delete</span>
-                                    <span>Delete</span>
-                                </button>
-                                <a class="dropdown-option edit"
-                                    href="{{ route('edit_news', ['id' => $news_item->id]) }}">
-                                    <span class="material-symbols-outlined">edit</span>
-                                    <span>Edit</span>
-                                </a>
-                                {{-- @endif --}}
+                                @if (Auth::user()->id !== $news_item->content->authenticated_user->id)
+                                    <button class="dropdown-option" onclick="openReportNewsForm({{ $news_item->id }})">
+                                        <span class="material-symbols-outlined">flag</span>
+                                        <span>Report</span>
+                                    </button>
+                                @else
+                                    <form id="deleteForm"
+                                        action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
+                                        @csrf
+                                    </form>
+                                    <button class="dropdown-option delete" type="submit" form="deleteForm">
+                                        <span class="material-symbols-outlined">delete</span>
+                                        <span>Delete</span>
+                                    </button>
+                                    <a class="dropdown-option edit"
+                                        href="{{ route('edit_news', ['id' => $news_item->id]) }}">
+                                        <span class="material-symbols-outlined">edit</span>
+                                        <span>Edit</span>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -144,7 +145,7 @@
                                 <button class="more" onclick="toggleMenu(this, event)">
                                     <span class="material-symbols-outlined">more_vert</span>
                                 </button>
-                                <div class="dropdown-content">
+                                <div class="dropdown-content hidden">
                                     @if (Auth::user()->id !== $comment->content->authenticated_user->id)
                                         <div class="dropdown-option report">
                                             <span class="material-symbols-outlined">flag</span>
@@ -184,4 +185,5 @@
             </div>
         @endif
     </section>
+    @include('partials.report_content')
 @endsection
