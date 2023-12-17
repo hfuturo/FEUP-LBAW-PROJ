@@ -102,7 +102,7 @@ class User extends Authenticatable
     }
 
     public function membershipStatuses() {
-        return $this->hasMany(Membership_Status::class, 'id_user');
+        return $this->hasMany(MembershipStatus::class, 'id_user');
     }
 
     public function organizations() {

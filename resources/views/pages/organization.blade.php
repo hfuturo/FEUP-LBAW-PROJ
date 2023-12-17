@@ -10,14 +10,29 @@
         <div class="header">
             <h3>{{ $organization->name }}</h3>
             <div>
+                <input type="hidden" id="org" name="org" value="{{ $organization->id }}">
                 <?php $follow_org = Auth::user()->follow_organizations()->where('id_organization', $organization->id)->first();?>
-                <input type="hidden" id="following" name="id_following" value="{{ $organization->id }}">
                 @if ($follow_org)
-                    <button id="follow" data-operation="unfollow">Unfollow</button>
+                    <button class="button" id="follow" data-operation="unfollow">Unfollow</button>
                 @else
-                    <button id="follow" data-operation="follow">Follow</button>
+                    <button class="button" id="follow" data-operation="follow">Follow</button>
                 @endif
-                <button class="button" onclick="">Join</button>
+                <?php $status = Auth::user()->membershipStatuses()->where('id_organization', $organization->id)->first();?>
+                @if ($status)
+                    @if($status->member_type == 'leader')
+                    <button class="button" id="status"data-operation="destroy">Leave</button>
+                    <button class="button" onclick="">Requests</button>
+                    @elseif ($status->member_type == 'member')
+                    <button class="button" id="status"data-operation="destroy">Leave</button>
+                    @elseif ($status->member_type == 'asking')
+                    <button class="button" id="status" data-operation="destroy">Delete Request</button>
+                    @elseif ($status->member_type == 'invited')
+                    <button class="button" id="status" data-operation="update">Accept Request</button>
+                    <button class="button" id="status" data-operation="destroy">Reject Request</button>
+                    @endif
+                @else
+                <button class="button" id="status" data-operation="create">Ask to Join</button>
+                @endif
             </div>
         </div>
         <p>{{ $organization->bio }}</p>
