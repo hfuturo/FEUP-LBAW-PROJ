@@ -41,6 +41,7 @@ class Organization extends Model
         return $this->hasMany(MembershipStatus::class,  'id_organization')->where(function ($query) {
             $query->where('member_type', '=', 'member')
                 ->orWhere('member_type', '=', 'leader');
-        });
+        })
+        ->join('authenticated_user','id_user','=','authenticated_user.id');
     }
 }
