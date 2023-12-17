@@ -146,9 +146,11 @@ function createLikeDislike(className, symbol, type) {
 
 function toggleMenu(button, event) {
     document
-        .querySelectorAll("#comments .dropdown-content")
+        .querySelectorAll(".dropdown-content")
         .forEach((dropdown) => {
-            dropdown.style.display = "none";
+            if(!dropdown.classList.contains("hidden")){
+                dropdown.classList.add("hidden")
+            };
         });
     const dropdown = button.nextElementSibling;
     if (dropdown) {
@@ -157,14 +159,31 @@ function toggleMenu(button, event) {
     }
 }
 
+function toggleDisplay(element) {
+    element.classList.toggle("hidden");
+}
+
+document.addEventListener("click", (event) => {
+    event.preventDefault;
+    const allDropdown = document.querySelectorAll(".dropdown-content");
+    allDropdown.forEach((dropdown) => {
+        if(!dropdown.classList.contains("hidden")){
+            dropdown.classList.add("hidden")
+        };
+    });
+});
+
+
 function deleteComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
         const delComment = comment.querySelector(".delete");
-        delComment.addEventListener("click", (event) => {
-            event.preventDefault();
-            deleteCommentItem(comment);
-        });
+        if(delComment){
+            delComment.addEventListener("click", (event) => {
+                event.preventDefault();
+                deleteCommentItem(comment);
+            });
+        };
     });
 }
 deleteComment();
@@ -201,7 +220,7 @@ async function deleteCommentItem(comment) {
             message.className = "error";
             message.textContent = data.error;
         }
-        section.prepend(message);
+        document.body.prepend(message);
     } catch (error) {
         console.error("Error:", error);
     }
@@ -209,7 +228,7 @@ async function deleteCommentItem(comment) {
 
 function makeDropDown(comment) {
     const options = [
-        { icon: "flag", label: "Report", fn: () => {} },
+        { icon: "flag", label: "Report", fn: openReportCommentForm },
         {
             icon: "delete",
             label: "Delete",
@@ -235,7 +254,7 @@ function makeDropDown(comment) {
     moreButton.appendChild(moreIcon);
 
     const dropdownContent = document.createElement("div");
-    dropdownContent.className = "dropdown-content";
+    dropdownContent.classList.add("dropdown-content", "hidden");
 
     options.forEach((option) => {
         const optionDiv = document.createElement("div");
@@ -282,11 +301,13 @@ function editComment() {
     comments.forEach(function (comment) {
         const editButton = comment.querySelector(".edit");
         const form = comment.querySelector(".editForm");
-        form.addEventListener("submit", saveEdit);
-        editButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            editCommentItem(comment);
-        });
+        if(form){form.addEventListener("submit", saveEdit);}
+        if(editButton){
+            editButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                editCommentItem(comment);
+            });
+        };
     });
 }
 editComment();
@@ -334,3 +355,79 @@ function editCancel(comment) {
     const form = comment.querySelector(".editForm");
     form.setAttribute("hidden", "true");
 }
+
+
+
+// Teste
+function reportComment() {
+    const comments = document.querySelectorAll(".comment");
+    comments.forEach(function (comment) {
+        const reportComment = comment.querySelector(".report");
+        if(reportComment){
+            reportComment.addEventListener("click", (event) => {
+                event.preventDefault();
+                openReportCommentForm(comment);
+            });
+        };
+    });
+}
+reportComment();
+
+const reportPopup = document.getElementById("report_content_popup");
+const idContent = reportPopup.querySelector("#id_content");
+const textareaForm = reportPopup.querySelector('#reason')
+
+function openReportNewsForm(valeu) {
+    idContent.valeu = valeu;
+    reportPopup.style.display = "block";
+}
+
+function openReportCommentForm(comment) {
+    const commentId = comment.getAttribute("comment-id");
+    idContent.valeu = commentId;
+    reportPopup.style.display = "block";
+}
+
+function closeReportContentForm() {
+    idContent.value = "";
+    textareaForm.value = "";
+    reportPopup.style.display = "none";
+}
+
+
+reportPopup.querySelector("#report_form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+    const reason = this.querySelector('#reason').value;
+
+    const data = {
+        _token: token,
+        id_content: idContent.valeu,
+        reason: reason
+    };
+    try {
+        const result = await fetch("/api/content/report/" , {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        }).then((response) => response.json());
+        
+        const message = document.createElement("p");
+        if (result.success) {
+            console.log("Success");
+            message.className = "success";
+            message.textContent = result.success;
+            console.log(result.success);
+        } else {
+            console.log("Error");
+            message.className = "error";
+            message.textContent = result.error;
+        }
+        document.body.prepend(message);
+        closeReportContentForm();
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});

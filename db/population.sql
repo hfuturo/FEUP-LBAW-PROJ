@@ -74,7 +74,7 @@ INSERT INTO "authenticated_user" (id,name, email, password) VALUES (15,'Aaron Fo
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (16,'Audrey Woods', 'audrey_woods@gmail.com', 'W00ds@ud'); --TU
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (17,'Connor Fisher', 'connor_fisher@yahoo.com', 'F!$h3rC0n'); --TEC
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (18,'Bella Peterson', 'bella_peterson@hotmail.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W');--tec-c --TEC member
-INSERT INTO "authenticated_user" (id,name, email, password) VALUES (19,'Grayson Reed', 'grayson_reed@outlook.com', 'R33dGr@y');--TEC --TEC leader
+INSERT INTO "authenticated_user" (id,name, email, password) VALUES (19,'Grayson Reed', 'grayson_reed@outlook.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W');--TEC --TEC leader
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (20,'Layla Griffin', 'layla_griffin@live.com', 'Gr1ff1nL@');--HE
 INSERT INTO "authenticated_user" (id,name, email, password) VALUES (21,'Ruby West', 'ruby_west@icloud.com', 'W3$tRb');--FI
 

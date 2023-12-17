@@ -9,7 +9,9 @@
 @endsection
 
 @section('content')
+
     <section id = "news">
+        {{--
         @if (Auth::check() && $news_item->content->authenticated_user !== null)
             @if (Auth::user()->id === $news_item->content->authenticated_user->id)
                 <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
@@ -21,10 +23,40 @@
                 </form>
             @endif
         @endif
+        --}}
         <article class = "news_body">
             <div class = "news_head">
                 @if (Auth::check())
-                    <a href="{{ route('topic', ['topic' => $news_item->topic->id]) }}">{{ $news_item->topic->name }}</a>
+                    <div id="teste">
+                        <a href="{{ route('topic', ['topic' => $news_item->topic->id]) }}">{{ $news_item->topic->name }}</a>
+                        <div class="dropdown">
+                            <button class="more" onclick="toggleMenu(this, event)">
+                                <span class="material-symbols-outlined">more_vert</span>
+                            </button>
+                            <div class="dropdown-content hidden">
+                                @if (!$news_item->content->authenticated_user || Auth::user()->id !== $news_item->content->authenticated_user->id)
+                                    <button class="dropdown-option" onclick="openReportNewsForm({{ $news_item->id }})">
+                                        <span class="material-symbols-outlined">flag</span>
+                                        <span>Report</span>
+                                    </button>
+                                @else
+                                    <form id="deleteForm"
+                                        action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
+                                        @csrf
+                                    </form>
+                                    <button class="dropdown-option delete" type="submit" form="deleteForm">
+                                        <span class="material-symbols-outlined">delete</span>
+                                        <span>Delete</span>
+                                    </button>
+                                    <a class="dropdown-option edit"
+                                        href="{{ route('edit_news', ['id' => $news_item->id]) }}">
+                                        <span class="material-symbols-outlined">edit</span>
+                                        <span>Edit</span>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 @endif
                 <h2 class = "title">{{ $news_item->title }}</h2>
                 @if (Auth::check())
@@ -37,11 +69,12 @@
                             <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
                                 class = "author">{{ $news_item->content->authenticated_user->name }}</a>
                         @else
-                            <p class="author">Anonymous</p>
+                            <p class="author">&nbsp;Anonymous</p>
                         @endif
                         @if ($news_item->content->organization !== null)
                             <span>Associated with</span>
-                            <a href="" class = "org"> {{ $news_item->content->organization->name }}</a>
+                            <a href="{{ route('show_org', ['organization' => $news_item->content->organization]) }}"
+                                class = "org"> {{ $news_item->content->organization->name }}</a>
                         @endif
                     </div>
                 @endif
@@ -100,11 +133,13 @@
                                 <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}"
                                     class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
-                                @if ($news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
+                                @if (
+                                    $news_item->content->authenticated_user &&
+                                        $news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
                                     <span class="material-symbols-outlined author">person_edit</span>
                                 @endif
                             @else
-                                <p class="comment_author">Anonymous</p>
+                                <p class="comment_author"> Anonymous</p>
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
@@ -115,12 +150,13 @@
                                 <button class="more" onclick="toggleMenu(this, event)">
                                     <span class="material-symbols-outlined">more_vert</span>
                                 </button>
-                                <div class="dropdown-content">
-                                    <div class="dropdown-option">
-                                        <span class="material-symbols-outlined">flag</span>
-                                        <span>Report</span>
-                                    </div>
-                                    @if (Auth::user()->id === $comment->content->authenticated_user->id)
+                                <div class="dropdown-content hidden">
+                                    @if (Auth::user()->id !== $comment->content->authenticated_user->id)
+                                        <div class="dropdown-option report">
+                                            <span class="material-symbols-outlined">flag</span>
+                                            <span>Report</span>
+                                        </div>
+                                    @else
                                         <div class="dropdown-option delete">
                                             <span class="material-symbols-outlined">delete</span>
                                             <span class="delete">Delete</span>
@@ -154,4 +190,5 @@
             </div>
         @endif
     </section>
+    @include('partials.report_content')
 @endsection
