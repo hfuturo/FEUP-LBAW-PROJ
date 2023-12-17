@@ -24,8 +24,6 @@ function filterUsersHandler() {
 
     // reconstroi lista
     for (const user of users) {
-        console.log(user.name);
-        console.log(user.blocked);
         let li = document.createElement("li");
         li.classList.add("user");
         li.setAttribute("id", user.id);
