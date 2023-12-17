@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\FollowOrganizationController;
+use App\Http\Controllers\MembershipStatusController;
 
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -89,6 +90,12 @@ Route::controller(NotificationController::class)->group(function () {
 });
 
 Route::controller(FollowOrganizationController::class)->group(function () {
-    Route::post('/organization/unfollow', 'destroy')->name('unfollow');
-    Route::post('/organization/follow', 'create')->name('follow');
+    Route::post('/organization/unfollow', 'destroy');
+    Route::post('/organization/follow', 'create');
+});
+
+Route::controller(MembershipStatusController::class)->group(function () {
+    Route::post('/organization/status/destroy', 'destroy');
+    Route::post('/organization/status/create', 'create');
+    Route::post('/organization/status/update', 'update');
 });

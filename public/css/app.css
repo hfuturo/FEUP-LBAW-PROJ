@@ -11,8 +11,6 @@ svg {
 main {
     grid-column-start: start;
     grid-column-end: end;
-    grid-row-start: content;
-    grid-row-end: footer;
     z-index: 0;
     display: flex;
 }
@@ -22,8 +20,6 @@ footer {
     color: var(--secundary-text-color);
     grid-column-start: start;
     grid-column-end: end;
-    grid-row-start: footer;
-    grid-row-end: end;
     display: flex;
     align-items: center;
     gap: 3em;
@@ -39,8 +35,6 @@ main > nav {
     background-color: var(--primary-color);
     grid-column-start: start;
     grid-column-end: content;
-    grid-row-start: content;
-    grid-row-end: footer;
     height: 100%;
     width: 0;
     overflow: hidden;
@@ -196,15 +190,19 @@ main > nav .button {
     align-self: center;
     width: 2em;
 }
-  
+
 .hamburger:before {
     content: "\2630";
 }
-  
+
 #hamburger:checked + .hamburger:before {
     content: "\2715";
 }
 
 #hamburger {
     display: none;
+}
+
+body.swal2-shown {
+    padding-right: 0 !important;
 }
