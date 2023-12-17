@@ -61,30 +61,52 @@ class OrganizationController extends Controller
     public function show(int $id)
     {
         $org = Organization::findOrFail($id);
-
         return view('pages.organization', ['organization' => $org]);
     }
 
     public function show_manage(int $id)
     {
         $org = Organization::findOrFail($id);
+        $this->authorize('show_manage', $org);
 
         return view('pages.manage_organization', ['organization' => $org]);
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $organization = Organization::find($request->input('orgId'));
+
+        $this->authorize('update', $organization);
+
+        if($organization->name === $request->input('name')){
+            try{
+                $request->validate([
+                    'bio' => 'required|string',
+                ]);
+                
+                $update = $organization->update(['bio' => $request->input('bio')]);
+                   
+                return response()->json(['success' => 1,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
+            }
+            catch (Exception $e) {
+                return response()->json(['success' => 0,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
+            }
+        }
+        else{
+            try{
+                $request->validate([
+                    'name' => 'required|unique:organization,name|max:255|string',
+                    'bio' => 'required|string',
+                ]);
+                
+                $update = $organization->update(['name' => $request->input('name'), 'bio' => $request->input('bio')]);
+                   
+                return response()->json(['success' => 1,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
+            }
+            catch (Exception $e) {
+                return response()->json(['success' => 0,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
+            }
+        }
     }
 
     /**

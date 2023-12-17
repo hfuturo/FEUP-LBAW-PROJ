@@ -103,7 +103,7 @@ document.querySelectorAll(".manage").forEach((button) => {
 });
 
 function manageOrganizationHandler() {
-    // if (this.status != 200) window.location = "/";
+    if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
     const user = JSON.parse(this.responseText).user;
     const selector = 'article[id="' + user + '"]';
@@ -114,5 +114,52 @@ function manageOrganizationHandler() {
         article.querySelector(".role").textContent = "(leader)";
     } else if (action === "expel") {
         article.remove();
+    }
+}
+
+function openEditForm() {
+    document.getElementById("edit_profile_popup").style.display = "block";
+}
+function closeEditForm() {
+    document.getElementById("edit_profile_popup").style.display = "none";
+}
+
+document
+    .getElementById("editOrgForm")
+    .addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const orgId = this.getAttribute("data-org-id");
+        const name = document.getElementById("name").value;
+        const bio = document.getElementById("bio").value;
+        sendAjaxRequest(
+            "POST",
+            `/api/organization/update`,
+            { orgId, name, bio },
+            editOrgHandler
+        );
+    });
+
+function editOrgHandler() {
+    const success = JSON.parse(this.responseText).success;
+    console.log(JSON.parse(this.responseText).name);
+    console.log(JSON.parse(this.responseText).bio);
+    closeEditForm();
+    if (success) {
+        console.log(document.getElementById("bioDisplayed"));
+        document.getElementById("bioDisplayed").textContent = JSON.parse(
+            this.responseText
+        ).bio;
+        document.getElementById("nameDisplayed").textContent = JSON.parse(
+            this.responseText
+        ).name;
+        Swal.fire({
+            title: "Done",
+            icon: "success",
+        });
+    } else {
+        Swal.fire({
+            icon: "Error",
+            title: "Something went wrong! Please check if the parameters were valid.",
+        });
     }
 }

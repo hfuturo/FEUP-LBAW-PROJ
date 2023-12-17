@@ -8,7 +8,7 @@
 @section('content')
     <section id="org_info">
         <div class="header">
-            <h3>{{ $organization->name }}</h3>
+            <h3 id="nameDisplayed">{{ $organization->name }}</h3>
             <div>
                 <input type="hidden" id="org" name="org" value="{{ $organization->id }}">
                 <?php $follow_org = Auth::user()->follow_organizations()->where('id_organization', $organization->id)->first();?>
@@ -21,6 +21,8 @@
                 @if ($status)
                     @if($status->member_type == 'leader')
                     <button class="button" id="status"data-operation="destroy">Leave</button>
+                    <button class="button" onclick="openEditForm()">Edit</button>
+                    @include('partials.edit_organization')
                     <a class="button" href="{{route('show_manage_org', ['organization' => $organization->id])}}">Manage</a>
                     @elseif ($status->member_type == 'member')
                     <button class="button" id="status"data-operation="destroy">Leave</button>
@@ -35,7 +37,7 @@
                 @endif
             </div>
         </div>
-        <p>{{ $organization->bio }}</p>
+        <p id="bioDisplayed">{{ $organization->bio }}</p>
         <div id="followers_members">
             <button class="button"><span>Followers </span><span>{{ $organization->followers->count() }}</span></button>
             <button class="button" onclick="openMembersOrg()"><span>Members </span><span>{{ $organization->members->count() }}</span></button>
