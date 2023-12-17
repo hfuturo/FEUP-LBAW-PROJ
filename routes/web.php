@@ -148,6 +148,7 @@ Route::controller(FileController::class)->group(function () {
 
 Route::controller(OrganizationController::class)->group(function(){
     Route::get('organization/{organization}','show')->name('show_org');
+    Route::get('manage_organization/{organization}','show_manage')->name('show_manage_org');
 });
 
 

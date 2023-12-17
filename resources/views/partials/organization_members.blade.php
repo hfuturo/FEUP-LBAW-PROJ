@@ -11,7 +11,7 @@
             <tr>
                 <td>{{ $member->name }}</td>
                 <td>{{ $member->member_type }}</td>
-                <td>{{ \Carbon\Carbon::parse($member->parse_date) }}</td>
+                <td>{{ \Carbon\Carbon::parse($member->joined_date) }}</td>
             </tr>
         @endforeach
         </table>
