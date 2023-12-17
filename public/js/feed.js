@@ -22,7 +22,7 @@ async function feedLinksHandler(e) {
         null,
         "text"
     );
-    window.history.pushState(raw_data, null, response.url);
+    window.history.pushState(raw_data, "", response.url);
     updateFeed(raw_data);
     document.getElementById("content").scrollIntoView({ behavior: "smooth" });
 }

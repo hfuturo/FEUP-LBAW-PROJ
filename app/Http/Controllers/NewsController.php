@@ -12,12 +12,6 @@ class NewsController extends Controller
     public function list_default_feed(Request $request)
     {
         if ($request->input("search") != null) {
-            if ($request->input('search_type') == 'exact') {
-                return view(choose_view($request, 'pages.news'), [
-                    "news_list" => NewsItem::exact_match_search($request->input("search")),
-                    "perPage" => 10
-                ]);
-            }
             return view(choose_view($request, 'pages.news'), [
                 "news_list" => NewsItem::full_text_search($request->input("search")),
                 "perPage" => 10
@@ -47,12 +41,6 @@ class NewsController extends Controller
     {
         if ($request->input('search') == null)
             return $this->list_default_feed($request);
-        if ($request->input('search_type') == 'exact') {
-            return view(choose_view($request, 'pages.news'), [
-                "news_list" => NewsItem::exact_match_search($request->input("search")),
-                "perPage" => 10
-            ]);
-        }
         return view(choose_view($request, 'pages.news'), [
             "news_list" => NewsItem::full_text_search($request->input("search")),
             "perPage" => 10
@@ -62,7 +50,13 @@ class NewsController extends Controller
     public function advanced_search(Request $request)
     {
         return view(choose_view($request, 'pages.advanced_search'), [
-            "news_list" => NewsItem::multi_filter($request->input("title"), $request->input("content")),
+            "news_list" => NewsItem::multi_filter(
+                $request->input("exact_match"),
+                $request->input("title"),
+                $request->input("content"),
+                $request->input("author"),
+                $request->input("topic"),
+            ),
             "perPage" => 10
         ]);
     }

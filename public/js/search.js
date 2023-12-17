@@ -11,6 +11,21 @@ advanced_search_form.addEventListener("submit", async (e) => {
         getFormParams(advanced_search_form, false),
         "text"
     );
-    window.history.pushState(raw_data, null, response.url);
+    window.history.pushState(raw_data, "", response.url);
     updateFeed(raw_data);
+});
+
+document.querySelectorAll("select").forEach((select) => {
+    if (select.value === "") {
+        select.style.color = "#767676";
+    } else {
+        select.style.color = "";
+    }
+    select.addEventListener("change", (e) => {
+        if (select.value === "") {
+            select.style.color = "#767676";
+        } else {
+            select.style.color = "";
+        }
+    });
 });
