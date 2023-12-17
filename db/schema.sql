@@ -54,6 +54,7 @@ CREATE TABLE "authenticated_user"
   bio TEXT NOT NULL DEFAULT '',
   blocked BOOLEAN NOT NULL DEFAULT false,
   blocked_appeal TEXT NOT NULL DEFAULT '',
+  appeal_rejected BOOLEAN NOT NULL DEFAULT false,
   type user_type NOT NULL DEFAULT 'authenticated'::user_type,
   remember_token VARCHAR,
   recover_password_tries INTEGER DEFAULT NULL,

@@ -17,7 +17,7 @@
                     </h4>
                     <p>Justification: {{ $user->blocked_appeal }}</p>
                     <span id="container_choices">
-                        <button class="remove ignore_appeal">Ignore appeal</button>
+                        <button class="remove reject_appeal">Reject appeal</button>
                         <button class="accept unblock_user">Unblock user</button>
                     </span>
                 </article>

@@ -15,4 +15,9 @@ class BlockPolicy
     {
         return Auth::check() && Auth::user()->blocked;
     }
+
+    public function reject_appeal(): bool
+    {
+        return Auth::check() && Auth::user()->is_admin();
+    }
 }

@@ -32,6 +32,7 @@ class User extends Authenticatable
         'user_type',
         'id_topic',
         'blocked_appeal',
+        'appeal_rejected',
     ];
 
     /**

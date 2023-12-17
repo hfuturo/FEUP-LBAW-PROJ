@@ -44,7 +44,7 @@ class ManageController extends Controller
     {
         $this->authorize('show_unblock_appeals', \App\Manage::class);
 
-        $users = User::where('blocked_appeal', '<>', '')->paginate(10);
+        $users = User::where('blocked_appeal', '<>', '')->where('appeal_rejected', '=', 'false')->paginate(10);
         return view('pages.manage_unblock_appeals', ['users' => $users]);
     }
 }

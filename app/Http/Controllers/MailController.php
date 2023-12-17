@@ -43,4 +43,16 @@ class MailController extends Controller
 
         Mail::to($user->email)->send(new MailModel($mailData));
     }
+
+    public static function send_account_banned_email(User $user)
+    {
+        $mailData = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'subject' => 'Your account has been banned',
+            'view' => 'emails.account_banned',
+        ];
+
+        Mail::to($user->email)->send(new MailModel($mailData));
+    }
 }
