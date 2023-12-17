@@ -13,14 +13,14 @@
 
     <!-- Styles -->
 
-    <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
+    <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
-    
+
     <script src="https://kit.fontawesome.com/22c4374990.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
@@ -36,13 +36,11 @@
     <header class="app_header">
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         <form class="search_form" action="/news">
-            <select name="search_type">
-                <option value="normal" @if (app('request')->input('search_type') == 'normal') selected @endif>Normal</option>
-                <option value="exact" @if (app('request')->input('search_type') == 'exact') selected @endif>Exact</option>
-            </select>
-            <input type="text" name="search" value="{{ app('request')->input('search') }}"
-                style="background-color: white;margin: 0;" placeholder="Search">
-            <button type="submit" style="margin-bottom: 0;"><svg focusable="false" style="scale: 2;"
+            <a class="button advanced_search_link material-symbols-outlined" href="{{ route('advanced_search') }}"
+                title="Advanced search">settings</a>
+            <input type="text" name="search" value="{{ app('request')->input('search') }}" style="margin: 0;"
+                placeholder="Search">
+            <button class="button" type="submit" title="Search"><svg focusable="false" style="scale: 1.3;"
                     xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">

@@ -11,7 +11,7 @@
     <form id="advanced_search_form">
         <label>Title<input type="text" name="title" placeholder="Title"></label>
         <label>Content<input type="text" name="content" placeholder="Content"></label>
-        <button type="submit">Search</button>
+        <button type="submit" class="button">Search</button>
     </form>
     <div class="all_news">
         @include('partials.list_feed', ['news_list' => $news_list, 'perPage' => $perPage])
