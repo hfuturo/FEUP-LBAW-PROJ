@@ -21,7 +21,9 @@ use App\Models\Topic;
                     <option value="{{ $topic->id }}">{{ $topic->name }}</option>
                 @endforeach
             </select></label>
-        <label>Search Anywhere<input type="text" name="exact_match"
+        <label>Search Anywhere <span
+                title="Search for the text anywhere on the News item specificaly in the title, content, author and topic"
+                class="hint">?</span><input type="text" name="exact_match"
                 placeholder="Search Anywhere in the News item"></label>
         <button type="submit" class="button">Search</button>
     </form>

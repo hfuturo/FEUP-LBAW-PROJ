@@ -187,3 +187,18 @@ p.success::before {
 p.error::before {
     background: darkred;
 }
+
+.hint {
+    display: inline-block;
+    padding: 0.1em;
+    cursor: help;
+    color: #fff;
+    background-color: #feb22a;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    font-size: 0.9em;
+    text-align: center;
+    box-shadow: inset -1px -1px 1px 0px rgba(0, 0, 0, 0.25);
+}
