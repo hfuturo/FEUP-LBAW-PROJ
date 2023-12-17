@@ -16,11 +16,11 @@ main {
 
 .authentication {
     width: 100%;
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
     margin: 1em 0em;
-} 
+}
 
 .authentication a::before {
     content: "\00a0";
@@ -32,33 +32,66 @@ main {
 }
 
 label#remember {
-  display: flex;
+    display: flex;
 }
 
-label#remember p{
-  margin-left: 0.5em;
+label#remember p {
+    margin-left: 0.5em;
 }
 
 #authentication button[type="submit"] {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .authentication_auth_links {
-  display: flex;
-  align-items: center;
-  height: 3em;
+    display: flex;
+    align-items: center;
+    height: 3em;
 }
 
 .authentication_auth_links > * {
-  display: inline-block;
-  margin-right: 0;
+    display: inline-block;
+    margin-right: 0;
 }
 
 .authentication_auth_links a,
 .authentication_auth_links p:nth-child(2) {
-  text-align: right;
-  margin-left: auto;
-  padding-right: 0;
+    text-align: right;
+    margin-left: auto;
+    padding-right: 0;
 }
 
+.button_wrapper {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
 
+.button_wrapper a {
+    width: 50%;
+    margin: 0;
+}
+
+.button_wrapper button {
+    width: 50%;
+    margin: 0;
+    cursor: pointer;
+}
+
+.button_wrapper button:hover {
+    background-color: var(--hover-color);
+}
+
+.banned_wrapper {
+    text-align: center;
+}
+
+.button_wrapper_banned {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+a.banned_logout {
+    width: 50%;
+}

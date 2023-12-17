@@ -16,6 +16,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/authentication.css') }}" rel="stylesheet">
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">
+
+    @yield('head')
+
 </head>
 
 <body>

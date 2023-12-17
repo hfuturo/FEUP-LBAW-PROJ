@@ -109,7 +109,7 @@ class UserController extends Controller
     {
         $user = User::find($request->input("request"));
         $this->authorize('unblock', \App\User::class);
-        $user->update(['blocked' => false, 'blocked_appeal' => '']);
+        $user->update(['blocked' => false, 'blocked_appeal' => '', 'appeal_rejected' => false]);
         $response = [
             'action' => 'unblock_user',
             'id' => $request->input("request"),
@@ -121,7 +121,7 @@ class UserController extends Controller
     public function unblock_perfil_button(User $user)
     {
         $this->authorize('unblock', \App\User::class);
-        $user->update(['blocked' => false, 'blocked_appeal' => '']);
+        $user->update(['blocked' => false, 'blocked_appeal' => '', 'appeal_rejected' => false]);
         MailController::send_blocked_unblocked_account_email($user, false);
         return back()->with('success', 'Account unblocked successfully!');
     }
