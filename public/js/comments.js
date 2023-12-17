@@ -375,6 +375,7 @@ reportComment();
 
 const reportPopup = document.getElementById("report_content_popup");
 const idContent = reportPopup.querySelector("#id_content");
+const textareaForm = reportPopup.querySelector('#reason')
 
 function openReportNewsForm(valeu) {
     idContent.valeu = valeu;
@@ -389,7 +390,7 @@ function openReportCommentForm(comment) {
 
 function closeReportContentForm() {
     idContent.value = "";
-
+    textareaForm.value = "";
     reportPopup.style.display = "none";
 }
 
