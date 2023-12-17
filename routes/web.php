@@ -41,7 +41,7 @@ Route::redirect('/', '/login');
 
 Route::controller(BlockController::class)->group(function () {
     Route::get('/blocked', 'blockPage')->name('blocked');
-    Route::post('/blocked', 'appeal_unblock')->name('appeal_unblock');
+    Route::post('/blocked', 'appeal_unblock')->name('appeal');
 });
 
 // News
@@ -94,6 +94,7 @@ Route::controller(NewsItemController::class)->group(function () {
 Route::controller(ManageController::class)->group(function () {
     Route::get('/manage', 'show');
     Route::get('/manage_topic', 'show_suggested_topic')->name('manage_topic');
+    Route::get('/manage_unblock_appeals', 'show_unblock_appeals')->name('unblock_appeals');
 });
 
 // Profile
@@ -130,7 +131,7 @@ Route::controller(ReportController::class)->group(function () {
 
 // email
 Route::controller(MailController::class)->group(function () {
-    Route::post('/send', 'send')->name('send_email');
+    Route::post('/send', 'send_recover_password_mail')->name('send_email');
 });
 
 Route::controller(TopicController::class)->group(function () {

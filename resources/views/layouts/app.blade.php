@@ -75,6 +75,8 @@
                 <div class="sticky_nav">
                     @if (Auth::user()->is_admin())
                         <section id="admin_buttons">
+                            <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
+                                appeals</a>
                             <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                             <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
                             <a class="button admin_button" id="manage_report_button"> Manage Report<span

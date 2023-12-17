@@ -10,7 +10,7 @@ use App\Mail\MailModel;
 
 class MailController extends Controller
 {
-    function send(Request $request)
+    function send_recover_password_mail(Request $request)
     {
         $user = User::where('email', '=', $request->email)->first();
 
@@ -21,6 +21,8 @@ class MailController extends Controller
         $mailData = [
             'name' => $user->name,
             'email' => $request->email,
+            'subject' => 'Recover Password',
+            'view' => 'emails.recover_password',
             'code' => random_int(100000, 999999),
         ];
 
@@ -28,5 +30,17 @@ class MailController extends Controller
         User::where('email', '=', $request->email)->update(['recover_password_code' => $mailData['code'], 'recover_password_tries' => 5]);
 
         return redirect()->route('verify_code_form', ['user' => $user->id])->withSuccess('An email was sent with the verification code.');
+    }
+
+    public static function send_blocked_account_email(User $user)
+    {
+        $mailData = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'subject' => 'Your account has been blocked',
+            'view' => 'emails.account_blocked',
+        ];
+
+        Mail::to($user->email)->send(new MailModel($mailData));
     }
 }

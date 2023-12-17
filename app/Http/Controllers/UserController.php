@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\MailController;
+
 class UserController extends Controller
 {
     /**
@@ -91,6 +93,7 @@ class UserController extends Controller
             'action' => 'block_user',
             'id' => $request->input("request"),
         ];
+        MailController::send_blocked_account_email($user);
         return response()->json($response);
     }
 
@@ -98,6 +101,7 @@ class UserController extends Controller
     {
         $this->authorize('block', $user);
         $user->update(['blocked' => true]);
+        MailController::send_blocked_account_email($user);
         return back()->with('success', 'Account blocked successfully!');
     }
 
@@ -105,7 +109,7 @@ class UserController extends Controller
     {
         $user = User::find($request->input("request"));
         $this->authorize('unblock', \App\User::class);
-        $user->update(['blocked' => false]);
+        $user->update(['blocked' => false, 'blocked_appeal' => '']);
         $response = [
             'action' => 'unblock_user',
             'id' => $request->input("request"),
@@ -116,7 +120,7 @@ class UserController extends Controller
     public function unblock_perfil_button(User $user)
     {
         $this->authorize('unblock', \App\User::class);
-        $user->update(['blocked' => false]);
+        $user->update(['blocked' => false, 'blocked_appeal' => '']);
         return back()->with('success', 'Account unblocked successfully!');
     }
 

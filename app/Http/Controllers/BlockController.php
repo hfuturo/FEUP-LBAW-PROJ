@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class BlockController extends Controller
 {
     public function blockPage()
@@ -16,12 +18,8 @@ class BlockController extends Controller
     {
         $this->authorize('appeal_unblock', \App\Block::class);
 
-        $request->validate([
-            'text' => 'required',
-        ]);
-
         Auth::user()->update(['blocked_appeal' => $request->input('text')]);
 
-        return back()->withSuccess(['Apeal updated successfully']);
+        return back()->with('success', 'Unblock appeal updated successfully');
     }
 }

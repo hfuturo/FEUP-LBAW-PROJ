@@ -11,6 +11,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Styles -->
     <link href="{{ asset('css/authentication.css') }}" rel="stylesheet">
     <link href="{{ asset('css/common.css') }}" rel="stylesheet">

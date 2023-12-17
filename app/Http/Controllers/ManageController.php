@@ -39,4 +39,12 @@ class ManageController extends Controller
             'suggested_topic' => $suggested_topic
         ]);
     }
+
+    public function show_unblock_appeals()
+    {
+        $this->authorize('show_unblock_appeals', \App\Manage::class);
+
+        $users = User::where('blocked_appeal', '<>', '')->paginate(10);
+        return view('pages.manage_unblock_appeals', ['users' => $users]);
+    }
 }

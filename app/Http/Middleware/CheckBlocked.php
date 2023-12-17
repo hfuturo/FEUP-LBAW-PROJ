@@ -6,8 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\Http\Middleware\Route;
-
 class CheckBlocked
 {
     /**
@@ -18,7 +16,7 @@ class CheckBlocked
     public function handle(Request $request, Closure $next): Response
     {
         if (
-            !$request->routeIs('blocked') && !$request->routeIs('logout')
+            !$request->routeIs('blocked') && !$request->routeIs('logout') && !$request->routeIs('appeal')
             && auth()->check() && auth()->user()->blocked
         ) {
             return redirect()->route('blocked');
