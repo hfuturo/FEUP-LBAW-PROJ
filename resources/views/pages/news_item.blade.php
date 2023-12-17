@@ -34,7 +34,7 @@
                                 <span class="material-symbols-outlined">more_vert</span>
                             </button>
                             <div class="dropdown-content hidden">
-                                @if (Auth::user()->id !== $news_item->content->authenticated_user->id)
+                                @if (!$news_item->content->authenticated_user || Auth::user()->id !== $news_item->content->authenticated_user->id)
                                     <button class="dropdown-option" onclick="openReportNewsForm({{ $news_item->id }})">
                                         <span class="material-symbols-outlined">flag</span>
                                         <span>Report</span>
@@ -69,11 +69,12 @@
                             <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
                                 class = "author">{{ $news_item->content->authenticated_user->name }}</a>
                         @else
-                            <p class="author">Anonymous</p>
+                            <p class="author">&nbsp;Anonymous</p>
                         @endif
                         @if ($news_item->content->organization !== null)
                             <span>Associated with</span>
-                            <a href="{{route('show_org', ['organization' => $news_item->content->organization])}}" class = "org"> {{ $news_item->content->organization->name }}</a>
+                            <a href="{{ route('show_org', ['organization' => $news_item->content->organization]) }}"
+                                class = "org"> {{ $news_item->content->organization->name }}</a>
                         @endif
                     </div>
                 @endif
@@ -132,11 +133,13 @@
                                 <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}"
                                     class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
-                                @if ($news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
+                                @if (
+                                    $news_item->content->authenticated_user &&
+                                        $news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
                                     <span class="material-symbols-outlined author">person_edit</span>
                                 @endif
                             @else
-                                <p class="comment_author">Anonymous</p>
+                                <p class="comment_author"> Anonymous</p>
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
