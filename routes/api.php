@@ -44,6 +44,7 @@ Route::controller(CommentController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
     Route::post('/profile/report', 'create_user');
+    Route::post('/content/report', 'create_content');
     Route::delete('/delete_report', 'destroy');
 });
 

@@ -1,5 +1,5 @@
-main section#comments, 
-main section#new_comment{
+main section#comments,
+main section#new_comment {
     background-color: var(--background-article-color);
     border: 1px solid var(--primary-color);
     color: var(--primary-text-color);
@@ -7,24 +7,22 @@ main section#new_comment{
     padding: 1em;
 }
 
-section#new_comment h3{
+section#new_comment h3 {
     color: var(--primary-color);
     margin-top: 0;
-
 }
 
-section#new_comment textarea{
-    overflow:hidden;
+section#new_comment textarea {
+    overflow: hidden;
     resize: none;
     padding: 1em;
 }
 
-section#new_comment #postComment{
+section#new_comment #postComment {
     border-radius: 15px;
     margin: 0;
     margin-left: auto;
 }
-
 
 section#comments article.comment {
     padding: 1em;
@@ -36,20 +34,18 @@ section#comments article.comment:not(:first-child) {
     border-top: 0;
 }
 
-
-.comment_header{
+.comment_header {
     display: flex;
     align-items: center;
 }
 
-.comment_header .author{
+.comment_header .author {
     background-color: var(--primary-color);
     font-size: 1.2em;
     color: gold;
     border-radius: 50%;
     padding: 0.1em;
     margin-left: 0.5em;
-
 }
 
 .comment_author {
@@ -57,22 +53,21 @@ section#comments article.comment:not(:first-child) {
     font-size: 1em;
     margin-left: 1em;
 }
-   
+
 .comment_header .date {
     color: grey;
     margin: 0;
     margin-left: 1em;
 }
 
-      
 article.news_body .title {
     font-weight: bold;
     font-size: 2em;
     margin-top: 1em;
     margin-bottom: 1em;
 }
-    
-.comment_text{
+
+.comment_text {
     padding-left: 1em;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -80,12 +75,15 @@ article.news_body .title {
 
 .dropdown {
     position: relative;
+    display: inline-block;
     padding: 0;
     margin: 0;
     margin-left: auto;
-  }
+}
 
-  .more{
+.more {
+    width: 2em;
+    height: 2em;
     padding: 0.2em;
     border: none;
     border-radius: 50%;
@@ -93,30 +91,44 @@ article.news_body .title {
     color: black;
     background-color: white;
     cursor: pointer;
+}
 
-  }
-
-  .more:hover {
+.more:hover {
     background-color: #d3d3d3;
-  }
+}
 
 .dropdown-content {
     position: absolute;
-    display: none;
+    display: flex;
+    flex-direction: column;
     background-color: #f9f9f9;
     padding: 0.5em 0 0.5em 0;
     border-radius: 10px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    left: -250%; /* Adjust this value to move the dropdown to the left */
 }
 
 .dropdown-content .dropdown-option {
+    flex: 1;
     display: flex;
     padding: 12px 16px;
     align-items: center;
+    justify-content: flex-start;
     gap: 0.2em;
     text-decoration: none;
     color: black;
+    cursor: pointer;
+}
+
+.dropdown-content button,
+.dropdown-option button {
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    background-color: inherit;
+    color: inherit;
 }
 
 .dropdown-content .dropdown-option:hover {
@@ -133,17 +145,21 @@ article.news_body .title {
     margin-top: 1em;
 }
 
-.editForm textarea{
-   resize: none;
+.editForm textarea {
+    resize: none;
 }
 
-.editForm div{
-   display: flex;
-   gap: 0.2em;
-   justify-content: flex-end;
+.editForm div {
+    display: flex;
+    gap: 0.2em;
+    justify-content: flex-end;
 }
 
-.editForm div button{
-   border-radius: 10px;
-   margin: 0;
+.editForm div button {
+    border-radius: 10px;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
 }
