@@ -13,12 +13,6 @@
             <textarea id="bio" name="bio">{{ $user->bio }}</textarea>
 
             <button type="submit"> Save Changes </button>
-
-            @if (session('success'))
-                <p class="success">
-                    {{ session('success') }}
-                </p>
-            @endif
         </form>
     </div>
 </div>

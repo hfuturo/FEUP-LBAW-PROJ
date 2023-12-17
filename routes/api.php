@@ -11,6 +11,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowTopicController;
 use App\Http\Controllers\FollowTagController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NotificationController;
 
 
@@ -34,7 +35,6 @@ Route::controller(FollowUserController::class)->group(function () {
     Route::post('/profile/unfollow', 'destroy')->name('unfollow');
     Route::post('/profile/follow', 'create')->name('follow');
 });
-
 
 Route::controller(CommentController::class)->group(function () {
     Route::post('/news/{id}/comment','store')->name('news.comments.store');
@@ -77,6 +77,10 @@ Route::controller(VoteController::class)->group(function () {
     Route::post('/vote/update', 'update');
     Route::post('/vote/create', 'create');
     Route::delete('/vote/destroy', 'destroy');
+});
+
+Route::controller(OrganizationController::class)->group(function () {
+    Route::post('/organization/create', 'store')->name('create_org'); 
 });
 
 Route::controller(NotificationController::class)->group(function () {

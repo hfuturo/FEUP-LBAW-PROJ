@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="app_header">
         <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
     </header>
     <main>

@@ -10,30 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class UserPolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, User $model): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user): bool
@@ -49,16 +25,13 @@ class UserPolicy
         return Auth::check() && (Auth::user()->id === $user->id || Auth::user()->is_admin());
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, User $model): bool
-    {
-        //
-    }
-
     public function show(User $user)
     {
         return Auth::check();
+    }
+
+    public function block(User $currentUser, User $user) //: bool
+    {
+        return $currentUser->is_admin() && $currentUser->id !== $user->id;
     }
 }

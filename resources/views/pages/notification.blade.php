@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
+<script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
 @endsection
 
 @section('content')

@@ -28,10 +28,10 @@ input[id="filter_users"]:focus {
 #all_users .user button {
     margin-right: 0;
     margin-left: 0;
-    padding-right: 0;
     background-color: transparent;
     border: none;
     min-width: 1em;
+    padding: 0 0.5em;
 }
 
 #all_users .user button span {
@@ -40,6 +40,7 @@ input[id="filter_users"]:focus {
 
 #all_users .user a {
     text-decoration: none;
+    padding: 0.5em;
     color: var(--primary-text-color);
 }
 

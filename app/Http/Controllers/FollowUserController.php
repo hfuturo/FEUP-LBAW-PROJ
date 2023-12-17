@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\FollowUser;
+use App\Models\Notification;
+use App\Models\Notified;
+use App\Events\SendNotification;
+
 use Exception;
 use Illuminate\Http\Request;
 
@@ -31,6 +35,11 @@ class FollowUserController extends Controller
             'id_following' => $request->input('user'),
         ]);
 
+        /*
+        $notification_id = Notification::where('id_user','=',Auth::user()->id)->first();
+        $notfied_id = Notified::where('id_notification','=',$notification_id)->where('id_notified','=',$request->input('user'))->first();
+        event(new SendNotification($notfied_id,"You are being Followed"));
+        */
         $response = [
             'follow' => 'unfollow',
             'data' => $follow,
