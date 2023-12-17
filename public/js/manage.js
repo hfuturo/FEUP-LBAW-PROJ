@@ -66,29 +66,57 @@ function blockUnblockEventListener(icon, action) {
     icon.addEventListener("click", async function eventHandler(event) {
         const method = action === "block" ? "block_user" : "unblock_user";
         const id = event.target.parentNode.parentNode.id;
-        await fetch("/api/" + method, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
+        const name = icon.parentNode.previousElementSibling.textContent;
+        Swal.fire({
+            title: "Do you want to " + action + " " + name + "?",
+            showCancelButton: true,
+            confirmButtonText: action.charAt(0).toUpperCase() + action.slice(1),
+            icon: "question",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    const response = await fetch("/api/" + method, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
+                        },
+                        body: JSON.stringify({ request: id }),
+                    });
+
+                    return response.json();
+                } catch (error) {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                }
             },
-            body: JSON.stringify({ request: id }),
-        }).then((response) => response.json());
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: name + " was " + action + "ed successfully",
+                    icon: "success",
+                });
 
-        icon.innerHTML = action === "block" ? "done_outline" : "block";
+                icon.innerHTML = action === "block" ? "done_outline" : "block";
 
-        const button = icon.parentNode;
-        button.classList.remove(action === "block" ? "block" : "unblock");
-        button.classList.remove(action === "block" ? "unblock" : "block");
+                const button = icon.parentNode;
+                button.classList.remove(
+                    action === "block" ? "block" : "unblock"
+                );
+                button.classList.remove(
+                    action === "block" ? "unblock" : "block"
+                );
 
-        // atualiza event listener
-        icon.removeEventListener("click", eventHandler);
-        blockUnblockEventListener(
-            icon,
-            action === "block" ? "unblock" : "block"
-        );
+                // atualiza event listener
+                icon.removeEventListener("click", eventHandler);
+                blockUnblockEventListener(
+                    icon,
+                    action === "block" ? "unblock" : "block"
+                );
+            }
+        });
     });
 }
 

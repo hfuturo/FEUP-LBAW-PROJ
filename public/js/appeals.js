@@ -18,19 +18,28 @@ document
                 showDenyButton: true,
                 denyButtonText: "Reject",
                 icon: "question",
-            }).then(async (result) => {
-                if (result.isDenied) {
-                    await fetch("/api/reject_appeal", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content"),
-                        },
-                        body: JSON.stringify({ request: id }),
-                    }).then((response) => response.json());
+                showLoaderOnDeny: true,
+                preDeny: async () => {
+                    try {
+                        await fetch("/api/reject_appeal", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute("content"),
+                            },
+                            body: JSON.stringify({ request: id }),
+                        });
 
+                        return response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Request failed: ${error}`);
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+            }).then((result) => {
+                if (result.isDenied) {
                     Swal.fire({
                         title: name + " was banned successfully",
                         icon: "success",
@@ -52,24 +61,33 @@ document
             const id =
                 button.parentNode.previousElementSibling.previousElementSibling
                     .id;
-            Swal.fire({
+            const result = Swal.fire({
                 title: "Do you want to unblock " + name + "?",
                 showCancelButton: true,
                 confirmButtonText: "Unblock",
                 icon: "question",
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    await fetch("/api/unblock_user", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content"),
-                        },
-                        body: JSON.stringify({ request: id }),
-                    }).then((response) => response.json());
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch("/api/unblock_user", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute("content"),
+                            },
+                            body: JSON.stringify({ request: id }),
+                        });
 
+                        return response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Request failed: ${error}`);
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+            }).then((result) => {
+                if (result.isConfirmed) {
                     Swal.fire({
                         title: name + " was unblocked successfully",
                         icon: "success",
