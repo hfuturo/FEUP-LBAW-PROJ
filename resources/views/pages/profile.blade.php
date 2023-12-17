@@ -52,6 +52,18 @@
                         @endif
                     </p>
                 </div>
+                <div class="user_info">
+                    <h4>Organizations</h4>
+                    <p>
+                        @if ($user->organizations->count() !== 0)
+                            @foreach ($user->organizations as $org)
+                                <a href="{{route('show_org', ['organization' => $org->id])}}"><?php print_r($org->name) ?></a>
+                            @endforeach
+                        @else
+                            Doesn't belong to any organization.
+                        @endif
+                    </p>
+                </div>
             </div>
             <div class="image_wrapper">
                 <img id="user_picture" src="{{ $user->getProfileImage() }}" alt="Profile Picture">

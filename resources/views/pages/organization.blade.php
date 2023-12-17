@@ -10,14 +10,20 @@
         <div class="header">
             <h3>{{ $organization->name }}</h3>
             <div>
-                <button class="Button" onclick="">Follow</button>
-                <button class="Button" onclick="">Join</button>
+                <?php $follow_org = Auth::user()->follow_organizations()->where('id_organization', $organization->id)->first();?>
+                <input type="hidden" id="following" name="id_following" value="{{ $organization->id }}">
+                @if ($follow_org)
+                    <button id="follow" data-operation="unfollow">Unfollow</button>
+                @else
+                    <button id="follow" data-operation="follow">Follow</button>
+                @endif
+                <button class="button" onclick="">Join</button>
             </div>
         </div>
         <p>{{ $organization->bio }}</p>
         <div id="followers_members">
-            <a href=""><span>Followers</span><span>{{ $organization->followers->count() }}</span></a>
-            <button class="Button" onclick="openMembersOrg()"><span>Members </span><span>{{ $organization->members->count() }}</span></a></button>
+            <button class="button"><span>Followers </span><span>{{ $organization->followers->count() }}</span></button>
+            <button class="button" onclick="openMembersOrg()"><span>Members </span><span>{{ $organization->members->count() }}</span></button>
             @include('partials.organization_members')
         </div>
     </section>

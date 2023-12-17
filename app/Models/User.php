@@ -105,6 +105,14 @@ class User extends Authenticatable
         return $this->hasMany(Membership_Status::class, 'id_user');
     }
 
+    public function organizations() {
+        return  $this->hasMany(MembershipStatus::class, 'id_user')->where(function ($query) {
+            $query->where('member_type', '=', 'member')
+                ->orWhere('member_type', '=', 'leader');
+        })
+        ->join('organization','id_organization','=','organization.id');
+    }
+
     public function votes(){
       return $this->hasMany(Vote::class, 'id_user');
     }
