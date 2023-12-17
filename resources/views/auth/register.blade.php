@@ -2,7 +2,6 @@
 
 @section('authentication')
     <h2> Register </h2>
-    {{ $blocked }}
     <form method="POST" action="{{ route('register') }}">
         {{ csrf_field() }}
 

@@ -38,10 +38,10 @@ class LoginController extends Controller
         ]);
 
         $user = User::where('email', '=', $request->input('email'))->first();
-        if ($user->blocked)
-            return redirect()->route('blocked');
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
+            if ($user->blocked)
+                return redirect()->route('blocked')->with(['user' => $user]);
             $request->session()->regenerate();
             return redirect()->intended('/news');
         }
