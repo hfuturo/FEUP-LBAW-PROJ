@@ -35,18 +35,21 @@
 <body>
     @include('partials.error_message')
     <header class="app_header">
+        <a class="skip-to-content-link" href="#content">
+            Skip to content
+        </a>
         <div style="display: flex;">
             <input type="checkbox" id="hamburger">
             <label class="hamburger" for="hamburger"></label>
             <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         </div>
         <form class="search_form" action="/news">
-            <a class="button advanced_search_link material-symbols-outlined" href="{{ route('advanced_search') }}"
-                title="Advanced search">settings</a>
+            <a class="button button-secondary advanced_search_link material-symbols-outlined"
+                href="{{ route('advanced_search') }}" title="Advanced search">settings</a>
             <input type="text" name="search" value="{{ app('request')->input('search') }}" style="margin: 0;"
                 placeholder="Search">
-            <button class="button" type="submit" title="Search"><svg focusable="false" style="scale: 1.3;"
-                    xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <button class="button button-secondary" type="submit" title="Search"><svg focusable="false"
+                    style="scale: 1.3;" xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
                     </path>
@@ -56,7 +59,7 @@
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <div class="header_user_info">
-                    <a class="button" id="button_profile"
+                    <a class="button button-secondary" id="button_profile"
                         href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
                             class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
@@ -77,20 +80,20 @@
                                 appeals</a>
                             <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                             <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-                            <a class="button admin_button" id="manage_report_button"> Manage Report<span
-                                    class="material-symbols-outlined">expand_more</span></a>
+                            <button class="button admin_button" id="manage_report_button"> Manage Report<span
+                                    class="material-symbols-outlined">expand_more</span></button>
                             <div class="sub-options" id="report_sub_options">
-                                <a class="button" href="{{ route('user_reports') }}">Users</a>
-                                <a class="button" href="{{ route('news_reports') }}">News</a>
-                                <a class="button" href="{{ route('comments_reports') }}">Comments</a>
-                                <a class="button" href="{{ route('news_reports') }}">Tags</a>
+                                <a class="button button-secondary" href="{{ route('user_reports') }}">Users</a>
+                                <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
+                                <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
+                                <a class="button button-secondary" href="{{ route('news_reports') }}">Tags</a>
                             </div>
                         </section>
                     @endif
                     <section id="nav_normal_buttons">
                         <a href="{{ route('create_news') }}" class="button"> Create Post</a>
-                        <a class="button open" onclick="openNewOrg()"> Create Organization</a>
-                        <a class="button" onclick="openTopicProposal()">Propose New Topic</a>
+                        <button class="button open" onclick="openNewOrg()"> Create Organization</button>
+                        <button class="button" onclick="openTopicProposal()">Propose New Topic</button>
                     </section>
                 </div>
             </nav>

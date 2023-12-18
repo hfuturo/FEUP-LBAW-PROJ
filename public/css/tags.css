@@ -28,7 +28,7 @@
 }
 
 .tag-item:hover,
-.tag-item:focus {
+.tag-item:focus-visible {
     text-decoration: 1px solid line-through;
     color: red;
 }

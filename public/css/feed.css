@@ -27,11 +27,12 @@
     margin-top: 0;
 }
 
-.paginate a:hover {
+.paginate a {
     cursor: pointer;
 }
 
-.user_news:hover {
+.user_news:hover,
+.user_news:focus-visible {
     border-color: var(--hover-color);
 }
 

@@ -1,23 +1,51 @@
 "use strict";
 
-document.querySelector("#hamburger")?.addEventListener("click", (event) => {
-    document.querySelector("main > nav").classList.toggle('visivel', event.target.checked);
-    document.querySelector("main > #content").classList.toggle('visivel', event.target.checked);
+document.querySelector("main > nav").style.width =
+    document.querySelector(".sticky_nav").getBoundingClientRect().width + "px";
+
+document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        event.target.click();
+    }
 });
 
-document.querySelector("#notification_icon")?.addEventListener("click", (event) => {
-    let lista = document.getElementById("notifications_pop_up");
-    lista.style.display = lista.style.display === "block" ? "none" : "block";
-
+document.querySelector("#hamburger")?.addEventListener("click", (event) => {
+    if (event.target.checked) {
+        document.querySelector("main > nav").style.width = "0";
+    } else {
+        document.querySelector("main > nav").style.width =
+            document.querySelector(".sticky_nav").getBoundingClientRect()
+                .width + "px";
+    }
+    document.querySelectorAll(".sticky_nav .button").forEach((elm) => {
+        elm.tabIndex = event.target.checked ? -1 : 0;
+    });
+    const subOptions = document.getElementById("report_sub_options");
+    subOptions.querySelectorAll(".button").forEach((elm) => {
+        elm.tabIndex = subOptions.classList.contains("open") ? 0 : -1;
+    });
 });
 
 document
+    .querySelector("#notification_icon")
+    ?.addEventListener("click", (event) => {
+        let lista = document.getElementById("notifications_pop_up");
+        lista.style.display =
+            lista.style.display === "block" ? "none" : "block";
+    });
+
+const subOptions = document.getElementById("report_sub_options");
+subOptions.querySelectorAll(".button").forEach((elm) => {
+    elm.tabIndex = subOptions.classList.contains("open") ? 0 : -1;
+});
+document
     .getElementById("manage_report_button")
     .addEventListener("click", function () {
-        let subOptions = document.getElementById("report_sub_options");
-        subOptions.style.display =
-            subOptions.style.display === "block" ? "none" : "block";
-        let buttonSpan = document
+        subOptions.classList.toggle("open");
+        subOptions.querySelectorAll(".button").forEach((elm) => {
+            elm.tabIndex = subOptions.classList.contains("open") ? 0 : -1;
+        });
+        const buttonSpan = document
             .getElementById("manage_report_button")
             .querySelector("span");
         buttonSpan.textContent =
@@ -34,7 +62,7 @@ function closeTopicProposal() {
     document.getElementById("topic_proposal_popup").style.display = "none";
 }
 
-const createOrgForm = document.getElementById("create_org_popup")
+const createOrgForm = document.getElementById("create_org_popup");
 function openNewOrg() {
     createOrgForm.style.display = "block";
 }
