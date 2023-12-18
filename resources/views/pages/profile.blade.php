@@ -3,6 +3,8 @@
 @section('head')
     <link href="{{ url('css/profile.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/profile.js') }} defer></script>
+    <link href="{{ url('css/news.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
 @endsection
 
 @section('content')
@@ -61,7 +63,7 @@
                     <p>
                         @if ($user->organizations->count() !== 0)
                             @foreach ($user->organizations as $org)
-                                <a href="{{route('show_org', ['organization' => $org->id])}}"><?php print_r($org->name) ?></a>
+                                <a href="{{route('show_org', ['organization' => $org->id])}}">{{ ($org->name) }}</a>
                             @endforeach
                         @else
                             Doesn't belong to any organization.

@@ -44,4 +44,9 @@ class Organization extends Model
         })
         ->join('authenticated_user','id_user','=','authenticated_user.id');
     }
+
+    public function requests()
+    {
+        return $this->hasMany(MembershipStatus::class,  'id_organization')->where('member_type', '=', 'asking')->join('authenticated_user','id_user','=','authenticated_user.id')->orderBy('joined_date', 'DESC')        ;
+    }
 }

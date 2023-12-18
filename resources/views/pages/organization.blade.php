@@ -3,6 +3,8 @@
 @section('head')
     <link href="{{ url('css/organization.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/organization.js') }} defer></script>
+    <link href="{{ url('css/news.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
 @endsection
 
 @section('content')
