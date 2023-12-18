@@ -88,14 +88,13 @@ button.remove {
 .post_owner_info_wrapper {
     display: flex;
     align-items: center;
+    gap: 0.5em;
 }
 
 .author_post_pfp {
     border-radius: 50%;
     width: 2em;
     height: 2em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
 }
 
 .news_head #teste {
