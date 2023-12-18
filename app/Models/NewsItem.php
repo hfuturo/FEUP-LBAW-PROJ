@@ -69,13 +69,21 @@ class NewsItem extends Model
         ?string $title,
         ?string $content,
         ?string $author,
-        ?int $topic
+        ?int $topic,
+        array $tags,
     ) {
         $select = DB::table('news_item')
             ->selectRaw('content.*,news_item.*')
             ->join('content', 'content.id', '=', 'news_item.id')
             ->join('authenticated_user', 'authenticated_user.id', '=', 'content.id_author', 'left')
             ->join('topic', 'topic.id', '=', 'news_item.id_topic')
+            ->joinSub(function ($select) {
+                $select->select(DB::raw("string_agg(tag.name,' ') as tag_name, news_item.id as news_id"))
+                    ->from("news_tag")
+                    ->join("news_item", DB::raw("news_item.id"), "=", DB::raw("news_tag.id_news_item"))
+                    ->join("tag", DB::raw("news_tag.id_tag"), "=", DB::raw("tag.id"))
+                    ->groupBy("news_item.id");
+            }, "tags", "tags.news_id", "=", "news_item.id")
             ->orderBy('date', 'DESC');
 
         $select->where(function ($select) use ($exact_match) {
@@ -83,6 +91,7 @@ class NewsItem extends Model
             NewsItem::add_exact_match_text_filter($select, $exact_match, 'content.content');
             NewsItem::add_exact_match_text_filter($select, $exact_match, 'coalesce("authenticated_user" . "name", \'Anonymous\')');
             NewsItem::add_exact_match_text_filter($select, $exact_match, 'topic.name');
+            NewsItem::add_exact_match_text_filter($select, $exact_match, 'tag_name');
         });
 
         $select->where(function ($select) use ($title) {
@@ -101,6 +110,9 @@ class NewsItem extends Model
             NewsItem::add_exact_match_int_filter($select, $topic, 'news_item.id_topic');
         });
 
+        $select->where(function ($select) use ($tags) {
+            NewsItem::add_exact_match_array_filter($select, $tags, 'tags');
+        });
 
         return $select;
     }
@@ -117,8 +129,26 @@ class NewsItem extends Model
 
     public static function add_exact_match_int_filter(Builder $select, ?int $query, string $field)
     {
-        if (is_null($query) or $query === '') return $select;
+        if (is_null($query)) return $select;
         return $select->where($field, '=', $query);
+    }
+
+    public static function add_exact_match_array_filter(Builder $select, array $items, string $field)
+    {
+        if (count($items) === 0) return $select;
+
+        return $select->where(function (Builder $query) use ($items) {
+            $query
+                ->select(DB::raw("count(*)"))
+                ->from("news_tag")
+                ->join("tag", DB::raw("news_tag.id_tag"), "=", DB::raw("tag.id"))
+                ->where(DB::raw("news_tag.id_news_item"), "=", DB::raw("news_item.id"))
+                ->where(function (Builder $where) use ($items) {
+                    foreach ($items as $item) {
+                        $where->where(DB::raw("tag.name"), "=", $item, "or");
+                    }
+                });
+        }, "=", count($items));
     }
 
     public static function full_text_search(string $query)

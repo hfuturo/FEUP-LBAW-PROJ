@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\NewsItem;
+use App\Models\Tag;
 
 class NewsController extends Controller
 {
@@ -56,6 +57,7 @@ class NewsController extends Controller
                 $request->input("content"),
                 $request->input("author"),
                 $request->input("topic"),
+                Tag::parse_tags($request->input("tags")),
             ),
             "perPage" => 10
         ]);

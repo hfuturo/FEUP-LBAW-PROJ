@@ -56,7 +56,7 @@ tagInput?.addEventListener("input", (e) => {
 });
 
 tagInput?.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.ctrlKey) {
         e.preventDefault();
         createTags();
     }
@@ -78,7 +78,6 @@ form?.addEventListener("submit", (event) => {
     tagInput.value = tagContainer.textContent.trim();
     while (tagContainer.firstChild !== tagInput) {
         tagContainer.firstChild.remove();
-        console.log(tagContainer.firstChild);
     }
     form.submit();
 });
