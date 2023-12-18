@@ -37,7 +37,7 @@
             <div class ="form-group">
                 <label for='organizations'>Choose related organization</label>
                 <select id="organization" name="organization">
-                    <option value="NULL">No organization</option>
+                    <option value="">No organization</option>
                     @foreach ($organizations as $org)
                         <option value="{{ $org->id }}">{{ $org->name }}</option>
                     @endforeach

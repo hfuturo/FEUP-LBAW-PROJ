@@ -43,7 +43,7 @@
                 <label for='organizations'>Choose related organization</label>
                 <select id="organization" name="organization">
                     @foreach ($organizations as $organization)
-                        <option value="NULL">No organization</option>
+                        <option value="">No organization</option>
                         @if ($organization->id === $news_item->content->organization->id)
                             <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
                         @else
