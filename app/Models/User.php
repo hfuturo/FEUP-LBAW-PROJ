@@ -30,7 +30,9 @@ class User extends Authenticatable
         'bio',
         'blocked',
         'user_type',
-        'id_topic'
+        'id_topic',
+        'blocked_appeal',
+        'appeal_rejected',
     ];
 
     /**
@@ -135,7 +137,6 @@ class User extends Authenticatable
             ->whereHas('news_items')
             ->whereDoesntHave('comments');
     }
-
 
     public function notified_ordered()
     {

@@ -32,7 +32,7 @@ class MailModel extends Mailable
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Recover Password',
+            subject: $this->mailData['subject'],
         );
     }
 
@@ -42,7 +42,7 @@ class MailModel extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.recover_password',
+            view: $this->mailData['view'],
         );
     }
 
