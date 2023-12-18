@@ -26,7 +26,8 @@
     cursor: pointer;
 }
 
-.tag-item:hover {
+.tag-item:hover,
+.tag-item:focus {
     text-decoration: 1px solid line-through;
     color: red;
 }

@@ -28,6 +28,7 @@ function createTags() {
         const tagElement = document.createElement("span");
         tagElement.className = "tag-item";
         tagElement.textContent = "#" + tag;
+        tagElement.tabIndex = 0;
         tagElement.addEventListener("click", () => {
             while (tagElement.nextSibling?.nodeName === "#text") {
                 tagElement.nextSibling.remove();
@@ -35,6 +36,12 @@ function createTags() {
             tagElement.remove();
             while (tagContainer.firstChild?.nodeName === "#text") {
                 tagContainer.firstChild.remove();
+            }
+        });
+        tagElement.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                tagElement.click();
             }
         });
         tagContainer.insertBefore(tagElement, tagInput);
