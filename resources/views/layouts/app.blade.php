@@ -21,6 +21,7 @@
 
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
+    <script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/22c4374990.js" crossorigin="anonymous"></script>
 

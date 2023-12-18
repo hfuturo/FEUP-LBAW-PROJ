@@ -10,6 +10,7 @@
             </div>
         </div>
     @else
+        <h2>Your account has been blocked.</h2>
         <form method="POST" action="{{ route('appeal') }}">
             @csrf
             <label for="text">Tell us why you should be unbanned.</label>

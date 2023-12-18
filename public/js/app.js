@@ -1,15 +1,21 @@
 "use strict";
 
 document.querySelector("#hamburger")?.addEventListener("click", (event) => {
-    document.querySelector("main > nav").classList.toggle('visivel', event.target.checked);
-    document.querySelector("main > #content").classList.toggle('visivel', event.target.checked);
+    document
+        .querySelector("main > nav")
+        .classList.toggle("visivel", event.target.checked);
+    document
+        .querySelector("main > #content")
+        .classList.toggle("visivel", event.target.checked);
 });
 
-document.querySelector("#notification_icon")?.addEventListener("click", (event) => {
-    let lista = document.getElementById("notifications_pop_up");
-    lista.style.display = lista.style.display === "block" ? "none" : "block";
-
-});
+document
+    .querySelector("#notification_icon")
+    ?.addEventListener("click", (event) => {
+        let lista = document.getElementById("notifications_pop_up");
+        lista.style.display =
+            lista.style.display === "block" ? "none" : "block";
+    });
 
 document
     .getElementById("manage_report_button")
@@ -34,7 +40,7 @@ function closeTopicProposal() {
     document.getElementById("topic_proposal_popup").style.display = "none";
 }
 
-const createOrgForm = document.getElementById("create_org_popup")
+const createOrgForm = document.getElementById("create_org_popup");
 function openNewOrg() {
     createOrgForm.style.display = "block";
 }
