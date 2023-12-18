@@ -36,10 +36,11 @@ main > nav {
     grid-column-start: start;
     grid-column-end: content;
     height: 100%;
+    min-width: max-content;
     width: max-content;
     overflow: clip;
     margin: 0;
-    transition: width 0.5s ease-in-out;
+    transition: min-width 0.5s ease-in-out;
 }
 
 #manage_report_button span {
@@ -224,7 +225,8 @@ main > section {
     height: 30px;
     left: 50%;
     padding: 8px;
-    position: absolute;
+    position: fixed;
+    top: 0;
     transform: translateY(-200%);
     transition: transform 0.3s;
 }
@@ -248,7 +250,7 @@ main > section {
     cursor: pointer;
 }
 
-#hamburger:focus + .hamburger {
+#hamburger:focus-visible + .hamburger {
     outline: auto;
 }
 

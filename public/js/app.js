@@ -1,7 +1,10 @@
 "use strict";
 
-document.querySelector("main > nav").style.width =
-    document.querySelector(".sticky_nav").getBoundingClientRect().width + "px";
+setTimeout(() => {
+    document.querySelector("main > nav").style.minWidth =
+        document.querySelector(".sticky_nav").getBoundingClientRect().width +
+        "px";
+}, 100);
 
 document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
@@ -10,10 +13,11 @@ document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {
 });
 
 document.querySelector("#hamburger")?.addEventListener("click", (event) => {
+    document.querySelector("main > nav").style.width = "0";
     if (event.target.checked) {
-        document.querySelector("main > nav").style.width = "0";
+        document.querySelector("main > nav").style.minWidth = "0";
     } else {
-        document.querySelector("main > nav").style.width =
+        document.querySelector("main > nav").style.minWidth =
             document.querySelector(".sticky_nav").getBoundingClientRect()
                 .width + "px";
     }
