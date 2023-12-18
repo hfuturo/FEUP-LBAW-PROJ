@@ -35,9 +35,11 @@
 <body>
     @include('partials.error_message')
     <header class="app_header">
-        <input type="checkbox" id="hamburger">
-        <label class="hamburger" for="hamburger"></label>
-        <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
+        <div style="display: flex;">
+            <input type="checkbox" id="hamburger">
+            <label class="hamburger" for="hamburger"></label>
+            <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
+        </div>
         <form class="search_form" action="/news">
             <select name="search_type">
                 <option value="normal" @if (app('request')->input('search_type') == 'normal') selected @endif>Normal</option>
@@ -73,6 +75,8 @@
                 <div class="sticky_nav">
                     @if (Auth::user()->is_admin())
                         <section id="admin_buttons">
+                            <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
+                                appeals</a>
                             <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
                             <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
                             <a class="button admin_button" id="manage_report_button"> Manage Report<span
@@ -89,7 +93,6 @@
                         <a href="{{ route('create_news') }}" class="button"> Create Post</a>
                         <a class="button open" onclick="openNewOrg()"> Create Organization</a>
                         <a class="button" onclick="openTopicProposal()">Propose New Topic</a>
-
                     </section>
                 </div>
             </nav>

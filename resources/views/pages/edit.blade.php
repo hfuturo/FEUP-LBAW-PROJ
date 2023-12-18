@@ -14,7 +14,7 @@
             @csrf
 
             <div class ="form-group">
-                <textarea maxlength="255" type="text" id="title" name="title" placeholder="Title" rows="1">{{ $news_item->title }}</textarea>
+                <input maxlength="255" type="text" id="title" name="title" placeholder="Title" value="{{ $news_item->title }}">
             </div>
 
             <div class ="form-group">
@@ -38,6 +38,21 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class ="form-group">
+                <label for='organizations'>Choose related organization</label>
+                <select id="organization" name="organization">
+                    @foreach ($organizations as $organization)
+                        <option value="NULL">No organization</option>
+                        @if ($organization->id === $news_item->content->organization->id)
+                            <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
+                        @else
+                            <option value="{{ $organization->id }}">{{ $organization->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
 
             <div class ="form-group">
                 <label>Add tags</label>

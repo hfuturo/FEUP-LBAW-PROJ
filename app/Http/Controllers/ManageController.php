@@ -24,7 +24,6 @@ class ManageController extends Controller
     public function search(Request $request)
     {
         $users = DB::table('authenticated_user')
-            ->select(['id', 'name'])
             ->where('name', 'ilike', "%{$request->input('search')}%")
             ->get();
 
@@ -39,5 +38,13 @@ class ManageController extends Controller
         return view('pages.manage_topic', [
             'suggested_topic' => $suggested_topic
         ]);
+    }
+
+    public function show_unblock_appeals()
+    {
+        $this->authorize('show_unblock_appeals', \App\Manage::class);
+
+        $users = User::where('blocked_appeal', '<>', '')->where('appeal_rejected', '=', 'false')->paginate(10);
+        return view('pages.manage_unblock_appeals', ['users' => $users]);
     }
 }
