@@ -1,3 +1,5 @@
+"use strict";
+
 const pusher = new Pusher("c0fb97ab5d870529ef09", {
     cluster: "eu",
     encrypted: true,
@@ -6,8 +8,9 @@ const pusher = new Pusher("c0fb97ab5d870529ef09", {
 const user_id_not_parsed = document.querySelector("#button_profile")?.href;
 const user_id = user_id_not_parsed[user_id_not_parsed.length - 1];
 
-const channel = pusher.subscribe("follow-user" + user_id);
-channel.bind("notification", (data) => {
+// notificações follow user
+const follow_user_channel = pusher.subscribe("follow-user" + user_id);
+follow_user_channel.bind("notification", (data) => {
     // remove mensagem a dizer que nao existem notificações
     document.querySelector("#notifications_pop_up > p")?.remove();
 
@@ -37,6 +40,22 @@ channel.bind("notification", (data) => {
 
     addDeleteNotificationEventListener(button);
     document.getElementById("notifications_pop_up").prepend(article);
+
+    if (
+        document.querySelector("##notifications_pop_up")?.children.length === 6
+    ) {
+        document
+            .querySelector("##notifications_pop_up")
+            .removeChild(
+                document.querySelector("##notifiactions_pop_up").lastChild
+            );
+    }
+});
+
+// notificacoes news item vote
+const news_item_vote_channel = pusher.subscribe("news-item-vote" + user_id);
+news_item_vote_channel.bind("news-item-vote", (data) => {
+    console.log(data);
 });
 
 document.querySelectorAll(".notification_button").forEach((button) => {

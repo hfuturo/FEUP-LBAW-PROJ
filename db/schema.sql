@@ -145,7 +145,7 @@ CREATE TABLE "report"
   reason TEXT NOT NULL,
   date TIMESTAMP NOT NULL DEFAULT now() CHECK (date<=now()),
   type report_type NOT NULL,
-  id_reporter INTEGER NOT NULL REFERENCES "authenticated_user" (id) ON UPDATE CASCADE ON DELETE SET NULL,
+  id_reporter INTEGER REFERENCES "authenticated_user" (id) ON UPDATE CASCADE ON DELETE SET NULL,
   PRIMARY KEY(id),
   -- data specific to each report type
   id_tag INTEGER REFERENCES "tag" (id) ON UPDATE CASCADE ON DELETE CASCADE,                -- tag_report
@@ -158,7 +158,7 @@ CREATE TABLE "report"
   )
 );
 
-CREATE TYPE notification_type AS ENUM ('organization', 'content', 'follow');
+CREATE TYPE notification_type AS ENUM ('organization', 'content', 'follow', 'vote');
 CREATE TYPE member_type AS ENUM ('asking', 'invited', 'member','leader');
 
 CREATE TABLE "notification"
@@ -177,7 +177,8 @@ CREATE TABLE "notification"
   CHECK (
     (type='organization'::notification_type AND id_organization IS NOT NULL AND id_content is     NULL AND id_user IS     NULL AND membership_status IS NOT NULL) OR
     (type='content'::notification_type      AND id_organization IS     NULL AND id_content is NOT NULL AND id_user IS     NULL AND membership_status IS     NULL) OR
-    (type='follow'::notification_type       AND id_organization IS     NULL AND id_content is     NULL AND id_user IS NOT NULL AND membership_status IS     NULL)
+    (type='follow'::notification_type       AND id_organization IS     NULL AND id_content is     NULL AND id_user IS NOT NULL AND membership_status IS     NULL) OR
+    (type='vote'::notification_type         AND id_organization IS     NULL AND id_content IS NOT NULL AND id_user IS NOT NULL AND membership_status IS     NULL)
   )
 );
 
@@ -305,7 +306,7 @@ BEGIN
         IF NOT EXISTS(
             SELECT id
             FROM notification
-            WHERE id_user=New.id_follower
+            WHERE id_user=New.id_follower AND type='follow'
         )
         THEN
             INSERT INTO notification(type,id_user)
@@ -313,7 +314,7 @@ BEGIN
         END IF;
         INSERT INTO notified(id_notification, id_notified)
             VALUES ((
-                SELECT id FROM notification WHERE id_user=New.id_follower
+                SELECT id FROM notification WHERE id_user=New.id_follower AND type='follow'
             ),New.id_following);
     RETURN NEW;
 END
@@ -331,7 +332,7 @@ $BODY$
 BEGIN
     DELETE FROM notified
         WHERE id_notification IN (
-            SELECT id FROM notification WHERE id_user = old.id_follower
+            SELECT id FROM notification WHERE id_user = old.id_follower AND type='follow'
         ) AND id_notified = old.id_following;
     RETURN NEW;
 END
@@ -444,11 +445,11 @@ BEGIN
     IF NOT EXISTS (
         SELECT id
         FROM notification
-        WHERE id_content = NEW.id
+        WHERE id_content = NEW.id AND type='content'
     ) THEN
         INSERT INTO notification(type, id_content) VALUES ('content', NEW.id);
     END IF;
-    SELECT id FROM notification WHERE id_content = NEW.id INTO item;
+    SELECT id FROM notification WHERE id_content = NEW.id AND type='content' INTO item;
     SELECT id_author FROM "content" where id = NEW.id INTO author;
     INSERT INTO notified(id_notification, id_notified)
         SELECT item, id_following 
@@ -472,12 +473,12 @@ BEGIN
     IF NOT EXISTS (
         SELECT id
         FROM notification
-        WHERE id_content = NEW.id
+        WHERE id_content = NEW.id AND type='content'
     ) THEN
         INSERT INTO notification(type, id_content) VALUES ('content', NEW.id);
     END IF;
     SELECT id_author FROM "content" WHERE id = NEW.id_news INTO item_author;
-    SELECT id FROM notification WHERE id_content = NEW.id INTO not_com;
+    SELECT id FROM notification WHERE id_content = NEW.id AND type='content' INTO not_com;
     INSERT INTO notified(id_notification, id_notified)
         VALUES (not_com,item_author);
     RETURN NEW;
@@ -488,6 +489,33 @@ CREATE TRIGGER new_comment_trigger
     AFTER INSERT ON "comment"
     FOR EACH ROW
     EXECUTE FUNCTION notify_author();
+
+CREATE OR REPLACE FUNCTION notify_author_vote()
+RETURNS TRIGGER AS $$
+DECLARE
+    not_com INTEGER;
+    item_author INTEGER;
+BEGIN
+  IF NOT EXISTS (
+    SELECT id
+    FROM notification
+    WHERE id_content = NEW.id_content AND type='vote' AND id_user = NEW.id_user
+  ) THEN
+      INSERT INTO notification(type, id_content, id_user) VALUES ('vote', NEW.id_content, NEW.id_user);
+  END IF;
+  SELECT id FROM notification WHERE id_content = NEW.id_content AND type='vote' AND id_user = NEW.id_user INTO not_com;
+  SELECT id_author FROM "content" WHERE id = NEW.id_content INTO item_author;
+  INSERT INTO notified(id_notification, id_notified)
+      VALUES (not_com,item_author)
+      ON CONFLICT(id_notification, id_notified) DO UPDATE SET view = false, date = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER vote_post_notification
+    AFTER INSERT OR UPDATE ON "vote"
+    FOR EACH ROW
+    EXECUTE FUNCTION notify_author_vote();
 
 
 DROP INDEX IF EXISTS date_content;

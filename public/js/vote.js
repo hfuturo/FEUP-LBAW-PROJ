@@ -46,6 +46,10 @@ document.querySelectorAll(".vote").forEach((button) => {
         if (name == "vote accept") value = 1;
         if (name == "vote remove") value = -1;
 
+        console.log(method);
+        console.log(action);
+        console.log(content);
+        console.log(value);
         sendAjaxRequest(
             `${method}`,
             `/api/vote/${action}`,
@@ -56,7 +60,7 @@ document.querySelectorAll(".vote").forEach((button) => {
 });
 
 function voteHandler() {
-    if (this.status != 200) window.location = "/";
+    //if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
     const vote = JSON.parse(this.responseText).vote;
 

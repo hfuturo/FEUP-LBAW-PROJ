@@ -26,7 +26,9 @@ class FollowUserController extends Controller
             'id_following' => $request->input('user'),
         ]);
 
-        $notification_id = Notification::where('id_user', '=', Auth::user()->id)->orderBy('id', 'DESC')->first();
+        $notification_id = Notification::where('id_user', '=', Auth::user()->id)
+            ->where('type', '=', 'follow')
+            ->first();
 
         event(new FollowUserNotification($request->input('user'), Auth::user()->id, Auth::user()->name, $notification_id->id));
 

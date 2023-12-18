@@ -88,7 +88,9 @@ function blockUnblockEventListener(icon, action) {
 
                     return response.json();
                 } catch (error) {
-                    Swal.showValidationMessage(`Request failed: ${error}`);
+                    Swal.showValidationMessage(
+                        `Request failed: Try again later.`
+                    );
                 }
             },
             allowOutsideClick: () => !Swal.isLoading(),

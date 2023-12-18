@@ -108,7 +108,7 @@
             @if (Auth::check())
                 @include('partials.create_organization')
                 <div id="notifications_pop_up">
-                    <?php $notifications = Auth::user()->notified_ordered; ?>
+                    <?php $notifications = Auth::user()->notified_ordered->take(5); ?>
                     @if (count($notifications) === 0)
                         <p>There are no notifications to show.</p>
                     @else
@@ -127,9 +127,16 @@
                                         </p>
                                     @endif
                                     @if ($notif->notification->type === 'content')
-                                        <a
-                                            href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
-                                        has a new comment, go check !
+                                        <p>
+                                            <a
+                                                href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                            has a new comment, go check !
+                                        </p>
+                                    @endif
+                                    @if ($notif->notification->type === 'vote')
+                                        <p>
+                                            Someone voted
+                                        </p>
                                     @endif
                                 </h4>
                             </article>
