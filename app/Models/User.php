@@ -53,78 +53,92 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function topic() {
-        return $this->hasOne(Topic::class,'id_topic');
+    public function topic()
+    {
+        return $this->hasOne(Topic::class, 'id_topic');
     }
 
-    public function suggested_topics() {
-        return $this->hasMany(SuggestedTopic::class,'id_user');
+    public function suggested_topics()
+    {
+        return $this->hasMany(SuggestedTopic::class, 'id_user');
     }
 
-    public function contents() {
-        return $this->hasMany(Content::class,'id_author');
+    public function contents()
+    {
+        return $this->hasMany(Content::class, 'id_author');
     }
 
-    public function reports_made() {
-        return $this->hasMany(Report::class,'id_reporter');
+    public function reports_made()
+    {
+        return $this->hasMany(Report::class, 'id_reporter');
     }
 
-    public function reported() {
-        return $this->hasMany(Report::class,'id_user');
+    public function reported()
+    {
+        return $this->hasMany(Report::class, 'id_user');
     }
 
-    public function notified() {
-        return $this->hasMany(Notified::class,'id_notified');
+    public function notified()
+    {
+        return $this->hasMany(Notified::class, 'id_notified');
     }
 
-    public function notifications() {
-        return $this->hasMany(Notification::class,'id_user');
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'id_user');
     }
 
-    public function follow_organizations() {
-        return $this->hasMany(FollowOrganization::class,'id_following');
+    public function follow_organizations()
+    {
+        return $this->hasMany(FollowOrganization::class, 'id_following');
     }
 
-    public function follow_tags() {
-        return $this->hasMany(FollowTag::class,'id_following');
+    public function follow_tags()
+    {
+        return $this->hasMany(FollowTag::class, 'id_following');
     }
 
-    public function follow_topics() {
-        return $this->hasMany(FollowTopic::class,'id_following');
+    public function follow_topics()
+    {
+        return $this->hasMany(FollowTopic::class, 'id_following');
     }
 
-    public function following() {
-        return $this->hasMany(FollowUser::class,'id_follower');
+    public function following()
+    {
+        return $this->hasMany(FollowUser::class, 'id_follower');
     }
 
-    public function followers() {
-        return $this->hasMany(FollowUser::class,'id_following');
+    public function followers()
+    {
+        return $this->hasMany(FollowUser::class, 'id_following');
     }
 
-    public function membershipStatuses() {
+    public function membershipStatuses()
+    {
         return $this->hasMany(MembershipStatus::class, 'id_user');
     }
 
-    public function organizations() {
-        return  $this->hasMany(MembershipStatus::class, 'id_user')->where(function ($query) {
-            $query->where('member_type', '=', 'member')
-                ->orWhere('member_type', '=', 'leader');
-        })
-        ->join('organization','id_organization','=','organization.id');
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'membership_status', 'id_user', 'id_organization')
+            ->whereIn('member_type', ['member', 'leader']);
     }
 
-    public function votes(){
-      return $this->hasMany(Vote::class, 'id_user');
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'id_user');
     }
-    
-    public function news_items() {
+
+    public function news_items()
+    {
         return $this->contents()
-        ->whereHas('news_items')
-        ->whereDoesntHave('comments');
+            ->whereHas('news_items')
+            ->whereDoesntHave('comments');
     }
 
-        
-    public function notified_ordered() {
+
+    public function notified_ordered()
+    {
         return $this->notified()->orderBy('date', 'desc');
     }
 
@@ -133,7 +147,8 @@ class User extends Authenticatable
         return $this->type === 'admin';
     }
 
-    public function getProfileImage() {
+    public function getProfileImage()
+    {
         return FileController::get('profile', $this->id);
     }
 }

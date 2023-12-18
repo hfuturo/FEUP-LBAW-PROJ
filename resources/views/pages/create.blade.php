@@ -12,7 +12,7 @@
             @csrf
 
             <div class ="form-group">
-                <textarea maxlength="255" type="text" id="title" name="title" placeholder="Title" rows="1"></textarea>
+                <input maxlength="255" type="text" id="title" name="title" placeholder="Title">
             </div>
 
             <div class ="form-group">
@@ -29,6 +29,16 @@
                 <select id="topic" name="topic">
                     @foreach ($topics as $topic)
                         <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class ="form-group">
+                <label for='organizations'>Choose related organization</label>
+                <select id="organization" name="organization">
+                    <option value="NULL">No organization</option>
+                    @foreach ($organizations as $org)
+                        <option value="{{ $org->id }}">{{ $org->name }}</option>
                     @endforeach
                 </select>
             </div>

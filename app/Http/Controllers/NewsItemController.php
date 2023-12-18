@@ -104,7 +104,7 @@ class NewsItemController extends Controller
                 $content = new Content();
                 $content->content = $request->input('text');
                 $content->id_author = Auth::user()->id;
-                $content->id_organization = NULL;
+                $content->id_organization = $request->input('organization');
                 $content->save();
                 // Create a new news item associated with the content
                 $newsItem = new NewsItem();
@@ -144,7 +144,8 @@ class NewsItemController extends Controller
         }
         $topics = Topic::all();
         $tags = Tag::all();
-        return view('pages.create', ['topics' => $topics, 'tags' => $tags]);
+        $organizations = Auth::user()->organizations()->get();
+        return view('pages.create', ['topics' => $topics, 'tags' => $tags, 'organizations' => $organizations]);
     }
 
     /**
@@ -160,7 +161,8 @@ class NewsItemController extends Controller
         $this->authorize('update', $news_item);
         $topics = Topic::all();
         $tags = Tag::all();
-        return view('pages.edit', ['topics' => $topics, 'tags' => $tags, 'news_item' => $news_item]);
+        $organizations = Auth::user()->organizations()->get();
+        return view('pages.edit', ['topics' => $topics, 'tags' => $tags, 'news_item' => $news_item, 'organizations' => $organizations]);
     }
 
     /**
@@ -199,7 +201,7 @@ class NewsItemController extends Controller
 
         $content = Content::find($id);
         $content->content = $request->input('text');
-        $content->id_organization = NULL;
+        $content->id_organization = $request->input('organization');
         $content->edit_date = 'now()';
         $content->save();
 
