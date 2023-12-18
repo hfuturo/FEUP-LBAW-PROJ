@@ -83,11 +83,10 @@ class NewsItemController extends Controller
         $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
             'text' => 'required|string',
-            'topic' => 'required',
+            'topic' => 'required|int',
+            'tags' => 'nullable|string',
             'image' => 'mimes:jpg,png,jpeg',
         ]);
-
-        $tags = json_decode($request->input('tags'));
 
         $imageName = NULL;
 
@@ -99,7 +98,7 @@ class NewsItemController extends Controller
 
         $id_news = NULL;
         try {
-            DB::transaction(function () use (&$id_news, $request, $imageName, $tags) {
+            DB::transaction(function () use (&$id_news, $request, $imageName) {
 
                 $content = new Content();
                 $content->content = $request->input('text');
@@ -114,6 +113,7 @@ class NewsItemController extends Controller
                 $newsItem->id = $content->id; // Set the id to link to the content id
                 $newsItem->save();
 
+                $tags = parse_tags($request->input('tags'));
                 foreach ($tags as $tag) {
                     $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
                     NewsTag::create([
@@ -176,12 +176,12 @@ class NewsItemController extends Controller
             'title' => 'required|max:255|string',
             'text' => 'required|string',
             'topic' => 'required',
+            'tags' => 'nullable|string',
             'image' => 'mimes:jpg,png,jped',
 
         ]);
         $imageName = NULL;
 
-        $tags = json_decode($request->input('tags'));
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $requestImage = $request->image;
@@ -191,6 +191,7 @@ class NewsItemController extends Controller
 
         $news_item->hasMany(NewsTag::class, 'id_news_item')->delete();
 
+        $tags = parse_tags($request->input("tags"));
         foreach ($tags as $tag) {
             $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
             NewsTag::create([
@@ -217,4 +218,20 @@ class NewsItemController extends Controller
         return redirect()->route('news_page', ["id" => $id])
             ->with('success', 'Successfully edited!');
     }
+}
+
+function parse_tags(?string $tagsStr)
+{
+    $tags = [];
+
+    if ($tagsStr) {
+        if (str_starts_with($tagsStr, "#")) {
+            $tagsStr = substr($tagsStr, 1);
+        }
+        $tags = array_map(function ($tag) {
+            return "#" . trim($tag);
+        }, explode("#", $tagsStr));
+    }
+
+    return $tags;
 }

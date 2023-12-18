@@ -2,6 +2,7 @@
 
 @section('head')
     <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
+    <link href="{{ url('css/tags.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
 @endsection
 
@@ -44,16 +45,15 @@
             </div>
 
             <div class ="form-group">
-                <label>Add tags</label>
+                <label>Tags</label>
                 <datalist id="tags">
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->name }}">{{ $tag->name }}</option>
                     @endforeach
                 </datalist>
-                <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?"
-                    title="This field most not be empty" />
-                <button type="button" onclick="createTag()">Add</button>
-                <ul id="tagsList"></ul>
+                <div class="tag-container">
+                    <input type="text" id="tagInput" name="tags" list="tags" placeholder="Tag" />
+                </div>
             </div>
             <button type="submit" form="newsForm" value="Submit">Create</button>
         </form>
