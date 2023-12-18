@@ -59,6 +59,10 @@ main > nav {
     border-radius: 5px 0 0 5px;
 }
 
+.header_nav :last-child {
+    border-radius: 0 5px 5px 0;
+}
+
 .header_user_info {
     display: flex;
     flex-wrap: wrap;
