@@ -493,7 +493,7 @@ reportPopup.querySelector("#report_form").addEventListener("submit", async funct
         
                 if (message.success) {
                     Swal.fire({
-                        title: "Deleted!",
+                        title: "Report make!",
                         text: message.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
