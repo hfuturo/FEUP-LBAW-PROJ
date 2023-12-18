@@ -115,16 +115,18 @@ class User extends Authenticatable
         return $this->hasMany(FollowUser::class, 'id_following');
     }
 
-    public function membershipStatuses() {
+    public function membershipStatuses()
+    {
         return $this->hasMany(MembershipStatus::class, 'id_user');
     }
 
-    public function organizations() {
+    public function organizations()
+    {
         return  $this->hasMany(MembershipStatus::class, 'id_user')->where(function ($query) {
             $query->where('member_type', '=', 'member')
                 ->orWhere('member_type', '=', 'leader');
         })
-        ->join('organization','id_organization','=','organization.id');
+            ->join('organization', 'id_organization', '=', 'organization.id');
     }
 
     public function votes()
@@ -142,6 +144,11 @@ class User extends Authenticatable
     public function notified_ordered()
     {
         return $this->notified()->orderBy('date', 'desc');
+    }
+
+    public function new_notifications()
+    {
+        return $this->notified()->where('view', '=', false);
     }
 
     public function is_admin()

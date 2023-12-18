@@ -16,21 +16,23 @@ channel.bind("notification", (data) => {
     if (icon) icon.innerHTML = "notifications_unread";
 
     const article = document.createElement("article");
-    article.classList.add("user_news");
+    article.classList.add("user_news", "new_notification");
     article.setAttribute("id", data.notification_id);
     const h4 = document.createElement("h4");
     const button = document.createElement("button");
     button.classList.add("notification_button");
+    const p = document.createElement("p");
     const span = document.createElement("span");
     span.classList.add("material-symbols-outlined", "icon_red");
     span.innerHTML = "delete";
     const a = document.createElement("a");
     a.href = location.origin + "/profile/" + encodeURIComponent(data.sender_id);
     a.innerHTML = data.sender_name;
+    p.appendChild(a);
+    p.append(" is following you!");
     button.appendChild(span);
     h4.appendChild(button);
-    h4.appendChild(a);
-    h4.append(" is following you!");
+    h4.appendChild(p);
     article.appendChild(h4);
 
     addDeleteNotificationEventListener(button);
@@ -59,7 +61,7 @@ function deleteNotificationHandler() {
     let element = document.querySelector(selector);
     element.remove();
     let mainElement = document.querySelector("#notifications_pop_up");
-    if (mainElement.children.length <= 2) {
+    if (mainElement.children.length == 1) {
         let pElement = document.createElement("p");
         pElement.textContent = "There are no notifications to show.";
         mainElement.prepend(pElement);

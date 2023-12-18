@@ -80,11 +80,12 @@ Route::controller(VoteController::class)->group(function () {
 });
 
 Route::controller(OrganizationController::class)->group(function () {
-    Route::post('/organization/create', 'store')->name('create_org'); 
+    Route::post('/organization/create', 'store')->name('create_org');
 });
 
 Route::controller(NotificationController::class)->group(function () {
     Route::delete('/notification/destroy', 'destroy');
+    Route::post('/notification/view', 'view');
 });
 
 Route::controller(BlockController::class)->group(function () {
@@ -102,5 +103,4 @@ Route::controller(MembershipStatusController::class)->group(function () {
     Route::post('/organization/status/update', 'update');
     Route::post('/organization/manage/upgrade', 'upgrade');
     Route::post('/organization/manage/expel', 'expel');
-
 });

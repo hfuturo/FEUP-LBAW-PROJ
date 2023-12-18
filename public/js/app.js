@@ -11,11 +11,49 @@ document.querySelector("#hamburger")?.addEventListener("click", (event) => {
 
 document
     .querySelector("#notification_icon")
-    ?.addEventListener("click", (event) => {
+    ?.addEventListener("click", async () => {
         let lista = document.getElementById("notifications_pop_up");
         lista.style.display =
             lista.style.display === "block" ? "none" : "block";
+
+        // muda icon para notificacoes vistas (normal)
+        const icon = document.querySelector("#notification_icon > span");
+        if (icon) icon.innerHTML = "notifications";
+
+        // atualiza bd e coloca notificacoes a viewed
+        await fetch("/api/notification/view", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        });
     });
+
+// fecha popup das notificacoes caso clique fora do popup e remove class 'new_notification'
+// para depois caso clique novamente nao ter o background de uma notificacao nova
+window.addEventListener("click", (event) => {
+    const notification_popup = document.getElementById("notifications_pop_up");
+    const icon = document.getElementById("notification_icon");
+    if (
+        notification_popup &&
+        icon &&
+        notification_popup.style.display === "block" &&
+        !notification_popup.contains(event.target) &&
+        !icon.contains(event.target)
+    ) {
+        notification_popup.style.display = "none";
+        document
+            .querySelectorAll(
+                "#notifications_pop_up > article.user_news.new_notification"
+            )
+            ?.forEach((notification) => {
+                notification.classList.remove("new_notification");
+            });
+    }
+});
 
 document
     .getElementById("manage_report_button")

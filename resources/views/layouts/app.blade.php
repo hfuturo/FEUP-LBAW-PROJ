@@ -63,7 +63,12 @@
                         href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
                             class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
-                <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>
+                @if (count(Auth::user()->new_notifications) === 0)
+                    <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>
+                @else
+                    <button id="notification_icon"><span
+                            class="material-symbols-outlined">notifications_unread</span></button>
+                @endif
             @else
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
@@ -104,24 +109,32 @@
                 @include('partials.create_organization')
                 <div id="notifications_pop_up">
                     <?php $notifications = Auth::user()->notified_ordered; ?>
-                    @foreach ($notifications as $notif)
-                        <article class="user_news" id="{{ $notif->notification->id }}">
-                            <h4>
-                                <button class="notification_button"><span
-                                        class="material-symbols-outlined icon_red">delete</span></button>
-                                @if ($notif->notification->type === 'follow')
-                                    <a
-                                        href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
-                                    is following you !
-                                @endif
-                                @if ($notif->notification->type === 'content')
-                                    <a
-                                        href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
-                                    has a new comment, go check !
-                                @endif
-                            </h4>
-                        </article>
-                    @endforeach
+                    @if (count($notifications) === 0)
+                        <p>There are no notifications to show.</p>
+                    @else
+                        @foreach ($notifications as $notif)
+                            <article
+                                @if (!$notif->view) class="user_news new_notification" @else class="user_news" @endif
+                                id="{{ $notif->notification->id }}">
+                                <h4>
+                                    <button class="notification_button"><span
+                                            class="material-symbols-outlined icon_red">delete</span></button>
+                                    @if ($notif->notification->type === 'follow')
+                                        <p>
+                                            <a
+                                                href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                            is following you !
+                                        </p>
+                                    @endif
+                                    @if ($notif->notification->type === 'content')
+                                        <a
+                                            href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                        has a new comment, go check !
+                                    @endif
+                                </h4>
+                            </article>
+                        @endforeach
+                    @endif
                     <a href="{{ url('/notification') }}"> See More </a>
                 </div>
             @endif
