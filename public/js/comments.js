@@ -160,17 +160,18 @@ function createLikeDislike(className, symbol, type) {
 }
 
 function toggleMenu(button, event) {
+    const dropdownSelect = button.nextElementSibling;
     document
         .querySelectorAll(".dropdown-content")
         .forEach((dropdown) => {
-            if(!dropdown.classList.contains("hidden")){
+            if(!dropdown.classList.contains("hidden") && dropdown !== dropdownSelect){
                 dropdown.classList.add("hidden")
             };
         });
-    const dropdown = button.nextElementSibling;
-    if (dropdown) {
+
+    if (dropdownSelect) {
         event.stopPropagation();
-        toggleDisplay(dropdown);
+        toggleDisplay(dropdownSelect);
     }
 }
 
@@ -279,7 +280,7 @@ function makeDropDown(comment) {
     const moreButton = document.createElement("button");
     moreButton.className = "more";
     moreButton.addEventListener("click", function (event) {
-        toggleMenu(this, event);
+        toggleMenu(moreButton, event);
     });
 
     const moreIcon = document.createElement("span");

@@ -56,8 +56,7 @@ function reportHandler() {
         element.remove();
     }
     if (action == "block_user") {
-        let selector =
-            'article h4[id="' + JSON.parse(this.responseText).id + '"]';
+        let selector = 'article h4[id="' + JSON.parse(this.responseText).id + '"]';
         let elements = document.querySelectorAll(selector);
         elements.forEach(function (element) {
             element.textContent += "(this user is blocked)";
