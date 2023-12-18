@@ -62,6 +62,13 @@ function statusHandler() {
     if (status == "none") {
         button.dataset.operation = "create";
         button.textContent = "Ask to Join";
+        if (
+            JSON.parse(this.responseText).old_role === "member" ||
+            JSON.parse(this.responseText).old_role === "leader"
+        ) {
+            const count = document.querySelector("#numberMembers");
+            count.textContent = parseInt(count.textContent.trim()) - 1;
+        }
     } else if (status == "ask") {
         button.dataset.operation = "destroy";
         button.textContent = "Delete Request";
@@ -103,7 +110,7 @@ document.querySelectorAll(".manage").forEach((button) => {
 });
 
 function manageOrganizationHandler() {
-    // if (this.status != 200) window.location = "/";
+    if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
     const user = JSON.parse(this.responseText).user;
     const selector = 'article[id="' + user + '"]';

@@ -31,15 +31,17 @@ class MembershipStatusController extends Controller
 
     public function destroy(Request $request)
     {
+        $status = MembershipStatus::where('id_user', Auth::user()->id)
+        ->where('id_organization', $request->input('organization'))->first()->member_type;
         $delete = MembershipStatus::where('id_user', Auth::user()->id)
             ->where('id_organization', $request->input('organization'))
             ->delete();
 
         if(Organization::find($request->input('organization'))){
-            $response = ['status' => 'none'];
+            $response = ['status' => 'none', 'old_role' => $status];
             return response()->json($response);
         }
-        $response = ['status' => 'none_org'];
+        $response = ['status' => 'none_org', 'old_role' => $status];
         return response()->json($response);
     }
 
