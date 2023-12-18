@@ -113,7 +113,7 @@ class NewsItemController extends Controller
                 $newsItem->id = $content->id; // Set the id to link to the content id
                 $newsItem->save();
 
-                $tags = parse_tags($request->input('tags'));
+                $tags = Tag::parse_tags($request->input('tags'));
                 foreach ($tags as $tag) {
                     $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
                     NewsTag::create([
@@ -191,7 +191,7 @@ class NewsItemController extends Controller
 
         $news_item->hasMany(NewsTag::class, 'id_news_item')->delete();
 
-        $tags = parse_tags($request->input("tags"));
+        $tags = Tag::parse_tags($request->input("tags"));
         foreach ($tags as $tag) {
             $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
             NewsTag::create([
@@ -218,20 +218,4 @@ class NewsItemController extends Controller
         return redirect()->route('news_page', ["id" => $id])
             ->with('success', 'Successfully edited!');
     }
-}
-
-function parse_tags(?string $tagsStr)
-{
-    $tags = [];
-
-    if ($tagsStr) {
-        if (str_starts_with($tagsStr, "#")) {
-            $tagsStr = substr($tagsStr, 1);
-        }
-        $tags = array_map(function ($tag) {
-            return "#" . trim($tag);
-        }, explode("#", $tagsStr));
-    }
-
-    return $tags;
 }
