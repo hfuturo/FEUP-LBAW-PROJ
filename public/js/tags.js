@@ -49,7 +49,6 @@ tagInput?.addEventListener("input", (e) => {
 });
 
 tagInput?.addEventListener("keypress", (e) => {
-    console.log(e);
     if (e.key === "Enter") {
         e.preventDefault();
         createTags();

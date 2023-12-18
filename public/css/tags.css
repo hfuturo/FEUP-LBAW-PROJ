@@ -30,3 +30,7 @@
     text-decoration: 1px solid line-through;
     color: red;
 }
+
+input[list]::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
