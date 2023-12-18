@@ -16,15 +16,19 @@ class FollowUserNotification implements ShouldBroadcast
 
     // user que vai receber notificacao
     public $user_id;
-    public $message;
+    public $sender_id;
+    public $sender_name;
+    public $notification_id;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($user_id, $message)
+    public function __construct($user_id, $sender_id, $sender_name, $notification_id)
     {
         $this->user_id = $user_id;
-        $this->message = $message;
+        $this->sender_id = $sender_id;
+        $this->sender_name = $sender_name;
+        $this->notification_id = $notification_id;
     }
 
     /**
