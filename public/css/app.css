@@ -94,13 +94,34 @@ main > nav {
     max-width: 45rem;
 }
 
-.search_form select {
-    background-color: white;
-    margin: 0;
+.search_form .button {
+    font-size: 1.5em;
+    line-height: 1;
+    min-width: 0;
+    color: var(--primary-text-color);
+    border: 0;
+    background-color: var(--background-color);
+}
+
+.search_form .button:hover {
+    background-color: lightgray;
 }
 
 .search_form input {
     flex-grow: 1;
+}
+
+.search_form * {
+    border-radius: 0;
+    border: 0;
+}
+
+.search_form :first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.search_form :last-child {
+    border-radius: 0 5px 5px 0;
 }
 
 .sticky_nav {
@@ -130,7 +151,6 @@ main > nav #admin_buttons {
 }
 
 header .button {
-    width: 100%;
     border: 1px solid var(--secundary-text-color);
 }
 
