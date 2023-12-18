@@ -95,8 +95,9 @@ class CommentController extends Controller
             $content->content = $request->input('content');
             $content->edit_date = 'now()';
             $content->save();
+            $content = $content->refresh();
 
-            return response()->json(['success' => 'Comment edited successfully']);
+            return response()->json(['success' => 'Comment edited successfully', 'edit_date' => Carbon::parse($content->edit_date)->diffForHumans()]);
         } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);
         }
