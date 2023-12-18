@@ -2,6 +2,7 @@
 
 @section('head')
     <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
+    <link href="{{ url('css/tags.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
 @endsection
 
@@ -45,17 +46,10 @@
                         <option value="{{ $tag->name }}">{{ $tag->name }}</option>
                     @endforeach
                 </datalist>
-                <span id="add_tag_to_news">
-                    <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?"
-                        title="This field most not be empty" />
-                    <button type="button" onclick="createTag()" class= "btn">Add</button>
-                </span>
-                <ul id="tagsList">
-                    @foreach ($news_item->tags as $newsTag)
-                        <li><span class="tagText" id="{{ $newsTag->name }}">{{ $newsTag->name }}</span><span
-                                class="remove" onclick = "removeTag(this.parentElement)">X</span></li>
-                    @endforeach
-                </ul>
+                <div class="tag-container">
+                    <input type="text" id="tagInput" name="tags" list="tags" placeholder="Tag"
+                        value="{{ implode(' ', array_map(fn($a) => $a['name'], $news_item->tags->toArray())) }}" />
+                </div>
             </div>
             <span id="edit_or_cancel_edition_news">
                 <button type="submit" form="newsForm" value="Submit">Edit</button>

@@ -83,11 +83,19 @@ class NewsItemController extends Controller
         $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
             'text' => 'required|string',
-            'topic' => 'required',
+            'topic' => 'required|int',
             'image' => 'mimes:jpg,png,jpeg',
         ]);
 
-        $tags = json_decode($request->input('tags'));
+        if ($request->input('tags')) {
+            $tags = array_map(function ($tag) {
+                return "#" . trim($tag);
+            }, explode("#", $request->input('tags')));
+            dd($tags);
+        } else {
+            $tags = [];
+        }
+        return "";
 
         $imageName = NULL;
 
@@ -179,8 +187,16 @@ class NewsItemController extends Controller
         ]);
         $imageName = NULL;
 
-        $tags = json_decode($request->input('tags'));
-
+        $tags = [];
+        if ($request->input('tags')) {
+            $tagsStr = $request->input('tags');
+            if (str_starts_with($tagsStr, "#")) {
+                $tagsStr = substr($tagsStr, 1);
+            }
+            $tags = array_map(function ($tag) {
+                return "#" . trim($tag);
+            }, explode("#", $tagsStr));
+        }
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $requestImage = $request->image;
             $imageName = $requestImage->hashName();
