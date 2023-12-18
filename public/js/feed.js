@@ -35,5 +35,5 @@ function updateFeed(raw_data) {
 }
 
 window.addEventListener("popstate", (event) => {
-    updateFeed(event.state);
+    if (event.state) updateFeed(event.state);
 });
