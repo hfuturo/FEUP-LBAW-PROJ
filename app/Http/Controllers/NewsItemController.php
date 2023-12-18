@@ -83,11 +83,10 @@ class NewsItemController extends Controller
         $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
             'text' => 'required|string',
-            'topic' => 'required',
+            'topic' => 'required|int',
+            'tags' => 'nullable|string',
             'image' => 'mimes:jpg,png,jpeg',
         ]);
-
-        $tags = json_decode($request->input('tags'));
 
         $imageName = NULL;
 
@@ -99,12 +98,12 @@ class NewsItemController extends Controller
 
         $id_news = NULL;
         try {
-            DB::transaction(function () use (&$id_news, $request, $imageName, $tags) {
+            DB::transaction(function () use (&$id_news, $request, $imageName) {
 
                 $content = new Content();
                 $content->content = $request->input('text');
                 $content->id_author = Auth::user()->id;
-                $content->id_organization = NULL;
+                $content->id_organization = $request->input('organization');
                 $content->save();
                 // Create a new news item associated with the content
                 $newsItem = new NewsItem();
@@ -114,6 +113,7 @@ class NewsItemController extends Controller
                 $newsItem->id = $content->id; // Set the id to link to the content id
                 $newsItem->save();
 
+                $tags = parse_tags($request->input('tags'));
                 foreach ($tags as $tag) {
                     $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
                     NewsTag::create([
@@ -144,7 +144,8 @@ class NewsItemController extends Controller
         }
         $topics = Topic::all();
         $tags = Tag::all();
-        return view('pages.create', ['topics' => $topics, 'tags' => $tags]);
+        $organizations = Auth::user()->organizations()->get();
+        return view('pages.create', ['topics' => $topics, 'tags' => $tags, 'organizations' => $organizations]);
     }
 
     /**
@@ -160,7 +161,8 @@ class NewsItemController extends Controller
         $this->authorize('update', $news_item);
         $topics = Topic::all();
         $tags = Tag::all();
-        return view('pages.edit', ['topics' => $topics, 'tags' => $tags, 'news_item' => $news_item]);
+        $organizations = Auth::user()->organizations()->get();
+        return view('pages.edit', ['topics' => $topics, 'tags' => $tags, 'news_item' => $news_item, 'organizations' => $organizations]);
     }
 
     /**
@@ -174,12 +176,12 @@ class NewsItemController extends Controller
             'title' => 'required|max:255|string',
             'text' => 'required|string',
             'topic' => 'required',
+            'tags' => 'nullable|string',
             'image' => 'mimes:jpg,png,jped',
 
         ]);
         $imageName = NULL;
 
-        $tags = json_decode($request->input('tags'));
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $requestImage = $request->image;
@@ -189,6 +191,7 @@ class NewsItemController extends Controller
 
         $news_item->hasMany(NewsTag::class, 'id_news_item')->delete();
 
+        $tags = parse_tags($request->input("tags"));
         foreach ($tags as $tag) {
             $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
             NewsTag::create([
@@ -199,7 +202,7 @@ class NewsItemController extends Controller
 
         $content = Content::find($id);
         $content->content = $request->input('text');
-        $content->id_organization = NULL;
+        $content->id_organization = $request->input('organization');
         $content->edit_date = 'now()';
         $content->save();
 
@@ -215,4 +218,20 @@ class NewsItemController extends Controller
         return redirect()->route('news_page', ["id" => $id])
             ->with('success', 'Successfully edited!');
     }
+}
+
+function parse_tags(?string $tagsStr)
+{
+    $tags = [];
+
+    if ($tagsStr) {
+        if (str_starts_with($tagsStr, "#")) {
+            $tagsStr = substr($tagsStr, 1);
+        }
+        $tags = array_map(function ($tag) {
+            return "#" . trim($tag);
+        }, explode("#", $tagsStr));
+    }
+
+    return $tags;
 }

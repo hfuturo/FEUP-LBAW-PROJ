@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class MembershipStatus extends Model
 {
     use HasFactory;
     public $timestamps  = false;
+    public $incrementing = false;
     protected $table = 'membership_status';
 
     protected $fillable = [

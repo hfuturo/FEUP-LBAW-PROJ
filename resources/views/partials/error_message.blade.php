@@ -1,10 +1,16 @@
 @if (session('success'))
-    <p class="success" onclick="this.style.display='none'">
-        {{ session('success') }}
-    </p>
+    <script>
+        Swal.fire({
+            title: "Done",
+            icon: "success"
+        });
+    </script>
 @endif
 @if ($errors->any())
-    <p class="error" onclick="this.style.display='none'">
-        {{ $errors->first() }}
-    </p>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Something went wrong!",
+        });
+    </script>
 @endif

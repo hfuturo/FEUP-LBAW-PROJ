@@ -1,0 +1,29 @@
+#org_info .header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#org_info.header div {
+    display: flex;
+    gap: 0.2em;
+}
+
+#org_info a {
+    display: inline-flex;
+    gap: 0.2em;
+}
+
+#members_org_popup table {
+    border-collapse: collapse;
+    margin: 0.5em;
+}
+#members_org_popup td {
+    border: 1px solid var(--secundary-color);
+    padding: 0.5em;
+    text-align: center;
+}
+#members_org_popup th {
+    background-color: var(--secundary-color);
+    padding: 0.5em;
+    text-align: center;
+}

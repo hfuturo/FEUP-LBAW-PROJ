@@ -1,3 +1,14 @@
+const pusher = new Pusher(pusherAppKey, {
+    cluster: pusherCluster,
+    encrypted: true
+});
+
+const channel = pusher.subscribe('NewsCore');
+channel.bind('notification', function(data) {
+    console.log(`New notification: ${data.message}`);
+});
+
+
 document.querySelectorAll(".notification_button").forEach((button) => {
     button.addEventListener("click", (event) => {
         let notification = event.target.parentNode.parentNode.parentNode.id;

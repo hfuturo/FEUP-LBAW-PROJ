@@ -21,6 +21,7 @@
 
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/22c4374990.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
@@ -34,7 +35,11 @@
 <body>
     @include('partials.error_message')
     <header class="app_header">
-        <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
+        <div style="display: flex;">
+            <input type="checkbox" id="hamburger">
+            <label class="hamburger" for="hamburger"></label>
+            <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
+        </div>
         <form class="search_form" action="/news">
             <a class="button advanced_search_link material-symbols-outlined" href="{{ route('advanced_search') }}"
                 title="Advanced search">settings</a>
@@ -62,60 +67,62 @@
             @endif
         </span>
     </header>
-    @if (Auth::check())
-        <nav>
-            <div class="sticky_nav">
-                @if (Auth::user()->is_admin())
-                    <section id="admin_buttons">
-                        <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
-                        <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-                        <a class="button admin_button" id="manage_report_button"> Manage Report<span
-                                class="material-symbols-outlined">expand_more</span></a>
-                        <div class="sub-options" id="report_sub_options">
-                            <a class="button" href="{{ route('user_reports') }}">Users</a>
-                            <a class="button" href="{{ route('news_reports') }}">News</a>
-                            <a class="button" href="{{ route('comments_reports') }}">Comments</a>
-                            <a class="button" href="{{ route('news_reports') }}">Tags</a>
-                        </div>
-                    </section>
-                @endif
-                <section id="nav_normal_buttons">
-                    <a href="{{ route('create_news') }}" class="button"> Create Post</a>
-                    <a href="" class="button"> Create Organization</a>
-                    <a class="button" onclick="openTopicProposal()">Propose New Topic</a>
-                </section>
-            </div>
-        </nav>
-    @endif
     <main>
+        @if (Auth::check())
+            <nav>
+                <div class="sticky_nav">
+                    @if (Auth::user()->is_admin())
+                        <section id="admin_buttons">
+                            <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
+                                appeals</a>
+                            <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                            <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                            <a class="button admin_button" id="manage_report_button"> Manage Report<span
+                                    class="material-symbols-outlined">expand_more</span></a>
+                            <div class="sub-options" id="report_sub_options">
+                                <a class="button" href="{{ route('user_reports') }}">Users</a>
+                                <a class="button" href="{{ route('news_reports') }}">News</a>
+                                <a class="button" href="{{ route('comments_reports') }}">Comments</a>
+                                <a class="button" href="{{ route('news_reports') }}">Tags</a>
+                            </div>
+                        </section>
+                    @endif
+                    <section id="nav_normal_buttons">
+                        <a href="{{ route('create_news') }}" class="button"> Create Post</a>
+                        <a class="button open" onclick="openNewOrg()"> Create Organization</a>
+                        <a class="button" onclick="openTopicProposal()">Propose New Topic</a>
+                    </section>
+                </div>
+            </nav>
+        @endif
         <section id="content">
             @yield('content')
+            @if (Auth::check())
+                @include('partials.create_organization')
+                <div id="notifications_pop_up">
+                    <?php $notifications = Auth::user()->notified_ordered; ?>
+                    @foreach ($notifications as $notif)
+                        <article class="user_news" id="{{ $notif->notification->id }}">
+                            <h4>
+                                <button class="notification_button"><span
+                                        class="material-symbols-outlined icon_red">delete</span></button>
+                                @if ($notif->notification->type === 'follow')
+                                    <a
+                                        href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                    is following you !
+                                @endif
+                                @if ($notif->notification->type === 'content')
+                                    <a
+                                        href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                    has a new comment, go check !
+                                @endif
+                            </h4>
+                        </article>
+                    @endforeach
+                    <a href="{{ url('/notification') }}"> See More </a>
+                </div>
+            @endif
         </section>
-
-        @if (Auth::check())
-            <div id="notifications_pop_up">
-                <?php $notifications = Auth::user()->notified_ordered; ?>
-                @foreach ($notifications as $notif)
-                    <article class="user_news" id="{{ $notif->notification->id }}">
-                        <h4>
-                            <button class="notification_button"><span
-                                    class="material-symbols-outlined icon_red">delete</span></button>
-                            @if ($notif->notification->type === 'follow')
-                                <a
-                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
-                                is following you !
-                            @endif
-                            @if ($notif->notification->type === 'content')
-                                <a
-                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
-                                has a new comment, go check !
-                            @endif
-                        </h4>
-                    </article>
-                @endforeach
-                <a href="{{ url('/notification') }}"> See More </a>
-            </div>
-        @endif
 
     </main>
     <footer>

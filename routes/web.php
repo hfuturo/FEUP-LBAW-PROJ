@@ -11,8 +11,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NotificationController;
-
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
 use App\Http\Controllers\AboutUsController;
@@ -41,6 +41,7 @@ Route::redirect('/', '/login');
 
 Route::controller(BlockController::class)->group(function () {
     Route::get('/blocked', 'blockPage')->name('blocked');
+    Route::post('/blocked', 'appeal_unblock')->name('appeal');
 });
 
 // News
@@ -89,6 +90,7 @@ Route::controller(NewsItemController::class)->group(function () {
 Route::controller(ManageController::class)->group(function () {
     Route::get('/manage', 'show');
     Route::get('/manage_topic', 'show_suggested_topic')->name('manage_topic');
+    Route::get('/manage_unblock_appeals', 'show_unblock_appeals')->name('unblock_appeals');
 });
 
 // Profile
@@ -97,6 +99,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/profile/{user}', 'update')->name('profile_update');
     Route::post('/profile/{user}/delete', 'delete')->name('delete_account');
     Route::post('/profile/{user}/block', 'block_perfil_button')->name('block');
+    Route::post('/profile/{user}/unblock', 'unblock_perfil_button')->name('unblock');
 });
 
 // About Us
@@ -124,7 +127,7 @@ Route::controller(ReportController::class)->group(function () {
 
 // email
 Route::controller(MailController::class)->group(function () {
-    Route::post('/send', 'send')->name('send_email');
+    Route::post('/send', 'send_recover_password_mail')->name('send_email');
 });
 
 Route::controller(TopicController::class)->group(function () {
@@ -140,6 +143,13 @@ Route::controller(FileController::class)->group(function () {
     Route::post('/file/upload', 'upload');
     Route::post('/file/delete', 'remove_pfp');
 });
+
+
+Route::controller(OrganizationController::class)->group(function(){
+    Route::get('organization/{organization}','show')->name('show_org');
+    Route::get('manage_organization/{organization}','show_manage')->name('show_manage_org');
+});
+
 
 Route::controller(NotificationController::class)->group(function () {
     Route::get('/notification', 'show');

@@ -64,7 +64,7 @@ button.remove {
 
 .votes button {
     margin: 0em 0.5em 0em 0em;
-    padding:0.5em;
+    padding: 0.5em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,12 +88,16 @@ button.remove {
 .post_owner_info_wrapper {
     display: flex;
     align-items: center;
+    gap: 0.5em;
 }
 
 .author_post_pfp {
     border-radius: 50%;
     width: 2em;
     height: 2em;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+}
+
+.news_head #teste {
+    display: flex;
+    justify-content: space-between;
 }

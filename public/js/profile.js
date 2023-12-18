@@ -48,6 +48,14 @@ function openBlockForm() {
     document.getElementById("block_account_popup").style.display = "block";
 }
 
+function openUnBlockForm() {
+    document.getElementById("unblock_account_popup").style.display = "block";
+}
+
+function closeUnBlockForm() {
+    document.getElementById("unblock_account_popup").style.display = "none";
+}
+
 document.querySelector("#follow")?.addEventListener("click", (event) => {
     const user = document.querySelector("#following").value;
     sendAjaxRequest(
@@ -83,9 +91,20 @@ function followHandler() {
         count.textContent = oldValue + 1;
         button.querySelector("span").textContent = "person_remove";
     }
+    Swal.fire({
+        icon: "success",
+        title: "You " + action + " this user!",
+        showConfirmButton: false,
+        timer: 1500,
+    });
 }
 
 function reportUserHandler() {
     if (this.status != 200) window.location = "/";
     closeReportUserForm();
+    Swal.fire({
+        icon: "success",
+        title: "Thank you for reportin",
+        text: "We will now analyse the situation.",
+    });
 }

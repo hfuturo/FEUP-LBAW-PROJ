@@ -17,7 +17,11 @@
                         @include('partials.delete_account', ['user' => $user])
                     @endif
                     @if (Auth::user()->id !== $user->id && Auth::user()->is_admin())
-                        @include('partials.block_user', ['user' => $user])
+                        @if ($user->blocked)
+                            @include('partials.unblock_user', ['user' => $user])
+                        @else
+                            @include('partials.block_user', ['user' => $user])
+                        @endif
                     @endif
                 </div>
                 @if (Auth::user()->id === $user->id)
@@ -52,9 +56,21 @@
                         @endif
                     </p>
                 </div>
+                <div class="user_info">
+                    <h4>Organizations</h4>
+                    <p>
+                        @if ($user->organizations->count() !== 0)
+                            @foreach ($user->organizations as $org)
+                                <a href="{{route('show_org', ['organization' => $org->id])}}"><?php print_r($org->name) ?></a>
+                            @endforeach
+                        @else
+                            Doesn't belong to any organization.
+                        @endif
+                    </p>
+                </div>
             </div>
             <div class="image_wrapper">
-                <img id="user_picture" src="{{ $user->getProfileImage() }}">
+                <img id="user_picture" src="{{ $user->getProfileImage() }}" alt="Profile Picture">
                 @if (Auth::user()->id === $user->id)
                     <div class="image_buttons_wrapper">
                         @include('partials.image_form')

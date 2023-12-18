@@ -30,46 +30,93 @@ function filterUsersHandler() {
         let link = document.createElement("a");
         link.href = "/profile/" + user.id;
         link.innerHTML = user.name;
-        let blockButton = document.createElement("button");
-        blockButton.classList.add("block");
-        blockButton.setAttribute("data-operation", "block_user");
+        let blockUnblockButton = document.createElement("button");
+        blockUnblockButton.classList.add(user.blocked ? "unblock" : "block");
+        // blockUnblockButton.setAttribute("data-operation", "block_user");
         let buttonSpan = document.createElement("span");
         buttonSpan.classList.add("material-symbols-outlined");
-        buttonSpan.innerHTML = "block";
-        blockButton.appendChild(buttonSpan);
+        buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
+        blockUnblockButton.appendChild(buttonSpan);
         li.appendChild(link);
-        li.appendChild(blockButton);
+        li.appendChild(blockUnblockButton);
         usersList.appendChild(li);
 
-        addBlockEventListener(buttonSpan);
+        blockUnblockEventListener(
+            buttonSpan,
+            user.blocked ? "unblock" : "block"
+        );
     }
 }
 
+// block icon
 document
     .querySelectorAll("#all_users .user button.block span")
     ?.forEach((icon) => {
-        addBlockEventListener(icon);
+        blockUnblockEventListener(icon, "block");
     });
 
-function addBlockEventListener(icon) {
-    icon.addEventListener("click", async (event) => {
+// unblock icon
+document
+    .querySelectorAll("#all_users .user button.unblock span")
+    ?.forEach((icon) => {
+        blockUnblockEventListener(icon, "unblock");
+    });
+
+function blockUnblockEventListener(icon, action) {
+    icon.addEventListener("click", async function eventHandler(event) {
+        const method = action === "block" ? "block_user" : "unblock_user";
         const id = event.target.parentNode.parentNode.id;
-        await fetch("/api/block_user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
+        const name = icon.parentNode.previousElementSibling.textContent;
+        Swal.fire({
+            title: "Do you want to " + action + " " + name + "?",
+            showCancelButton: true,
+            confirmButtonText: action.charAt(0).toUpperCase() + action.slice(1),
+            icon: "question",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    const response = await fetch("/api/" + method, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
+                        },
+                        body: JSON.stringify({ request: id }),
+                    });
+
+                    return response.json();
+                } catch (error) {
+                    Swal.showValidationMessage(`Request failed: ${error}`);
+                }
             },
-            body: JSON.stringify({ request: id }),
-        }).then((response) => response.json());
+            allowOutsideClick: () => !Swal.isLoading(),
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: name + " was " + action + "ed successfully",
+                    icon: "success",
+                });
 
-        icon.innerHTML = "done_outline";
+                icon.innerHTML = action === "block" ? "done_outline" : "block";
 
-        const button = icon.parentNode;
-        button.classList.remove("block");
-        button.classList.add("unblock");
+                const button = icon.parentNode;
+                button.classList.remove(
+                    action === "block" ? "block" : "unblock"
+                );
+                button.classList.remove(
+                    action === "block" ? "unblock" : "block"
+                );
+
+                // atualiza event listener
+                icon.removeEventListener("click", eventHandler);
+                blockUnblockEventListener(
+                    icon,
+                    action === "block" ? "unblock" : "block"
+                );
+            }
+        });
     });
 }
 
