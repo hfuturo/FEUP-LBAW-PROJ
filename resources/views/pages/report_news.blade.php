@@ -5,9 +5,11 @@
 @endsection
 
 @section('content')
+    <h2>Manage News' Reports</h2>
     <section id="list_reports">
+        <h3>List of the reports ...</h3>  
         @if ($reports->get()->isEmpty())
-            There are no reports to show.
+            <p>There are no reports to show.</p>
         @else
             @foreach ($reports->paginate(5) as $report)
                 <article id="{{ $report->id }}" class="user_news">

@@ -45,6 +45,7 @@
         </div>
     </section>
     <section id="org_feed">
+        <h3>News Related to this organization ...</h3>
         @if ($organization->contents()->get()->isEmpty())
             <p>There is no news releted to this organization</p>
         @else

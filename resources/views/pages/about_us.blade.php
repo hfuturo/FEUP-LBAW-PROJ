@@ -5,10 +5,9 @@
 @endsection
 
 @section('content')
+    <h2 class="page_title">NewsCore</h2>
     <section class="info_section">
-        <header class="info_header">
-            <h2 class="page_title">NewsCore</h2>
-            <h2>About Us</h2>
+        <h3>About Us</h3>
         </header>
         <p class="about_text">
             The increase of misinformation and complexity of websites is one of the main problems that everyone faces on the
@@ -22,10 +21,8 @@
             they want to share.
         </p>
     </section>
-    <section class="main_features">
-        <header class="info_header">
-            <h2>Main Features</h2>
-        </header>
+    <section class="info_section">
+            <h3>Main Features</h3>
         <ul>
             <li>Read a news item</li>
             <li>Read comments associated to a news item</li>

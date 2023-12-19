@@ -6,6 +6,7 @@
 
 @section('content')
     <section id="list_unblock_appeals">
+        <h2>List Unblock Appeals</h2>
         @if ($users->isEmpty())
             There are no unblock appeals to show.
         @else

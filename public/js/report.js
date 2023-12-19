@@ -75,8 +75,9 @@ function reportHandler() {
         });
     }
     let mainElement = document.querySelector("#list_reports");
-    if (mainElement.children.length <= 1) {
-        //por causa do span da listagem
-        mainElement.textContent = "There are no reports to show.";
+    if (mainElement.children.length <= 2) {
+        let p = document.createElement("p");
+        p.textContent = "There are no reports to show.";
+        mainElement.appendChild(p);
     }
 }

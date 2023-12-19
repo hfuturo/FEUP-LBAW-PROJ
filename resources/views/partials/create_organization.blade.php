@@ -1,3 +1,6 @@
+@if ($errors->any())
+        <p>{{ $errors->first() }}</p>
+@endif
 <div id="create_org_popup" class="popup">
     <div class="popup-content">
         <span class="close" onclick="closeNewOrg()">&times;</span>
