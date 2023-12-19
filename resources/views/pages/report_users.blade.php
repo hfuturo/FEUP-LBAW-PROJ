@@ -11,7 +11,7 @@
         @else
             @foreach ($reports->paginate(5) as $report)
                 <article id="{{ $report->id }}" class="user_news">
-                    <h4 id="{{ $report->id_user }}">
+                    <h4 class="{{ $report->id_user }}">
                         User:
                         <a href="{{ route('profile', ['user' => $report->id_user]) }}">{{ $report->user->name }}</a>
                         @if ($report->user->blocked)

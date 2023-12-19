@@ -11,7 +11,7 @@
         @else
             @foreach ($reports->paginate(5) as $report)
                 <article id="{{ $report->id }}" class="user_news">
-                    <h4 id="{{ $report->id_content }}">Comment:</h4>
+                    <h4 class="{{ $report->id_content }}">Comment:</h4>
                     <p>{{ $report->content->content }}</p>
                     <p>Author: <a href="{{ route('profile', ['user' => $report->id_reporter]) }}">
                             {{ $report->reporter->name }}</a></p>
