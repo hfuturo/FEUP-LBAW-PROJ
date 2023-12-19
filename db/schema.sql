@@ -509,8 +509,8 @@ BEGIN
     INSERT INTO notified(id_notification, id_notified)
         VALUES (not_com,item_author)
         ON CONFLICT(id_notification, id_notified) DO UPDATE SET view = false, date = now();
-    RETURN NEW;
   END IF;
+  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
