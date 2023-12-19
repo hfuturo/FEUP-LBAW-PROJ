@@ -90,8 +90,15 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $organization)
     {
-        //
+        try{
+            $org = Organization::find($organization);
+            $this->authorize('destroy', $org);
+            $org->delete();
+            return redirect()->route('news')->with('success', 'You have successfully deleted your organization!');
+        } catch (Exception $e) {
+            return back()->withErrors('You were not able to delete this organization, please check your permissions or try to refresh the page');
+        }
     }
 }

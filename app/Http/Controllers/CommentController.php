@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
+use App\Models\Vote;
 use App\Models\Content;
 use App\Models\Notification;
 use Carbon\Carbon;
@@ -130,5 +131,18 @@ class CommentController extends Controller
         } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);
         }
+    }
+    public function destroy_admin(Request $request)
+    {
+        $this->authorize('destroy_admin', \App\NewsItem::class);
+
+        Vote::where('id_content', $request->input('request'))->delete();
+        Comment::find($request->input('request'))->delete();
+
+        $response = [
+            'action' => 'delete_comment',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
     }
 }

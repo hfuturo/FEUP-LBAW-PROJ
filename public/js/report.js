@@ -47,7 +47,11 @@ document.querySelectorAll(".action_report").forEach((button) => {
 function reportHandler() {
     //if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
-    if (action == "delete_news_item" || action == "delete_user") {
+    if (
+        action == "delete_news_item" ||
+        action == "delete_user" ||
+        action == "delete_comment"
+    ) {
         let selector = 'h4[class="' + JSON.parse(this.responseText).id + '"]';
         let elements = document.querySelectorAll(selector);
         elements.forEach(function (element) {

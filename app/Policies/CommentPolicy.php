@@ -62,6 +62,10 @@ class CommentPolicy
     {
         //
     }
+    public function destroy_admin(User $user): bool
+    {
+        return  $user->is_admin();
+    }
 
 }
 
