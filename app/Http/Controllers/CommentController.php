@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
 use App\Models\Content;
+use App\Models\Notification;
 use Carbon\Carbon;
 
+use App\Events\NewCommentNotification;
 
 class CommentController extends Controller
 {
@@ -74,6 +75,12 @@ class CommentController extends Controller
                 'author' => $content->authenticated_user
             ];
         });
+
+        $news_item = Content::find($id);
+        $notification = Notification::where('id_content', '=', $comment['id'])
+            ->where('type', '=', 'content')
+            ->first();
+        event(new NewCommentNotification($news_item->authenticated_user->id, $news_item->id, $news_item->news_items->title, $notification->id));
 
         return response()->json($comment);
     }
