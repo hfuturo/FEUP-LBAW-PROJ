@@ -44,7 +44,8 @@ input[id="filter_users"]:focus {
     color: var(--primary-text-color);
 }
 
-#all_users .user a:hover {
+#all_users .user a:hover,
+#all_users .user a:focus-visible {
     font-weight: bolder;
 }
 

@@ -103,4 +103,6 @@ Route::controller(MembershipStatusController::class)->group(function () {
     Route::post('/organization/status/update', 'update');
     Route::post('/organization/manage/upgrade', 'upgrade');
     Route::post('/organization/manage/expel', 'expel');
+    Route::post('/organization/manage/decline', 'decline');
+    Route::post('/organization/manage/accept', 'accept');
 });

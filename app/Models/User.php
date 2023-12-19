@@ -122,11 +122,8 @@ class User extends Authenticatable
 
     public function organizations()
     {
-        return  $this->hasMany(MembershipStatus::class, 'id_user')->where(function ($query) {
-            $query->where('member_type', '=', 'member')
-                ->orWhere('member_type', '=', 'leader');
-        })
-            ->join('organization', 'id_organization', '=', 'organization.id');
+        return $this->belongsToMany(Organization::class, 'membership_status', 'id_user', 'id_organization')
+            ->whereIn('member_type', ['member', 'leader']);
     }
 
     public function votes()

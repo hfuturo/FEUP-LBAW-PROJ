@@ -93,7 +93,8 @@ article.news_body .title {
     cursor: pointer;
 }
 
-.more:hover {
+.more:hover,
+.more:focus-visible {
     background-color: #d3d3d3;
 }
 
@@ -131,7 +132,8 @@ article.news_body .title {
     color: inherit;
 }
 
-.dropdown-content .dropdown-option:hover {
+.dropdown-content .dropdown-option:hover,
+.dropdown-content .dropdown-option:focus-visible {
     background-color: #d3d3d3;
 }
 

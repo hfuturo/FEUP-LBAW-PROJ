@@ -26,11 +26,16 @@ body {
     font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+h1 {
+    margin: 0;
+}
+
 .app_header {
     background-color: var(--primary-color);
     grid-column-start: start;
     grid-column-end: end;
     display: flex;
+    flex-wrap: wrap;
     padding: 1em;
     align-items: center;
     justify-content: space-between;
@@ -38,7 +43,9 @@ body {
     top: 0;
     z-index: 2;
     box-sizing: border-box;
-    height: 5rem;
+    column-gap: 2rem;
+    row-gap: 1rem;
+    /* height: 5rem; */
 }
 
 header a,
@@ -53,17 +60,16 @@ nav button {
     display: flex;
     justify-content: center;
     justify-self: center;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.5em;
     line-height: 2;
     min-width: 6em;
     margin: auto;
     font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-main .button,
-main button {
+.button,
+button {
     justify-content: center;
     background-color: var(--primary-color);
     border: 1px solid var(--primary-color);
@@ -73,8 +79,19 @@ main button {
     font-size: 1em;
 }
 
-.button:hover {
+.button:hover,
+.button:focus-visible {
     background-color: var(--hover-color);
+}
+
+.button-secondary {
+    color: var(--primary-text-color);
+    background-color: var(--background-color);
+}
+
+.button-secondary:hover,
+.button-secondary:focus-visible {
+    background-color: lightgray;
 }
 
 textarea:not(header textarea),
@@ -99,12 +116,6 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
     border-color: var(--primary-color);
-}
-
-.sub-options .button {
-    background-color: white;
-    border: 0.1em solid var(--secundary-text-color);
-    color: var(--primary-color);
 }
 
 /* error message */
@@ -187,4 +198,19 @@ p.success::before {
 
 p.error::before {
     background: darkred;
+}
+
+.hint {
+    display: inline-block;
+    padding: 0.1em;
+    cursor: help;
+    color: #fff;
+    background-color: #feb22a;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    border-radius: 100%;
+    font-size: 0.9em;
+    text-align: center;
+    box-shadow: inset -1px -1px 1px 0px rgba(0, 0, 0, 0.25);
 }

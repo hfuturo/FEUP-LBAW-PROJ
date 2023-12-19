@@ -78,7 +78,8 @@ label#remember p {
     cursor: pointer;
 }
 
-.button_wrapper button:hover {
+.button_wrapper button:hover,
+.button_wrapper button:focus-visible {
     background-color: var(--hover-color);
 }
 

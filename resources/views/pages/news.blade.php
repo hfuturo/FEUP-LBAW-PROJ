@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="feed_buttons">
-        <a class="button feed_button" href="{{ route('top_feed') }}">Top Feed</a>
+        <a class="button feed_button" href="{{ route('news') }}">Top Feed</a>
         @if (Auth::check())
             <a class="button feed_button" href="{{ route('follow_feed') }}">Following Feed</a>
         @endif

@@ -3,6 +3,8 @@
 @section('head')
     <link href="{{ url('css/organization.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/organization.js') }} defer></script>
+    <link href="{{ url('css/news.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
 @endsection
 
 @section('content')
@@ -38,7 +40,7 @@
         <p>{{ $organization->bio }}</p>
         <div id="followers_members">
             <button class="button"><span>Followers </span><span>{{ $organization->followers->count() }}</span></button>
-            <button class="button" onclick="openMembersOrg()"><span>Members </span><span>{{ $organization->members->count() }}</span></button>
+            <button class="button" onclick="openMembersOrg()"><span>Members </span><span id="numberMembers">{{ $organization->members->count() }}</span></button>
             @include('partials.organization_members')
         </div>
     </section>

@@ -20,12 +20,23 @@ document.querySelectorAll(".action_report").forEach((button) => {
             request = event.target.parentNode.parentNode.querySelector("h4").id;
             method = "POST";
         }
-        sendAjaxRequest(
-            `${method}`,
-            `/api/${action}`,
-            { request },
-            reportHandler
-        );
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!"
+          }).then( (result) => {
+            if (result.isConfirmed) {
+                sendAjaxRequest(
+                    `${method}`,
+                    `/api/${action}`,
+                    { request },
+                    reportHandler
+                )};
+          });
+
     });
 });
 
@@ -45,8 +56,7 @@ function reportHandler() {
         element.remove();
     }
     if (action == "block_user") {
-        let selector =
-            'article h4[id="' + JSON.parse(this.responseText).id + '"]';
+        let selector = 'article h4[id="' + JSON.parse(this.responseText).id + '"]';
         let elements = document.querySelectorAll(selector);
         elements.forEach(function (element) {
             element.textContent += "(this user is blocked)";

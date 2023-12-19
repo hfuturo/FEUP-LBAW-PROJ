@@ -15,5 +15,13 @@ class MembershipStatusPolicy
     {
         return $status->member_type === 'leader';
     }
+    public function decline(User $user, MembershipStatus $status)
+    {
+        return $status->member_type === 'leader';
+    }
+    public function accept(User $user, MembershipStatus $status)
+    {
+        return $status->member_type === 'leader';
+    }
 }
 

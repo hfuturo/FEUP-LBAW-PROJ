@@ -62,7 +62,6 @@ class ReportController extends Controller
             $request->validate([
                 'reason' => 'required|string',
                 'id_content' => 'required',
-                '_token' => 'required'
             ]);
 
             Report::create([
