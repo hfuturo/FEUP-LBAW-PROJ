@@ -27,7 +27,10 @@
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
+
+    @if (Auth::check())
+        <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
+    @endif
 
     @yield('head')
 
