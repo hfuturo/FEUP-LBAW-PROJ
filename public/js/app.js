@@ -10,9 +10,12 @@ document.querySelector("#hamburger")?.addEventListener("click", (event) => {
 });
 
 setTimeout(() => {
-    document.querySelector("main > nav").style.minWidth =
-        document.querySelector(".sticky_nav").getBoundingClientRect().width +
-        "px";
+    const sideNav = document.querySelector("main > nav");
+    if (sideNav) {
+        sideNav.style.minWidth =
+            document.querySelector(".sticky_nav").getBoundingClientRect()
+                .width + "px";
+    }
 }, 100);
 
 document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {

@@ -3,7 +3,7 @@
 // new comment
 document
     .getElementById("commentForm")
-    .addEventListener("submit", async function (event) {
+    ?.addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const newsId = this.getAttribute("data-news-id");
@@ -98,7 +98,7 @@ document
                 title: "Fail!",
                 text: "Failed to add comment",
                 icon: "error",
-              });
+            });
         }
     });
 
@@ -161,13 +161,14 @@ function createLikeDislike(className, symbol, type) {
 
 function toggleMenu(button, event) {
     const dropdownSelect = button.nextElementSibling;
-    document
-        .querySelectorAll(".dropdown-content")
-        .forEach((dropdown) => {
-            if(!dropdown.classList.contains("hidden") && dropdown !== dropdownSelect){
-                dropdown.classList.add("hidden")
-            };
-        });
+    document.querySelectorAll(".dropdown-content").forEach((dropdown) => {
+        if (
+            !dropdown.classList.contains("hidden") &&
+            dropdown !== dropdownSelect
+        ) {
+            dropdown.classList.add("hidden");
+        }
+    });
 
     if (dropdownSelect) {
         event.stopPropagation();
@@ -183,23 +184,22 @@ document.addEventListener("click", (event) => {
     event.preventDefault;
     const allDropdown = document.querySelectorAll(".dropdown-content");
     allDropdown.forEach((dropdown) => {
-        if(!dropdown.classList.contains("hidden")){
-            dropdown.classList.add("hidden")
-        };
+        if (!dropdown.classList.contains("hidden")) {
+            dropdown.classList.add("hidden");
+        }
     });
 });
-
 
 function deleteComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
         const delComment = comment.querySelector(".delete");
-        if(delComment){
+        if (delComment) {
             delComment.addEventListener("click", (event) => {
                 event.preventDefault();
                 deleteCommentItem(comment);
             });
-        };
+        }
     });
 }
 deleteComment();
@@ -213,8 +213,8 @@ async function deleteCommentItem(comment) {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then( async (result) => {
+        confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
                 const data = await fetch("/api/comment/" + commentId, {
@@ -226,9 +226,9 @@ async function deleteCommentItem(comment) {
                             .getAttribute("content"),
                     },
                 }).then((response) => response.json());
-        
+
                 const section = document.getElementById("comments");
-        
+
                 if (data.success) {
                     if (section.querySelectorAll(".comment").length === 1) {
                         const noCommentsDiv = document.createElement("div");
@@ -243,7 +243,7 @@ async function deleteCommentItem(comment) {
                         text: data.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
-                      });
+                    });
                     comment.remove();
                 } else {
                     Swal.fire({
@@ -251,7 +251,7 @@ async function deleteCommentItem(comment) {
                         text: data.error,
                         icon: "error",
                         confirmButtonColor: "#3085d6",
-                      });
+                    });
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -260,7 +260,7 @@ async function deleteCommentItem(comment) {
               `);
             }
         }
-      });
+    });
 }
 
 function makeDropDown(comment) {
@@ -337,13 +337,15 @@ function editComment() {
     comments.forEach(function (comment) {
         const editButton = comment.querySelector(".edit");
         const form = comment.querySelector(".editForm");
-        if(form){form.addEventListener("submit", saveEdit);}
-        if(editButton){
+        if (form) {
+            form.addEventListener("submit", saveEdit);
+        }
+        if (editButton) {
             editButton.addEventListener("click", function (event) {
                 event.preventDefault();
                 editCommentItem(comment);
             });
-        };
+        }
     });
 }
 editComment();
@@ -354,53 +356,55 @@ async function saveEdit(event) {
     const commentId = comment.getAttribute("comment-id");
     const commentContent = comment.querySelector(".commentContent").value;
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
+        title: "Are you sure you want to edit your comment?",
+        icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, save it!"
-    }).then( async (result) => {
+        confirmButtonText: "Yes, save it!",
+    }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const data = await fetch("/api/comment/" + commentId + "/edit", {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute("content"),
-                    },
-                    body: JSON.stringify({ content: commentContent }),
-                }).then((response) => response.json());
-        
+                const data = await fetch(
+                    "/api/comment/" + commentId + "/edit",
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
+                        },
+                        body: JSON.stringify({ content: commentContent }),
+                    }
+                ).then((response) => response.json());
+
                 const content = comment.querySelector(".comment_text");
                 let editDate = comment.querySelector("#edit_date");
-        
+
                 if (data.success) {
-                    if(editDate === null){
+                    if (editDate === null) {
                         const date = comment.querySelector(".date");
                         editDate = document.createElement("p");
                         editDate.className = "date";
                         editDate.id = "edit_date";
-                        date.insertAdjacentElement('afterend', editDate);
+                        date.insertAdjacentElement("afterend", editDate);
                     }
-                    editDate.textContent = data.edit_date;
+                    editDate.textContent = "Edited " + data.edit_date;
                     content.textContent = commentContent;
                     Swal.fire({
                         title: "Saved!",
                         text: data.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
-                      });
+                    });
                 } else {
                     Swal.fire({
                         title: "Fail!",
                         text: data.error,
                         icon: "error",
                         confirmButtonColor: "#3085d6",
-                      });
+                    });
                 }
                 editCancel(comment);
             } catch (error) {
@@ -410,7 +414,7 @@ async function saveEdit(event) {
               `);
             }
         }
-      });
+    });
 }
 
 function editCancel(comment) {
@@ -421,26 +425,24 @@ function editCancel(comment) {
     form.setAttribute("hidden", "true");
 }
 
-
-
 // Teste
 function reportComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
         const reportComment = comment.querySelector(".report");
-        if(reportComment){
+        if (reportComment) {
             reportComment.addEventListener("click", (event) => {
                 event.preventDefault();
                 openReportCommentForm(comment);
             });
-        };
+        }
     });
 }
 reportComment();
 
 const reportPopup = document.getElementById("report_content_popup");
 const idContent = reportPopup.querySelector("#id_content");
-const textareaForm = reportPopup.querySelector('#reason')
+const textareaForm = reportPopup.querySelector("#reason");
 
 function openReportNewsForm(valeu) {
     idContent.valeu = valeu;
@@ -459,60 +461,60 @@ function closeReportContentForm() {
     reportPopup.style.display = "none";
 }
 
+reportPopup
+    .querySelector("#report_form")
+    .addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const reason = this.querySelector("#reason").value;
 
-reportPopup.querySelector("#report_form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const reason = this.querySelector('#reason').value;
+        const data = {
+            id_content: idContent.valeu,
+            reason: reason,
+        };
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to report this content?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, report it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const message = await fetch("/api/content/report/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
+                        },
+                        body: JSON.stringify(data),
+                    }).then((response) => response.json());
 
-    const data = {
-        id_content: idContent.valeu,
-        reason: reason
-    };
-    Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to report this content?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, report it!"
-      }).then( async (result) => {
-        if (result.isConfirmed) {
-            try {
-                const message = await fetch("/api/content/report/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute("content"),
-        
-                    },
-                    body: JSON.stringify(data)
-                }).then((response) => response.json());
-        
-                if (message.success) {
-                    Swal.fire({
-                        title: "Report make!",
-                        text: message.success,
-                        icon: "success",
-                        confirmButtonColor: "#3085d6",
-                      });
-                } else {
-                    Swal.fire({
-                        title: "Fail!",
-                        text: message.error,
-                        icon: "error",
-                        confirmButtonColor: "#3085d6",
-                      });
-                }
-                closeReportContentForm();
-            } catch (error) {
-                console.error("Error:", error);
-                Swal.showValidationMessage(`
+                    if (message.success) {
+                        Swal.fire({
+                            title: "Report make!",
+                            text: message.success,
+                            icon: "success",
+                            confirmButtonColor: "#3085d6",
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Fail!",
+                            text: message.error,
+                            icon: "error",
+                            confirmButtonColor: "#3085d6",
+                        });
+                    }
+                    closeReportContentForm();
+                } catch (error) {
+                    console.error("Error:", error);
+                    Swal.showValidationMessage(`
                 Request failed: ${error}
               `);
+                }
             }
-        }
-      });
-});
+        });
+    });

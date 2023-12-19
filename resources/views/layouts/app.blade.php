@@ -43,8 +43,10 @@
             Skip to content
         </a>
         <div style="display: flex;">
-            <input type="checkbox" id="hamburger">
-            <label class="hamburger" for="hamburger"></label>
+            @if (Auth::check())
+                <input type="checkbox" id="hamburger">
+                <label class="hamburger" for="hamburger"></label>
+            @endif
             <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         </div>
         <form class="search_form" action="/news">
@@ -65,7 +67,8 @@
                 <div class="header_user_info">
                     <a class="button button-secondary" id="button_profile"
                         href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}
-                        <img alt="{{Auth::user()->name}}" class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
+                        <img alt="{{ Auth::user()->name }}" class="header_user_pfp"
+                            src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
                 @if (count(Auth::user()->new_notifications) === 0)
                     <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>

@@ -1,29 +1,21 @@
 @extends('layouts.app')
-<?php use Carbon\Carbon; ?>
+<?php
+use Carbon\Carbon;
+use App\Http\Controllers\FileController;
+?>
 
 @section('head')
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/comments.css') }}" rel="stylesheet">
-    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
+    @if (Auth::check())
+        <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
+    @endif
     <script type="text/javascript" src={{ url('js/comments.js') }} defer></script>
 @endsection
 
 @section('content')
 
     <section id = "news">
-        {{--
-        @if (Auth::check() && $news_item->content->authenticated_user !== null)
-            @if (Auth::user()->id === $news_item->content->authenticated_user->id)
-                <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
-                    @csrf
-                    <button type="submit">Delete</button>
-                    <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button"
-                        style="display:inline-block;">Edit
-                        Post</a>
-                </form>
-            @endif
-        @endif
-        --}}
         <article class = "news_body">
             <div class = "news_head">
                 @if (Auth::check())
@@ -139,6 +131,8 @@
                                     <span class="material-symbols-outlined author">person_edit</span>
                                 @endif
                             @else
+                                <img class="author_comment_pfp" src={{ asset('profile/pfp_default.jpeg') }}
+                                    alt="User Profile Picture">
                                 <p class="comment_author"> Anonymous</p>
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
@@ -146,28 +140,33 @@
                                 <p class="date" id="edit_date">Edited
                                     {{ Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
                             @endif
-                            <div class="dropdown">
-                                <button class="more" onclick="toggleMenu(this, event)">
-                                    <span class="material-symbols-outlined">more_vert</span>
-                                </button>
-                                <div class="dropdown-content hidden">
-                                    @if (Auth::user()->id !== $comment->content->authenticated_user->id)
-                                        <div class="dropdown-option report">
-                                            <span class="material-symbols-outlined">flag</span>
-                                            <span>Report</span>
-                                        </div>
-                                    @else
-                                        <div class="dropdown-option delete">
-                                            <span class="material-symbols-outlined">delete</span>
-                                            <span class="delete">Delete</span>
-                                        </div>
-                                        <div class="dropdown-option edit">
-                                            <span class="material-symbols-outlined">edit</span>
-                                            <span class="edit">Edit</span>
-                                        </div>
-                                    @endif
+                            @if ($comment->content->authenticated_user)
+                                <div class="dropdown">
+                                    <button class="more" onclick="toggleMenu(this, event)">
+                                        <span class="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                    <div class="dropdown-content hidden">
+                                        @if (Auth::user()->id !== $comment->content->authenticated_user->id)
+                                            <div class="dropdown-option report">
+                                                <span class="material-symbols-outlined">flag</span>
+                                                <span>Report</span>
+                                            </div>
+                                        @endif
+                                        @if (Auth::user()->is_admin() || Auth::user()->id === $comment->content->authenticated_user->id)
+                                            <div class="dropdown-option delete">
+                                                <span class="material-symbols-outlined">delete</span>
+                                                <span class="delete">Delete</span>
+                                            </div>
+                                        @endif
+                                        @if (Auth::user()->id === $comment->content->authenticated_user->id)
+                                            <div class="dropdown-option edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                                <span class="edit">Edit</span>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
                     </div>
                     <form class="editForm" hidden>
