@@ -120,23 +120,26 @@
                                     <button class="notification_button"><span
                                             class="material-symbols-outlined icon_red">delete</span></button>
                                     @if ($notif->notification->type === 'follow')
-                                        <p>
+                                        <div>
                                             <a
                                                 href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
                                             is following you !
-                                        </p>
+                                        </div>
                                     @endif
                                     @if ($notif->notification->type === 'content')
-                                        <p>
+                                        <div>
                                             <a
                                                 href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
                                             has a new comment, go check !
-                                        </p>
+                                        </div>
                                     @endif
                                     @if ($notif->notification->type === 'vote')
-                                        <p>
-                                            Someone voted
-                                        </p>
+                                        <div>
+                                            <a
+                                                href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                            voted on your news item. <a
+                                                href="{{ route('news_page', ['id' => $notif->notification->content->news_items->id]) }}">{{ $notif->notification->content->news_items->title }}</a>
+                                        </div>
                                     @endif
                                 </h4>
                             </article>

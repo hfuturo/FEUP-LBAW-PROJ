@@ -93,7 +93,10 @@ function followHandler() {
     }
     Swal.fire({
         icon: "success",
-        title: "You " + action + " this user!",
+        title:
+            "You " +
+            (action === "follow" ? "unfollowed" : "followed") +
+            " this user!",
         showConfirmButton: false,
         timer: 1500,
     });
