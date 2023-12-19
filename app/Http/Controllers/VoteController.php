@@ -48,7 +48,7 @@ class VoteController extends Controller
                 ->where('id_content', '=', $request->input('content'))
                 ->where('type', '=', 'vote')
                 ->first();
-            event(new NewsItemLikeNotification($content->id_author, $request->input('content'), $news_item->title, $notification->id));
+            event(new NewsItemLikeNotification($content->id_author, $request->input('content'), $news_item->title, $notification->id, Auth::user()->id, Auth::user()->name));
         }
 
         return response()->json($response);

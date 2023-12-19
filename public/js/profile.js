@@ -55,18 +55,18 @@ function openUnBlockForm() {
 function closeUnBlockForm() {
     document.getElementById("unblock_account_popup").style.display = "none";
 }
-
-document.querySelector("#follow")?.addEventListener("click", (event) => {
+const followButton = document.querySelector("#follow");
+followButton?.addEventListener("click", () => {
     const user = document.querySelector("#following").value;
     sendAjaxRequest(
         "POST",
-        `/api/profile/${event.target.parentNode.dataset.operation}`,
+        `/api/profile/${followButton.dataset.operation}`,
         { user },
         followHandler
     );
 });
 
-document.querySelector("#submit_report")?.addEventListener("click", (event) => {
+document.querySelector("#submit_report")?.addEventListener("click", () => {
     const user = document.getElementById("reported").value;
     const reason = document.getElementById("reason").value;
     sendAjaxRequest(
