@@ -11,20 +11,17 @@ const user_id = user_id_not_parsed[user_id_not_parsed.length - 1];
 // notificações follow user
 const follow_user_channel = pusher.subscribe("follow-user" + user_id);
 follow_user_channel.bind("notification", (data) => {
-    console.log(data);
     const div = notificationTemplate(data.notification_id);
     const a = document.createElement("a");
     a.href = location.origin + "/profile/" + encodeURIComponent(data.sender_id);
     a.textContent = data.sender_name;
     div.appendChild(a);
     div.append(" is following you!");
-    console.log(div);
 });
 
 // notificacoes news item vote
 const news_item_vote_channel = pusher.subscribe("news-item-vote" + user_id);
 news_item_vote_channel.bind("news-item-vote", (data) => {
-    console.log(data);
     const div = notificationTemplate(data.notification_id);
     const profileLink = document.createElement("a");
     profileLink.href =
@@ -37,13 +34,24 @@ news_item_vote_channel.bind("news-item-vote", (data) => {
     div.append(profileLink, " voted on your news item. ", postLink);
 });
 
+// notificacao new comment
+const new_comment_channel = pusher.subscribe("new-comment" + user_id);
+new_comment_channel.bind("new-comment", (data) => {
+    console.log(data);
+    const div = notificationTemplate(data.notification_id);
+    const link = document.createElement("a");
+    link.href = location.origin + "/news/" + data.post_id;
+    link.textContent = data.post_title;
+    div.append(link, " has a new comment, go check!");
+});
+
 document.querySelectorAll(".notification_button").forEach((button) => {
     addDeleteNotificationEventListener(button);
 });
 
 function addDeleteNotificationEventListener(button) {
-    button.addEventListener("click", (event) => {
-        let notification = event.target.parentNode.parentNode.parentNode.id;
+    button.addEventListener("click", () => {
+        let notification = button.parentNode.parentNode.id;
         sendAjaxRequest(
             "DELETE",
             "/api/notification/destroy",
@@ -91,7 +99,7 @@ function notificationTemplate(id) {
 }
 
 function deleteNotificationHandler() {
-    if (this.status != 200) window.location = "/";
+    //if (this.status != 200) window.location = "/";
     const selector = 'article[id="' + JSON.parse(this.responseText).id + '"]';
     const element = document.querySelector(selector);
     element.remove();
@@ -107,9 +115,11 @@ function deleteNotificationHandler() {
 // para depois caso clique novamente nao ter o background de uma notificacao nova
 window.addEventListener("click", (event) => {
     const notification_popup = document.getElementById("notifications_pop_up");
+    const icon_button = document.querySelector("#notification_icon");
     if (
         notification_popup.style.display === "block" &&
-        !notification_popup.contains(event.target)
+        (!notification_popup.contains(event.target) ||
+            icon_button.contains(event.target))
     ) {
         notification_popup.style.display = "none";
         document
@@ -129,6 +139,16 @@ document
         let lista = document.getElementById("notifications_pop_up");
         lista.style.display =
             lista.style.display === "block" ? "none" : "block";
+
+        if (lista.style.display === "none") {
+            document
+                .querySelectorAll(
+                    "#notifications_pop_up > article.user_news.new_notification"
+                )
+                ?.forEach((notification) => {
+                    notification.classList.remove("new_notification");
+                });
+        }
 
         // muda icon para notificacoes vistas (normal)
         const icon = document.querySelector("#notification_icon > span");
