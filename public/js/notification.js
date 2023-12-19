@@ -115,9 +115,11 @@ function deleteNotificationHandler() {
 // para depois caso clique novamente nao ter o background de uma notificacao nova
 window.addEventListener("click", (event) => {
     const notification_popup = document.getElementById("notifications_pop_up");
+    const icon_button = document.querySelector("#notification_icon");
     if (
         notification_popup.style.display === "block" &&
-        !notification_popup.contains(event.target)
+        (!notification_popup.contains(event.target) ||
+            icon_button.contains(event.target))
     ) {
         notification_popup.style.display = "none";
         document
@@ -137,6 +139,16 @@ document
         let lista = document.getElementById("notifications_pop_up");
         lista.style.display =
             lista.style.display === "block" ? "none" : "block";
+
+        if (lista.style.display === "none") {
+            document
+                .querySelectorAll(
+                    "#notifications_pop_up > article.user_news.new_notification"
+                )
+                ?.forEach((notification) => {
+                    notification.classList.remove("new_notification");
+                });
+        }
 
         // muda icon para notificacoes vistas (normal)
         const icon = document.querySelector("#notification_icon > span");
