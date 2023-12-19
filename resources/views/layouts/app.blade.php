@@ -56,13 +56,13 @@
                     </path>
                 </svg></button>
         </form>
-        <span class="header_nav">
+        <div class="header_nav">
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <div class="header_user_info">
                     <a class="button button-secondary" id="button_profile"
-                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
-                            class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
+                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}
+                        <img alt="{{Auth::user()->name}}" class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
                 @if (count(Auth::user()->new_notifications) === 0)
                     <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>
@@ -74,7 +74,7 @@
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
             @endif
-        </span>
+        </div>
     </header>
     <main>
         @if (Auth::check())
@@ -149,6 +149,8 @@
                     <a href="{{ url('/notification') }}"> See More </a>
                 </div>
             @endif
+            @include('partials.topic_proposal')
+
         </section>
 
     </main>
@@ -160,5 +162,3 @@
 </body>
 
 </html>
-
-@include('partials.topic_proposal')

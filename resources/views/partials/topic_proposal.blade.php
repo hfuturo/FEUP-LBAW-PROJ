@@ -4,8 +4,8 @@
         <form method="post" action="{{ route('topic_proposal') }}">
             {{ csrf_field() }}
 
-            <label for="name">Name</label>
-            <input id="name" type="text" name="name" placeholder="Name" required autofocus>
+            <label for="name_topic">Name</label>
+            <input id="name_topic" type="text" name="name" placeholder="Name" required>
 
             <label for="justification">Justification</label>
             <input id="justification" type="text" name="justification" placeholder="Justification">

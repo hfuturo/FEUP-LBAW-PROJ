@@ -21,7 +21,7 @@
                             {{ $report->content->comments->news_item->title }}
                         </a>
                     </p>
-                    <span id="container_choices">
+                    <span class="container_choices">
                         <button class="accept action_report" data-operation="delete_report">Ignore Report</button>
                         <button class="remove action_report" data-operation="delete_comment">Delete Comment</button>
                     </span>

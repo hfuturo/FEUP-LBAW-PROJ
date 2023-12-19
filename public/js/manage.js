@@ -127,7 +127,7 @@ document.querySelectorAll(".topics_proposal").forEach((button) => {
         const idTopic = button.id;
         sendAjaxRequest(
             "post",
-            `/manage_topic/${event.target.dataset.operation}`,
+            `/manage_topic/${event.target.parentNode.dataset.operation}`,
             { idTopic },
             topicProposalHandler
         );

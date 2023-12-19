@@ -23,7 +23,7 @@
                         <a href="{{ route('profile', ['user' => $report->id_reporter]) }}"> {{ $report->reporter->name }}</a>
                     </p>
                     <p>Justification: {{ $report->reason }}</p>
-                    <span id="container_choices">
+                    <span class="container_choices">
                         <button class="accept action_report" data-operation="delete_report">Ignore Report</button>
                         @if (!$report->user->blocked)
                             <button class="remove action_report" data-operation="block_user">Block Account</button>
