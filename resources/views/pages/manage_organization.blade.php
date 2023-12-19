@@ -9,6 +9,10 @@
     <section id="manage_section">
         <h2>Members of <a href="{{route('show_org', ['organization' => $organization->id])}}"> {{ $organization->name }} </a></h2>
         <button onclick="openRequestOrg()">See new requests</button>
+        <form method="POST" action="{{ route('delete_organization',  ['organization' => $organization->id]) }}">
+            {{ csrf_field() }}
+            <button type="submit" class="remove">Delete Organization</button>
+        </form>
         @include('partials.list_requests_organization')
         <input type="hidden" id="org" name="org" value="{{ $organization->id }}">
         @foreach ($organization->members as $member)
