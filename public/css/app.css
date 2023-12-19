@@ -78,21 +78,25 @@ main > nav {
     color: var(--hover-color);
 }
 
-#notifications_pop_up > article.user_news {
+#notifications_pop_up > article.user_news,
+section#list_notifications > article.user_news {
     padding: 0em 1em 0em 1em;
 }
 
-#notifications_pop_up > article.new_notification {
+#notifications_pop_up > article.new_notification,
+section#list_notifications > article.new_notification {
     background-color: aliceblue;
 }
 
-#notifications_pop_up > article.user_news h4 {
+#notifications_pop_up > article.user_news h4,
+section#list_notifications > article.user_news h4 {
     display: flex;
     align-items: center;
     gap: 1em;
 }
 
-#notifications_pop_up > article.user_news button {
+#notifications_pop_up > article.user_news button,
+section#list_notifications > article.user_news button {
     padding-top: 0.6em;
 }
 

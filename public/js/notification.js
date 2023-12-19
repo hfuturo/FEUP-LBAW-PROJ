@@ -37,7 +37,6 @@ news_item_vote_channel.bind("news-item-vote", (data) => {
 // notificacao new comment
 const new_comment_channel = pusher.subscribe("new-comment" + user_id);
 new_comment_channel.bind("new-comment", (data) => {
-    console.log(data);
     const div = notificationTemplate(data.notification_id);
     const link = document.createElement("a");
     link.href = location.origin + "/news/" + data.post_id;
@@ -99,12 +98,16 @@ function notificationTemplate(id) {
 }
 
 function deleteNotificationHandler() {
-    //if (this.status != 200) window.location = "/";
+    if (this.status != 200) window.location = "/";
     const selector = 'article[id="' + JSON.parse(this.responseText).id + '"]';
     const element = document.querySelector(selector);
     element.remove();
     const mainElement = document.querySelector("#notifications_pop_up");
-    if (mainElement.children.length == 1) {
+    const notificationPage = document.querySelector("#list_notifications");
+    if (
+        mainElement.children.length === 1 ||
+        notificationPage?.children.length === 2
+    ) {
         const pElement = document.createElement("p");
         pElement.textContent = "There are no notifications to show.";
         mainElement.prepend(pElement);
@@ -122,13 +125,7 @@ window.addEventListener("click", (event) => {
             icon_button.contains(event.target))
     ) {
         notification_popup.style.display = "none";
-        document
-            .querySelectorAll(
-                "#notifications_pop_up > article.user_news.new_notification"
-            )
-            ?.forEach((notification) => {
-                notification.classList.remove("new_notification");
-            });
+        removeNotificationBackgroundColor();
     }
 });
 
@@ -141,13 +138,7 @@ document
             lista.style.display === "block" ? "none" : "block";
 
         if (lista.style.display === "none") {
-            document
-                .querySelectorAll(
-                    "#notifications_pop_up > article.user_news.new_notification"
-                )
-                ?.forEach((notification) => {
-                    notification.classList.remove("new_notification");
-                });
+            removeNotificationBackgroundColor();
         }
 
         // muda icon para notificacoes vistas (normal)
@@ -165,3 +156,13 @@ document
             },
         });
     });
+
+function removeNotificationBackgroundColor() {
+    document
+        .querySelectorAll(
+            "#notifications_pop_up > article.user_news.new_notification"
+        )
+        ?.forEach((notification) => {
+            notification.classList.remove("new_notification");
+        });
+}

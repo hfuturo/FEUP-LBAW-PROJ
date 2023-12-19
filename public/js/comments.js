@@ -377,7 +377,6 @@ async function saveEdit(event) {
         
                 const content = comment.querySelector(".comment_text");
                 let editDate = comment.querySelector("#edit_date");
-                console.log(editDate);
         
                 if (data.success) {
                     if(editDate === null){

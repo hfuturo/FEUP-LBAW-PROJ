@@ -142,7 +142,6 @@ function manageOrganizationHandler() {
             let element = document.querySelector(selector2);
             element.remove();
         } else if (action === "accept") {
-            console.log("ola");
             const selector2 = '.popup-content div[id="' + user + '"]';
             let element = document.querySelector(selector2);
             element.remove();
@@ -178,8 +177,6 @@ function manageOrganizationHandler() {
             sectionMember.appendChild(date);
             sectionMember.appendChild(buttonAccept);
             sectionMember.appendChild(buttonExpel);
-            console.log(sectionMember);
-            console.log(document.querySelector(".manage_section"));
 
             document
                 .getElementById("manage_section")
