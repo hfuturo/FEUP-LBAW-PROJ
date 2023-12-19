@@ -153,4 +153,13 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         return response()->json(['image' => $user->getProfileImage()]);
     }
+
+    public function upgrade(Request $request){
+        $this->authorize('upgrade', \App\User::class);
+        $user = User::find($request->input("idUser"));
+        $user->update(['id_topic' => null]);
+        $user->type = 'admin';
+        $user->save();
+        return response()->json(['id' => $user->id]);
+    }
 }

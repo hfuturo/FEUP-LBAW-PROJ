@@ -8,5 +8,8 @@
             <button class="block" data-operation="block_user"><span class="material-symbols-outlined">block
                 </span></button>
         @endif
+        @if(!$user->is_admin())
+            <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>
+        @endif
     @endif
 </li>

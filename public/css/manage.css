@@ -38,6 +38,11 @@ input[id="filter_users"]:focus {
     color: red;
 }
 
+#all_users .user .button {
+    background-color: var(--primary-color);
+    width: fit-content;
+}
+
 #all_users .user a {
     text-decoration: none;
     padding: 0.5em;

@@ -140,3 +140,22 @@ function topicProposalHandler() {
     let element = document.getElementById(idTopic);
     element.remove();
 }
+
+document.querySelectorAll(".upgrade").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const idUser = button.parentNode.id;
+        sendAjaxRequest(
+            "post",
+            `/api/${event.target.dataset.operation}`,
+            { idUser },
+            upgradeUserHandler
+        );
+    });
+});
+
+function upgradeUserHandler() {
+    if (this.status != 200) window.location = "/";
+    let id = JSON.parse(this.responseText).id;
+    let element = document.querySelector('li[id="' + id + '"] .upgrade');
+    element.remove();
+}
