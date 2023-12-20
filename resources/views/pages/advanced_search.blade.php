@@ -40,10 +40,14 @@ use App\Models\Tag;
                     value="{{ app('request')->input('tags') }}" />
             </div>
         </label>
-        <label>Search Anywhere <span
-                title="Search for the text anywhere on the News item specificaly in the title, content, author and topic"
+        <label for="exact">Search anywhere <input type="text" name="fulltext"
+                placeholder="Search Anywhere in the News item" value="{{ app('request')->input('fulltext') }}"></label>
+        <label>Search anywhere for exact text <span
+                title="Search for the text anywhere on the news item exactly (separated from the rest by spaces)"
                 class="hint">?</span><input type="text" name="exact_match"
                 placeholder="Search Anywhere in the News item" value="{{ app('request')->input('exact_match') }}"></label>
+        <label>After: <input type="date" name="after" value="{{ app('request')->input('after') }}"></label>
+        <label>Before: <input type="date" name="before" value="{{ app('request')->input('before') }}"></label>
         <button type="submit" class="button">Search</button>
     </form>
     <div class="all_news">

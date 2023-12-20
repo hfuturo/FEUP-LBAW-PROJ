@@ -191,7 +191,8 @@ section#list_notifications > article.user_news button {
     top: 5rem;
 }
 
-main > nav #admin_buttons, main > nav #moderator_buttons {
+main > nav #admin_buttons,
+main > nav #moderator_buttons {
     border-bottom: 2px solid black;
 }
 
