@@ -88,11 +88,13 @@ section#list_notifications > article.new_notification {
     background-color: aliceblue;
 }
 
-#notifications_pop_up > article.user_news h4,
+#notifications_pop_up > article.user_news > div,
 section#list_notifications > article.user_news h4 {
     display: flex;
     align-items: center;
     gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 #notifications_pop_up > article.user_news button,
