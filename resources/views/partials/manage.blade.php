@@ -16,10 +16,13 @@
             @if ($user->blocked)
                 <button class="unblock button" data-operation="unblock_user"><span>Unblock</span></button>
             @else
-                @if ($user->topic === null)
-                    <button class="text modBut button" onclick="openMakeModeratorTopic(this)">Make Moderator</button>
-                @else
-                    <button class="text modBut button" onclick="revokeModerator(this)">Revoke Moderator</button>
+                @if (!$user->is_admin())
+                    @if ($user->topic === null)
+                        <button class="text modBut button" onclick="openMakeModeratorTopic(this)">Upgrade to
+                            Moderator</button>
+                    @else
+                        <button class="text modBut button" onclick="revokeModerator(this)">Revoke Moderator</button>
+                    @endif
                 @endif
                 @if (!$user->is_admin())
                     <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>

@@ -2,9 +2,12 @@ function revokeModerator(button) {
     closeMakeModeratorTopic();
     const userLi = button.parentNode.parentNode;
     const userId = userLi.getAttribute("id");
+    const name = document.querySelector(
+        'li[id="' + userId + '"] .name_wrapper > a'
+    ).textContent;
     Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        text: name + " won't be able to moderate the topic anymore.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -13,28 +16,25 @@ function revokeModerator(button) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const result = await fetch("/api/moderator/revoke", {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute("content"),
-                    },
-                    body: JSON.stringify({ id: userId }),
-                }).then((response) => response.json());
+                const data = await sendFetchRequest(
+                    "PATCH",
+                    "/api/moderator/revoke",
+                    { id: userId },
+                    "json"
+                );
+
+                const result = data[1];
 
                 if (result.success) {
-                    // closeMakeModeratorTopic();
                     let buttonMod = userLi.querySelector(".modBut");
                     buttonMod.onclick = function () {
                         openMakeModeratorTopic(this);
                     };
                     userLi.querySelector(".is_mod").remove();
-                    button.textContent = "Make Moderator";
+                    button.textContent = "Upgrade to Moderator";
                     Swal.fire({
                         title: "Revoked privileges!",
-                        text: result.success,
+                        text: name + " is not a moderator anymore.",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                     });
@@ -59,9 +59,12 @@ function revokeModerator(button) {
 function revokeModerator2(button) {
     const user = button.parentNode;
     const userId = user.getAttribute("id");
+    const name = document.querySelector(
+        'li[id="' + userId + '"]  > a'
+    ).textContent;
     Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        text: name + " won't be able to moderate the topic anymore.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -105,7 +108,7 @@ function revokeModerator2(button) {
 
                     Swal.fire({
                         title: "Revoked privileges!",
-                        text: result.success,
+                        text: name + " is not a moderator anymore.",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                     });
@@ -147,6 +150,10 @@ document
     ?.addEventListener("submit", async function (event) {
         event.preventDefault();
 
+        const name = document.querySelector(
+            'li[id="' + inputId.value + '"] .name_wrapper > a'
+        ).textContent;
+
         const topic = formTopic.querySelector("#select_topic");
 
         const data = {
@@ -155,6 +162,7 @@ document
         };
         Swal.fire({
             title: "Are you sure?",
+            text: name + " will be able to moderate this topic.",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -163,16 +171,14 @@ document
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const result = await fetch("/api/moderator/make", {
-                        method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content"),
-                        },
-                        body: JSON.stringify(data),
-                    }).then((response) => response.json());
+                    const response = await sendFetchRequest(
+                        "PATCH",
+                        "/api/moderator/make",
+                        data,
+                        "json"
+                    );
+
+                    result = response[1];
 
                     if (result.success) {
                         const userLi = document.getElementById(inputId.value);
@@ -182,18 +188,19 @@ document
                         };
                         button.textContent = "Revoke Moderator";
                         Swal.fire({
-                            title: "User is a moderador now!",
+                            title: name + " is a moderator now!",
                             text: result.success,
                             icon: "success",
                             confirmButtonColor: "#3085d6",
                         });
                         const div = userLi.querySelector("div:first-of-type");
                         const newA = document.createElement("a");
-                        const selectedIndex = topic.selectedIndex;
-                        const name = topic.options[selectedIndex].textContent;
                         newA.classList.add("is_mod");
                         newA.href = "/topic/" + topic.value;
-                        newA.textContent = "Moderator of " + name;
+                        const selectedIndex = topic.selectedIndex;
+                        const topicName =
+                            topic.options[selectedIndex].textContent;
+                        newA.textContent = "Moderator of " + topicName;
                         div.append(newA);
                     } else {
                         Swal.fire({
@@ -236,7 +243,9 @@ document
 
         const user = formUser.querySelector("#select_user");
         const userID = user.value;
-
+        const name = document.querySelector(
+            '#select_user option[value="' + userID + '"]'
+        ).textContent;
         const data = {
             user: userID,
             topic: inputTopic.value,
@@ -244,6 +253,7 @@ document
         Swal.fire({
             title: "Are you sure?",
             icon: "warning",
+            text: name + " will be able to moderate this topic.",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
@@ -251,16 +261,13 @@ document
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const result = await fetch("/api/moderator/make", {
-                        method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content"),
-                        },
-                        body: JSON.stringify(data),
-                    }).then((response) => response.json());
+                    const response = await sendFetchRequest(
+                        "PATCH",
+                        "/api/moderator/make",
+                        data,
+                        "json"
+                    );
+                    const result = response[1];
 
                     if (result.success) {
                         const topic = document.querySelector(
@@ -301,7 +308,7 @@ document
                         ).remove();
 
                         Swal.fire({
-                            title: "User is a moderador now!",
+                            title: name + " is a moderador now!",
                             text: result.success,
                             icon: "success",
                             confirmButtonColor: "#3085d6",

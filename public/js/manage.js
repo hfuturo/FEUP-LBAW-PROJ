@@ -80,20 +80,18 @@ function filterUsersHandler() {
                 buttonMod.addEventListener("click", function openModChoices() {
                     openMakeModeratorTopic(this);
                 });
-                buttonMod.textContent = "Make Moderator";
+                buttonMod.textContent = "Upgrade to Moderator";
             }
 
             const buttonAdmin = document.createElement("button");
             buttonAdmin.classList.add("upgrade", "button");
             buttonAdmin.setAttribute("data-operation", "upgrade_user");
             if (!user.blocked && user.type !== "admin") {
-                buttonAdmin.addEventListener("click", function () {
+                buttonAdmin.addEventListener("click", async function () {
                     const idUser = buttonAdmin.parentNode.parentNode.id;
-                    sendAjaxRequest(
-                        "post",
+                    upgradeUserToAdmin(
                         `/api/${buttonAdmin.dataset.operation}`,
-                        { idUser },
-                        upgradeUserHandler
+                        idUser
                     );
                 });
                 buttonAdmin.textContent = "Upgrade to Administrator";
@@ -169,6 +167,7 @@ function blockUnblockEventListener(button, action) {
             },
             allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
+            console.log(result);
             if (result.isConfirmed) {
                 Swal.fire({
                     title: name + " was " + action + "ed successfully",
@@ -204,12 +203,10 @@ function blockUnblockEventListener(button, action) {
                     const buttonAdmin = document.createElement("button");
                     buttonAdmin.classList.add("upgrade", "button");
                     buttonAdmin.setAttribute("data-operation", "upgrade_user");
-                    buttonAdmin.addEventListener("click", function () {
-                        sendAjaxRequest(
-                            "post",
+                    buttonAdmin.addEventListener("click", () => {
+                        upgradeUserToAdmin(
                             `/api/${buttonAdmin.dataset.operation}`,
-                            { id },
-                            upgradeUserHandler
+                            id
                         );
                     });
                     buttonAdmin.textContent = "Upgrade to Administrator";
@@ -232,13 +229,41 @@ function blockUnblockEventListener(button, action) {
                         buttonMod.addEventListener("click", function () {
                             openMakeModeratorTopic(this);
                         });
-                        buttonMod.textContent = "Make Moderator";
+                        buttonMod.textContent = "Upgrade to Moderator";
                     }
 
                     buttonDiv.prepend(buttonMod, buttonAdmin);
                 }
             }
         });
+    });
+}
+
+function upgradeUserToAdmin(url, id) {
+    const name = document.querySelector(
+        'li[id="' + id + '"] .name_wrapper > a'
+    ).textContent;
+
+    Swal.fire({
+        title: "Do you want to upgrade " + name + " to admin?",
+        text: "You won't be able to revert this acion!",
+        icon: "warning",
+        showCancelButton: true,
+    }).then(async (response) => {
+        if (response.isConfirmed) {
+            const result = await sendFetchRequest(
+                "POST",
+                url,
+                { idUser: id },
+                "json"
+            );
+            upgradeUserHandler(result[1].id);
+            Swal.fire({
+                title: "Success",
+                text: name + " was upgraded to admin successfully.",
+                icon: "success",
+            });
+        }
     });
 }
 
@@ -264,18 +289,11 @@ function topicProposalHandler() {
 document.querySelectorAll(".upgrade").forEach((button) => {
     button.addEventListener("click", (event) => {
         const idUser = button.parentNode.parentNode.id;
-        sendAjaxRequest(
-            "post",
-            `/api/${event.target.dataset.operation}`,
-            { idUser },
-            upgradeUserHandler
-        );
+        upgradeUserToAdmin(`/api/${event.target.dataset.operation}`, idUser);
     });
 });
 
-function upgradeUserHandler() {
-    if (this.status != 200) window.location = "/";
-    let id = JSON.parse(this.responseText).id;
+function upgradeUserHandler(id) {
     document.querySelector('li[id="' + id + '"] .block')?.remove();
     document.querySelector('li[id="' + id + '"] .modBut')?.remove();
     document.querySelector('li[id="' + id + '"] .upgrade')?.remove();
