@@ -203,12 +203,13 @@ class UserController extends Controller
             return response()->json(['error' => $e->getMessage()], 422);
         }
     }
-    public function upgrade(Request $request){
-        $this->authorize('upgrade', \App\User::class);
+    public function upgrade(Request $request)
+    {
         $user = User::find($request->input("idUser"));
+        $this->authorize('upgrade', $user);
         $user->update(['id_topic' => null]);
         $user->type = 'admin';
         $user->save();
-        return response()->json(['id' => $user->id]);
+        return response()->json(['success' => 'admin', 'id' => $user->id]);
     }
 }
