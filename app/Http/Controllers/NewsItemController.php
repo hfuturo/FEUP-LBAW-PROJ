@@ -37,11 +37,14 @@ class NewsItemController extends Controller
         $news_itens = NewsItem::findOrFail($id);
         $comments = null;
         if ($request->input("search")) {
-            $comments = Comment::full_text_search($request->input("search"))->where('comment.id_news', '=', $id)->paginate(10);
+            $comments = Comment::full_text_search($request->input("search"))->where('comment.id_news', '=', $id);
         } else {
-            $comments = $news_itens->comments()->paginate(10);
+            $comments = $news_itens->comments();
         }
-        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
+        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments->join('content', 'comment.id', '=', 'content.id')
+            ->join('authenticated_user', 'authenticated_user.id', '=', 'content.id_author', 'left')
+            ->orderBy('date', 'desc')
+            ->paginate(10)]);
     }
 
     public function destroy(int $id)

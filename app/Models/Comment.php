@@ -48,10 +48,10 @@ class Comment extends Model
 
     public static function full_text_search(string $query)
     {
-        return (Comment::select('*')
-            ->from(DB::raw('comment, websearch_to_tsquery(\'english\',?) query'))
+        return Comment::select('*')
+            ->join(DB::raw('websearch_to_tsquery(\'english\',?) query'), DB::raw('true'), '=', DB::raw('true'))
             ->whereRaw('tsvectors @@ query')
             ->orderByRaw('ts_rank(tsvectors, query) desc')
-            ->setBindings([$query]));
+            ->setBindings([$query]);
     }
 }
