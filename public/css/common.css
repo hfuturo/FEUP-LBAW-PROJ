@@ -15,6 +15,7 @@ html {
 }
 
 body {
+    line-height: 1.4;
     background-color: var(--background-color);
     color: var(--primary-text-color);
     min-height: 100%;
@@ -102,7 +103,14 @@ select:not(header select) {
     color: var(--primary-text-color);
     width: 100%;
     padding: 1em;
-    min-height: 3em;
+}
+
+select {
+    background: white;
+}
+
+select option {
+    color: black;
 }
 
 a {
@@ -116,22 +124,10 @@ input[type="password"]:focus {
     border-color: var(--primary-color);
 }
 
-/* error message */
-p.error {
-    background-color: lightcoral;
-    color: darkred;
-    text-align: center;
-}
-
-p.success {
-    background-color: lightgreen;
-    color: darkgreen;
-    text-align: center;
-}
-
 p.input_error {
-    color: darkred;
+    color: rgb(159, 0, 0);
     margin-top: 0;
+    margin-bottom: 1em;
 }
 
 @keyframes fadeOut {
@@ -157,45 +153,6 @@ p.input_error {
     100% {
         width: 0;
     }
-}
-
-p.error,
-p.success {
-    /* -webkit-animation: fadeOut 3s; */
-    animation: fadeOut 3s;
-    animation-fill-mode: forwards;
-    z-index: 1000;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 4.7rem;
-    padding: 15px;
-}
-
-p.success::after,
-p.error::after {
-    content: "\00D7";
-    vertical-align: text-bottom;
-}
-
-p.success::before,
-p.error::before {
-    content: "";
-    animation: progressBar 3s;
-    display: inline-block;
-    position: absolute;
-    bottom: 0;
-    height: 5px;
-    left: 0;
-    width: 100%;
-}
-
-p.success::before {
-    background: darkgreen;
-}
-
-p.error::before {
-    background: darkred;
 }
 
 .hint {

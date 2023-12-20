@@ -81,6 +81,18 @@ function closeNewOrg() {
     createOrgForm.style.display = "none";
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector("#create_org_popup .input_error")) {
+        openNewOrg();
+    }
+    if (document.querySelector("#topic_proposal_popup .input_error")) {
+        openTopicProposal();
+    }
+    if (document.querySelector("#edit_profile_popup .input_error")) {
+        openEditForm();
+    }
+});
+
 function toggleDisplay(element) {
     if (element.style.display === "block") {
         element.style.display = "none";

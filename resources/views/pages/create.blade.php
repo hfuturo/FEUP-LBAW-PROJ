@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div id = "news-create-container">
+    <section id = "news-create-container">
         <h2> Create a Post</h2>
         <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
             @csrf
@@ -15,15 +15,24 @@
             <div class ="form-group">
                 <input maxlength="255" type="text" id="title" name="title" placeholder="Title">
             </div>
+            @error("title")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <div class ="form-group">
                 <textarea id="text" name="text" placeholder="Write something" rows="6"></textarea>
             </div>
+            @error("text")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <div class ="form-group">
                 <label for='image' class=custom-file-upload>Add image</label>
                 <input type="file" id="image" name="image">
             </div>
+            @error("image")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <div class ="form-group">
                 <label for='topic'>Choose the topic</label>
@@ -33,6 +42,9 @@
                     @endforeach
                 </select>
             </div>
+            @error("topic")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <div class ="form-group">
                 <label for='organization'>Choose related organization</label>
@@ -43,19 +55,24 @@
                     @endforeach
                 </select>
             </div>
+            @error("organization")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <div class ="form-group">
-                <label>Tags</label>
+                <label>Tags <span title="To insert a tag press space or enter and to remove click them" class="hint">?</span></label>
                 <datalist id="tags">
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->name }}">{{ $tag->name }}</option>
                     @endforeach
                 </datalist>
+
                 <div class="tag-container">
                     <input type="text" id="tagInput" name="tags" list="tags" placeholder="Tag">
                 </div>
             </div>
+            
             <button type="submit" form="newsForm" value="Submit">Create</button>
         </form>
-    </div>
+</section>
 @endsection

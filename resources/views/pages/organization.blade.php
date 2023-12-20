@@ -41,8 +41,8 @@
         </div>
         <p id="bioDisplayed">{{ $organization->bio }}</p>
         <div id="followers_members">
-            <button class="button"><span>Followers </span><span>{{ $organization->followers->count() }}</span></button>
             <button class="button" onclick="openMembersOrg()"><span>Members </span><span id="numberMembers">{{ $organization->members->count() }}</span></button>
+            <span>Followers </span><span>{{ $organization->followers->count() }}</span></button>
             @include('partials.organization_members')
         </div>
     </section>

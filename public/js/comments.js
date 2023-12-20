@@ -33,16 +33,9 @@ document
             const commentHead = document.createElement("div");
             commentHead.className = "comment_header";
 
-            const author_image = await fetch(
-                "/api/fetch_pfp/" + data.author.id,
-                {
-                    method: "GET",
-                }
-            ).then((response) => response.json());
-
             const commentAuthorPfp = document.createElement("img");
             commentAuthorPfp.className = "author_comment_pfp";
-            commentAuthorPfp.setAttribute("src", author_image.image);
+            commentAuthorPfp.src = "/api/fetch_pfp/" + data.author.id;
 
             const commentAuth = document.createElement("a");
             commentAuth.className = "comment_author";
