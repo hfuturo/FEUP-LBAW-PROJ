@@ -37,7 +37,6 @@
 </head>
 
 <body>
-    @include('partials.error_message')
     <header class="app_header">
         <a class="skip-to-content-link" href="#content">
             Skip to content
@@ -87,7 +86,7 @@
             <nav>
                 <div class="sticky_nav">
                     @if (Auth::user()->is_admin())
-                        <section id="admin_buttons">
+                        <div id="admin_buttons">
                             <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
                                 appeals</a>
                             <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
@@ -100,13 +99,13 @@
                                 <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
                                 <a class="button button-secondary" href="{{ route('news_reports') }}">Tags</a>
                             </div>
-                        </section>
+                        </div>
                     @endif
-                    <section id="nav_normal_buttons">
+                    <div id="nav_normal_buttons">
                         <a href="{{ route('create_news') }}" class="button"> Create Post</a>
                         <button class="button open" onclick="openNewOrg()"> Create Organization</button>
                         <button class="button" onclick="openTopicProposal()">Propose New Topic</button>
-                    </section>
+                    </div>
                 </div>
             </nav>
         @endif
@@ -123,7 +122,7 @@
                             <article
                                 @if (!$notif->view) class="user_news new_notification" @else class="user_news" @endif
                                 id="{{ $notif->notification->id }}">
-                                <h4>
+                                <div>
                                     <button class="notification_button"><span
                                             class="material-symbols-outlined icon_red">delete</span></button>
                                     @if ($notif->notification->type === 'follow')
@@ -148,7 +147,7 @@
                                                 href="{{ route('news_page', ['id' => $notif->notification->content->news_items->id]) }}">{{ $notif->notification->content->news_items->title }}</a>
                                         </div>
                                     @endif
-                                </h4>
+                                </div>
                             </article>
                         @endforeach
                     @endif
