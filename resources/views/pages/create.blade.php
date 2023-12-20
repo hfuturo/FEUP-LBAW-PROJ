@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-    <section id = "news-create-container">
-        <h2> Create a Post</h2>
+    <h2> Create a Post</h2>
+    <div id = "news-create-container">
         <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
             @csrf
 
@@ -26,7 +26,7 @@
             </div>
 
             <div class ="form-group">
-                <label for='topics'>Choose the topic</label>
+                <label for='topic'>Choose the topic</label>
                 <select id="topic" name="topic">
                     @foreach ($topics as $topic)
                         <option value="{{ $topic->id }}">{{ $topic->name }}</option>
@@ -35,7 +35,7 @@
             </div>
 
             <div class ="form-group">
-                <label for='organizations'>Choose related organization</label>
+                <label for='organization'>Choose related organization</label>
                 <select id="organization" name="organization">
                     <option value="">No organization</option>
                     @foreach ($organizations as $org)
@@ -52,10 +52,10 @@
                     @endforeach
                 </datalist>
                 <div class="tag-container">
-                    <input type="text" id="tagInput" name="tags" list="tags" placeholder="Tag" />
+                    <input type="text" id="tagInput" name="tags" list="tags" placeholder="Tag">
                 </div>
             </div>
             <button type="submit" form="newsForm" value="Submit">Create</button>
         </form>
-    </section>
+</div>
 @endsection

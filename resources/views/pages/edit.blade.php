@@ -27,7 +27,7 @@
             </div>
 
             <div class ="form-group">
-                <label for='topics'>Choose the topic</label>
+                <label for='topic'>Choose the topic</label>
                 <select id="topic" name="topic">
                     @foreach ($topics as $topic)
                         @if ($topic->id === $news_item->topic->id)
@@ -40,7 +40,7 @@
             </div>
 
             <div class ="form-group">
-                <label for='organizations'>Choose related organization</label>
+                <label for='organization'>Choose related organization</label>
                 <select id="organization" name="organization">
                     @foreach ($organizations as $organization)
                         <option value="">No organization</option>

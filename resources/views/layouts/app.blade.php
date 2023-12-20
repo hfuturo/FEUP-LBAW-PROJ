@@ -27,21 +27,25 @@
 
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/common.js') }} defer></script>
-    <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
+
+    @if (Auth::check())
+        <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
+    @endif
 
     @yield('head')
 
 </head>
 
 <body>
-    @include('partials.error_message')
     <header class="app_header">
         <a class="skip-to-content-link" href="#content">
             Skip to content
         </a>
         <div style="display: flex;">
-            <input type="checkbox" id="hamburger">
-            <label class="hamburger" for="hamburger"></label>
+            @if (Auth::check())
+                <input type="checkbox" id="hamburger">
+                <label class="hamburger" for="hamburger"></label>
+            @endif
             <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
         </div>
         <form class="search_form" action="/news">
@@ -56,13 +60,14 @@
                     </path>
                 </svg></button>
         </form>
-        <span class="header_nav">
+        <div class="header_nav">
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a>
                 <div class="header_user_info">
                     <a class="button button-secondary" id="button_profile"
-                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}<img
-                            class="header_user_pfp" src="{{ Auth::user()->getProfileImage() }}"></a>
+                        href="{{ route('profile', ['user' => Auth::user()]) }}">{{ Auth::user()->name }}
+                        <img alt="{{ Auth::user()->name }}" class="header_user_pfp"
+                            src="{{ Auth::user()->getProfileImage() }}"></a>
                 </div>
                 @if (count(Auth::user()->new_notifications) === 0)
                     <button id="notification_icon"><span class="material-symbols-outlined">notifications</span></button>
@@ -74,14 +79,14 @@
                 <a class="button" href="{{ url('/login') }}">Log in</a>
                 <a class="button" href="{{ url('/register') }}">Sign Up</a>
             @endif
-        </span>
+        </div>
     </header>
     <main>
         @if (Auth::check())
             <nav>
                 <div class="sticky_nav">
                     @if (Auth::user()->is_admin())
-                        <section id="admin_buttons">
+                        <div id="admin_buttons">
                             <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
                                 appeals</a>
                             <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
@@ -95,13 +100,13 @@
                                 <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
                                 <a class="button button-secondary" href="{{ route('news_reports') }}">Tags</a>
                             </div>
-                        </section>
+                        </div>
                     @endif
-                    <section id="nav_normal_buttons">
+                    <div id="nav_normal_buttons">
                         <a href="{{ route('create_news') }}" class="button"> Create Post</a>
                         <button class="button open" onclick="openNewOrg()"> Create Organization</button>
                         <button class="button" onclick="openTopicProposal()">Propose New Topic</button>
-                    </section>
+                    </div>
                 </div>
             </nav>
         @endif
@@ -118,7 +123,7 @@
                             <article
                                 @if (!$notif->view) class="user_news new_notification" @else class="user_news" @endif
                                 id="{{ $notif->notification->id }}">
-                                <h4>
+                                <div>
                                     <button class="notification_button"><span
                                             class="material-symbols-outlined icon_red">delete</span></button>
                                     @if ($notif->notification->type === 'follow')
@@ -143,13 +148,15 @@
                                                 href="{{ route('news_page', ['id' => $notif->notification->content->news_items->id]) }}">{{ $notif->notification->content->news_items->title }}</a>
                                         </div>
                                     @endif
-                                </h4>
+                                </div>
                             </article>
                         @endforeach
                     @endif
                     <a href="{{ url('/notification') }}"> See More </a>
                 </div>
             @endif
+            @include('partials.topic_proposal')
+
         </section>
 
     </main>
@@ -161,5 +168,3 @@
 </body>
 
 </html>
-
-@include('partials.topic_proposal')

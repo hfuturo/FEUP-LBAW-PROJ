@@ -34,13 +34,23 @@ news_item_vote_channel.bind("news-item-vote", (data) => {
     div.append(profileLink, " voted on your news item. ", postLink);
 });
 
+// notificacao new comment
+const new_comment_channel = pusher.subscribe("new-comment" + user_id);
+new_comment_channel.bind("new-comment", (data) => {
+    const div = notificationTemplate(data.notification_id);
+    const link = document.createElement("a");
+    link.href = location.origin + "/news/" + data.post_id;
+    link.textContent = data.post_title;
+    div.append(link, " has a new comment, go check!");
+});
+
 document.querySelectorAll(".notification_button").forEach((button) => {
     addDeleteNotificationEventListener(button);
 });
 
 function addDeleteNotificationEventListener(button) {
-    button.addEventListener("click", (event) => {
-        let notification = event.target.parentNode.parentNode.parentNode.id;
+    button.addEventListener("click", () => {
+        let notification = button.parentNode.parentNode.id;
         sendAjaxRequest(
             "DELETE",
             "/api/notification/destroy",
@@ -52,7 +62,7 @@ function addDeleteNotificationEventListener(button) {
 
 function notificationTemplate(id) {
     // remove mensagem a dizer que nao existem notificações
-    document.querySelector("#notifications_pop_up > div")?.remove();
+    document.querySelector("#notifications_pop_up > p")?.remove();
 
     // muda icon para notificações nao lidas
     const icon = document.querySelector("#notification_icon > span");
@@ -74,14 +84,14 @@ function notificationTemplate(id) {
     h4.appendChild(div);
     article.appendChild(h4);
 
+    document.querySelector("#notifications_pop_up").prepend(article);
+
+    addDeleteNotificationEventListener(button);
+
     if (
         document.querySelector("#notifications_pop_up")?.children.length === 6
     ) {
-        document
-            .querySelector("#notifications_pop_up")
-            .removeChild(
-                document.querySelector("#notifications_pop_up").lastChild
-            );
+        document.querySelector("#notifications_pop_up").lastChild.remove();
     }
 
     return div;
@@ -93,9 +103,66 @@ function deleteNotificationHandler() {
     const element = document.querySelector(selector);
     element.remove();
     const mainElement = document.querySelector("#notifications_pop_up");
-    if (mainElement.children.length == 1) {
+    const notificationPage = document.querySelector("#list_notifications");
+    if (
+        mainElement.children.length === 1 ||
+        notificationPage?.children.length === 2
+    ) {
         const pElement = document.createElement("p");
         pElement.textContent = "There are no notifications to show.";
         mainElement.prepend(pElement);
     }
+}
+
+// fecha popup das notificacoes caso clique fora do popup e remove class 'new_notification'
+// para depois caso clique novamente nao ter o background de uma notificacao nova
+window.addEventListener("click", (event) => {
+    const notification_popup = document.getElementById("notifications_pop_up");
+    const icon_button = document.querySelector("#notification_icon");
+    if (
+        notification_popup.style.display === "block" &&
+        (!notification_popup.contains(event.target) ||
+            icon_button.contains(event.target))
+    ) {
+        notification_popup.style.display = "none";
+        removeNotificationBackgroundColor();
+    }
+});
+
+document
+    .querySelector("#notification_icon")
+    ?.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        let lista = document.getElementById("notifications_pop_up");
+        lista.style.display =
+            lista.style.display === "block" ? "none" : "block";
+
+        if (lista.style.display === "none") {
+            removeNotificationBackgroundColor();
+        }
+
+        // muda icon para notificacoes vistas (normal)
+        const icon = document.querySelector("#notification_icon > span");
+        if (icon) icon.innerHTML = "notifications";
+
+        // atualiza bd e coloca notificacoes a viewed
+        await fetch("/api/notification/view", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        });
+    });
+
+function removeNotificationBackgroundColor() {
+    document
+        .querySelectorAll(
+            "#notifications_pop_up > article.user_news.new_notification"
+        )
+        ?.forEach((notification) => {
+            notification.classList.remove("new_notification");
+        });
 }

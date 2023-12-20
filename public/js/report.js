@@ -9,7 +9,9 @@ document.querySelectorAll(".action_report").forEach((button) => {
             action == "delete_news_item" ||
             action == "delete_comment"
         ) {
-            request = event.target.parentNode.parentNode.querySelector("h4").id;
+            request = event.target.parentNode.parentNode
+                .querySelector("h4")
+                .getAttribute("class");
             method = "DELETE";
         }
         if (action == "delete_report") {
@@ -17,7 +19,9 @@ document.querySelectorAll(".action_report").forEach((button) => {
             method = "DELETE";
         }
         if (action == "block_user") {
-            request = event.target.parentNode.parentNode.querySelector("h4").id;
+            request = event.target.parentNode.parentNode
+                .querySelector("h4")
+                .getAttribute("class");
             method = "POST";
         }
         Swal.fire({
@@ -26,25 +30,29 @@ document.querySelectorAll(".action_report").forEach((button) => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes!"
-          }).then( (result) => {
+            confirmButtonText: "Yes!",
+        }).then((result) => {
             if (result.isConfirmed) {
                 sendAjaxRequest(
                     `${method}`,
                     `/api/${action}`,
                     { request },
                     reportHandler
-                )};
-          });
-
+                );
+            }
+        });
     });
 });
 
 function reportHandler() {
-    if (this.status != 200) window.location = "/";
+    //if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
-    if (action == "delete_news_item" || action == "delete_user") {
-        let selector = 'h4[id="' + JSON.parse(this.responseText).id + '"]';
+    if (
+        action == "delete_news_item" ||
+        action == "delete_user" ||
+        action == "delete_comment"
+    ) {
+        let selector = 'h4[class="' + JSON.parse(this.responseText).id + '"]';
         let elements = document.querySelectorAll(selector);
         elements.forEach(function (element) {
             element.parentNode.remove();
@@ -56,7 +64,8 @@ function reportHandler() {
         element.remove();
     }
     if (action == "block_user") {
-        let selector = 'article h4[id="' + JSON.parse(this.responseText).id + '"]';
+        let selector =
+            'article h4[class="' + JSON.parse(this.responseText).id + '"]';
         let elements = document.querySelectorAll(selector);
         elements.forEach(function (element) {
             element.textContent += "(this user is blocked)";
@@ -66,8 +75,9 @@ function reportHandler() {
         });
     }
     let mainElement = document.querySelector("#list_reports");
-    if (mainElement.children.length <= 1) {
-        //por causa do span da listagem
-        mainElement.textContent = "There are no reports to show.";
+    if (mainElement.children.length <= 2) {
+        let p = document.createElement("p");
+        p.textContent = "There are no reports to show.";
+        mainElement.appendChild(p);
     }
 }

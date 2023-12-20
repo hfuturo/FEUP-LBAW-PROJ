@@ -18,6 +18,8 @@
                 <button class="text modBut" onclick="revokeModerator(this)">Revoke Moderator</button>
             @endif
         @endif
-
+        @if(!$user->is_admin())
+            <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>
+        @endif
     @endif
 </li>

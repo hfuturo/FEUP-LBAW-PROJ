@@ -1,7 +1,7 @@
 "use strict";
 
 document
-    .querySelectorAll("#container_choices button.reject_appeal")
+    .querySelectorAll(".container_choices button.reject_appeal")
     ?.forEach((button) => {
         button.addEventListener("click", () => {
             const name =
@@ -54,7 +54,7 @@ document
     });
 
 document
-    .querySelectorAll("#container_choices button.unblock_user")
+    .querySelectorAll(".container_choices button.unblock_user")
     ?.forEach((button) => {
         button.addEventListener("click", () => {
             const name =

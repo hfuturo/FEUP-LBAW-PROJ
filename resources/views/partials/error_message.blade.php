@@ -10,7 +10,7 @@
     <script>
         Swal.fire({
             icon: "error",
-            title: "Something went wrong!",
+            title: "{{ $errors->first() }}",
         });
     </script>
 @endif

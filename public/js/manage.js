@@ -106,6 +106,11 @@ function blockUnblockEventListener(icon, action) {
         const name = icon.parentNode.previousElementSibling.textContent;
         Swal.fire({
             title: "Do you want to " + action + " " + name + "?",
+            text:
+                name +
+                " will " +
+                (action === "block" ? "lose" : "regain") +
+                " access to the account.",
             showCancelButton: true,
             confirmButtonText: action.charAt(0).toUpperCase() + action.slice(1),
             icon: "question",
@@ -164,7 +169,7 @@ document.querySelectorAll(".topics_proposal").forEach((button) => {
         const idTopic = button.id;
         sendAjaxRequest(
             "post",
-            `/manage_topic/${event.target.dataset.operation}`,
+            `/manage_topic/${event.target.parentNode.dataset.operation}`,
             { idTopic },
             topicProposalHandler
         );
@@ -175,5 +180,24 @@ function topicProposalHandler() {
     if (this.status != 200) window.location = "/";
     let idTopic = JSON.parse(this.responseText);
     let element = document.getElementById(idTopic);
+    element.remove();
+}
+
+document.querySelectorAll(".upgrade").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const idUser = button.parentNode.id;
+        sendAjaxRequest(
+            "post",
+            `/api/${event.target.dataset.operation}`,
+            { idUser },
+            upgradeUserHandler
+        );
+    });
+});
+
+function upgradeUserHandler() {
+    if (this.status != 200) window.location = "/";
+    let id = JSON.parse(this.responseText).id;
+    let element = document.querySelector('li[id="' + id + '"] .upgrade');
     element.remove();
 }

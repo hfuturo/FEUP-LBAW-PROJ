@@ -6,6 +6,7 @@
 
 @section('content')
     <section id="list_unblock_appeals">
+        <h2>List Unblock Appeals</h2>
         @if ($users->isEmpty())
             There are no unblock appeals to show.
         @else
@@ -16,7 +17,7 @@
                         <a href="{{ route('profile', ['user' => $user->id]) }}">{{ $user->name }}</a>
                     </h4>
                     <p>Justification: {{ $user->blocked_appeal }}</p>
-                    <span id="container_choices">
+                    <span class="container_choices">
                         <button class="remove reject_appeal">Reject appeal</button>
                         <button class="accept unblock_user">Unblock user</button>
                     </span>

@@ -30,6 +30,7 @@ async function sendFetchRequest(method, url, data, convert = null) {
             });
         response = await fetch(url, {
             method,
+            cache: "no-store",
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
             },
@@ -37,11 +38,12 @@ async function sendFetchRequest(method, url, data, convert = null) {
     } else {
         response = await fetch(url, {
             method,
+            cache: "no-store",
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
-                "Content-Type": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json",
             },
-            body: encodeForAjax(data),
+            body: JSON.stringify(data),
         });
     }
     if (convert === "text") {

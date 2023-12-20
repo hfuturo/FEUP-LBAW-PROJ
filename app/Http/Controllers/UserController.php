@@ -84,7 +84,7 @@ class UserController extends Controller
             return redirect()->route('profile', [$user])
                 ->with('success', 'Successfully changed!');
         } else {
-            return redirect()->route('profile', [$user])->withErrors(['error', 'The parameters are invalid!']);
+            return redirect()->route('profile', [$user])->withErrors(['error_form', 'The parameters are invalid!']);
         }
     }
 
@@ -202,5 +202,13 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
+
+    public function upgrade(Request $request){
+        $this->authorize('upgrade', \App\User::class);
+        $user = User::find($request->input("idUser"));
+        $user->update(['id_topic' => null]);
+        $user->type = 'admin';
+        $user->save();
+        return response()->json(['id' => $user->id]);
     }
 }

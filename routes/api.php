@@ -16,7 +16,7 @@ use App\Http\Controllers\VoteController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BlockController;
-
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +54,7 @@ Route::controller(ReportController::class)->group(function () {
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/block_user', 'block');
+    Route::post('/upgrade_user', 'upgrade');
     Route::post('/unblock_user', 'unblock');
     Route::delete('/delete_user', 'destroy');
     Route::get('/fetch_pfp/{id}', 'fetch_pfp');
@@ -83,6 +84,7 @@ Route::controller(VoteController::class)->group(function () {
 
 Route::controller(OrganizationController::class)->group(function () {
     Route::post('/organization/create', 'store')->name('create_org');
+    Route::post('/organization/delete_organization/{organization}', 'destroy')->name('delete_organization');
 });
 
 Route::controller(NotificationController::class)->group(function () {
@@ -107,4 +109,8 @@ Route::controller(MembershipStatusController::class)->group(function () {
     Route::post('/organization/manage/expel', 'expel');
     Route::post('/organization/manage/decline', 'decline');
     Route::post('/organization/manage/accept', 'accept');
+});
+
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/delete', 'remove_pfp');
 });

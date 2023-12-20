@@ -478,9 +478,11 @@ BEGIN
         INSERT INTO notification(type, id_content) VALUES ('content', NEW.id);
     END IF;
     SELECT id_author FROM "content" WHERE id = NEW.id_news INTO item_author;
-    SELECT id FROM notification WHERE id_content = NEW.id AND type='content' INTO not_com;
-    INSERT INTO notified(id_notification, id_notified)
-        VALUES (not_com,item_author);
+    IF item_author IS NOT NULL THEN
+      SELECT id FROM notification WHERE id_content = NEW.id AND type='content' INTO not_com;
+      INSERT INTO notified(id_notification, id_notified)
+          VALUES (not_com,item_author);
+    END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -496,18 +498,20 @@ DECLARE
     not_com INTEGER;
     item_author INTEGER;
 BEGIN
-  IF NOT EXISTS (
-    SELECT id
-    FROM notification
-    WHERE id_content = NEW.id_content AND type='vote' AND id_user = NEW.id_user
-  ) THEN
-      INSERT INTO notification(type, id_content, id_user) VALUES ('vote', NEW.id_content, NEW.id_user);
+  IF EXISTS (SELECT id FROM news_item WHERE id = NEW.id_content) THEN
+    IF NOT EXISTS (
+      SELECT id
+      FROM notification
+      WHERE id_content = NEW.id_content AND type='vote' AND id_user = NEW.id_user
+    ) THEN
+        INSERT INTO notification(type, id_content, id_user) VALUES ('vote', NEW.id_content, NEW.id_user);
+    END IF;
+    SELECT id FROM notification WHERE id_content = NEW.id_content AND type='vote' AND id_user = NEW.id_user INTO not_com;
+    SELECT id_author FROM "content" WHERE id = NEW.id_content INTO item_author;
+    INSERT INTO notified(id_notification, id_notified)
+        VALUES (not_com,item_author)
+        ON CONFLICT(id_notification, id_notified) DO UPDATE SET view = false, date = now();
   END IF;
-  SELECT id FROM notification WHERE id_content = NEW.id_content AND type='vote' AND id_user = NEW.id_user INTO not_com;
-  SELECT id_author FROM "content" WHERE id = NEW.id_content INTO item_author;
-  INSERT INTO notified(id_notification, id_notified)
-      VALUES (not_com,item_author)
-      ON CONFLICT(id_notification, id_notified) DO UPDATE SET view = false, date = now();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
