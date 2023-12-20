@@ -7,20 +7,22 @@
         @endif
     </div>
     @if (Auth::user()->id !== $user->id)
-        @if ($user->blocked)
-            <button class="block" data-operation="unblock_user"><span
-                    class="material-symbols-outlined">done_outline</span></button>
-        @else
-            <button class="block" data-operation="block_user"><span
-                    class="material-symbols-outlined">block</span></button>
-            @if ($user->topic === null)
-                <button class="text modBut button" onclick="openMakeModeratorTopic(this)">Make Moderator</button>
+        <div>
+            @if ($user->blocked)
+                <button class="block" data-operation="unblock_user"><span
+                        class="material-symbols-outlined">done_outline</span></button>
             @else
-                <button class="text modBut button" onclick="revokeModerator(this)">Revoke Moderator</button>
+                <button class="block" data-operation="block_user"><span
+                        class="material-symbols-outlined">block</span></button>
+                @if ($user->topic === null)
+                    <button class="text modBut button" onclick="openMakeModeratorTopic(this)">Make Moderator</button>
+                @else
+                    <button class="text modBut button" onclick="revokeModerator(this)">Revoke Moderator</button>
+                @endif
+                @if (!$user->is_admin())
+                    <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>
+                @endif
             @endif
-            @if (!$user->is_admin())
-                <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>
-            @endif
-        @endif
+        </div>
     @endif
 </li>

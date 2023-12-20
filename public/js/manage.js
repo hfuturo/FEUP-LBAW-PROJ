@@ -20,82 +20,89 @@ function filterUsersHandler() {
     const users = data.users;
     const topics = data.topics;
 
-    let usersList = document.querySelector("#all_users");
+    const usersList = document.querySelector("#all_users");
 
     // limpa a lista
     usersList.innerHTML = "";
 
     // reconstroi lista
     for (const user of users) {
-        let li = document.createElement("li");
+        const li = document.createElement("li");
         li.classList.add("user");
         li.setAttribute("id", user.id);
-        let link = document.createElement("a");
+        const buttonsDiv = document.createElement("div");
+        const link = document.createElement("a");
         link.href = "/profile/" + user.id;
         link.innerHTML = user.name;
-        let blockUnblockButton = document.createElement("button");
-        blockUnblockButton.classList.add(user.blocked ? "unblock" : "block");
-        // blockUnblockButton.setAttribute("data-operation", "block_user");
-        let buttonSpan = document.createElement("span");
-        buttonSpan.classList.add("material-symbols-outlined");
-        buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
-        blockUnblockButton.appendChild(buttonSpan);
+        const buttonSpan = document.createElement("span");
+        if (parseInt(user_id) !== user.id) {
+            const blockUnblockButton = document.createElement("button");
+            blockUnblockButton.classList.add(
+                user.blocked ? "unblock" : "block"
+            );
+            buttonSpan.classList.add("material-symbols-outlined");
+            buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
+            blockUnblockButton.appendChild(buttonSpan);
+            buttonsDiv.appendChild(blockUnblockButton);
+        }
 
-        let div = document.createElement("div");
-        div.appendChild(link);
+        const linksDiv = document.createElement("div");
+        linksDiv.appendChild(link);
         if (user.id_topic !== null) {
-            let linkTopic = document.createElement("a");
+            const linkTopic = document.createElement("a");
             linkTopic.classList.add("is_mod");
             linkTopic.href = "/topic/" + user.id_topic;
-            let n = user.id_topic;
+            const n = user.id_topic;
             linkTopic.innerHTML = "Moderator of " + topics[n];
-            console.log(topics[n]);
-            div.appendChild(linkTopic);
+            linksDiv.appendChild(linkTopic);
         }
 
-        let buttonMod = document.createElement("button");
-        buttonMod.classList.add("text", "modBut", "button");
-        if (!user.blocked && user.id_topic !== null) {
-            buttonMod.addEventListener("click", function () {
-                revokeModerator(this);
-            });
-            buttonMod.textContent = "Revoke Moderator";
-        }
-        if (!user.blocked && user.id_topic === null) {
-            buttonMod.addEventListener("click", function () {
-                openMakeModeratorTopic(this);
-            });
-            buttonMod.textContent = "Make Moderator";
+        const buttonMod = document.createElement("button");
+
+        if (user.type !== "admin") {
+            buttonMod.classList.add("text", "modBut", "button");
+            if (!user.blocked && user.id_topic !== null) {
+                buttonMod.addEventListener("click", function () {
+                    revokeModerator(this);
+                });
+                buttonMod.textContent = "Revoke Moderator";
+            }
+            if (!user.blocked && user.id_topic === null) {
+                buttonMod.addEventListener("click", function () {
+                    openMakeModeratorTopic(this);
+                });
+                buttonMod.textContent = "Make Moderator";
+            }
+
+            const buttonAdmin = document.createElement("button");
+            buttonAdmin.classList.add("upgrade", "button");
+            buttonAdmin.setAttribute("data-operation", "upgrade_user");
+            if (!user.blocked && user.type !== "admin") {
+                buttonAdmin.addEventListener("click", function () {
+                    const idUser = buttonAdmin.parentNode.parentNode.id;
+                    sendAjaxRequest(
+                        "post",
+                        `/api/${buttonAdmin.dataset.operation}`,
+                        { idUser },
+                        upgradeUserHandler
+                    );
+                });
+                buttonAdmin.textContent = "Upgrade to Administrator";
+            }
+
+            buttonsDiv.append(buttonMod, buttonAdmin);
         }
 
-        let buttonAdmin = document.createElement("button");
-        buttonAdmin.classList.add("upgrade", "button");
-        buttonAdmin.setAttribute("data-operation", "upgrade_user");
-        if (!user.blocked && user.type !== "admin") {
-            buttonAdmin.addEventListener("click", function () {
-                const idUser = buttonAdmin.parentNode.id;
-                sendAjaxRequest(
-                    "post",
-                    `/api/${buttonAdmin.dataset.operation}`,
-                    { idUser },
-                    upgradeUserHandler
-                );
-            });
-            buttonAdmin.textContent = "Upgrade to Administrator";
-        }
+        li.append(linksDiv, buttonsDiv);
 
-        li.appendChild(div);
-        li.appendChild(blockUnblockButton);
-        li.appendChild(buttonMod);
-        li.appendChild(buttonAdmin);
-
-        console.log(li);
         usersList.appendChild(li);
 
-        blockUnblockEventListener(
-            buttonSpan,
-            user.blocked ? "unblock" : "block"
-        );
+        if (parseInt(user_id) !== user.id) {
+            blockUnblockEventListener(
+                buttonSpan,
+                user.blocked ? "unblock" : "block"
+            );
+        }
     }
 }
 
@@ -116,8 +123,9 @@ document
 function blockUnblockEventListener(icon, action) {
     icon.addEventListener("click", async function eventHandler(event) {
         const method = action === "block" ? "block_user" : "unblock_user";
-        const id = event.target.parentNode.parentNode.id;
-        const name = icon.parentNode.previousElementSibling.textContent;
+        const id = event.target.parentNode.parentNode.parentNode.id;
+        const name =
+            icon.parentNode.parentNode.previousElementSibling.textContent;
         Swal.fire({
             title: "Do you want to " + action + " " + name + "?",
             text:
@@ -199,7 +207,7 @@ function topicProposalHandler() {
 
 document.querySelectorAll(".upgrade").forEach((button) => {
     button.addEventListener("click", (event) => {
-        const idUser = button.parentNode.id;
+        const idUser = button.parentNode.parentNode.id;
         sendAjaxRequest(
             "post",
             `/api/${event.target.dataset.operation}`,
@@ -210,7 +218,7 @@ document.querySelectorAll(".upgrade").forEach((button) => {
 });
 
 function upgradeUserHandler() {
-    if (this.status != 200) window.location = "/";
+    //if (this.status != 200) window.location = "/";
     let id = JSON.parse(this.responseText).id;
     let element = document.querySelector('li[id="' + id + '"] .upgrade');
     element.remove();
