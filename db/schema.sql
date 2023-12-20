@@ -531,38 +531,35 @@ ADD COLUMN tsvectors TSVECTOR;
 ALTER TABLE comment
 ADD COLUMN tsvectors TSVECTOR;
 
-DROP FUNCTION IF EXISTS update_full_text_news() CASCADE;
-DROP FUNCTION IF EXISTS update_full_text_content() CASCADE;
-
-
-CREATE FUNCTION update_full_text_news() RETURNS TRIGGER AS $$
-DECLARE
-    content_text TEXT;
+DROP FUNCTION IF EXISTS update_full_text_author() CASCADE;
+CREATE FUNCTION update_full_text_author() RETURNS TRIGGER AS $$
 BEGIN
-  SELECT content into content_text FROM content WHERE content.id=NEW.id;
-  IF TG_OP = 'INSERT' THEN
-    NEW.tsvectors = (
-      setweight(to_tsvector('english', NEW.title),'A') ||
-      setweight(to_tsvector('english', content_text),'B')
+  IF NEW.name != OLD.name THEN
+    UPDATE news_item SET tsvectors= (
+      setweight(to_tsvector('english', news_item.title),'A') ||
+      setweight(to_tsvector('english', (SELECT coalesce(NEW.name, 'Anonymous'))),'B') ||
+      setweight(to_tsvector('english', (SELECT content.content FROM content WHERE content.id = news_item.id)),'C') ||
+      setweight(to_tsvector('english',(
+        SELECT string_agg(tag.name,' ')
+        FROM news_tag
+        JOIN tag ON tag.id = news_tag.id_tag
+        WHERE news_item.id = news_tag.id_news_item
+      )),'C') ||
+      setweight(to_tsvector('english', (SELECT topic.name FROM topic WHERE topic.id = news_item.id_topic)),'D')
+    ) WHERE news_item.id in (
+      SELECT id FROM content WHERE content.id_author = NEW.id
     );
   END IF;
-  IF TG_OP = 'UPDATE' THEN
-    IF NEW.title != OLD.title THEN
-      NEW.tsvectors = (
-        setweight(to_tsvector('english', NEW.title),'A') ||
-        setweight(to_tsvector('english', content_text),'B')
-      );
-    END IF;
-  END IF;
-RETURN NEW;
+  RETURN NULL;
 END $$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER update_full_text_news_trigger
-BEFORE INSERT OR UPDATE ON news_item
+CREATE TRIGGER update_full_text_author_trigger
+AFTER UPDATE ON authenticated_user
 FOR EACH ROW
-EXECUTE PROCEDURE update_full_text_news();
+EXECUTE PROCEDURE update_full_text_author();
 
+DROP FUNCTION IF EXISTS update_full_text_comment() CASCADE;
 CREATE FUNCTION update_full_text_comment() RETURNS TRIGGER AS $$
 DECLARE
     content_text TEXT;
@@ -580,16 +577,34 @@ BEFORE INSERT ON comment
 FOR EACH ROW
 EXECUTE PROCEDURE update_full_text_comment();
 
+DROP FUNCTION IF EXISTS update_full_text_content() CASCADE;
 CREATE FUNCTION update_full_text_content() RETURNS TRIGGER AS $$
 DECLARE
     title_text TEXT;
+    author_text TEXT;
+    topic_text TEXT;
+    tags_text TEXT;
 BEGIN
   IF NEW.content != OLD.content THEN
     IF EXISTS (SELECT id FROM news_item WHERE id=NEW.id) THEN
-      SELECT title into title_text FROM news_item WHERE news_item.id=NEW.id;
+      SELECT
+          news_item.title,
+          coalesce(authenticated_user.name, 'Anonymous') ,
+          topic.name
+        INTO title_text, author_text, topic_text
+        FROM news_item
+        JOIN topic ON news_item.id_topic = topic.id
+        LEFT JOIN authenticated_user ON authenticated_user.id = NEW.id_author
+        WHERE news_item.id=NEW.id;
+      SELECT string_agg(tag.name,' ') INTO tags_text FROM news_tag
+        JOIN tag ON news_tag.id_tag = tag.id
+        WHERE news_tag.id_news_item = NEW.id;
       UPDATE news_item SET tsvectors = (
         setweight(to_tsvector('english', title_text),'A') ||
-        setweight(to_tsvector('english', NEW.content),'B')
+        setweight(to_tsvector('english', author_text),'B') ||
+        setweight(to_tsvector('english', NEW.content),'C') ||
+        setweight(to_tsvector('english', tags_text),'C') ||
+        setweight(to_tsvector('english', topic_text),'D')
       ) WHERE id=NEW.id;
     ELSE
       UPDATE comment SET tsvectors = (
@@ -605,6 +620,85 @@ CREATE TRIGGER update_full_text_content_trigger
 BEFORE UPDATE ON content
 FOR EACH ROW
 EXECUTE PROCEDURE update_full_text_content();
+
+DROP FUNCTION IF EXISTS update_full_text_news() CASCADE;
+CREATE FUNCTION update_full_text_news() RETURNS TRIGGER AS $$
+DECLARE
+    content_text TEXT;
+    author_text TEXT;
+    topic_text TEXT;
+    tags_text TEXT;
+BEGIN
+  SELECT
+      content.content,
+      coalesce(authenticated_user.name, 'Anonymous')
+    INTO content_text,author_text
+    FROM content
+    LEFT JOIN authenticated_user ON authenticated_user.id = content.id_author
+    WHERE content.id=NEW.id;
+  SELECT name into topic_text FROM topic WHERE topic.id=NEW.id_topic;
+  SELECT string_agg(tag.name,' ') INTO tags_text FROM news_tag
+        JOIN tag ON news_tag.id_tag = tag.id
+        WHERE news_tag.id_news_item = NEW.id;
+  IF TG_OP = 'INSERT' THEN
+    NEW.tsvectors = (
+      setweight(to_tsvector('english', NEW.title),'A') ||
+      setweight(to_tsvector('english', author_text),'B') ||
+      setweight(to_tsvector('english', content_text),'C') ||
+      setweight(to_tsvector('english', tags_text),'C') ||
+      setweight(to_tsvector('english', topic_text),'D')
+    );
+  END IF;
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.title != OLD.title or NEW.id_topic != OLD.id_topic  THEN
+      NEW.tsvectors = (
+        setweight(to_tsvector('english', NEW.title),'A') ||
+        setweight(to_tsvector('english', author_text),'B') ||
+        setweight(to_tsvector('english', content_text),'C') ||
+        setweight(to_tsvector('english', tags_text),'C') ||
+        setweight(to_tsvector('english', topic_text),'D')
+      );
+    END IF;
+  END IF;
+RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_full_text_news_trigger
+BEFORE INSERT OR UPDATE ON news_item
+FOR EACH ROW
+EXECUTE PROCEDURE update_full_text_news();
+
+DROP FUNCTION IF EXISTS update_full_text_tags() CASCADE;
+CREATE FUNCTION update_full_text_tags() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE news_item SET tsvectors= (
+    setweight(to_tsvector('english', news_item.title),'A') ||
+    setweight(to_tsvector('english', (
+      SELECT coalesce(authenticated_user.name, 'Anonymous')
+      FROM content
+      LEFT JOIN authenticated_user ON authenticated_user.id = content.id_author
+      WHERE content.id = news_item.id
+    )),'B') ||
+    setweight(to_tsvector('english', (SELECT content.content FROM content WHERE content.id = news_item.id)),'C') ||
+    setweight(to_tsvector('english', (
+      SELECT string_agg(tag.name,' ')
+      FROM news_tag
+      JOIN tag ON tag.id = news_tag.id_tag
+      WHERE news_item.id = news_tag.id_news_item
+    )),'C') ||
+    setweight(to_tsvector('english', (SELECT topic.name FROM topic WHERE topic.id = news_item.id_topic)),'D')
+  ) WHERE news_item.id = (
+    CASE WHEN TG_OP = 'INSERT' THEN NEW.id_news_item ELSE OLD.id_news_item END
+  );
+  RETURN NULL;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_full_text_tags_trigger
+AFTER INSERT OR DELETE ON news_tag
+FOR EACH ROW
+EXECUTE PROCEDURE update_full_text_tags();
 
 CREATE INDEX search_idx ON news_item USING GIN(tsvectors);
 CREATE INDEX search_idx2 ON comment USING GIN(tsvectors);
