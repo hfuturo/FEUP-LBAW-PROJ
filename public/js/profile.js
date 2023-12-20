@@ -24,14 +24,6 @@ function closeEditPfpForm() {
     document.getElementById("edit_pfp_popup").style.display = "none";
 }
 
-function openRemovePfpForm() {
-    document.getElementById("remove_pfp_popup").style.display = "block";
-}
-
-function closeRemovePfpForm() {
-    document.getElementById("remove_pfp_popup").style.display = "none";
-}
-
 const followButton = document.querySelector("#follow");
 followButton?.addEventListener("click", () => {
     const user = document.querySelector("#following").value;
