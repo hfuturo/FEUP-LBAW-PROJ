@@ -1,6 +1,7 @@
 <div id="create_org_popup" class="popup">
     <div class="popup-content">
         <span class="close" onclick="closeNewOrg()">&times;</span>
+        <h3>Create a new organization!</h3>
         <form method="POST" action="{{route('create_org')}}">
             @csrf
             <label for="name_org">Name</label>
@@ -15,7 +16,7 @@
                 <p class="input_error">{{ $message }}</p>
             @enderror
 
-            <button type="submit"> Create </button>
+            <button class="button" type="submit"> Create </button>
 
             @if (session('success'))
                 <p class="success">

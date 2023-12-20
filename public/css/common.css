@@ -15,6 +15,7 @@ html {
 }
 
 body {
+    line-height: 1.4;
     background-color: var(--background-color);
     color: var(--primary-text-color);
     min-height: 100%;
@@ -116,22 +117,10 @@ input[type="password"]:focus {
     border-color: var(--primary-color);
 }
 
-/* error message */
-p.error {
-    background-color: lightcoral;
-    color: darkred;
-    text-align: center;
-}
-
-p.success {
-    background-color: lightgreen;
-    color: darkgreen;
-    text-align: center;
-}
-
 p.input_error {
-    color: darkred;
+    color: rgb(159, 0, 0);
     margin-top: 0;
+    margin-bottom: 1em;
 }
 
 @keyframes fadeOut {
@@ -177,4 +166,11 @@ p.input_error {
 /** Fix sticky header with sweet alert */
 body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     overflow: clip !important;
+}
+
+section input,
+section textarea,
+section select,
+.tag-container {
+    margin-bottom: 1em;
 }

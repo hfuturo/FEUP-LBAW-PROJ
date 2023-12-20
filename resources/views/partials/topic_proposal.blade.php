@@ -1,6 +1,7 @@
 <div id="topic_proposal_popup" class="popup">
     <div class="popup-content">
         <span class="close" onclick="closeTopicProposal()">&times;</span>
+        <h3>Proporse a new topic!</h3>
         <form method="post" action="{{ route('topic_proposal') }}">
             {{ csrf_field() }}
 
@@ -16,7 +17,7 @@
                 <p class="new_topic_error">{{ $message }}</p>
             @enderror
 
-            <button type="submit"> Submit </button>
+            <button class="button" type="submit"> Submit </button>
         </form>
     </div>
 </div>
