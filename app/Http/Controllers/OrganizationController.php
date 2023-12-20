@@ -27,13 +27,13 @@ class OrganizationController extends Controller
     {
         try{
             $request->validate([
-                'name' => 'required|unique:organization,name|max:255|string',
+                'name_org' => 'required|unique:organization,name|max:255|string',
                 'bio' => 'required|string',
             ]);
 
             $result = DB::transaction(function () use ($request) {
                 $org = new Organization();
-                $org->name = $request->input('name');
+                $org->name = $request->input('name_org');
                 $org->bio = $request->input('bio');
                 $org->save();
                 $org = $org->refresh();

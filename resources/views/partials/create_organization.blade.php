@@ -4,8 +4,8 @@
         <form method="POST" action="{{route('create_org')}}">
             @csrf
             <label for="name_org">Name</label>
-            <input id="name_org" type="text" name="name" required placeholder="Name">
-            @error("name")
+            <input id="name_org" type="text" name="name_org" required placeholder="Name">
+            @error("name_org")
                 <p class="input_error">{{ $message }}</p>
             @enderror
 

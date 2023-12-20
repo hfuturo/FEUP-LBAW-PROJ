@@ -26,13 +26,13 @@ class SuggestedTopicController extends Controller
     {
         $this->authorize('create', \App\SuggestedTopic::class);
         $valid = $request->validate([
-            'name' => 'string|unique:suggested_topic|unique:topic',
-            'justification' => 'nullable|string',
+            'name_topic' => 'string|unique:topic,name',
+            'justification_topic' => 'nullable|string',
         ]);
         if($valid){
             SuggestedTopic::create([
-                'name' => $request->input('name'),
-                'justification' => empty($request->input('justification')) ? '' : $request->input('justification'),
+                'name' => $request->input('name_topic'),
+                'justification' => empty($request->input('justification_topic')) ? '' : $request->input('justification_topic'),
                 'id_user' => Auth::user()->id,
             ]);
         

@@ -5,15 +5,15 @@
             {{ csrf_field() }}
 
             <label for="name_topic">Name</label>
-            <input id="name_topic" type="text" name="name" placeholder="Name" required>
-            @error("name")
-                <p class="input_error">{{ $message }}</p>
+            <input id="name_topic" type="text" name="name_topic" placeholder="Name" required>
+            @error("name_topic")
+                <p class="new_topic_error">{{ $message }}</p>
             @enderror
 
-            <label for="justification">Justification</label>
-            <input id="justification" type="text" name="justification" placeholder="Justification">
-            @error("justification")
-                <p class="input_error">{{ $message }}</p>
+            <label for="justification_topic">Justification</label>
+            <input id="justification_topic" type="text" name="justification_topic" placeholder="Justification">
+            @error("justification_topic")
+                <p class="new_topic_error">{{ $message }}</p>
             @enderror
 
             <button type="submit"> Submit </button>
