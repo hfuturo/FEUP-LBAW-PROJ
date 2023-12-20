@@ -271,6 +271,44 @@ header form button {
     padding: 1em;
 }
 
+input[type="radio"] {
+    width: 0;
+    height: 0;
+    appearance: none;
+    position: absolute;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+input[type="radio"] + label {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+input[type="radio"]:focus-visible + label {
+    outline: auto;
+}
+
+input[type="radio"]:checked + label {
+    color: var(--secundary-color);
+    border-bottom: 1px solid currentColor;
+}
+
+fieldset {
+    border: 0;
+    padding: 0;
+}
+
+.form-item {
+    border: 1px solid var(--primary-color);
+    background-color: white;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
 #notifications_pop_up {
     display: none;
     position: fixed;
