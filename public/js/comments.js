@@ -524,7 +524,6 @@ reportPopup
             confirmButtonText: "Yes, report it!",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log(idContent);
                 try {
                     const message = await fetch("/api/content/report/", {
                         method: "POST",

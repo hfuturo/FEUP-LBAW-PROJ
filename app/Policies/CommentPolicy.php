@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\NewsItem;
 
 class CommentPolicy
 {
@@ -62,9 +63,16 @@ class CommentPolicy
     {
         //
     }
-    public function destroy_admin(User $user): bool
+    public function destroy_admin(User $user, Comment $comment): bool
     {
-        return  $user->is_admin();
+        if($user->is_admin()){
+            return true;
+        }
+        else if ($user->type === "moderator"){
+            $news_item = NewsItem::findOrFail($comment->id_news);
+            return $news_item->id_topic === $user->id_topic;
+        }
+        return  false;
     }
 
 }

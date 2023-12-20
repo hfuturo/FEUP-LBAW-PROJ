@@ -140,10 +140,11 @@ class CommentController extends Controller
     }
     public function destroy_admin(Request $request)
     {
-        $this->authorize('destroy_admin', \App\NewsItem::class);
+        $comment = Comment::find($request->input('request'));
+        $this->authorize('destroy_admin', $comment);
 
         Vote::where('id_content', $request->input('request'))->delete();
-        Comment::find($request->input('request'))->delete();
+        $comment->delete();
 
         $response = [
             'action' => 'delete_comment',

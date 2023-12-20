@@ -29,13 +29,13 @@ class ReportPolicy
         if($user->is_admin()){
             return true;
         }
-        $news_item = NewsItem::findOrFail($report->id_content);
+        $news_item = NewsItem::find($report->id_content);
         if($news_item){
             return  $user->id_topic === $news_item->id_topic;
         }
-        $comment = Comment::findOrFail($report->id_content);
+        $comment = Comment::find($report->id_content);
         if($comment){
-            $news_item = NewsItem::findOrFail($comment->id_news);
+            $news_item = NewsItem::find($comment->id_news);
             if($news_item){
                 return  $user->id_topic === $news_item->id_topic;
             }
