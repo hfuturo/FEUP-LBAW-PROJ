@@ -39,7 +39,7 @@ class CommentController extends Controller
     {
         if (!Auth::check()) {
             return redirect()->route("login")
-                ->withErrors('Not authenticated. Please log in to comment');
+                ->withErrors(['error' => 'Not authenticated. Please log in to comment']);
         }
 
         $request->validate([

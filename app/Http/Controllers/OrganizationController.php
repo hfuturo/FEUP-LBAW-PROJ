@@ -27,13 +27,13 @@ class OrganizationController extends Controller
     {
         try{
             $request->validate([
-                'name' => 'required|unique:organization,name|max:255|string',
+                'name_org' => 'required|unique:organization,name|max:255|string',
                 'bio' => 'required|string',
             ]);
 
             $result = DB::transaction(function () use ($request) {
                 $org = new Organization();
-                $org->name = $request->input('name');
+                $org->name = $request->input('name_org');
                 $org->bio = $request->input('bio');
                 $org->save();
                 $org = $org->refresh();
@@ -120,7 +120,7 @@ class OrganizationController extends Controller
             $org->delete();
             return redirect()->route('news')->with('success', 'You have successfully deleted your organization!');
         } catch (Exception $e) {
-            return back()->withErrors('You were not able to delete this organization, please check your permissions or try to refresh the page');
+            return back()->withErrors(['error' => 'You were not able to delete this organization, please check your permissions or try to refresh the page']);
         }
     }
 }
