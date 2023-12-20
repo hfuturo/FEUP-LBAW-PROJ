@@ -90,7 +90,10 @@ document
             votes.appendChild(dislike);
             newComment.appendChild(votes);
 
-            commentSection.prepend(newComment);
+            commentSection.insertBefore(
+                newComment,
+                commentSection.querySelector(".search_form").nextElementSibling
+            );
             document.getElementById("commentContent").value = "";
 
             document.querySelectorAll(".vote").forEach((button) => {
@@ -248,7 +251,7 @@ deleteComment();
 
 async function deleteCommentItem(comment) {
     const commentId = comment.getAttribute("comment-id");
-    Swal.fire({
+    const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
         icon: "warning",
@@ -256,53 +259,51 @@ async function deleteCommentItem(comment) {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                const data = await fetch("/api/comment/" + commentId, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute("content"),
-                    },
-                }).then((response) => response.json());
-
-                const section = document.getElementById("comments");
-
-                if (data.success) {
-                    if (section.querySelectorAll(".comment").length === 1) {
-                        const noCommentsDiv = document.createElement("div");
-                        const noComments = document.createElement("p");
-                        noCommentsDiv.id = "no_comments";
-                        noComments.textContent = "There are no comments yet";
-                        noCommentsDiv.appendChild(noComments);
-                        section.appendChild(noCommentsDiv);
-                    }
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: data.success,
-                        icon: "success",
-                        confirmButtonColor: "#3085d6",
-                    });
-                    comment.remove();
-                } else {
-                    Swal.fire({
-                        title: "Fail!",
-                        text: data.error,
-                        icon: "error",
-                        confirmButtonColor: "#3085d6",
-                    });
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                Swal.showValidationMessage(`
-                Request failed: ${error}
-              `);
-            }
-        }
     });
+
+    if (result.isConfirmed) {
+        try {
+            const data = await fetch("/api/comment/" + commentId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+            }).then((response) => response.json());
+
+            const section = document.getElementById("comments");
+
+            if (data.success) {
+                if (section.querySelectorAll(".comment").length === 1) {
+                    const noCommentsDiv = document.createElement("div");
+                    const noComments = document.createElement("p");
+                    noCommentsDiv.id = "no_comments";
+                    noComments.textContent = "There are no comments yet";
+                    noCommentsDiv.appendChild(noComments);
+                    section.appendChild(noCommentsDiv);
+                }
+                Swal.fire({
+                    title: "Deleted!",
+                    text: data.success,
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                });
+                comment.remove();
+            } else {
+                Swal.fire({
+                    title: "Fail!",
+                    text: data.error,
+                    icon: "error",
+                    confirmButtonColor: "#3085d6",
+                });
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            Swal.showValidationMessage(`Request failed: ${error}`);
+        }
+    }
 }
 
 function makeDropDown(comment) {
@@ -355,6 +356,7 @@ function makeDropDown(comment) {
         optionDiv.addEventListener("click", (e) => {
             e.stopPropagation();
             option.fn(comment);
+            toggleMenu(moreButton, e);
         });
 
         dropdownContent.appendChild(optionDiv);

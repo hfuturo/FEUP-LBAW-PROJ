@@ -39,7 +39,6 @@ main > nav {
     min-width: max-content;
     width: max-content;
     overflow: clip;
-    margin: 0;
     transition: min-width 0.5s ease-in-out;
 }
 
@@ -153,9 +152,11 @@ section#list_notifications > article.user_news button {
 }
 
 .search_form {
-    margin: 0;
     display: flex;
     flex-grow: 1;
+}
+
+.app_header .search_form {
     max-width: 45rem;
 }
 
@@ -249,7 +250,6 @@ header .button {
 header form input,
 header form select,
 header form button {
-    margin: 0em 0em 1em 0em;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     color: var(--primary-text-color);

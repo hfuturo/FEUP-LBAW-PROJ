@@ -28,27 +28,3 @@ section#news-create-container {
     width: 100%;
     padding: 0.5em;
 }
-
-#news-create-container ul {
-    list-style-type: none;
-    display: flex;
-    border-radius: 10px;
-    min-height: 1em;
-    overflow-x: auto;
-    flex-wrap: wrap;
-}
-
-#news-create-container li {
-    display: flex;
-    margin: 0.5em 0.25em 0.5em 0.5em;
-    padding: 1em;
-    border-radius: 10px;
-    background-color: var(--primary-color);
-    color: white;
-}
-
-#news-create-container li span {
-    margin-left: 0.5em;
-    cursor: pointer;
-    color: white;
-}

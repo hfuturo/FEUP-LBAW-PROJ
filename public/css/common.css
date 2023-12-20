@@ -51,7 +51,6 @@ h1 {
 header a,
 footer a {
     color: var(--secundary-text-color);
-    margin: 0;
 }
 
 nav .button,
@@ -62,7 +61,6 @@ nav button {
     justify-self: center;
     line-height: 2;
     min-width: 6em;
-    margin: auto;
     font-size: 1em;
     width: 100%;
     box-sizing: border-box;
@@ -87,6 +85,7 @@ button {
 .button-secondary {
     color: var(--primary-text-color);
     background-color: var(--background-color);
+    border: 0;
 }
 
 .button-secondary:hover,
@@ -97,7 +96,6 @@ button {
 textarea:not(header textarea),
 input:not(header input),
 select:not(header select) {
-    margin: 0em 0em 1em 0em;
     box-sizing: border-box;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
