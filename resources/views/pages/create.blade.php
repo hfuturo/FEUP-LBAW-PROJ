@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-    <h2> Create a Post</h2>
     <div id = "news-create-container">
+        <h2> Create a Post</h2>
         <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
             @csrf
 
@@ -57,5 +57,5 @@
             </div>
             <button type="submit" form="newsForm" value="Submit">Create</button>
         </form>
-</div>
+    </div>
 @endsection

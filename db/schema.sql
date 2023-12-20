@@ -528,6 +528,8 @@ CLUSTER content USING date_content;
 
 ALTER TABLE news_item
 ADD COLUMN tsvectors TSVECTOR;
+ALTER TABLE comment
+ADD COLUMN tsvectors TSVECTOR;
 
 DROP FUNCTION IF EXISTS update_full_text_news() CASCADE;
 DROP FUNCTION IF EXISTS update_full_text_content() CASCADE;
@@ -561,16 +563,37 @@ BEFORE INSERT OR UPDATE ON news_item
 FOR EACH ROW
 EXECUTE PROCEDURE update_full_text_news();
 
+CREATE FUNCTION update_full_text_comment() RETURNS TRIGGER AS $$
+DECLARE
+    content_text TEXT;
+BEGIN
+  SELECT content into content_text FROM content WHERE content.id=NEW.id;
+  NEW.tsvectors = (
+    to_tsvector('english', content_text)
+  );
+RETURN NEW;
+END $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_full_text_comment_trigger
+BEFORE INSERT ON comment
+FOR EACH ROW
+EXECUTE PROCEDURE update_full_text_comment();
+
 CREATE FUNCTION update_full_text_content() RETURNS TRIGGER AS $$
 DECLARE
     title_text TEXT;
 BEGIN
-  IF EXISTS (SELECT id FROM news_item WHERE id=NEW.id) THEN
-    IF NEW.content != OLD.content THEN
+  IF NEW.content != OLD.content THEN
+    IF EXISTS (SELECT id FROM news_item WHERE id=NEW.id) THEN
       SELECT title into title_text FROM news_item WHERE news_item.id=NEW.id;
       UPDATE news_item SET tsvectors = (
         setweight(to_tsvector('english', title_text),'A') ||
         setweight(to_tsvector('english', NEW.content),'B')
+      ) WHERE id=NEW.id;
+    ELSE
+      UPDATE comment SET tsvectors = (
+        to_tsvector('english', NEW.content)
       ) WHERE id=NEW.id;
     END IF;
   END IF;
@@ -584,3 +607,4 @@ FOR EACH ROW
 EXECUTE PROCEDURE update_full_text_content();
 
 CREATE INDEX search_idx ON news_item USING GIN(tsvectors);
+CREATE INDEX search_idx2 ON comment USING GIN(tsvectors);

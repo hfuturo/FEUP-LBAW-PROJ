@@ -90,7 +90,7 @@ use App\Http\Controllers\FileController;
                 </div>
                 <div class=tags>
                     @foreach ($news_item->tags as $tag)
-                        <a href="{{ route('tag', ['tag' => $tag->id]) }}" class="tag">{{ $tag->name }}</a>
+                        <a href="{{ route('tag', ['tag' => $tag->id]) }}" class="button">{{ $tag->name }}</a>
                     @endforeach
                 </div>
                 @include('partials.vote', ['item' => $news_item])
@@ -99,9 +99,7 @@ use App\Http\Controllers\FileController;
     </section>
     @if (Auth::check())
         <section id = "new_comment">
-            <div class="header">
-                <h3>Leave a comment</h3>
-            </div>
+            <h3>Leave a comment</h3>
             <form id="commentForm" data-news-id="{{ $news_item->id }}">
                 @csrf
                 <textarea id="commentContent" name="content" rows="3" maxlength="500" required
@@ -111,6 +109,16 @@ use App\Http\Controllers\FileController;
         </section>
     @endif
     <section id = "comments">
+        <h3>Comments</h3>
+        <form class="search_form" action="#comments">
+            <input name="search" placeholder="Search">
+            <button type="submit" class="button button-secondary"><svg focusable="false" style="scale: 1.3;"
+                    xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                    </path>
+                </svg></button>
+        </form>
         @if ($comments->count() === 0)
             <div id="no_comments">
                 <p> There are no comments yet</p>

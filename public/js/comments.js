@@ -312,6 +312,7 @@ function makeDropDown(comment) {
         optionDiv.addEventListener("click", (e) => {
             e.stopPropagation();
             option.fn(comment);
+            toggleMenu(moreButton, e);
         });
 
         dropdownContent.appendChild(optionDiv);

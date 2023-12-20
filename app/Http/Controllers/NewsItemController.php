@@ -32,11 +32,15 @@ class NewsItemController extends Controller
         return view('pages.feed', ['news_itens' => $news_itens]);
     }
 
-    public function show(int $id): View
+    public function show(Request $request, int $id): View
     {
         $news_itens = NewsItem::findOrFail($id);
-        $comments = $news_itens->comments()->paginate(10);
-
+        $comments = null;
+        if ($request->input("search")) {
+            $comments = Comment::full_text_search($request->input("search"))->where('comment.id_news', '=', $id)->paginate(10);
+        } else {
+            $comments = $news_itens->comments()->paginate(10);
+        }
         return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
     }
 
