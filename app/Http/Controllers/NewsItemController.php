@@ -66,7 +66,8 @@ class NewsItemController extends Controller
 
     public function destroy_admin(Request $request)
     {
-        $this->authorize('destroy_admin', \App\NewsItem::class);
+        $news_item = NewsItem::find($request->input('request'));
+        $this->authorize('destroy_admin', $news_item);
 
         Comment::where('id_news', $request->input('request'))->delete();
         Vote::where('id_content', $request->input('request'))->delete();
