@@ -98,8 +98,17 @@
                                 <a class="button button-secondary" href="{{ route('user_reports') }}">Users</a>
                                 <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
                                 <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
-                                <a class="button button-secondary" href="{{ route('news_reports') }}">Tags</a>
                             </div>
+                        </div>
+                    @endif
+                    @if (Auth::user()->type === "moderator")
+                        <div id="moderator_buttons">
+                            <button class="button moderator_button" id="manage_report_button"> Manage Report<span
+                                        class="material-symbols-outlined">expand_more</span></button>
+                            <div class="sub-options" id="report_sub_options">
+                                    <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
+                                    <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
+                                </div>
                         </div>
                     @endif
                     <div id="nav_normal_buttons">
