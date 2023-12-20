@@ -32,14 +32,14 @@ function revokeModerator(button){
                     button.textContent = "Make moderator"
                     Swal.fire({
                         title: "Revoked privileges!",
-                        text: data.success,
+                        text: result.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                       });
                 } else {
                     Swal.fire({
                         title: "Fail!",
-                        text: data.error,
+                        text: result.error,
                         icon: "error",
                         confirmButtonColor: "#3085d6",
                       });
@@ -103,14 +103,14 @@ function revokeModerator2(button){
 
                     Swal.fire({
                         title: "Revoked privileges!",
-                        text: data.success,
+                        text: result.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                       });
                 } else {
                     Swal.fire({
                         title: "Fail!",
-                        text: data.error,
+                        text: result.error,
                         icon: "error",
                         confirmButtonColor: "#3085d6",
                       });
@@ -181,7 +181,7 @@ document.querySelector("#choose_topic_form")?.addEventListener("submit", async f
                     button.textContent = "Revoke Moderator";
                     Swal.fire({
                         title: "User is a moderador now!",
-                        text: data.success,
+                        text: result.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                     });
@@ -197,7 +197,7 @@ document.querySelector("#choose_topic_form")?.addEventListener("submit", async f
                 } else {
                     Swal.fire({
                         title: "Fail!",
-                        text: data.error,
+                        text: result.error,
                         icon: "error",
                         confirmButtonColor: "#3085d6",
                       });
@@ -273,7 +273,7 @@ document.querySelector("#choose_user_form")?.addEventListener("submit", async fu
                         ul.firstElementChild.remove()
                     }
                     let n = value + 1; 
-                    nMods.getAttribute("value", n);
+                    nMods.setAttribute("value", n);
                     nMods.textContent = "(" + n + ")";
                     const li = document.createElement("li");
                     li.className = "moderator";
@@ -300,14 +300,14 @@ document.querySelector("#choose_user_form")?.addEventListener("submit", async fu
 
                     Swal.fire({
                         title: "User is a moderador now!",
-                        text: data.success,
+                        text: result.success,
                         icon: "success",
                         confirmButtonColor: "#3085d6",
                     });
                 } else {
                     Swal.fire({
                         title: "Fail!",
-                        text: data.error,
+                        text: result.error,
                         icon: "error",
                         confirmButtonColor: "#3085d6",
                       });
