@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
+
+use App\Http\Controllers\MailController;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UserController extends Controller
 {
@@ -78,7 +84,7 @@ class UserController extends Controller
             return redirect()->route('profile', [$user])
                 ->with('success', 'Successfully changed!');
         } else {
-            return redirect()->route('profile', [$user])->withErrors(['error', 'The parameters are invalid!']);
+            return redirect()->route('profile', [$user])->withErrors(['error_form', 'The parameters are invalid!']);
         }
     }
 
@@ -91,6 +97,7 @@ class UserController extends Controller
             'action' => 'block_user',
             'id' => $request->input("request"),
         ];
+        MailController::send_blocked_unblocked_account_email($user, true);
         return response()->json($response);
     }
 
@@ -98,18 +105,29 @@ class UserController extends Controller
     {
         $this->authorize('block', $user);
         $user->update(['blocked' => true]);
+        MailController::send_blocked_unblocked_account_email($user, true);
         return back()->with('success', 'Account blocked successfully!');
     }
 
     public function unblock(Request $request)
     {
-        $update = User::where('id', $request->input("request"))
-            ->update(['blocked' => false]);
+        $user = User::find($request->input("request"));
+        $this->authorize('unblock', \App\User::class);
+        $user->update(['blocked' => false, 'blocked_appeal' => '', 'appeal_rejected' => false]);
         $response = [
             'action' => 'unblock_user',
             'id' => $request->input("request"),
         ];
+        MailController::send_blocked_unblocked_account_email($user, false);
         return response()->json($response);
+    }
+
+    public function unblock_perfil_button(User $user)
+    {
+        $this->authorize('unblock', \App\User::class);
+        $user->update(['blocked' => false, 'blocked_appeal' => '', 'appeal_rejected' => false]);
+        MailController::send_blocked_unblocked_account_email($user, false);
+        return back()->with('success', 'Account unblocked successfully!');
     }
 
     /**
@@ -138,5 +156,59 @@ class UserController extends Controller
     {
         $user = User::findOrFail($request->id);
         return response()->json(['image' => $user->getProfileImage()]);
+    }
+
+    public function revoke_moderator(Request $request)
+    {
+        try {
+            $this->authorize('change_moderator', User::class);
+
+            $request->validate([
+                'id' => 'integer|required'
+            ]);
+
+            $user = User::findOrFail($request->input('id'));
+            $user->type = 'authenticated';
+            $user->id_topic = NULL;
+            $user->save();
+
+            return response()->json(['success' => "Revoked moderator"]);
+        } catch (AuthorizationException $e) {
+            return response()->json(['error' => $e->getMessage()], 403);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
+
+    public function make_moderator(Request $request)
+    {
+        try {
+            $this->authorize('change_moderator', User::class);
+
+            $request->validate([
+                'user' => 'integer|required',
+                'topic' => 'integer|required'
+            ]);
+
+            $user = User::findOrFail($request->input('user'));
+            $topic = Topic::findOrFail($request->input('topic'));
+            $user->id_topic = $topic->id;
+            $user->type = "moderator";
+            $user->save();
+
+            return response()->json(['success' => $user->name . " is now a moderator",]);
+        } catch (AuthorizationException $e) {
+            return response()->json(['error' => $e->getMessage()], 403);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
+    public function upgrade(Request $request){
+        $this->authorize('upgrade', \App\User::class);
+        $user = User::find($request->input("idUser"));
+        $user->update(['id_topic' => null]);
+        $user->type = 'admin';
+        $user->save();
+        return response()->json(['id' => $user->id]);
     }
 }

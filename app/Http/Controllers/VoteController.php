@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Vote;
+use App\Models\Content;
+use App\Models\NewsItem;
+
+use App\Events\NewsItemLikeNotification;
+use App\Models\Notification;
 
 class VoteController extends Controller
 {
     public function update(Request $request)
     {
         Vote::where('id_user', '=', Auth::user()->id)
-        ->where('id_content','=',$request->input('content'))
-        ->update(['vote' => $request->input('value')]);
+            ->where('id_content', '=', $request->input('content'))
+            ->update(['vote' => $request->input('value')]);
 
         $response = [
             'action' => 'update',
@@ -21,7 +26,6 @@ class VoteController extends Controller
         ];
 
         return response()->json($response);
-
     }
 
     public function create(Request $request)
@@ -37,15 +41,24 @@ class VoteController extends Controller
             'content' => $request->input('content'),
             'vote' => $request->input('value')
         ];
-        
+
+        if (($news_item = NewsItem::find($request->input('content'))) !== null) {
+            $content = Content::find($request->input('content'));
+            $notification = Notification::where('id_user', '=', Auth::user()->id)
+                ->where('id_content', '=', $request->input('content'))
+                ->where('type', '=', 'vote')
+                ->first();
+            event(new NewsItemLikeNotification($content->id_author, $request->input('content'), $news_item->title, $notification->id, Auth::user()->id, Auth::user()->name));
+        }
+
         return response()->json($response);
     }
 
     public function destroy(Request $request)
     {
         Vote::where('id_user', '=', Auth::user()->id)
-        ->where('id_content','=',$request->input('content'))
-        ->delete();
+            ->where('id_content', '=', $request->input('content'))
+            ->delete();
 
         $response = [
             'action' => 'destroy',
@@ -54,6 +67,5 @@ class VoteController extends Controller
         ];
 
         return response()->json($response);
-
     }
 }

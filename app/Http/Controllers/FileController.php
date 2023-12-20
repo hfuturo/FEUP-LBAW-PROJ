@@ -138,16 +138,16 @@ class FileController extends Controller
     function remove_pfp(Request $request)
     {
         if (!$this->isValidType($request->type)) {
-            return back()->withErrors('Error: Unsupported upload type');
+            return response()->json(['success' => false, 'message' => 'Error: Unsupported upload type']);
         }
 
         if (Auth::user()->image === self::$default)
-            return back()->withErrors("Error: can't remove default profile picture");
+            return response()->json(['success' => false, 'message' => 'Error: Can not remove default profile picture']);
 
         $this->delete($request->type, Auth::user()->id);
         Auth::user()->image = self::$default;
         Auth::user()->save();
 
-        return back()->withSuccess("Profile picture removed successfully");
+        return response()->json(['success' => true]);
     }
 }

@@ -1,6 +1,16 @@
 @if (session('success'))
-    <script>Swal.fire({title: "Done",icon: "success"});</script>
+    <script>
+        Swal.fire({
+            title: "Done",
+            icon: "success"
+        });
+    </script>
 @endif
 @if ($errors->any())
-    <script>Swal.fire({icon: "error",title: "Something went wrong!",});</script>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "{{ $errors->first() }}",
+        });
+    </script>
 @endif

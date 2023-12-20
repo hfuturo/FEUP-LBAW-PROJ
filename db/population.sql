@@ -62,7 +62,7 @@ INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALU
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (5,'Robert Brown', 'robert.brown@live.com', 'Br0wnBob', 'moderator', 4);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (6,'Emily Jones', 'emily_jones@icloud.com', 'J0n3m!ly', 'moderator', 5);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (7,'William Davis', 'williamdavis@protonmail.com', 'Dav1sW!ll',  'moderator' , 1); --followOrg
-INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (8,'Jessica Miller', 'jess.miller@inbox.com', 'J3ss1c@!',  'moderator' , 2);--HE
+INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (8,'Jessica Miller', 'jess.miller@inbox.com', '$2y$10$1uneTDjQW6wfzM73m5.Wk.DK3.YdEILd8x7Cyg39qMaacdoQKoexC',  'moderator' , 2);--HE
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (9,'David Wilson', 'davidwilson@mail.com', 'W!ls0nD@v',  'moderator' , 3);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (10,'Ashley Taylor', 'ash.taylor@zoho.com', 'T@yl0rAsh',  'moderator' , 4);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (11,'James Anderson', 'james_anderson@yandex.com', 'And3r$0n',  'moderator' , 5);
@@ -630,7 +630,7 @@ SELECT setval('content_id_seq', (SELECT max(id) FROM "content"));
 
 INSERT INTO "suggested_topic" (name, justification, id_user) VALUES ('Sport', 'A sports topic is a valuable addition as it can attract new visitors to the site, thereby enhancing its overall appeal and completeness.',39);
 
--- votes positives
+-- -- votes positives
 INSERT INTO "vote" (id_user,id_content,vote) VALUES (18,1,1); --27 
 iNSERT INTO "vote" (id_user,id_content,vote) VALUES (33,1,1); --27 
 iNSERT INTO "vote" (id_user,id_content,vote) VALUES (48,1,1); --27 

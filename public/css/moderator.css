@@ -1,0 +1,40 @@
+.topics {
+    min-height: 70%;
+    max-height: 70%;
+}
+
+.topic div {
+    display: flex;
+    padding-left: 1em;
+    gap: 0.5em;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.topic div a {
+    color: white;
+}
+
+.topic ul{
+    padding: 0.5em;
+    margin: 0;
+    border: 1px solid var(--primary-text-color);
+    margin-bottom: 2em;
+}
+
+.topic .moderator {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0.5em;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+.topic .moderator:hover {
+    background-color: lightgray;
+}

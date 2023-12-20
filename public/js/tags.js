@@ -1,35 +1,70 @@
 "use strict";
 
-const tagsList = document.querySelector("#tagsList");
-const inputField = document.getElementById("tagInput");
-
-function createTag() {
-    const tag = document.createElement("li");
-    tag.className = "tag";
-    const text = inputField.value.trim().toLowerCase();
-
-    if (text !== "" && !document.getElementById(text)) {
-        const tagText = document.createElement("span");
-        tagText.textContent = text;
-        tagText.className = "tagText";
-        tag.id = text;
-
-        const removeButton = document.createElement("span");
-        removeButton.className = "remove";
-        removeButton.textContent = "X";
-        removeButton.addEventListener(
-            "click",
-            () => {
-                removeTag(tag);
-            },
-            { once: true }
-        );
-        tag.appendChild(tagText);
-        tag.appendChild(removeButton);
-        tagsList.appendChild(tag);
-    }
-    inputField.value = "";
+const tagContainer = document.querySelector(".tag-container");
+const tagInput = document.querySelector("#tagInput");
+const form = document.querySelector("#newsForm");
+form?.reset();
+if (tagContainer) {
+    tagContainer.style.font = getComputedStyle(tagInput).font;
+    createTags();
 }
+
+function createTags() {
+    if (tagInput.value.trim().length === 0) return;
+    const insertedTags = [...tagContainer.querySelectorAll(".tag-item")].map(
+        (tagElement) => tagElement.textContent.slice(1)
+    );
+    const tags = tagInput.value
+        .trim()
+        .replace(/^#/, "")
+        .split(/\s[\s#]*/)
+        .filter((tag) => tag.length > 0 && !tag.startsWith("#"))
+        .filter((tag) => !insertedTags.includes(tag));
+
+    tagInput.value = "";
+    if (tags.length === 0) return;
+
+    for (const tag of tags) {
+        const tagElement = document.createElement("span");
+        tagElement.className = "tag-item";
+        tagElement.textContent = "#" + tag;
+        tagElement.tabIndex = 0;
+        tagElement.addEventListener("click", () => {
+            while (tagElement.nextSibling?.nodeName === "#text") {
+                tagElement.nextSibling.remove();
+            }
+            tagElement.remove();
+            while (tagContainer.firstChild?.nodeName === "#text") {
+                tagContainer.firstChild.remove();
+            }
+        });
+        tagElement.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                tagElement.click();
+            }
+        });
+        tagContainer.insertBefore(tagElement, tagInput);
+        tagContainer.insertBefore(document.createTextNode(" "), tagInput);
+    }
+}
+
+tagInput?.addEventListener("input", (e) => {
+    if (tagInput.value.endsWith(" ")) {
+        createTags();
+    }
+});
+
+tagInput?.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !e.ctrlKey) {
+        e.preventDefault();
+        createTags();
+    }
+});
+
+tagContainer?.addEventListener("click", (e) => {
+    tagInput.focus();
+});
 
 function removeTag(tagToRemove) {
     if (tagToRemove) {
@@ -37,47 +72,34 @@ function removeTag(tagToRemove) {
     }
 }
 
-const form = document.getElementById("newsForm");
-
 form?.addEventListener("submit", (event) => {
     event.preventDefault();
-    const tagsInput = document.createElement("input");
-    tagsInput.type = "hidden";
-    tagsInput.name = "tags";
-
-    let liElements = tagsList.getElementsByClassName("tagText");
-    let tagArray = [];
-    for (let i = 0; i < liElements.length; i++) {
-        tagArray.push(liElements[i].textContent);
+    createTags();
+    tagInput.value = tagContainer.textContent.trim();
+    while (tagContainer.firstChild !== tagInput) {
+        tagContainer.firstChild.remove();
     }
-
-    tagsInput.value = JSON.stringify(tagArray);
-
-    form.appendChild(tagsInput);
-
     form.submit();
+});
 
-  });
-
-document.querySelector('#follow_tag')?.addEventListener('click', event => {
-  const tag =  document.querySelector('#id_tag').value;
-  sendAjaxRequest(
-        'POST',
+document.querySelector("#follow_tag")?.addEventListener("click", (event) => {
+    const tag = document.querySelector("#id_tag").value;
+    sendAjaxRequest(
+        "POST",
         `/api/tag/${event.target.dataset.operation}`,
-        {tag},
+        { tag },
         followTagHandler
-  );
-})
+    );
+});
 
 function followTagHandler() {
- // if (this.status != 200) window.location = '/';
-  const action = JSON.parse(this.responseText).follow;
-  const count = document.querySelector("#folowers_tag_count");
-  const oldValue = parseInt(count.textContent.trim());
-  const button = document.querySelector("#follow_tag");
-  button.dataset.operation = action;
-  button.textContent = action;
-  if(action=="follow") count.textContent = oldValue - 1;
-  else count.textContent = oldValue + 1
+    // if (this.status != 200) window.location = '/';
+    const action = JSON.parse(this.responseText).follow;
+    const count = document.querySelector("#folowers_tag_count");
+    const oldValue = parseInt(count.textContent.trim());
+    const button = document.querySelector("#follow_tag");
+    button.dataset.operation = action;
+    button.textContent = action;
+    if (action == "follow") count.textContent = oldValue - 1;
+    else count.textContent = oldValue + 1;
 }
-

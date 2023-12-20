@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
+use App\Models\Vote;
 use App\Models\Content;
+use App\Models\Notification;
 use Carbon\Carbon;
 
+use App\Events\NewCommentNotification;
 
 class CommentController extends Controller
 {
@@ -59,10 +61,12 @@ class CommentController extends Controller
             $comment->id_news = $id;
             $comment->save();
 
-            if ($news_item->authenticated_user->id === $content->authenticated_user->id) {
-                $news_author = TRUE;
-            } else {
-                $news_author = FALSE;
+            $news_author = FALSE;
+
+            if ($news_item->authenticated_user) {
+                if ($news_item->authenticated_user->id === $content->authenticated_user->id) {
+                    $news_author = TRUE;
+                }
             }
 
             return [
@@ -74,6 +78,16 @@ class CommentController extends Controller
                 'author' => $content->authenticated_user
             ];
         });
+
+        $news_item = Content::find($id);
+
+        // envia notificação apenas se user existir
+        if ($news_item->authenticated_user) {
+            $notification = Notification::where('id_content', '=', $comment['id'])
+                ->where('type', '=', 'content')
+                ->first();
+            event(new NewCommentNotification($news_item->authenticated_user->id, $news_item->id, $news_item->news_items->title, $notification->id));
+        }
 
         return response()->json($comment);
     }
@@ -95,8 +109,9 @@ class CommentController extends Controller
             $content->content = $request->input('content');
             $content->edit_date = 'now()';
             $content->save();
+            $content = $content->refresh();
 
-            return response()->json(['success' => 'Comment edited successfully']);
+            return response()->json(['success' => 'Comment edited successfully', 'edit_date' => Carbon::parse($content->edit_date)->diffForHumans()]);
         } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);
         }
@@ -122,5 +137,18 @@ class CommentController extends Controller
         } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);
         }
+    }
+    public function destroy_admin(Request $request)
+    {
+        $this->authorize('destroy_admin', \App\NewsItem::class);
+
+        Vote::where('id_content', $request->input('request'))->delete();
+        Comment::find($request->input('request'))->delete();
+
+        $response = [
+            'action' => 'delete_comment',
+            'id' => $request->input("request"),
+        ];
+        return response()->json($response);
     }
 }

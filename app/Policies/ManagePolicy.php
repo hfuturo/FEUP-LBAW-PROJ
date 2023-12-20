@@ -24,7 +24,13 @@ class ManagePolicy
         return Auth::check() && Auth::user()->is_admin();
     }
 
-    public function show_suggested_topic(){
+    public function show_suggested_topic()
+    {
+        return Auth::check() && Auth::user()->is_admin();
+    }
+
+    public function show_unblock_appeals()
+    {
         return Auth::check() && Auth::user()->is_admin();
     }
 }

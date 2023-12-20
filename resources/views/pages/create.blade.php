@@ -2,17 +2,18 @@
 
 @section('head')
     <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
+    <link href="{{ url('css/tags.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
 @endsection
 
 @section('content')
-    <section id = "news-create-container">
-        <h2> Create a Post</h2>
+    <h2> Create a Post</h2>
+    <div id = "news-create-container">
         <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
             @csrf
 
             <div class ="form-group">
-                <textarea maxlength="255" type="text" id="title" name="title" placeholder="Title" rows="1"></textarea>
+                <input maxlength="255" type="text" id="title" name="title" placeholder="Title">
             </div>
 
             <div class ="form-group">
@@ -25,7 +26,7 @@
             </div>
 
             <div class ="form-group">
-                <label for='topics'>Choose the topic</label>
+                <label for='topic'>Choose the topic</label>
                 <select id="topic" name="topic">
                     @foreach ($topics as $topic)
                         <option value="{{ $topic->id }}">{{ $topic->name }}</option>
@@ -34,18 +35,27 @@
             </div>
 
             <div class ="form-group">
-                <label>Add tags</label>
+                <label for='organization'>Choose related organization</label>
+                <select id="organization" name="organization">
+                    <option value="">No organization</option>
+                    @foreach ($organizations as $org)
+                        <option value="{{ $org->id }}">{{ $org->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class ="form-group">
+                <label>Tags</label>
                 <datalist id="tags">
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->name }}">{{ $tag->name }}</option>
                     @endforeach
                 </datalist>
-                <input type="text" id="tagInput" list="tags" placeholder="Tag" pattern="\S.*\S?"
-                    title="This field most not be empty" />
-                <button type="button" onclick="createTag()">Add</button>
-                <ul id="tagsList"></ul>
+                <div class="tag-container">
+                    <input type="text" id="tagInput" name="tags" list="tags" placeholder="Tag">
+                </div>
             </div>
             <button type="submit" form="newsForm" value="Submit">Create</button>
         </form>
-    </section>
+</div>
 @endsection

@@ -5,11 +5,9 @@
 @endsection
 
 @section('content')
-    <header class="info_header">
-        <h2 class="page_title">Contact Us</h2>
-        <h2>This website was developed by</h2>
-    </header>
+    <h2 class="page_title">Contact Us</h2>
     <section class="info_section">
+        <h3>This website was developed by</h3>
         <ul>
             <li><span class="info_dev">Henrique Silva</span>, <a href="mailto: up202105647@up.pt">up202105647@up.pt</a></li>
             <li><span class="info_dev">José Ribeiro</span>, <a href="mailto: up202108868@up.pt">up202108868@up.pt</a></li>

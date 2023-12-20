@@ -36,10 +36,11 @@ main > nav {
     grid-column-start: start;
     grid-column-end: content;
     height: 100%;
-    width: 0;
-    overflow: hidden;
+    min-width: max-content;
+    width: max-content;
+    overflow: clip;
     margin: 0;
-    transition: width 0.5s ease-in-out;
+    transition: min-width 0.5s ease-in-out;
 }
 
 #manage_report_button span {
@@ -77,6 +78,28 @@ main > nav {
     color: var(--hover-color);
 }
 
+#notifications_pop_up > article.user_news,
+section#list_notifications > article.user_news {
+    padding: 0em 1em 0em 1em;
+}
+
+#notifications_pop_up > article.new_notification,
+section#list_notifications > article.new_notification {
+    background-color: aliceblue;
+}
+
+#notifications_pop_up > article.user_news h4,
+section#list_notifications > article.user_news h4 {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#notifications_pop_up > article.user_news button,
+section#list_notifications > article.user_news button {
+    padding-top: 0.6em;
+}
+
 .header_nav {
     display: flex;
     justify-content: center;
@@ -86,30 +109,113 @@ main > nav {
     flex: 1;
 }
 
+.header_nav :first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.header_nav :last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.header_user_info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+}
+
+.header_user_info .header_user_pfp {
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    margin-right: 1em;
+    margin-left: 0.5em;
+}
+
+#button_profile {
+    padding-right: 0;
+    border-radius: 0 5px 5px 0;
+    border: 1px solid var(--background-color);
+}
+
+#notification_icon {
+    background-color: var(--primary-color);
+    color: var(--secundary-text-color);
+    padding: 1em 0.5em 0.5em 0.5em;
+    border: none;
+}
+
+#notification_icon:hover,
+#notification_icon:focus-visible {
+    color: var(--hover-color);
+}
+
 .search_form {
     margin: 0;
-    margin-inline: 1rem;
     display: flex;
     flex-grow: 1;
     max-width: 45rem;
 }
 
-.search_form select {
-    background-color: white;
-    margin: 0;
+.search_form .button {
+    font-size: 1.5em;
+    line-height: 1;
+    min-width: 0;
+    border: 0;
+    width: auto;
 }
 
 .search_form input {
     flex-grow: 1;
 }
 
+.search_form * {
+    border-radius: 0;
+    border: 0;
+}
+
+.search_form :first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.search_form :last-child {
+    border-radius: 0 5px 5px 0;
+}
+
 .sticky_nav {
     position: sticky;
+    width: max-content;
     top: 5rem;
 }
 
 main > nav #admin_buttons {
     border-bottom: 2px solid black;
+}
+
+.sub-options {
+    display: grid;
+    grid-template-rows: repeat(4, 0fr);
+    gap: 0;
+    overflow: clip;
+    transition: grid-template-rows 0.5s ease-in-out, gap 0.5s ease-in-out;
+}
+
+.sub-options.open {
+    grid-template-rows: repeat(4, 1fr);
+    gap: 0.2rem;
+}
+
+.sub-options .button {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    transition: padding 0.5s ease-in-out;
+}
+
+.sub-options.open .button {
+    padding: 0.5em;
 }
 
 .accept,
@@ -130,15 +236,7 @@ main > nav #admin_buttons {
 }
 
 header .button {
-    width: 100%;
     border: 1px solid var(--secundary-text-color);
-}
-
-#button_profile {
-    background-color: var(--secundary-text-color);
-    color: var(--primary-color);
-    border: transparent;
-    padding-right: 0;
 }
 
 .delete_button {
@@ -170,18 +268,24 @@ header form button {
     overflow-y: auto;
 }
 
-main > nav.visivel {
-    width: 30%;
-}
-
 main > section {
     width: 100%;
     margin: 1em;
 }
 
-main > nav .button {
-    height: 2em;
-    overflow-y: hidden;
+.skip-to-content-link {
+    background: var(--primary-color);
+    height: 30px;
+    left: 50%;
+    padding: 8px;
+    position: fixed;
+    top: 0;
+    transform: translateY(-200%);
+    transition: transform 0.3s;
+}
+
+.skip-to-content-link:focus {
+    transform: translateY(0%);
 }
 
 .hamburger {
@@ -193,6 +297,14 @@ main > nav .button {
 
 .hamburger:before {
     content: "\2630";
+    font-size: 1.6rem;
+    display: block;
+    transform: translateY(-0.1em);
+    cursor: pointer;
+}
+
+#hamburger:focus-visible + .hamburger {
+    outline: auto;
 }
 
 #hamburger:checked + .hamburger:before {
@@ -200,7 +312,13 @@ main > nav .button {
 }
 
 #hamburger {
-    display: none;
+    display: block;
+    overflow: clip;
+    width: 0;
+    height: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: -1000vmax;
 }
 
 body.swal2-shown {

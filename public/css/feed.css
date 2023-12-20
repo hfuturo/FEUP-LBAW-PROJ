@@ -27,11 +27,12 @@
     margin-top: 0;
 }
 
-.paginate a:hover {
+.paginate a {
     cursor: pointer;
 }
 
-.user_news:hover {
+.user_news:hover,
+.user_news:focus-visible {
     border-color: var(--hover-color);
 }
 
@@ -41,4 +42,19 @@
     border-radius: 5px;
     padding: 0em 1em 1em 1em;
     margin: 1em 0em;
+}
+
+#advanced_search_form {
+    border: 1px solid var(--primary-color);
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #e3e3e3;
+}
+
+#advanced_search_form select {
+    background: white;
+}
+
+select option {
+    color: black;
 }

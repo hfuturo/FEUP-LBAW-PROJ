@@ -15,8 +15,10 @@ class CheckBlocked
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->blocked) {
-            auth()->logout();
+        if (
+            !$request->routeIs('blocked') && !$request->routeIs('logout') && !$request->routeIs('appeal')
+            && auth()->check() && auth()->user()->blocked
+        ) {
             return redirect()->route('blocked');
         }
         return $next($request);

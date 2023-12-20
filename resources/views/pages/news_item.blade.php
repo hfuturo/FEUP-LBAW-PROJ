@@ -1,29 +1,21 @@
 @extends('layouts.app')
-<?php use Carbon\Carbon; ?>
+<?php
+use Carbon\Carbon;
+use App\Http\Controllers\FileController;
+?>
 
 @section('head')
     <link href="{{ url('css/news.css') }}" rel="stylesheet">
     <link href="{{ url('css/comments.css') }}" rel="stylesheet">
-    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
+    @if (Auth::check())
+        <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
+    @endif
     <script type="text/javascript" src={{ url('js/comments.js') }} defer></script>
 @endsection
 
 @section('content')
 
     <section id = "news">
-        {{--
-        @if (Auth::check() && $news_item->content->authenticated_user !== null)
-            @if (Auth::user()->id === $news_item->content->authenticated_user->id)
-                <form action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
-                    @csrf
-                    <button type="submit">Delete</button>
-                    <a href="{{ route('edit_news', ['id' => $news_item->id]) }}" class="button"
-                        style="display:inline-block;">Edit
-                        Post</a>
-                </form>
-            @endif
-        @endif
-        --}}
         <article class = "news_body">
             <div class = "news_head">
                 @if (Auth::check())
@@ -34,7 +26,7 @@
                                 <span class="material-symbols-outlined">more_vert</span>
                             </button>
                             <div class="dropdown-content hidden">
-                                @if (Auth::user()->id !== $news_item->content->authenticated_user->id)
+                                @if (!$news_item->content->authenticated_user || Auth::user()->id !== $news_item->content->authenticated_user->id)
                                     <button class="dropdown-option" onclick="openReportNewsForm({{ $news_item->id }})">
                                         <span class="material-symbols-outlined">flag</span>
                                         <span>Report</span>
@@ -69,11 +61,14 @@
                             <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
                                 class = "author">{{ $news_item->content->authenticated_user->name }}</a>
                         @else
-                            <p class="author">Anonymous</p>
+                            <img class="author_post_pfp" src="{{ asset('profile/pfp_default.jpeg') }}"
+                                alt="User Profile Picture">
+                            <p class="author">&nbsp;Anonymous</p>
                         @endif
                         @if ($news_item->content->organization !== null)
                             <span>Associated with</span>
-                            <a href="{{route('show_org', ['organization' => $news_item->content->organization])}}" class = "org"> {{ $news_item->content->organization->name }}</a>
+                            <a href="{{ route('show_org', ['organization' => $news_item->content->organization]) }}"
+                                class = "org"> {{ $news_item->content->organization->name }}</a>
                         @endif
                     </div>
                 @endif
@@ -132,45 +127,54 @@
                                 <a href="{{ route('profile', ['user' => $comment->content->authenticated_user->id]) }}"
                                     class="comment_author">
                                     {{ $comment->content->authenticated_user->name }}</a>
-                                @if ($news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
+                                @if (
+                                    $news_item->content->authenticated_user &&
+                                        $news_item->content->authenticated_user->id === $comment->content->authenticated_user->id)
                                     <span class="material-symbols-outlined author">person_edit</span>
                                 @endif
                             @else
-                                <p class="comment_author">Anonymous</p>
+                                <img class="author_comment_pfp" src={{ asset('profile/pfp_default.jpeg') }}
+                                    alt="User Profile Picture">
+                                <p class="comment_author"> Anonymous</p>
                             @endif
                             <p class=date> {{ Carbon::parse($comment->content->date)->diffForHumans() }}</p>
                             @if ($comment->content->edit_date !== null)
-                                <p class="date">Edit
+                                <p class="date" id="edit_date">Edited
                                     {{ Carbon::parse($comment->content->edit_date)->diffForHumans() }}</p>
                             @endif
-                            <div class="dropdown">
-                                <button class="more" onclick="toggleMenu(this, event)">
-                                    <span class="material-symbols-outlined">more_vert</span>
-                                </button>
-                                <div class="dropdown-content hidden">
-                                    @if (Auth::user()->id !== $comment->content->authenticated_user->id)
-                                        <div class="dropdown-option report">
-                                            <span class="material-symbols-outlined">flag</span>
-                                            <span>Report</span>
-                                        </div>
-                                    @else
-                                        <div class="dropdown-option delete">
-                                            <span class="material-symbols-outlined">delete</span>
-                                            <span class="delete">Delete</span>
-                                        </div>
-                                        <div class="dropdown-option edit">
-                                            <span class="material-symbols-outlined">edit</span>
-                                            <span class="edit">Edit</span>
-                                        </div>
-                                    @endif
+                            @if ($comment->content->authenticated_user)
+                                <div class="dropdown">
+                                    <button class="more" onclick="toggleMenu(this, event)">
+                                        <span class="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                    <div class="dropdown-content hidden">
+                                        @if (Auth::user()->id !== $comment->content->authenticated_user->id)
+                                            <div class="dropdown-option report">
+                                                <span class="material-symbols-outlined">flag</span>
+                                                <span>Report</span>
+                                            </div>
+                                        @endif
+                                        @if (Auth::user()->is_admin() || Auth::user()->id === $comment->content->authenticated_user->id)
+                                            <div class="dropdown-option delete">
+                                                <span class="material-symbols-outlined">delete</span>
+                                                <span class="delete">Delete</span>
+                                            </div>
+                                        @endif
+                                        @if (Auth::user()->id === $comment->content->authenticated_user->id)
+                                            <div class="dropdown-option edit">
+                                                <span class="material-symbols-outlined">edit</span>
+                                                <span class="edit">Edit</span>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
                     </div>
                     <form class="editForm" hidden>
                         @csrf
                         <textarea class="commentContent" name="content" rows="3" maxlength="500" required>{{ $comment->content->content }}</textarea>
-                        <div class=buttonsForm>
+                        <div class="buttonsForm">
                             <button type="submit" class="button editButton">Edit</button>
                             <button type="button" class="button cancelButton"
                                 onclick="editCancel(this.closest('.comment'))">Cancel</button>

@@ -3,21 +3,27 @@
 @section('head')
     <link href="{{ url('css/profile.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/profile.js') }} defer></script>
+    <link href="{{ url('css/news.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ url('js/vote.js') }} defer></script>
 @endsection
 
 @section('content')
     <div class="user_page">
-        <div class="profile">
+        <div class="profile" id={{ $user->id }}>
             <div id="user_card">
                 <div class="action_buttons_wrapper">
                     @if (Auth::user()->id !== $user->id)
                         @include('partials.report_user')
                     @endif
                     @if (Auth::user()->id === $user->id || Auth::user()->is_admin())
-                        @include('partials.delete_account', ['user' => $user])
+                        <button class="delete_button delete_user_button">Delete Account</button>
                     @endif
                     @if (Auth::user()->id !== $user->id && Auth::user()->is_admin())
-                        @include('partials.block_user', ['user' => $user])
+                        @if ($user->blocked)
+                            <button class="delete_button unblock_user_button">Unblock Account</button>
+                        @else
+                            <button class="delete_button block_user_button">Block Account</button>
+                        @endif
                     @endif
                 </div>
                 @if (Auth::user()->id === $user->id)
@@ -57,7 +63,7 @@
                     <p>
                         @if ($user->organizations->count() !== 0)
                             @foreach ($user->organizations as $org)
-                                <a href="{{route('show_org', ['organization' => $org->id])}}"><?php print_r($org->name) ?></a>
+                                <a href="{{ route('show_org', ['organization' => $org->id]) }}">{{ $org->name }}</a>
                             @endforeach
                         @else
                             Doesn't belong to any organization.
@@ -70,7 +76,7 @@
                 @if (Auth::user()->id === $user->id)
                     <div class="image_buttons_wrapper">
                         @include('partials.image_form')
-                        @include('partials.remove_pfp_form')
+                        <button class="remove_pfp_image">Remove image</button>
                     </div>
                 @endif
             </div>

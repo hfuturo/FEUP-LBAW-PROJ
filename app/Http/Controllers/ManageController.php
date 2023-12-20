@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\SuggestedTopic;
-
+use App\Models\Topic;
 
 class ManageController extends Controller
 {
@@ -16,19 +16,22 @@ class ManageController extends Controller
         $this->authorize('show', \App\Manage::class);
 
         $users = User::all();
+        $topics = Topic::all();
         return view('pages.manage', [
-            'users' => $users
+            'users' => $users,
+            'topics' => $topics
         ]);
     }
 
     public function search(Request $request)
     {
         $users = DB::table('authenticated_user')
-            ->select(['id', 'name'])
             ->where('name', 'ilike', "%{$request->input('search')}%")
             ->get();
 
-        return response()->json($users);
+        $topics = Topic::all();
+        $topicsMap = $topics->pluck('name', 'id')->toArray();
+        return response()->json(['users' => $users, 'topics' => $topicsMap]);
     }
 
     public function show_suggested_topic()
@@ -39,5 +42,13 @@ class ManageController extends Controller
         return view('pages.manage_topic', [
             'suggested_topic' => $suggested_topic
         ]);
+    }
+
+    public function show_unblock_appeals()
+    {
+        $this->authorize('show_unblock_appeals', \App\Manage::class);
+
+        $users = User::where('blocked_appeal', '<>', '')->where('appeal_rejected', '=', 'false')->paginate(10);
+        return view('pages.manage_unblock_appeals', ['users' => $users]);
     }
 }

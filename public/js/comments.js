@@ -3,12 +3,11 @@
 // new comment
 document
     .getElementById("commentForm")
-    .addEventListener("submit", async function (event) {
+    ?.addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const newsId = this.getAttribute("data-news-id");
         const commentContent = document.getElementById("commentContent").value;
-
         const data = await fetch("/api/news/" + newsId + "/comment", {
             method: "POST",
             headers: {
@@ -57,36 +56,7 @@ document
             commentText.className = "comment_text";
             commentText.textContent = data.content;
 
-            const form = document.createElement("form");
-            form.className = "editForm";
-
-            const textarea = document.createElement("textarea");
-            textarea.classList.add("commentContent");
-            textarea.setAttribute("name", "content");
-            textarea.setAttribute("rows", "3");
-            textarea.setAttribute("maxlength", "500");
-            textarea.setAttribute("required", "true");
-            textarea.textContent = data.content;
-            form.appendChild(textarea);
-
-            const postButton = document.createElement("button");
-            postButton.setAttribute("type", "submit");
-            postButton.classList.add("button", "editButton");
-            postButton.textContent = "Post";
-            form.appendChild(postButton);
-
-            const cancelButton = document.createElement("button");
-            cancelButton.setAttribute("type", "button");
-            cancelButton.classList.add("button", "cancelButton");
-            cancelButton.textContent = "Cancel";
-            cancelButton.addEventListener("click", (event) => {
-                event.preventDefault;
-                editCancel(newComment);
-            });
-            form.appendChild(cancelButton);
-
-            form.addEventListener("submit", saveEdit);
-            form.setAttribute("hidden", "true");
+            const form = makeEditForm(data.content, newComment);
 
             const more = makeDropDown(newComment);
 
@@ -123,8 +93,52 @@ document
             document.getElementById("commentContent").value = "";
         } else {
             console.error("Failed to add comment");
+            Swal.fire({
+                title: "Fail!",
+                text: "Failed to add comment",
+                icon: "error",
+            });
         }
     });
+
+function makeEditForm(commentText, newComment) {
+    const form = document.createElement("form");
+    form.className = "editForm";
+
+    const buttonsForm = document.createElement("div");
+    buttonsForm.className = "buttonsForm";
+
+    const textarea = document.createElement("textarea");
+    textarea.classList.add("commentContent");
+    textarea.setAttribute("name", "content");
+    textarea.setAttribute("rows", "3");
+    textarea.setAttribute("maxlength", "500");
+    textarea.setAttribute("required", "true");
+    textarea.textContent = commentText;
+    form.appendChild(textarea);
+
+    const postButton = document.createElement("button");
+    postButton.setAttribute("type", "submit");
+    postButton.classList.add("button", "editButton");
+    postButton.textContent = "Post";
+    buttonsForm.appendChild(postButton);
+
+    const cancelButton = document.createElement("button");
+    cancelButton.setAttribute("type", "button");
+    cancelButton.classList.add("button", "cancelButton");
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener("click", (event) => {
+        event.preventDefault;
+        editCancel(newComment);
+    });
+    buttonsForm.appendChild(cancelButton);
+
+    form.appendChild(buttonsForm);
+    form.addEventListener("submit", saveEdit);
+    form.setAttribute("hidden", "true");
+
+    return form;
+}
 
 function createLikeDislike(className, symbol, type) {
     const button = document.createElement("button");
@@ -145,17 +159,19 @@ function createLikeDislike(className, symbol, type) {
 }
 
 function toggleMenu(button, event) {
-    document
-        .querySelectorAll(".dropdown-content")
-        .forEach((dropdown) => {
-            if(!dropdown.classList.contains("hidden")){
-                dropdown.classList.add("hidden")
-            };
-        });
-    const dropdown = button.nextElementSibling;
-    if (dropdown) {
+    const dropdownSelect = button.nextElementSibling;
+    document.querySelectorAll(".dropdown-content").forEach((dropdown) => {
+        if (
+            !dropdown.classList.contains("hidden") &&
+            dropdown !== dropdownSelect
+        ) {
+            dropdown.classList.add("hidden");
+        }
+    });
+
+    if (dropdownSelect) {
         event.stopPropagation();
-        toggleDisplay(dropdown);
+        toggleDisplay(dropdownSelect);
     }
 }
 
@@ -167,68 +183,87 @@ document.addEventListener("click", (event) => {
     event.preventDefault;
     const allDropdown = document.querySelectorAll(".dropdown-content");
     allDropdown.forEach((dropdown) => {
-        if(!dropdown.classList.contains("hidden")){
-            dropdown.classList.add("hidden")
-        };
+        if (!dropdown.classList.contains("hidden")) {
+            dropdown.classList.add("hidden");
+        }
     });
 });
-
 
 function deleteComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
         const delComment = comment.querySelector(".delete");
-        if(delComment){
+        if (delComment) {
             delComment.addEventListener("click", (event) => {
                 event.preventDefault();
                 deleteCommentItem(comment);
             });
-        };
+        }
     });
 }
 deleteComment();
 
 async function deleteCommentItem(comment) {
     const commentId = comment.getAttribute("comment-id");
-    try {
-        const data = await fetch("/api/comment/" + commentId, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
-            },
-        }).then((response) => response.json());
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const data = await fetch("/api/comment/" + commentId, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
+                    },
+                }).then((response) => response.json());
 
-        const section = document.getElementById("comments");
-        const message = document.createElement("p");
+                const section = document.getElementById("comments");
 
-        if (data.success) {
-            if (section.querySelectorAll(".comment").length === 1) {
-                const noCommentsDiv = document.createElement("div");
-                const noComments = document.createElement("p");
-                noCommentsDiv.id = "no_comments";
-                noComments.textContent = "There are no comments yet";
-                noCommentsDiv.appendChild(noComments);
-                section.appendChild(noCommentsDiv);
+                if (data.success) {
+                    if (section.querySelectorAll(".comment").length === 1) {
+                        const noCommentsDiv = document.createElement("div");
+                        const noComments = document.createElement("p");
+                        noCommentsDiv.id = "no_comments";
+                        noComments.textContent = "There are no comments yet";
+                        noCommentsDiv.appendChild(noComments);
+                        section.appendChild(noCommentsDiv);
+                    }
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: data.success,
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                    });
+                    comment.remove();
+                } else {
+                    Swal.fire({
+                        title: "Fail!",
+                        text: data.error,
+                        icon: "error",
+                        confirmButtonColor: "#3085d6",
+                    });
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                Swal.showValidationMessage(`
+                Request failed: ${error}
+              `);
             }
-            message.className = "success";
-            message.textContent = data.success;
-            comment.remove();
-        } else {
-            message.className = "error";
-            message.textContent = data.error;
         }
-        document.body.prepend(message);
-    } catch (error) {
-        console.error("Error:", error);
-    }
+    });
 }
 
 function makeDropDown(comment) {
     const options = [
-        { icon: "flag", label: "Report", fn: openReportCommentForm },
         {
             icon: "delete",
             label: "Delete",
@@ -244,7 +279,7 @@ function makeDropDown(comment) {
     const moreButton = document.createElement("button");
     moreButton.className = "more";
     moreButton.addEventListener("click", function (event) {
-        toggleMenu(this, event);
+        toggleMenu(moreButton, event);
     });
 
     const moreIcon = document.createElement("span");
@@ -301,13 +336,15 @@ function editComment() {
     comments.forEach(function (comment) {
         const editButton = comment.querySelector(".edit");
         const form = comment.querySelector(".editForm");
-        if(form){form.addEventListener("submit", saveEdit);}
-        if(editButton){
+        if (form) {
+            form.addEventListener("submit", saveEdit);
+        }
+        if (editButton) {
             editButton.addEventListener("click", function (event) {
                 event.preventDefault();
                 editCommentItem(comment);
             });
-        };
+        }
     });
 }
 editComment();
@@ -317,35 +354,66 @@ async function saveEdit(event) {
     const comment = event.target.parentElement;
     const commentId = comment.getAttribute("comment-id");
     const commentContent = comment.querySelector(".commentContent").value;
-    try {
-        const data = await fetch("/api/comment/" + commentId + "/edit", {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
-            },
-            body: JSON.stringify({ content: commentContent }),
-        }).then((response) => response.json());
+    Swal.fire({
+        title: "Are you sure you want to edit your comment?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, save it!",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const data = await fetch(
+                    "/api/comment/" + commentId + "/edit",
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
+                        },
+                        body: JSON.stringify({ content: commentContent }),
+                    }
+                ).then((response) => response.json());
 
-        const content = comment.querySelector(".comment_text");
-        const message = document.createElement("p");
+                const content = comment.querySelector(".comment_text");
+                let editDate = comment.querySelector("#edit_date");
 
-        if (data.success) {
-            content.textContent = commentContent;
-            message.className = "success";
-            message.textContent = data.success;
-        } else {
-            message.className = "error";
-            message.textContent = data.error;
+                if (data.success) {
+                    if (editDate === null) {
+                        const date = comment.querySelector(".date");
+                        editDate = document.createElement("p");
+                        editDate.className = "date";
+                        editDate.id = "edit_date";
+                        date.insertAdjacentElement("afterend", editDate);
+                    }
+                    editDate.textContent = "Edited " + data.edit_date;
+                    content.textContent = commentContent;
+                    Swal.fire({
+                        title: "Saved!",
+                        text: data.success,
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Fail!",
+                        text: data.error,
+                        icon: "error",
+                        confirmButtonColor: "#3085d6",
+                    });
+                }
+                editCancel(comment);
+            } catch (error) {
+                console.error("Error:", error);
+                Swal.showValidationMessage(`
+                Request failed: ${error}
+              `);
+            }
         }
-        editCancel(comment);
-
-        document.body.appendChild(message);
-    } catch (error) {
-        console.error("Error:", error);
-    }
+    });
 }
 
 function editCancel(comment) {
@@ -356,26 +424,24 @@ function editCancel(comment) {
     form.setAttribute("hidden", "true");
 }
 
-
-
 // Teste
 function reportComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
         const reportComment = comment.querySelector(".report");
-        if(reportComment){
+        if (reportComment) {
             reportComment.addEventListener("click", (event) => {
                 event.preventDefault();
                 openReportCommentForm(comment);
             });
-        };
+        }
     });
 }
 reportComment();
 
 const reportPopup = document.getElementById("report_content_popup");
 const idContent = reportPopup.querySelector("#id_content");
-const textareaForm = reportPopup.querySelector('#reason')
+const textareaForm = reportPopup.querySelector("#reason");
 
 function openReportNewsForm(valeu) {
     idContent.valeu = valeu;
@@ -394,40 +460,60 @@ function closeReportContentForm() {
     reportPopup.style.display = "none";
 }
 
+reportPopup
+    .querySelector("#report_form")
+    .addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const reason = this.querySelector("#reason").value;
 
-reportPopup.querySelector("#report_form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-    const reason = this.querySelector('#reason').value;
+        const data = {
+            id_content: idContent.valeu,
+            reason: reason,
+        };
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to report this content?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, report it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const message = await fetch("/api/content/report/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document
+                                .querySelector('meta[name="csrf-token"]')
+                                .getAttribute("content"),
+                        },
+                        body: JSON.stringify(data),
+                    }).then((response) => response.json());
 
-    const data = {
-        _token: token,
-        id_content: idContent.valeu,
-        reason: reason
-    };
-    try {
-        const result = await fetch("/api/content/report/" , {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-        }).then((response) => response.json());
-        
-        const message = document.createElement("p");
-        if (result.success) {
-            console.log("Success");
-            message.className = "success";
-            message.textContent = result.success;
-            console.log(result.success);
-        } else {
-            console.log("Error");
-            message.className = "error";
-            message.textContent = result.error;
-        }
-        document.body.prepend(message);
-        closeReportContentForm();
-    } catch (error) {
-        console.error("Error:", error);
-    }
-});
+                    if (message.success) {
+                        Swal.fire({
+                            title: "Report make!",
+                            text: message.success,
+                            icon: "success",
+                            confirmButtonColor: "#3085d6",
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Fail!",
+                            text: message.error,
+                            icon: "error",
+                            confirmButtonColor: "#3085d6",
+                        });
+                    }
+                    closeReportContentForm();
+                } catch (error) {
+                    console.error("Error:", error);
+                    Swal.showValidationMessage(`
+                Request failed: ${error}
+              `);
+                }
+            }
+        });
+    });

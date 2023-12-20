@@ -15,6 +15,11 @@ input[id="filter_users"]:focus {
     display: none;
 }
 
+#all_users div {
+    display: flex;
+    align-items: center;
+}
+
 #all_users .user {
     display: flex;
     align-items: center;
@@ -38,17 +43,27 @@ input[id="filter_users"]:focus {
     color: red;
 }
 
+#all_users .user .button {
+    background-color: var(--primary-color);
+    width: fit-content;
+}
+
 #all_users .user a {
     text-decoration: none;
     padding: 0.5em;
     color: var(--primary-text-color);
 }
 
-#all_users .user a:hover {
+#all_users .user a:hover,
+#all_users .user a:focus-visible {
     font-weight: bolder;
 }
 
 .accept {
     margin-left: 0em;
     margin-right: 0.5em;
+}
+
+#select_topic {
+    margin-top: 1em;
 }

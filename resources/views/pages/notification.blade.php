@@ -1,8 +1,5 @@
 @extends('layouts.app')
-
-@section('head')
-<script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
-@endsection
+<?php use Carbon\Carbon; ?>
 
 @section('content')
     <section id="list_notifications">
@@ -11,17 +8,35 @@
             <p>There are no notifications to show.</p>
         @else
             @foreach ($notifications->paginate(10) as $notif)
-                <article class="user_news" id="{{ $notif->notification->id }}">
+                <article @if (!$notif->view) class="user_news new_notification" @else class="user_news" @endif
+                    id="{{ $notif->notification->id }}">
                     <h4>
-                    <button class="notification_button"><span class="material-symbols-outlined icon_red">delete</span></button>
-                    @if ($notif->notification->type === "follow")
-                            <a href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a> is following you !
-                    @endif
-                    @if ($notif->notification->type === "content")
-                            <a href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a> has a new comment, go check !
-                    @endif
+                        <button class="notification_button"><span
+                                class="material-symbols-outlined icon_red">delete</span></button>
+                        @if ($notif->notification->type === 'follow')
+                            <div>
+                                <a
+                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                is following you !
+                            </div>
+                        @endif
+                        @if ($notif->notification->type === 'content')
+                            <div>
+                                <a
+                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                has a new comment, go check !
+                            </div>
+                        @endif
+                        @if ($notif->notification->type === 'vote')
+                            <div>
+                                <a
+                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                voted on your news item. <a
+                                    href="{{ route('news_page', ['id' => $notif->notification->content->news_items->id]) }}">{{ $notif->notification->content->news_items->title }}</a>
+                            </div>
+                        @endif
+                        <p>{{ explode('.', date('Y/m/d H:i:s', Carbon::parse($notif->date)->timestamp))[0] }}</p>
                     </h4>
-                    <p>{{ $notif->date}}</p>
                 </article>
             @endforeach
         @endif

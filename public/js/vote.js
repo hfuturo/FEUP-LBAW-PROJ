@@ -3,12 +3,12 @@
 document?.querySelectorAll(".vote_value").forEach((input) => {
     let value = input.value;
     let button;
-    if (value == 1){
+    if (value == 1) {
         button = input.parentNode.querySelector(".accept");
         button.style.backgroundColor = "green";
         button.style.borderColor = "green";
     }
-    if (value == -1){
+    if (value == -1) {
         button = input.parentNode.querySelector(".remove");
         button.style.backgroundColor = "red";
         button.style.borderColor = "red";
@@ -21,24 +21,30 @@ document.querySelectorAll(".vote").forEach((button) => {
         let content = button.parentNode.id;
         let method = "POST";
         let action, value;
-        if((name == "vote accept" && button.style.backgroundColor == "green") || (name == "vote remove" && button.style.backgroundColor == "red")){
+        if (
+            (name == "vote accept" &&
+                button.style.backgroundColor == "green") ||
+            (name == "vote remove" && button.style.backgroundColor == "red")
+        ) {
             action = "destroy";
             method = "DELETE";
-        }
-        else if((name == "vote accept" && button.parentNode.querySelector(".remove").style.backgroundColor == "red") || (name == "vote remove" && button.parentNode.querySelector(".accept").style.backgroundColor == "green")){
+        } else if (
+            (name == "vote accept" &&
+                button.parentNode.querySelector(".remove").style
+                    .backgroundColor == "red") ||
+            (name == "vote remove" &&
+                button.parentNode.querySelector(".accept").style
+                    .backgroundColor == "green")
+        ) {
             action = "update";
             method = "POST";
-        }
-        else{
+        } else {
             action = "create";
-            method = "POST";      
+            method = "POST";
         }
 
         if (name == "vote accept") value = 1;
         if (name == "vote remove") value = -1;
-
-        console.log(action)
-        console.log(method)
 
         sendAjaxRequest(
             `${method}`,
@@ -50,7 +56,7 @@ document.querySelectorAll(".vote").forEach((button) => {
 });
 
 function voteHandler() {
-    if (this.status != 200) window.location = "/";
+    //if (this.status != 200) window.location = "/";
     const action = JSON.parse(this.responseText).action;
     const vote = JSON.parse(this.responseText).vote;
 
@@ -122,6 +128,6 @@ function voteHandler() {
         icon: "success",
         title: "Done successfully!",
         showConfirmButton: false,
-        timer: 1500
-      }); 
+        timer: 1500,
+    });
 }
