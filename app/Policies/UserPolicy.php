@@ -39,4 +39,9 @@ class UserPolicy
     {
         return Auth::user()->is_admin();
     }
+
+    public function change_moderator(User $currentUser): bool
+    {
+        return $currentUser->is_admin();
+    }
 }

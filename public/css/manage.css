@@ -15,6 +15,11 @@ input[id="filter_users"]:focus {
     display: none;
 }
 
+#all_users div {
+    display: flex;
+    align-items: center;
+}
+
 #all_users .user {
     display: flex;
     align-items: center;
@@ -25,6 +30,7 @@ input[id="filter_users"]:focus {
     justify-content: space-between;
 }
 
+/*
 #all_users .user button {
     margin-right: 0;
     margin-left: 0;
@@ -33,6 +39,7 @@ input[id="filter_users"]:focus {
     min-width: 1em;
     padding: 0 0.5em;
 }
+*/
 
 #all_users .user button span {
     color: red;
@@ -52,4 +59,8 @@ input[id="filter_users"]:focus {
 .accept {
     margin-left: 0em;
     margin-right: 0.5em;
+}
+
+#select_topic {
+    margin-top: 1em;
 }
