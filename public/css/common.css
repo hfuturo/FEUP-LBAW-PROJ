@@ -214,3 +214,8 @@ p.error::before {
     text-align: center;
     box-shadow: inset -1px -1px 1px 0px rgba(0, 0, 0, 0.25);
 }
+
+/** Fix sticky header with sweet alert */
+body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+    overflow: clip !important;
+}

@@ -68,7 +68,8 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RecoverPasswordController::class)->group(function () {
     Route::get('/recover', 'show_recover_password_form')->name('recover_password');
     Route::post('/recover/verify_code', 'verify_code')->name('verify_code');
-    Route::get('/recover/verify_code/{user}', 'verify_code_form')->name('verify_code_form');
+    Route::get('/recover/verify_code/{user}', 'verify_code_form')->name('verify_code_form')
+        ->where('user', '[0-9]+');
 });
 
 Route::controller(RegisterController::class)->group(function () {
@@ -78,12 +79,16 @@ Route::controller(RegisterController::class)->group(function () {
 
 // News
 Route::controller(NewsItemController::class)->group(function () {
-    Route::post('/news/{id}', 'destroy')->name('destroy');
+    Route::post('/news/{id}', 'destroy')->name('destroy')
+        ->where('id', '[0-9]+');
     Route::get('/news/create', 'create')->name('create_news');
     Route::post('/api/news/create', 'store')->name('create_news_api');
-    Route::get('/news/{id}/edit', 'edit')->name('edit_news');
-    Route::post('/api/news/{id}/edit', 'update')->name('edit_news_api');
-    Route::get('/news/{id}', 'show')->name('news_page');
+    Route::get('/news/{id}/edit', 'edit')->name('edit_news')
+        ->where('id', '[0-9]+');
+    Route::post('/api/news/{id}/edit', 'update')->name('edit_news_api')
+        ->where('id', '[0-9]+');
+    Route::get('/news/{id}', 'show')->name('news_page')
+        ->where('id', '[0-9]+');
 });
 
 // Admin
@@ -95,11 +100,16 @@ Route::controller(ManageController::class)->group(function () {
 
 // Profile
 Route::controller(UserController::class)->group(function () {
-    Route::get('/profile/{user}', 'show')->name('profile');
-    Route::post('/profile/{user}', 'update')->name('profile_update');
-    Route::post('/profile/{user}/delete', 'delete')->name('delete_account');
-    Route::post('/profile/{user}/block', 'block_perfil_button')->name('block');
-    Route::post('/profile/{user}/unblock', 'unblock_perfil_button')->name('unblock');
+    Route::get('/profile/{user}', 'show')->name('profile')
+        ->where('user', '[0-9]+');
+    Route::post('/profile/{user}', 'update')->name('profile_update')
+        ->where('user', '[0-9]+');
+    Route::post('/profile/{user}/delete', 'delete')->name('delete_account')
+        ->where('user', '[0-9]+');
+    Route::post('/profile/{user}/block', 'block_perfil_button')->name('block')
+        ->where('user', '[0-9]+');
+    Route::post('/profile/{user}/unblock', 'unblock_perfil_button')->name('unblock')
+        ->where('user', '[0-9]+');
 });
 
 // About Us
@@ -131,12 +141,14 @@ Route::controller(MailController::class)->group(function () {
 });
 
 Route::controller(TopicController::class)->group(function () {
-    Route::get('/topic/{topic}', 'show')->name('topic');
+    Route::get('/topic/{topic}', 'show')->name('topic')
+        ->where('topic', '[0-9]+');
     Route::get('/moderators', 'moderators')->name('list_mods');
 });
 
 Route::controller(TagController::class)->group(function () {
-    Route::get('/tag/{tag}', 'show')->name('tag');
+    Route::get('/tag/{tag}', 'show')->name('tag')
+        ->where('tag', '[0-9]+');
 });
 
 // file
@@ -146,8 +158,10 @@ Route::controller(FileController::class)->group(function () {
 
 
 Route::controller(OrganizationController::class)->group(function () {
-    Route::get('organization/{organization}', 'show')->name('show_org');
-    Route::get('manage_organization/{organization}', 'show_manage')->name('show_manage_org');
+    Route::get('/organization/{organization}', 'show')->name('show_org')
+        ->where('organization', '[0-9]+');
+    Route::get('/manage_organization/{organization}', 'show_manage')->name('show_manage_org')
+        ->where('organization', '[0-9]+');
 });
 
 
