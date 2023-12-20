@@ -120,7 +120,7 @@ class OrganizationController extends Controller
             $org->delete();
             return redirect()->route('news')->with('success', 'You have successfully deleted your organization!');
         } catch (Exception $e) {
-            return back()->withErrors('You were not able to delete this organization, please check your permissions or try to refresh the page');
+            return back()->withErrors(['error' => 'You were not able to delete this organization, please check your permissions or try to refresh the page']);
         }
     }
 }

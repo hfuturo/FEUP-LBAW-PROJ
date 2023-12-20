@@ -84,7 +84,13 @@ class UserController extends Controller
             return redirect()->route('profile', [$user])
                 ->with('success', 'Successfully changed!');
         } else {
-            return redirect()->route('profile', [$user])->withErrors(['error_form', 'The parameters are invalid!']);
+            if (empty($request->input('name'))){
+                return back()->withErrors(['name' => 'Name field is mandatory']);
+            } 
+            else if (empty($request->input('email'))){
+                return back()->withErrors(['email' => 'Email field is mandatory']);
+            }
+            return redirect()->route('profile', [$user])->withErrors(['error' => 'The parameters are invalid!']);
         }
     }
 
@@ -138,7 +144,7 @@ class UserController extends Controller
         $this->authorize('delete', $user);
         return $user->delete() ?
             redirect()->route('news')->with('success', 'Account deleted successfully!') :
-            redirect()->route('profile', [$user->id])->withErrors(['Error deleting account!']);
+            redirect()->route('profile', [$user->id])->withErrors(['error' =>'Error deleting account!']);
     }
 
     public function destroy(Request $request)

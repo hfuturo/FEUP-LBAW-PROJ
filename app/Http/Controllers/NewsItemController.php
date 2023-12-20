@@ -70,7 +70,7 @@ class NewsItemController extends Controller
             $news_item->delete();
             return redirect()->route('news')->with('success', 'Eliminated with success!');
         }
-        return redirect()->route('news_page', [$id])->withErrors(['Cannot be eliminated because it has comments!']);
+        return redirect()->route('news_page', [$id])->withErrors(["error" => 'Cannot be eliminated because it has comments!']);
     }
 
     public function destroy_admin(Request $request)
@@ -97,7 +97,7 @@ class NewsItemController extends Controller
 
         $this->authorize('create', \App\NewsItem::class);
 
-        $request->validate([
+        $valid = $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
             'text' => 'required|string',
             'topic' => 'required|int',
@@ -145,7 +145,7 @@ class NewsItemController extends Controller
                 ->with('success', 'Successfully Create!');
         } catch (Exception $e) {
             return redirect()->route('create_news')
-                ->withErrors('The parameters are invalid!');
+                ->withErrors(['error' => 'The parameters are invalid!']);
         }
     }
 
@@ -157,7 +157,7 @@ class NewsItemController extends Controller
     {
         if (!Auth::check()) {
             return redirect()->route("login")
-                ->withErrors('Not authenticated. Please log in');
+                ->withErrors(['error' => 'Not authenticated. Please log in']);
         }
         $topics = Topic::all();
         $tags = Tag::all();
@@ -172,7 +172,7 @@ class NewsItemController extends Controller
     {
         if (!Auth::check()) {
             return redirect()->route("login")
-                ->withErrors('Not authenticated. Please log in');
+                ->withErrors(['error' => 'Not authenticated. Please log in']);
         }
         $news_item = NewsItem::find($id);
         $this->authorize('update', $news_item);

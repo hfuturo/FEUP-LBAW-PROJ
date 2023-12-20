@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div id = "news-create-container">
+    <section id = "news-create-container">
         <h2> Create a Post</h2>
         <form action="{{ route('create_news_api') }}" method = "POST" id="newsForm" enctype="multipart/form-data">
             @csrf
@@ -45,7 +45,7 @@
             </div>
 
             <div class ="form-group">
-                <label>Tags</label>
+                <label>Tags <span title="To insert a tag press space or enter and to remove click them" class="hint">?</span></label>
                 <datalist id="tags">
                     @foreach ($tags as $tag)
                         <option value="{{ $tag->name }}">{{ $tag->name }}</option>
@@ -57,5 +57,5 @@
             </div>
             <button type="submit" form="newsForm" value="Submit">Create</button>
         </form>
-    </div>
+</section>
 @endsection

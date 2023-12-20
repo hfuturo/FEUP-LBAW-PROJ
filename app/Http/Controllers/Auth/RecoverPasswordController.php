@@ -45,7 +45,7 @@ class RecoverPasswordController extends Controller
                 'recover_password_code' => null, 
                 'recover_password_tries' => null
             ]);
-            return redirect()->route('recover_password')->withErrors('Run out of tries to reset password');
+            return redirect()->route('recover_password')->withErrors(['error' => 'Run out of tries to reset password']);
         }
 
         User::where('email', '=', $request->email)->update([

@@ -6,11 +6,12 @@
         });
     </script>
 @endif
-@if ($errors->any())
-    <script>
-        Swal.fire({
-            icon: "error",
-            title: "{{ $errors->first() }}",
-        });
-    </script>
-@endif
+@error("error")
+<script>
+    Swal.fire({
+        icon: "error",
+        title: "{{ $message }}",
+    });
+</script>
+@enderror
+

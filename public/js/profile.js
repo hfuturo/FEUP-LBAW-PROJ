@@ -24,6 +24,12 @@ function closeEditPfpForm() {
     document.getElementById("edit_pfp_popup").style.display = "none";
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector("edit_profile_popup .input_error")) {
+        openEditForm();
+    }
+});
+
 const followButton = document.querySelector("#follow");
 followButton?.addEventListener("click", () => {
     const user = document.querySelector("#following").value;
