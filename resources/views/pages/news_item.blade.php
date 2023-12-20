@@ -61,6 +61,8 @@ use App\Http\Controllers\FileController;
                             <a href="{{ route('profile', ['user' => $news_item->content->authenticated_user]) }}"
                                 class = "author">{{ $news_item->content->authenticated_user->name }}</a>
                         @else
+                            <img class="author_post_pfp" src="{{ asset('profile/pfp_default.jpeg') }}"
+                                alt="User Profile Picture">
                             <p class="author">&nbsp;Anonymous</p>
                         @endif
                         @if ($news_item->content->organization !== null)

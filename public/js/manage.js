@@ -69,6 +69,11 @@ function blockUnblockEventListener(icon, action) {
         const name = icon.parentNode.previousElementSibling.textContent;
         Swal.fire({
             title: "Do you want to " + action + " " + name + "?",
+            text:
+                name +
+                " will " +
+                (action === "block" ? "lose" : "regain") +
+                " access to the account.",
             showCancelButton: true,
             confirmButtonText: action.charAt(0).toUpperCase() + action.slice(1),
             icon: "question",

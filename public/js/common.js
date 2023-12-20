@@ -41,9 +41,9 @@ async function sendFetchRequest(method, url, data, convert = null) {
             cache: "no-store",
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
-                "Content-Type": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json",
             },
-            body: encodeForAjax(data),
+            body: JSON.stringify(data),
         });
     }
     if (convert === "text") {

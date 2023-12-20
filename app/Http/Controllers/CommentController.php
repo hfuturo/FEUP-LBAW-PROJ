@@ -61,10 +61,12 @@ class CommentController extends Controller
             $comment->id_news = $id;
             $comment->save();
 
-            if ($news_item->authenticated_user->id === $content->authenticated_user->id) {
-                $news_author = TRUE;
-            } else {
-                $news_author = FALSE;
+            $news_author = FALSE;
+
+            if ($news_item->authenticated_user) {
+                if ($news_item->authenticated_user->id === $content->authenticated_user->id) {
+                    $news_author = TRUE;
+                }
             }
 
             return [
@@ -78,10 +80,14 @@ class CommentController extends Controller
         });
 
         $news_item = Content::find($id);
-        $notification = Notification::where('id_content', '=', $comment['id'])
-            ->where('type', '=', 'content')
-            ->first();
-        event(new NewCommentNotification($news_item->authenticated_user->id, $news_item->id, $news_item->news_items->title, $notification->id));
+
+        // envia notificação apenas se user existir
+        if ($news_item->authenticated_user) {
+            $notification = Notification::where('id_content', '=', $comment['id'])
+                ->where('type', '=', 'content')
+                ->first();
+            event(new NewCommentNotification($news_item->authenticated_user->id, $news_item->id, $news_item->news_items->title, $notification->id));
+        }
 
         return response()->json($comment);
     }

@@ -8,7 +8,6 @@ document
 
         const newsId = this.getAttribute("data-news-id");
         const commentContent = document.getElementById("commentContent").value;
-
         const data = await fetch("/api/news/" + newsId + "/comment", {
             method: "POST",
             headers: {

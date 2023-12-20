@@ -478,9 +478,11 @@ BEGIN
         INSERT INTO notification(type, id_content) VALUES ('content', NEW.id);
     END IF;
     SELECT id_author FROM "content" WHERE id = NEW.id_news INTO item_author;
-    SELECT id FROM notification WHERE id_content = NEW.id AND type='content' INTO not_com;
-    INSERT INTO notified(id_notification, id_notified)
-        VALUES (not_com,item_author);
+    IF item_author IS NOT NULL THEN
+      SELECT id FROM notification WHERE id_content = NEW.id AND type='content' INTO not_com;
+      INSERT INTO notified(id_notification, id_notified)
+          VALUES (not_com,item_author);
+    END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

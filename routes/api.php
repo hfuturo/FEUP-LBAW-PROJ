@@ -16,7 +16,7 @@ use App\Http\Controllers\VoteController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BlockController;
-
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,4 +107,8 @@ Route::controller(MembershipStatusController::class)->group(function () {
     Route::post('/organization/manage/expel', 'expel');
     Route::post('/organization/manage/decline', 'decline');
     Route::post('/organization/manage/accept', 'accept');
+});
+
+Route::controller(FileController::class)->group(function () {
+    Route::post('/file/delete', 'remove_pfp');
 });
