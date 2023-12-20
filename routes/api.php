@@ -83,7 +83,8 @@ Route::controller(VoteController::class)->group(function () {
 });
 
 Route::controller(OrganizationController::class)->group(function () {
-    Route::post('/organization/create', 'store')->name('create_org');
+    Route::post('/organization/create', 'store')->name('create_org'); 
+    Route::post('/organization/update', 'update'); 
     Route::post('/organization/delete_organization/{organization}', 'destroy')->name('delete_organization');
 });
 
