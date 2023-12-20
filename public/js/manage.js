@@ -41,42 +41,56 @@ function filterUsersHandler() {
         buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
         blockUnblockButton.appendChild(buttonSpan);
 
-
-        let div = document.createElement("div"); 
+        let div = document.createElement("div");
         div.appendChild(link);
-        if(user.id_topic !== null){       
-        let linkTopic = document.createElement("a");
-        linkTopic.classList.add("is_mod");
-        linkTopic.href = "/topic/" + user.id_topic;
-        let n = user.id_topic;
-        linkTopic.innerHTML = "Moderator of " + topics[n];
-        console.log(topics[n]);
-        div.appendChild(linkTopic);
+        if (user.id_topic !== null) {
+            let linkTopic = document.createElement("a");
+            linkTopic.classList.add("is_mod");
+            linkTopic.href = "/topic/" + user.id_topic;
+            let n = user.id_topic;
+            linkTopic.innerHTML = "Moderator of " + topics[n];
+            console.log(topics[n]);
+            div.appendChild(linkTopic);
         }
 
         let buttonMod = document.createElement("button");
         buttonMod.classList.add("text", "modBut", "button");
-        if(!user.blocked && user.id_topic !== null){
-            buttonMod.addEventListener("click", function() {
+        if (!user.blocked && user.id_topic !== null) {
+            buttonMod.addEventListener("click", function () {
                 revokeModerator(this);
             });
             buttonMod.textContent = "Revoke Moderator";
-
         }
-        if (!user.blocked && user.id_topic === null){
-            buttonMod.addEventListener("click", function() {
+        if (!user.blocked && user.id_topic === null) {
+            buttonMod.addEventListener("click", function () {
                 openMakeModeratorTopic(this);
             });
             buttonMod.textContent = "Make Moderator";
         }
 
+        let buttonAdmin = document.createElement("button");
+        buttonAdmin.classList.add("upgrade", "button");
+        buttonAdmin.setAttribute("data-operation", "upgrade_user");
+        if (!user.blocked && user.type !== "admin") {
+            buttonAdmin.addEventListener("click", function () {
+                const idUser = buttonAdmin.parentNode.id;
+                sendAjaxRequest(
+                    "post",
+                    `/api/${buttonAdmin.dataset.operation}`,
+                    { idUser },
+                    upgradeUserHandler
+                );
+            });
+            buttonAdmin.textContent = "Upgrade to Administrator";
+        }
 
         li.appendChild(div);
         li.appendChild(blockUnblockButton);
         li.appendChild(buttonMod);
+        li.appendChild(buttonAdmin);
+
         console.log(li);
         usersList.appendChild(li);
-
 
         blockUnblockEventListener(
             buttonSpan,

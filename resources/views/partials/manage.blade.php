@@ -18,9 +18,9 @@
             @else
                 <button class="text modBut button" onclick="revokeModerator(this)">Revoke Moderator</button>
             @endif
-        @endif
-        @if (!$user->is_admin())
-            <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>
+            @if (!$user->is_admin())
+                <button class="button upgrade" data-operation="upgrade_user">Upgrade to Administrator</button>
+            @endif
         @endif
     @endif
 </li>
