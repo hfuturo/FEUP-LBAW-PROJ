@@ -35,7 +35,7 @@ function filterUsersHandler() {
         link.href = "/profile/" + user.id;
         link.innerHTML = user.name;
         const buttonSpan = document.createElement("span");
-        if (parseInt(user_id) !== user.id) {
+        if (parseInt(user_id) !== user.id && user.type !== "admin") {
             const blockUnblockButton = document.createElement("button");
             blockUnblockButton.classList.add(
                 user.blocked ? "unblock" : "block"
@@ -97,7 +97,7 @@ function filterUsersHandler() {
 
         usersList.appendChild(li);
 
-        if (parseInt(user_id) !== user.id) {
+        if (parseInt(user_id) !== user.id && user.type !== "admin") {
             blockUnblockEventListener(
                 buttonSpan,
                 user.blocked ? "unblock" : "block"
@@ -181,6 +181,55 @@ function blockUnblockEventListener(icon, action) {
                     icon,
                     action === "block" ? "unblock" : "block"
                 );
+
+                // remove restantes botoes caso leve block
+                if (action === "block") {
+                    document
+                        .querySelector('li[id="' + id + '"] .modBut')
+                        ?.remove();
+                    document
+                        .querySelector('li[id="' + id + '"] .upgrade')
+                        ?.remove();
+                } else {
+                    const buttonDiv = icon.parentNode.parentNode;
+
+                    // admin button
+                    const buttonAdmin = document.createElement("button");
+                    buttonAdmin.classList.add("upgrade", "button");
+                    buttonAdmin.setAttribute("data-operation", "upgrade_user");
+                    buttonAdmin.addEventListener("click", function () {
+                        sendAjaxRequest(
+                            "post",
+                            `/api/${buttonAdmin.dataset.operation}`,
+                            { id },
+                            upgradeUserHandler
+                        );
+                    });
+                    buttonAdmin.textContent = "Upgrade to Administrator";
+
+                    // mod button
+                    const buttonMod = document.createElement("button");
+                    buttonMod.classList.add("text", "modBut", "button");
+
+                    const isMod =
+                        document.querySelector(
+                            'li[id="' + id + '"] > div:first-of-type'
+                        ).children.length === 2;
+
+                    if (isMod) {
+                        buttonMod.addEventListener("click", function () {
+                            revokeModerator(this);
+                        });
+                        buttonMod.textContent = "Revoke Moderator";
+                    } else {
+                        buttonMod.addEventListener("click", function () {
+                            openMakeModeratorTopic(this);
+                        });
+                        buttonMod.textContent = "Make Moderator";
+                    }
+
+                    buttonDiv.append(buttonMod, buttonAdmin);
+                }
             }
         });
     });
@@ -218,8 +267,9 @@ document.querySelectorAll(".upgrade").forEach((button) => {
 });
 
 function upgradeUserHandler() {
-    //if (this.status != 200) window.location = "/";
+    if (this.status != 200) window.location = "/";
     let id = JSON.parse(this.responseText).id;
-    let element = document.querySelector('li[id="' + id + '"] .upgrade');
-    element.remove();
+    document.querySelector('li[id="' + id + '"] .block')?.remove();
+    document.querySelector('li[id="' + id + '"] .modBut')?.remove();
+    document.querySelector('li[id="' + id + '"] .upgrade')?.remove();
 }

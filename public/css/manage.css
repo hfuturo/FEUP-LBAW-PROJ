@@ -69,3 +69,7 @@ input[id="filter_users"]:focus {
 #select_topic {
     margin-top: 1em;
 }
+
+.modBut {
+    min-width: 10em;
+}

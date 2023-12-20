@@ -12,8 +12,10 @@
                 <button class="block" data-operation="unblock_user"><span
                         class="material-symbols-outlined">done_outline</span></button>
             @else
-                <button class="block" data-operation="block_user"><span
-                        class="material-symbols-outlined">block</span></button>
+                @if (!$user->is_admin())
+                    <button class="block" data-operation="block_user"><span
+                            class="material-symbols-outlined">block</span></button>
+                @endif
                 @if ($user->topic === null)
                     <button class="text modBut button" onclick="openMakeModeratorTopic(this)">Make Moderator</button>
                 @else

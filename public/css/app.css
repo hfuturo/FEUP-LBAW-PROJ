@@ -326,3 +326,7 @@ main > section {
 body.swal2-shown {
     padding-right: 0 !important;
 }
+
+#topics article > ul li {
+    list-style: none;
+}
