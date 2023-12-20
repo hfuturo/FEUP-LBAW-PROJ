@@ -55,7 +55,7 @@ function filterUsersHandler() {
         }
 
         let buttonMod = document.createElement("button");
-        buttonMod.classList.add("text", "modBut");
+        buttonMod.classList.add("text", "modBut", "button");
         if(!user.blocked && user.id_topic !== null){
             buttonMod.addEventListener("click", function() {
                 revokeModerator(this);

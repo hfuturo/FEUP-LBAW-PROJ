@@ -30,7 +30,6 @@ input[id="filter_users"]:focus {
     justify-content: space-between;
 }
 
-/*
 #all_users .user button {
     margin-right: 0;
     margin-left: 0;
@@ -39,7 +38,6 @@ input[id="filter_users"]:focus {
     min-width: 1em;
     padding: 0 0.5em;
 }
-*/
 
 #all_users .user button span {
     color: red;

@@ -202,7 +202,7 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
-
+    }
     public function upgrade(Request $request){
         $this->authorize('upgrade', \App\User::class);
         $user = User::find($request->input("idUser"));

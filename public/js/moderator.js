@@ -29,7 +29,7 @@ function revokeModerator(button){
                         openMakeModeratorTopic(this);
                     };
                     userLi.querySelector(".is_mod").remove();
-                    button.textContent = "Make moderator"
+                    button.textContent = "Make Moderator"
                     Swal.fire({
                         title: "Revoked privileges!",
                         text: result.success,
