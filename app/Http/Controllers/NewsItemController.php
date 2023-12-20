@@ -94,6 +94,7 @@ class NewsItemController extends Controller
      */
     public function store(Request $request)
     {
+        try {
 
         $this->authorize('create', \App\NewsItem::class);
 
@@ -114,7 +115,6 @@ class NewsItemController extends Controller
         }
 
         $id_news = NULL;
-        try {
             DB::transaction(function () use (&$id_news, $request, $imageName) {
 
                 $content = new Content();

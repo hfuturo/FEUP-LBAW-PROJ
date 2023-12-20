@@ -6,12 +6,17 @@
 
             <label for="name_topic">Name</label>
             <input id="name_topic" type="text" name="name" placeholder="Name" required>
+            @error("name")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <label for="justification">Justification</label>
             <input id="justification" type="text" name="justification" placeholder="Justification">
+            @error("justification")
+                <p class="input_error">{{ $message }}</p>
+            @enderror
 
             <button type="submit"> Submit </button>
-
         </form>
     </div>
 </div>
