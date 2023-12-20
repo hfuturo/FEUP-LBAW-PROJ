@@ -67,7 +67,7 @@ class NewsController extends Controller
                 Tag::parse_tags($request->input("tags")),
                 $request->input("before"),
                 $request->input("after"),
-            ), //->ddRawSql(),
+            ),
             "perPage" => 10
         ]);
     }
