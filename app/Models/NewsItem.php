@@ -65,6 +65,7 @@ class NewsItem extends Model
     }
 
     public static function multi_filter(
+        string $order,
         ?string $fulltext,
         ?string $exact_match,
         ?string $title,
@@ -86,8 +87,16 @@ class NewsItem extends Model
                     ->join("news_item", DB::raw("news_item.id"), "=", DB::raw("news_tag.id_news_item"))
                     ->join("tag", DB::raw("news_tag.id_tag"), "=", DB::raw("tag.id"))
                     ->groupBy("news_item.id");
-            }, "tags", "tags.news_id", "=", "news_item.id")
-            ->orderBy('date', 'DESC');
+            }, "tags", "tags.news_id", "=", "news_item.id");
+        if ($order == "new")
+            $select->orderBy('date', 'DESC');
+        elseif ($order == "old") {
+            $select->orderBy('date', 'ASC');
+        } else {
+            $select->join("vote", "vote.id_content", "=", "content.id", "left")
+                ->groupBy("news_item.id", "content.id", "query.query")
+                ->orderByRaw('coalesce(sum(vote.vote),0) DESC');
+        }
 
         if ($fulltext && $fulltext !== '') {
             $select->join(DB::raw('websearch_to_tsquery(\'english\',?) query'), DB::raw('true'), '=', DB::raw('true'))
@@ -125,11 +134,13 @@ class NewsItem extends Model
         });
 
         $select->where(function ($select) use ($before) {
-            $select->whereDate('content.date', '<=', $before);
+            if ($before)
+                $select->whereDate('content.date', '<=', $before);
         });
 
         $select->where(function ($select) use ($after) {
-            $select->whereDate('content.date', '>=', $after);
+            if ($after)
+                $select->whereDate('content.date', '>=', $after);
         });
 
         return $select;

@@ -48,6 +48,18 @@ use App\Models\Tag;
                 placeholder="Search Anywhere in the News item" value="{{ app('request')->input('exact_match') }}"></label>
         <label>After: <input type="date" name="after" value="{{ app('request')->input('after') }}"></label>
         <label>Before: <input type="date" name="before" value="{{ app('request')->input('before') }}"></label>
+        <fieldset>
+            <legend>Order by:</legend>
+            <input id="ord_new" type="radio" name="order" value="new" required
+                {{ !app('request')->has('order') || app('request')->input('order') == 'new' ? 'checked' : '' }}>
+            <label for="ord_new">Newest</label>
+            <input id="ord_old" type="radio" name="order" value="old" required
+                {{ app('request')->input('order') == 'old' ? 'checked' : '' }}>
+            <label for="ord_old">Oldest</label>
+            <input id="ord_popular" type="radio" name="order" value="popular" required
+                {{ app('request')->input('order') == 'popular' ? 'checked' : '' }}>
+            <label for="ord_popular">Popular</label>
+        </fieldset>
         <button type="submit" class="button">Search</button>
     </form>
     <div class="all_news">

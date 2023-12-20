@@ -271,6 +271,20 @@ header form button {
     padding: 1em;
 }
 
+input[type="radio"] {
+    width: 0;
+    height: 0;
+    appearance: none;
+    position: absolute;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+input[type="radio"]:checked + label {
+    color: red;
+}
+
 #notifications_pop_up {
     display: none;
     position: fixed;
