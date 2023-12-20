@@ -15,13 +15,13 @@ use App\Models\Tag;
 @section('content')
     <h2>Advanced search</h2>
     <form id="advanced_search_form">
-        <label>Title<input type="text" name="title" placeholder="Title"
+        <label>Title<input class="form-item" type="text" name="title" placeholder="Title"
                 value="{{ app('request')->input('title') }}"></label>
-        <label>Content<input type="text" name="content" placeholder="Content"
+        <label>Content<input class="form-item" type="text" name="content" placeholder="Content"
                 value="{{ app('request')->input('content') }}"></label>
-        <label>Author<input type="text" name="author" placeholder="Author"
+        <label>Author<input class="form-item" type="text" name="author" placeholder="Author"
                 value="{{ app('request')->input('author') }}"></label>
-        <label>Topic<select name="topic" placeholder="Select a topic">
+        <label>Topic<select class="form-item" name="topic" placeholder="Select a topic">
                 <option value="" style="color: #767676;">Select a topic</option>
                 @foreach (Topic::all() as $topic)
                     <option value="{{ $topic->id }}"
@@ -40,14 +40,30 @@ use App\Models\Tag;
                     value="{{ app('request')->input('tags') }}" />
             </div>
         </label>
-        <label for="exact">Search anywhere <input type="text" name="fulltext"
+        <label>After: <input class="form-item" type="date" name="after"
+                value="{{ app('request')->input('after') }}"></label>
+        <label>Before: <input class="form-item" type="date" name="before"
+                value="{{ app('request')->input('before') }}"></label>
+        <label for="exact">Search anywhere <input class="form-item" type="text" name="fulltext"
                 placeholder="Search Anywhere in the News item" value="{{ app('request')->input('fulltext') }}"></label>
         <label>Search anywhere for exact text <span
                 title="Search for the text anywhere on the news item exactly (separated from the rest by spaces)"
-                class="hint">?</span><input type="text" name="exact_match"
+                class="hint">?</span><input class="form-item" type="text" name="exact_match"
                 placeholder="Search Anywhere in the News item" value="{{ app('request')->input('exact_match') }}"></label>
-        <label>After: <input type="date" name="after" value="{{ app('request')->input('after') }}"></label>
-        <label>Before: <input type="date" name="before" value="{{ app('request')->input('before') }}"></label>
+        <fieldset>
+            <legend>Order by:</legend>
+            <div class="form-item">
+                <input id="ord_new" type="radio" name="order" value="new" required
+                    {{ !app('request')->has('order') || app('request')->input('order') == 'new' ? 'checked' : '' }}>
+                <label for="ord_new">Newest</label>
+                <input id="ord_old" type="radio" name="order" value="old" required
+                    {{ app('request')->input('order') == 'old' ? 'checked' : '' }}>
+                <label for="ord_old">Oldest</label>
+                <input id="ord_popular" type="radio" name="order" value="popular" required
+                    {{ app('request')->input('order') == 'popular' ? 'checked' : '' }}>
+                <label for="ord_popular">Popular</label>
+            </div>
+        </fieldset>
         <button type="submit" class="button">Search</button>
     </form>
     <div class="all_news">
