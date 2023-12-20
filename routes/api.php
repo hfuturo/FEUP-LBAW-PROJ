@@ -40,9 +40,12 @@ Route::controller(FollowUserController::class)->group(function () {
 });
 
 Route::controller(CommentController::class)->group(function () {
-    Route::post('/news/{id}/comment', 'store')->name('news.comments.store');
-    Route::delete('/comment/{id_comment}', 'destroy')->name('news.comments.destroy');
-    Route::patch('/comment/{id_comment}/edit', 'update')->name('news.comments.update');
+    Route::post('/news/{id}/comment', 'store')->name('news.comments.store')
+        ->where('id', '[0-9]+');
+    Route::delete('/comment/{id_comment}', 'destroy')->name('news.comments.destroy')
+        ->where('id_comment', '[0-9]+');
+    Route::patch('/comment/{id_comment}/edit', 'update')->name('news.comments.update')
+        ->where('id_comment', '[0-9]+');
     Route::delete('/delete_comment', 'destroy_admin');
 });
 
@@ -57,7 +60,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/upgrade_user', 'upgrade');
     Route::post('/unblock_user', 'unblock');
     Route::delete('/delete_user', 'destroy');
-    Route::get('/fetch_pfp/{id}', 'fetch_pfp');
+    Route::get('/fetch_pfp/{id}', 'fetch_pfp')->where('id', '[0-9]+');
     Route::patch('/moderator/revoke', 'revoke_moderator');
     Route::patch('/moderator/make', 'make_moderator');
 });
@@ -83,9 +86,10 @@ Route::controller(VoteController::class)->group(function () {
 });
 
 Route::controller(OrganizationController::class)->group(function () {
-    Route::post('/organization/create', 'store')->name('create_org'); 
-    Route::post('/organization/update', 'update'); 
-    Route::post('/organization/delete_organization/{organization}', 'destroy')->name('delete_organization');
+    Route::post('/organization/create', 'store')->name('create_org');
+    Route::post('/organization/update', 'update');
+    Route::post('/organization/delete_organization/{organization}', 'destroy')->name('delete_organization')
+        ->where('organization', '[0-9]+');
 });
 
 Route::controller(NotificationController::class)->group(function () {
