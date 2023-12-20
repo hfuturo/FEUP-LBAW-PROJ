@@ -53,11 +53,11 @@ class NewsController extends Controller
         $request->validate([
             "before" => "nullable|date",
             "after" => "nullable|date",
-            "order" => "required|in:new,old,popular"
+            "order" => "nullable|in:new,old,popular"
         ]);
         return view(choose_view($request, 'pages.advanced_search'), [
             "news_list" => NewsItem::multi_filter(
-                $request->input("order"),
+                $request->input("order", "new"),
                 $request->input("fulltext"),
                 $request->input("exact_match"),
                 $request->input("title"),
