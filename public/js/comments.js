@@ -77,6 +77,7 @@ document
 
             const votes = document.createElement("div");
             votes.className = "votes";
+            votes.id = data.id;
 
             const like = createLikeDislike("accept", "thumb_up", "up_count");
             const dislike = createLikeDislike(
@@ -91,6 +92,48 @@ document
 
             commentSection.prepend(newComment);
             document.getElementById("commentContent").value = "";
+
+            document.querySelectorAll(".vote").forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    let name = button.className;
+                    let content =
+                        button.parentNode.parentNode.getAttribute("comment-id");
+                    let method = "POST";
+                    let action, value;
+                    if (
+                        (name == "vote accept" &&
+                            button.style.backgroundColor == "green") ||
+                        (name == "vote remove" &&
+                            button.style.backgroundColor == "red")
+                    ) {
+                        action = "destroy";
+                        method = "DELETE";
+                    } else if (
+                        (name == "vote accept" &&
+                            button.parentNode.querySelector(".remove").style
+                                .backgroundColor == "red") ||
+                        (name == "vote remove" &&
+                            button.parentNode.querySelector(".accept").style
+                                .backgroundColor == "green")
+                    ) {
+                        action = "update";
+                        method = "POST";
+                    } else {
+                        action = "create";
+                        method = "POST";
+                    }
+
+                    if (name == "vote accept") value = 1;
+                    if (name == "vote remove") value = -1;
+
+                    sendAjaxRequest(
+                        `${method}`,
+                        `/api/vote/${action}`,
+                        { content, value },
+                        voteHandler
+                    );
+                });
+            });
         } else {
             console.error("Failed to add comment");
             Swal.fire({
@@ -142,7 +185,7 @@ function makeEditForm(commentText, newComment) {
 
 function createLikeDislike(className, symbol, type) {
     const button = document.createElement("button");
-    button.className = className;
+    button.classList.add("vote", className);
 
     const icon = document.createElement("span");
     icon.className = "material-symbols-outlined";
