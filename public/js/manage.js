@@ -15,7 +15,10 @@ if (filterUsersInput) {
 
 function filterUsersHandler() {
     if (this.status != 200) window.location = "/";
-    const users = JSON.parse(this.responseText);
+    const data = JSON.parse(this.responseText);
+
+    const users = data.users;
+    const topics = data.topics;
 
     let usersList = document.querySelector("#all_users");
 
@@ -37,9 +40,43 @@ function filterUsersHandler() {
         buttonSpan.classList.add("material-symbols-outlined");
         buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
         blockUnblockButton.appendChild(buttonSpan);
-        li.appendChild(link);
+
+
+        let div = document.createElement("div"); 
+        div.appendChild(link);
+        if(user.id_topic !== null){       
+        let linkTopic = document.createElement("a");
+        linkTopic.classList.add("is_mod");
+        linkTopic.href = "/topic/" + user.id_topic;
+        let n = user.id_topic;
+        linkTopic.innerHTML = "Moderator of " + topics[n];
+        console.log(topics[n]);
+        div.appendChild(linkTopic);
+        }
+
+        let buttonMod = document.createElement("button");
+        buttonMod.classList.add("text", "modBut", "button");
+        if(!user.blocked && user.id_topic !== null){
+            buttonMod.addEventListener("click", function() {
+                revokeModerator(this);
+            });
+            buttonMod.textContent = "Revoke Moderator";
+
+        }
+        if (!user.blocked && user.id_topic === null){
+            buttonMod.addEventListener("click", function() {
+                openMakeModeratorTopic(this);
+            });
+            buttonMod.textContent = "Make Moderator";
+        }
+
+
+        li.appendChild(div);
         li.appendChild(blockUnblockButton);
+        li.appendChild(buttonMod);
+        console.log(li);
         usersList.appendChild(li);
+
 
         blockUnblockEventListener(
             buttonSpan,

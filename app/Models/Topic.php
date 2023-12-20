@@ -14,16 +14,19 @@ class Topic extends Model
     protected $fillable = [
         'name'
     ];
-    
-    public function news_item() {
-        return $this->hasMany(NewsItem::class,'id_topic');
+
+    public function news_item()
+    {
+        return $this->hasMany(NewsItem::class, 'id_topic');
     }
 
-    public function followers() {
-        return $this->hasMany(FollowTopic::class,'id_topic');
+    public function followers()
+    {
+        return $this->hasMany(FollowTopic::class, 'id_topic');
     }
 
-    public function moderators() {
-        return $this->belongsToMany(Authenticated_User::class,'id_topic');
+    public function moderators()
+    {
+        return $this->hasMany(User::class, 'id_topic');
     }
 }

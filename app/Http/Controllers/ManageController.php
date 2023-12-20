@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\SuggestedTopic;
-
+use App\Models\Topic;
 
 class ManageController extends Controller
 {
@@ -16,8 +16,10 @@ class ManageController extends Controller
         $this->authorize('show', \App\Manage::class);
 
         $users = User::all();
+        $topics = Topic::all();
         return view('pages.manage', [
-            'users' => $users
+            'users' => $users,
+            'topics' => $topics
         ]);
     }
 
@@ -27,7 +29,9 @@ class ManageController extends Controller
             ->where('name', 'ilike', "%{$request->input('search')}%")
             ->get();
 
-        return response()->json($users);
+        $topics = Topic::all();
+        $topicsMap = $topics->pluck('name', 'id')->toArray();
+        return response()->json(['users' => $users, 'topics' => $topicsMap]);
     }
 
     public function show_suggested_topic()

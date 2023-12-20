@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
 
 use App\Http\Controllers\MailController;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UserController extends Controller
 {
@@ -154,6 +158,51 @@ class UserController extends Controller
         return response()->json(['image' => $user->getProfileImage()]);
     }
 
+    public function revoke_moderator(Request $request)
+    {
+        try {
+            $this->authorize('change_moderator', User::class);
+
+            $request->validate([
+                'id' => 'integer|required'
+            ]);
+
+            $user = User::findOrFail($request->input('id'));
+            $user->type = 'authenticated';
+            $user->id_topic = NULL;
+            $user->save();
+
+            return response()->json(['success' => "Revoked moderator"]);
+        } catch (AuthorizationException $e) {
+            return response()->json(['error' => $e->getMessage()], 403);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
+
+    public function make_moderator(Request $request)
+    {
+        try {
+            $this->authorize('change_moderator', User::class);
+
+            $request->validate([
+                'user' => 'integer|required',
+                'topic' => 'integer|required'
+            ]);
+
+            $user = User::findOrFail($request->input('user'));
+            $topic = Topic::findOrFail($request->input('topic'));
+            $user->id_topic = $topic->id;
+            $user->type = "moderator";
+            $user->save();
+
+            return response()->json(['success' => $user->name . " is now a moderator",]);
+        } catch (AuthorizationException $e) {
+            return response()->json(['error' => $e->getMessage()], 403);
+        } catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
     public function upgrade(Request $request){
         $this->authorize('upgrade', \App\User::class);
         $user = User::find($request->input("idUser"));

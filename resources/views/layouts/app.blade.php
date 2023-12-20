@@ -90,6 +90,7 @@
                             <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
                                 appeals</a>
                             <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                            <a class="button admin_button" href="{{ route('list_mods') }}"> Manage Moderators</a>
                             <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
                             <button class="button admin_button" id="manage_report_button"> Manage Report<span
                                     class="material-symbols-outlined">expand_more</span></button>

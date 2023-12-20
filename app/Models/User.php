@@ -29,7 +29,7 @@ class User extends Authenticatable
         'reputation',
         'bio',
         'blocked',
-        'user_type',
+        'type',
         'id_topic',
         'blocked_appeal',
         'appeal_rejected',
@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function topic()
     {
-        return $this->hasOne(Topic::class, 'id_topic');
+        return $this->belongsTo(Topic::class, 'id_topic');
     }
 
     public function suggested_topics()

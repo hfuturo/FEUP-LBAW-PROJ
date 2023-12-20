@@ -132,6 +132,7 @@ Route::controller(MailController::class)->group(function () {
 
 Route::controller(TopicController::class)->group(function () {
     Route::get('/topic/{topic}', 'show')->name('topic');
+    Route::get('/moderators', 'moderators')->name('list_mods');
 });
 
 Route::controller(TagController::class)->group(function () {

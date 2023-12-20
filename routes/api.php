@@ -58,6 +58,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/unblock_user', 'unblock');
     Route::delete('/delete_user', 'destroy');
     Route::get('/fetch_pfp/{id}', 'fetch_pfp');
+    Route::patch('/moderator/revoke', 'revoke_moderator');
+    Route::patch('/moderator/make', 'make_moderator');
 });
 
 Route::controller(NewsItemController::class)->group(function () {
