@@ -35,10 +35,10 @@ use App\Http\Controllers\FileController;
                                     <form id="deleteForm"
                                         action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
                                         @csrf
-                                    <button class="dropdown-option delete" type="submit" form="deleteForm">
-                                        <span class="material-symbols-outlined">delete</span>
-                                        <span>Delete</span>
-                                    </button>
+                                        <button class="dropdown-option delete" type="submit" form="deleteForm">
+                                            <span class="material-symbols-outlined">delete</span>
+                                            <span>Delete</span>
+                                        </button>
                                     </form>
                                     <a class="dropdown-option edit"
                                         href="{{ route('edit_news', ['id' => $news_item->id]) }}">
@@ -111,7 +111,7 @@ use App\Http\Controllers\FileController;
     <section id = "comments">
         <h3>Comments</h3>
         <form class="search_form" action="#comments">
-            <input name="search" placeholder="Search">
+            <input name="comment_search" placeholder="Search" value="{{ app('request')->input('comment_search') }}">
             <button type="submit" class="button button-secondary"><svg focusable="false" style="scale: 1.3;"
                     xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -143,36 +143,34 @@ use App\Http\Controllers\FileController;
                             @endif
                             <p class=date> {{ Carbon::parse($comment->date)->diffForHumans() }}</p>
                             @if ($comment->edit_date !== null)
-                                <p class="date" id="edit_date">Edited
+                                <p class="date edit_date">Edited
                                     {{ Carbon::parse($comment->edit_date)->diffForHumans() }}</p>
                             @endif
-                            @if ($comment->id_author)
-                                <div class="dropdown">
-                                    <button class="more" onclick="toggleMenu(this, event)">
-                                        <span class="material-symbols-outlined">more_vert</span>
-                                    </button>
-                                    <div class="dropdown-content hidden">
-                                        @if (Auth::user()->id !== $comment->id_author)
-                                            <div class="dropdown-option report">
-                                                <span class="material-symbols-outlined">flag</span>
-                                                <span>Report</span>
-                                            </div>
-                                        @endif
-                                        @if (Auth::user()->is_admin() || Auth::user()->id === $comment->id_author)
-                                            <div class="dropdown-option delete">
-                                                <span class="material-symbols-outlined">delete</span>
-                                                <span class="delete">Delete</span>
-                                            </div>
-                                        @endif
-                                        @if (Auth::user()->id === $comment->id_author)
-                                            <div class="dropdown-option edit">
-                                                <span class="material-symbols-outlined">edit</span>
-                                                <span class="edit">Edit</span>
-                                            </div>
-                                        @endif
-                                    </div>
+                            <div class="dropdown">
+                                <button class="more" onclick="toggleMenu(this, event)">
+                                    <span class="material-symbols-outlined">more_vert</span>
+                                </button>
+                                <div class="dropdown-content hidden">
+                                    @if (Auth::user()->id !== $comment->id_author)
+                                        <div class="dropdown-option report">
+                                            <span class="material-symbols-outlined">flag</span>
+                                            <span>Report</span>
+                                        </div>
+                                    @endif
+                                    @if (Auth::user()->is_admin() || Auth::user()->id === $comment->id_author)
+                                        <div class="dropdown-option delete">
+                                            <span class="material-symbols-outlined">delete</span>
+                                            <span class="delete">Delete</span>
+                                        </div>
+                                    @endif
+                                    @if (Auth::user()->id === $comment->id_author)
+                                        <div class="dropdown-option edit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                            <span class="edit">Edit</span>
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
                         @endif
                     </div>
                     <form class="editForm" hidden>

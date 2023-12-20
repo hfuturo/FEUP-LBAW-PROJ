@@ -424,14 +424,13 @@ async function saveEdit(event) {
                 ).then((response) => response.json());
 
                 const content = comment.querySelector(".comment_text");
-                let editDate = comment.querySelector("#edit_date");
+                let editDate = comment.querySelector(".edit_date");
 
                 if (data.success) {
                     if (editDate === null) {
                         const date = comment.querySelector(".date");
                         editDate = document.createElement("p");
-                        editDate.className = "date";
-                        editDate.id = "edit_date";
+                        editDate.className = "date edit_date";
                         date.insertAdjacentElement("afterend", editDate);
                     }
                     editDate.textContent = "Edited " + data.edit_date;
@@ -488,14 +487,14 @@ const reportPopup = document.getElementById("report_content_popup");
 const idContent = reportPopup.querySelector("#id_content");
 const textareaForm = reportPopup.querySelector("#reason");
 
-function openReportNewsForm(valeu) {
-    idContent.valeu = valeu;
+function openReportNewsForm(value) {
+    idContent.value = value;
     reportPopup.style.display = "block";
 }
 
 function openReportCommentForm(comment) {
     const commentId = comment.getAttribute("comment-id");
-    idContent.valeu = commentId;
+    idContent.value = commentId;
     reportPopup.style.display = "block";
 }
 
@@ -512,7 +511,7 @@ reportPopup
         const reason = this.querySelector("#reason").value;
 
         const data = {
-            id_content: idContent.valeu,
+            id_content: idContent.value,
             reason: reason,
         };
         Swal.fire({
