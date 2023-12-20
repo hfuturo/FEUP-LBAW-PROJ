@@ -106,6 +106,14 @@ select:not(header select) {
     min-height: 3em;
 }
 
+select {
+    background: white;
+}
+
+select option {
+    color: black;
+}
+
 a {
     color: var(--primary-color);
     text-decoration: none;
