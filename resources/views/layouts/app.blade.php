@@ -37,6 +37,7 @@
 </head>
 
 <body>
+    @include('partials.error_message')
     <header class="app_header">
         <a class="skip-to-content-link" href="#content">
             Skip to content

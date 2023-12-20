@@ -35,11 +35,11 @@ use App\Http\Controllers\FileController;
                                     <form id="deleteForm"
                                         action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
                                         @csrf
-                                    </form>
                                     <button class="dropdown-option delete" type="submit" form="deleteForm">
                                         <span class="material-symbols-outlined">delete</span>
                                         <span>Delete</span>
                                     </button>
+                                    </form>
                                     <a class="dropdown-option edit"
                                         href="{{ route('edit_news', ['id' => $news_item->id]) }}">
                                         <span class="material-symbols-outlined">edit</span>
