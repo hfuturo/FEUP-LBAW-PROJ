@@ -36,14 +36,23 @@ class NewsItemController extends Controller
     {
         $news_itens = NewsItem::findOrFail($id);
         $comments = null;
-        if ($request->input("search")) {
-            $comments = Comment::full_text_search($request->input("search"))->where('comment.id_news', '=', $id);
+        if ($request->input("comment_search")) {
+            $comments = Comment::full_text_search($request->input("comment_search"))->where('comment.id_news', '=', $id);
         } else {
             $comments = $news_itens->comments();
         }
         return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments->join('content', 'comment.id', '=', 'content.id')
             ->join('authenticated_user', 'authenticated_user.id', '=', 'content.id_author', 'left')
             ->orderBy('date', 'desc')
+            ->select(
+                'comment.id',
+                'content.content',
+                'content.id_author',
+                'content.date',
+                'content.edit_date',
+                'authenticated_user.name',
+                'authenticated_user.image'
+            )
             ->paginate(10)]);
     }
 

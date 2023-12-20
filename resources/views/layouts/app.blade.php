@@ -52,8 +52,7 @@
         <form class="search_form" action="/news">
             <a class="button button-secondary advanced_search_link material-symbols-outlined"
                 href="{{ route('advanced_search') }}" title="Advanced search">settings</a>
-            <input type="text" name="search" value="{{ app('request')->input('search') }}" style="margin: 0;"
-                placeholder="Search">
+            <input type="text" name="search" value="{{ app('request')->input('search') }}" placeholder="Search">
             <button class="button button-secondary" type="submit" title="Search"><svg focusable="false"
                     style="scale: 1.3;" xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
