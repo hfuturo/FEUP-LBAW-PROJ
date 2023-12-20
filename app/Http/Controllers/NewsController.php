@@ -25,7 +25,7 @@ class NewsController extends Controller
 
     public function follow_list(Request $request)
     {
-        $this->authorize('follow_list', \App\News::class);
+        //$this->authorize('follow_list', \App\News::class);
         // users que segue
         $following = Auth::user()->following()->get('id_following');
         $posts = DB::table('news_item')->join('content', 'content.id', '=', 'news_item.id')->whereIn('id_author', $following)->orderBy('date', 'DESC');

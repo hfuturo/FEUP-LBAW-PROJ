@@ -47,6 +47,8 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\Session\Middleware\AuthenticateSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\CheckBlocked::class,
+            \App\Http\Middleware\AuthenticatedVerifier::class,
         ],
     ];
 
@@ -69,5 +71,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin' => \App\Http\Middleware\AdminVerifier::class,
+        'moderator' => \App\Http\Middleware\ModeratorVerifier::class,
+        'authenticated' => \App\Http\Middleware\AuthenticatedVerifier::class,
     ];
 }
