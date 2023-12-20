@@ -13,12 +13,10 @@
 
     <!-- Styles -->
 
+    <link rel="stylesheet" href="{{ url('css/google_fonts.css') }}" />
     <link href="{{ url('css/common.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
 
     <script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
@@ -101,14 +99,14 @@
                             </div>
                         </div>
                     @endif
-                    @if (Auth::user()->type === "moderator")
+                    @if (Auth::user()->type === 'moderator')
                         <div id="moderator_buttons">
                             <button class="button moderator_button" id="manage_report_button"> Manage Report<span
-                                        class="material-symbols-outlined">expand_more</span></button>
+                                    class="material-symbols-outlined">expand_more</span></button>
                             <div class="sub-options" id="report_sub_options">
-                                    <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
-                                    <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
-                                </div>
+                                <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
+                                <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
+                            </div>
                         </div>
                     @endif
                     <div id="nav_normal_buttons">

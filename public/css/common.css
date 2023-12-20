@@ -103,7 +103,6 @@ select:not(header select) {
     color: var(--primary-text-color);
     width: 100%;
     padding: 1em;
-    min-height: 3em;
 }
 
 select {
@@ -174,11 +173,4 @@ p.input_error {
 /** Fix sticky header with sweet alert */
 body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     overflow: clip !important;
-}
-
-section input,
-section textarea,
-section select,
-.tag-container {
-    margin-bottom: 1em;
 }
