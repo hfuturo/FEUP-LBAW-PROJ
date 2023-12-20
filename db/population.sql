@@ -61,7 +61,7 @@ INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALU
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (4,'Michael Johnson', 'michael_johnson@hotmail.com', 'J0hnson!', 'moderator', 3);--TEC
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (5,'Robert Brown', 'robert.brown@live.com', 'Br0wnBob', 'moderator', 4);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (6,'Emily Jones', 'emily_jones@icloud.com', 'J0n3m!ly', 'moderator', 5);
-INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (7,'William Davis', 'williamdavis@protonmail.com', 'Dav1sW!ll',  'moderator' , 1); --followOrg
+INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (7,'William Davis', 'williamdavis@protonmail.com', '$2y$10$HfzIhGCCaxqyaIdGgjARSuOKAcm1Uy82YfLuNaajn6JrjLWy9Sj/W',  'moderator' , 1); --followOrg
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (8,'Jessica Miller', 'jess.miller@inbox.com', '$2y$10$1uneTDjQW6wfzM73m5.Wk.DK3.YdEILd8x7Cyg39qMaacdoQKoexC',  'moderator' , 2);--HE
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (9,'David Wilson', 'davidwilson@mail.com', 'W!ls0nD@v',  'moderator' , 3);
 INSERT INTO "authenticated_user" (id,name, email, password, type, id_topic) VALUES (10,'Ashley Taylor', 'ash.taylor@zoho.com', 'T@yl0rAsh',  'moderator' , 4);
