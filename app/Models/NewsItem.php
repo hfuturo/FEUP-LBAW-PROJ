@@ -65,12 +65,15 @@ class NewsItem extends Model
     }
 
     public static function multi_filter(
+        ?string $fulltext,
         ?string $exact_match,
         ?string $title,
         ?string $content,
         ?string $author,
         ?int $topic,
         array $tags,
+        ?string $before,
+        ?string $after,
     ) {
         $select = DB::table('news_item')
             ->selectRaw('content.*,news_item.*')
@@ -85,6 +88,13 @@ class NewsItem extends Model
                     ->groupBy("news_item.id");
             }, "tags", "tags.news_id", "=", "news_item.id")
             ->orderBy('date', 'DESC');
+
+        if ($fulltext && $fulltext !== '') {
+            $select->join(DB::raw('websearch_to_tsquery(\'english\',?) query'), DB::raw('true'), '=', DB::raw('true'))
+                ->whereRaw('tsvectors @@ query')
+                ->orderByRaw('ts_rank(tsvectors, query) desc')
+                ->setBindings([$fulltext]);
+        }
 
         $select->where(function ($select) use ($exact_match) {
             NewsItem::add_exact_match_text_filter($select, $exact_match, 'news_item.title');
@@ -111,7 +121,15 @@ class NewsItem extends Model
         });
 
         $select->where(function ($select) use ($tags) {
-            NewsItem::add_exact_match_array_filter($select, $tags, 'tags');
+            NewsItem::add_exact_match_tags($select, $tags);
+        });
+
+        $select->where(function ($select) use ($before) {
+            $select->whereDate('content.date', '<=', $before);
+        });
+
+        $select->where(function ($select) use ($after) {
+            $select->whereDate('content.date', '>=', $after);
         });
 
         return $select;
@@ -133,7 +151,7 @@ class NewsItem extends Model
         return $select->where($field, '=', $query);
     }
 
-    public static function add_exact_match_array_filter(Builder $select, array $items, string $field)
+    public static function add_exact_match_tags(Builder $select, array $items)
     {
         if (count($items) === 0) return $select;
 

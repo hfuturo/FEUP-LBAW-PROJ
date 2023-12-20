@@ -52,12 +52,15 @@ class NewsController extends Controller
     {
         return view(choose_view($request, 'pages.advanced_search'), [
             "news_list" => NewsItem::multi_filter(
+                $request->input("fulltext"),
                 $request->input("exact_match"),
                 $request->input("title"),
                 $request->input("content"),
                 $request->input("author"),
                 $request->input("topic"),
                 Tag::parse_tags($request->input("tags")),
+                $request->input("before"),
+                $request->input("after"),
             ),
             "perPage" => 10
         ]);
