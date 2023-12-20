@@ -1,4 +1,5 @@
 function revokeModerator(button) {
+    closeMakeModeratorTopic();
     const userLi = button.parentNode.parentNode;
     const userId = userLi.getAttribute("id");
     Swal.fire({
@@ -24,6 +25,7 @@ function revokeModerator(button) {
                 }).then((response) => response.json());
 
                 if (result.success) {
+                    // closeMakeModeratorTopic();
                     let buttonMod = userLi.querySelector(".modBut");
                     buttonMod.onclick = function () {
                         openMakeModeratorTopic(this);
@@ -185,14 +187,14 @@ document
                             icon: "success",
                             confirmButtonColor: "#3085d6",
                         });
-                        const a = userLi.querySelector("div a");
+                        const div = userLi.querySelector("div:first-of-type");
                         const newA = document.createElement("a");
                         const selectedIndex = topic.selectedIndex;
                         const name = topic.options[selectedIndex].textContent;
                         newA.classList.add("is_mod");
                         newA.href = "/topic/" + topic.value;
                         newA.textContent = "Moderator of " + name;
-                        a.insertAdjacentElement("afterend", newA);
+                        div.append(newA);
                     } else {
                         Swal.fire({
                             title: "Fail!",

@@ -30,24 +30,25 @@ function filterUsersHandler() {
         const li = document.createElement("li");
         li.classList.add("user");
         li.setAttribute("id", user.id);
+        const nameWrapper = document.createElement("div");
+        nameWrapper.classList.add("name_wrapper");
         const buttonsDiv = document.createElement("div");
         const link = document.createElement("a");
         link.href = "/profile/" + user.id;
         link.innerHTML = user.name;
+        nameWrapper.append(link);
         const buttonSpan = document.createElement("span");
+        const blockUnblockButton = document.createElement("button");
         if (parseInt(user_id) !== user.id && user.type !== "admin") {
-            const blockUnblockButton = document.createElement("button");
             blockUnblockButton.classList.add(
                 user.blocked ? "unblock" : "block"
             );
-            buttonSpan.classList.add("material-symbols-outlined");
-            buttonSpan.innerHTML = user.blocked ? "done_outline" : "block";
+            buttonSpan.innerHTML = user.blocked ? "Unblock" : "Block";
             blockUnblockButton.appendChild(buttonSpan);
-            buttonsDiv.appendChild(blockUnblockButton);
         }
 
         const linksDiv = document.createElement("div");
-        linksDiv.appendChild(link);
+        linksDiv.appendChild(nameWrapper);
         if (user.id_topic !== null) {
             const linkTopic = document.createElement("a");
             linkTopic.classList.add("is_mod");
@@ -57,18 +58,26 @@ function filterUsersHandler() {
             linksDiv.appendChild(linkTopic);
         }
 
+        if (user.type === "admin") {
+            const span = document.createElement("span");
+            span.classList.add("admin");
+            span.textContent = "Admin";
+
+            linksDiv.append(span);
+        }
+
         const buttonMod = document.createElement("button");
 
         if (user.type !== "admin") {
             buttonMod.classList.add("text", "modBut", "button");
             if (!user.blocked && user.id_topic !== null) {
-                buttonMod.addEventListener("click", function () {
+                buttonMod.addEventListener("click", function removeMod() {
                     revokeModerator(this);
                 });
                 buttonMod.textContent = "Revoke Moderator";
             }
             if (!user.blocked && user.id_topic === null) {
-                buttonMod.addEventListener("click", function () {
+                buttonMod.addEventListener("click", function openModChoices() {
                     openMakeModeratorTopic(this);
                 });
                 buttonMod.textContent = "Make Moderator";
@@ -90,7 +99,7 @@ function filterUsersHandler() {
                 buttonAdmin.textContent = "Upgrade to Administrator";
             }
 
-            buttonsDiv.append(buttonMod, buttonAdmin);
+            buttonsDiv.append(buttonMod, buttonAdmin, blockUnblockButton);
         }
 
         li.append(linksDiv, buttonsDiv);
@@ -99,7 +108,7 @@ function filterUsersHandler() {
 
         if (parseInt(user_id) !== user.id && user.type !== "admin") {
             blockUnblockEventListener(
-                buttonSpan,
+                blockUnblockButton,
                 user.blocked ? "unblock" : "block"
             );
         }
@@ -108,24 +117,25 @@ function filterUsersHandler() {
 
 // block icon
 document
-    .querySelectorAll("#all_users .user button.block span")
-    ?.forEach((icon) => {
-        blockUnblockEventListener(icon, "block");
+    .querySelectorAll("#all_users .user button.block")
+    ?.forEach((button) => {
+        blockUnblockEventListener(button, "block");
     });
 
 // unblock icon
 document
-    .querySelectorAll("#all_users .user button.unblock span")
-    ?.forEach((icon) => {
-        blockUnblockEventListener(icon, "unblock");
+    .querySelectorAll("#all_users .user button.unblock")
+    ?.forEach((button) => {
+        blockUnblockEventListener(button, "unblock");
     });
 
-function blockUnblockEventListener(icon, action) {
-    icon.addEventListener("click", async function eventHandler(event) {
+function blockUnblockEventListener(button, action) {
+    button.addEventListener("click", async function eventHandler() {
         const method = action === "block" ? "block_user" : "unblock_user";
-        const id = event.target.parentNode.parentNode.parentNode.id;
-        const name =
-            icon.parentNode.parentNode.previousElementSibling.textContent;
+        const id = button.parentNode.parentNode.id;
+        const name = document.querySelector(
+            'li[id="' + id + '"] .name_wrapper > a'
+        ).textContent;
         Swal.fire({
             title: "Do you want to " + action + " " + name + "?",
             text:
@@ -165,20 +175,17 @@ function blockUnblockEventListener(icon, action) {
                     icon: "success",
                 });
 
-                icon.innerHTML = action === "block" ? "done_outline" : "block";
+                button.innerHTML = action === "block" ? "Unblock" : "Block";
 
-                const button = icon.parentNode;
                 button.classList.remove(
                     action === "block" ? "block" : "unblock"
                 );
-                button.classList.remove(
-                    action === "block" ? "unblock" : "block"
-                );
+                button.classList.add(action === "block" ? "unblock" : "block");
 
                 // atualiza event listener
-                icon.removeEventListener("click", eventHandler);
+                button.removeEventListener("click", eventHandler);
                 blockUnblockEventListener(
-                    icon,
+                    button,
                     action === "block" ? "unblock" : "block"
                 );
 
@@ -191,7 +198,7 @@ function blockUnblockEventListener(icon, action) {
                         .querySelector('li[id="' + id + '"] .upgrade')
                         ?.remove();
                 } else {
-                    const buttonDiv = icon.parentNode.parentNode;
+                    const buttonDiv = button.parentNode;
 
                     // admin button
                     const buttonAdmin = document.createElement("button");
@@ -228,7 +235,7 @@ function blockUnblockEventListener(icon, action) {
                         buttonMod.textContent = "Make Moderator";
                     }
 
-                    buttonDiv.append(buttonMod, buttonAdmin);
+                    buttonDiv.prepend(buttonMod, buttonAdmin);
                 }
             }
         });
@@ -272,4 +279,12 @@ function upgradeUserHandler() {
     document.querySelector('li[id="' + id + '"] .block')?.remove();
     document.querySelector('li[id="' + id + '"] .modBut')?.remove();
     document.querySelector('li[id="' + id + '"] .upgrade')?.remove();
+    document.querySelector('li[id="' + id + '"] .is_mod')?.remove();
+
+    const span = document.createElement("span");
+    span.classList.add("admin");
+    span.textContent = "Admin";
+    document
+        .querySelector('li[id="' + id + '"] > div:first-of-type')
+        .append(span);
 }
