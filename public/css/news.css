@@ -34,13 +34,6 @@ section#news article.news_body .tags {
     margin-bottom: 1em;
 }
 
-section#news article.news_body .tags .tag {
-    padding: 0.5em;
-    background-color: var(--primary-color);
-    border-radius: 10px;
-    color: white;
-}
-
 #news .post_image {
     display: block;
     margin: 1em;
@@ -56,14 +49,8 @@ section#news article.news_body .tags .tag {
     display: flex;
 }
 
-button.accept,
-button.remove {
-    margin-left: 0;
-    margin-right: 0;
-}
-
 .votes button {
-    margin: 0em 0.5em 0em 0em;
+    margin-right: 0.5em;
     padding: 0.5em;
     display: flex;
     align-items: center;
@@ -73,13 +60,11 @@ button.remove {
     border-color: grey;
 }
 
-#edit_or_cancel_edition_news,
-#add_tag_to_news {
+#edit_or_cancel_edition_news {
     display: flex;
     justify-items: center;
 }
 
-#add_tag_to_news > *,
 #edit_or_cancel_edition_news > * {
     margin: 0.5em;
     margin-left: 0;

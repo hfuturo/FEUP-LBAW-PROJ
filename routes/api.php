@@ -40,30 +40,33 @@ Route::controller(FollowUserController::class)->group(function () {
 });
 
 Route::controller(CommentController::class)->group(function () {
-    Route::post('/news/{id}/comment', 'store')->name('news.comments.store');
-    Route::delete('/comment/{id_comment}/remove', 'destroy')->name('news.comments.destroy');
-    Route::patch('/comment/{id_comment}/edit', 'update')->name('news.comments.update');
-    Route::delete('/delete_comment', 'destroy_admin');
+    Route::post('/news/{id}/comment', 'store')->name('news.comments.store')
+        ->where('id', '[0-9]+');
+    Route::delete('/comment/{id_comment}/delete', 'destroy')->name('news.comments.destroy')
+        ->where('id_comment', '[0-9]+');
+    Route::patch('/comment/{id_comment}/edit', 'update')->name('news.comments.update')
+        ->where('id_comment', '[0-9]+');
+    Route::delete('/delete_comment', 'destroy_admin')->middleware('admin');
 });
 
 Route::controller(ReportController::class)->group(function () {
     Route::post('/profile/report', 'create_user');
     Route::post('/content/report', 'create_content');
-    Route::delete('/delete_report', 'destroy');
+    Route::delete('/delete_report', 'destroy')->middleware('moderator');
 });
 
 Route::controller(UserController::class)->group(function () {
-    Route::post('/block_user', 'block');
-    Route::post('/upgrade_user', 'upgrade');
-    Route::post('/unblock_user', 'unblock');
+    Route::post('/block_user', 'block')->middleware('admin');
+    Route::post('/upgrade_user', 'upgrade')->middleware('admin');
+    Route::post('/unblock_user', 'unblock')->middleware('admin');
     Route::delete('/delete_user', 'destroy');
-    Route::get('/fetch_pfp/{id}', 'fetch_pfp');
-    Route::patch('/moderator/revoke', 'revoke_moderator');
-    Route::patch('/moderator/make', 'make_moderator');
+    Route::get('/fetch_pfp/{id}', 'fetch_pfp')->where('id', '[0-9]+');
+    Route::patch('/moderator/revoke', 'revoke_moderator')->middleware('admin');
+    Route::patch('/moderator/make', 'make_moderator')->middleware('admin');
 });
 
 Route::controller(NewsItemController::class)->group(function () {
-    Route::delete('/delete_news_item', 'destroy_admin');
+    Route::delete('/delete_news_item', 'destroy_admin')->middleware('moderator');
 });
 
 Route::controller(FollowTopicController::class)->group(function () {
@@ -84,7 +87,9 @@ Route::controller(VoteController::class)->group(function () {
 
 Route::controller(OrganizationController::class)->group(function () {
     Route::post('/organization/create', 'store')->name('create_org');
-    Route::post('/organization/delete_organization/{organization}', 'destroy')->name('delete_organization');
+    Route::post('/organization/update', 'update');
+    Route::post('/organization/delete_organization/{organization}', 'destroy')->name('delete_organization')
+        ->where('organization', '[0-9]+');
 });
 
 Route::controller(NotificationController::class)->group(function () {
@@ -93,7 +98,7 @@ Route::controller(NotificationController::class)->group(function () {
 });
 
 Route::controller(BlockController::class)->group(function () {
-    Route::post('/reject_appeal', 'reject_appeal');
+    Route::post('/reject_appeal', 'reject_appeal')->middleware('admin');
 });
 
 Route::controller(FollowOrganizationController::class)->group(function () {

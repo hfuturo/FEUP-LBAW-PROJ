@@ -45,8 +45,8 @@ class UserPolicy
         return $currentUser->is_admin();
     }
 
-    public function upgrade(User $user): bool
+    public function upgrade(User $currentUser, User $user): bool
     {
-        return Auth::check() && (Auth::user()->id === $user->id || Auth::user()->is_admin());
+        return $currentUser->is_admin() && $user->type !== 'admin';
     }
 }

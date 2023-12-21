@@ -88,11 +88,11 @@ class FileController extends Controller
     {
 
         if (!$request->hasFile('file')) {
-            return back()->withErrors('Error: File not found');
+            return back()->withErrors(['error' => 'Error: File not found']);
         }
 
         if (!$this->isValidType($request->type)) {
-            return back()->withErrors('Error: Unsupported upload type');
+            return back()->withErrors(['error' => 'Error: Unsupported upload type']);
         }
 
         //Parameters
@@ -102,7 +102,7 @@ class FileController extends Controller
         $extension = $file->extension();
 
         if (!$this->isValidExtension($type, $extension)) {
-            return back()->withErrors('Error: Unsupported upload extension');
+            return back()->withErrors(['error' => 'Error: Unsupported upload extension']);
         }
 
         // prevent existing old files
@@ -124,11 +124,11 @@ class FileController extends Controller
                 break;
 
             default:
-                back()->withErrors('Error: Unsupported upload object');
+                back()->withErrors(['error' => 'Error: Unsupported upload object']);
         }
 
         if ($error) {
-            back()->withErrors(`Error: {$error}`);
+            back()->withErrors(['error' => `Error: {$error}`]);
         }
 
         $file->storeAs($type, $fileName, self::$diskName);

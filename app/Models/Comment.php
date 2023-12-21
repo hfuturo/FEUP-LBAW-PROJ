@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -43,5 +44,14 @@ class Comment extends Model
     {
         return $this
             ->votes()->where('vote', 1)->count();
+    }
+
+    public static function full_text_search(string $query)
+    {
+        return Comment::select('*')
+            ->join(DB::raw('websearch_to_tsquery(\'english\',?) query'), DB::raw('true'), '=', DB::raw('true'))
+            ->whereRaw('tsvectors @@ query')
+            ->orderByRaw('ts_rank(tsvectors, query) desc')
+            ->setBindings([$query]);
     }
 }

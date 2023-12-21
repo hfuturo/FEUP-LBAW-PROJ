@@ -39,8 +39,12 @@ main > nav {
     min-width: max-content;
     width: max-content;
     overflow: clip;
-    margin: 0;
-    transition: min-width 0.5s ease-in-out;
+    translate: -100% 0;
+    transition: translate 0.5s ease-in-out;
+}
+
+#hamburger:checked ~ main > nav {
+    translate: 0 0;
 }
 
 #manage_report_button span {
@@ -60,10 +64,6 @@ main > nav {
     margin-left: 0.5em;
 }
 
-#button_profile {
-    margin-left: 1em;
-}
-
 .sub-options {
     display: none;
 }
@@ -74,8 +74,25 @@ main > nav {
     padding: 1em 0.5em 0.5em 0.5em;
     border: none;
 }
+
 #notification_icon:hover {
     color: var(--hover-color);
+}
+
+#notifications_pop_up {
+    display: none;
+    translate: 0 -100%;
+    position: fixed;
+    top: 5em;
+    right: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px;
+    width: 20rem;
+    max-height: 50%;
+    z-index: 999;
+    overflow-y: auto;
+    transition: translate 0.5s ease-in-out;
 }
 
 #notifications_pop_up > article.user_news,
@@ -88,11 +105,13 @@ section#list_notifications > article.new_notification {
     background-color: aliceblue;
 }
 
-#notifications_pop_up > article.user_news h4,
+#notifications_pop_up > article.user_news > div,
 section#list_notifications > article.user_news h4 {
     display: flex;
     align-items: center;
     gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 #notifications_pop_up > article.user_news button,
@@ -136,24 +155,20 @@ section#list_notifications > article.user_news button {
     padding-right: 0;
     border-radius: 0 5px 5px 0;
     border: 1px solid var(--background-color);
-}
-
-#notification_icon {
-    background-color: var(--primary-color);
-    color: var(--secundary-text-color);
-    padding: 1em 0.5em 0.5em 0.5em;
-    border: none;
-}
-
-#notification_icon:hover,
-#notification_icon:focus-visible {
-    color: var(--hover-color);
+    height: 100%;
+    align-items: normal;
+    max-height: calc(3rem + 4px);
+    overflow: clip;
+    line-height: calc(2rem + 4px);
+    line-break: anywhere;
 }
 
 .search_form {
-    margin: 0;
     display: flex;
     flex-grow: 1;
+}
+
+.app_header .search_form {
     max-width: 45rem;
 }
 
@@ -183,26 +198,77 @@ section#list_notifications > article.user_news button {
 }
 
 .sticky_nav {
-    position: sticky;
-    width: max-content;
+    position: fixed;
     top: 5rem;
+    left: 0;
 }
 
-main > nav #admin_buttons {
+@media screen and (max-width: 850px) {
+    html {
+        scroll-padding-top: 11rem;
+    }
+
+    .sticky_nav,
+    #notifications_pop_up {
+        top: 9rem;
+    }
+
+    .header_nav,
+    .header_user_info {
+        flex: 1;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    html {
+        scroll-padding-top: 15rem;
+    }
+
+    .sticky_nav,
+    #notifications_pop_up {
+        top: 13rem;
+    }
+
+    #notifications_pop_up {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    main > nav {
+        width: 100%;
+    }
+}
+
+main > nav #admin_buttons,
+main > nav #moderator_buttons {
     border-bottom: 2px solid black;
 }
 
 .sub-options {
     display: grid;
-    grid-template-rows: repeat(4, 0fr);
     gap: 0;
     overflow: clip;
     transition: grid-template-rows 0.5s ease-in-out, gap 0.5s ease-in-out;
 }
 
+#admin_buttons .sub-options {
+    grid-template-rows: repeat(3, 0fr);
+}
+
+#moderator_buttons .sub-options {
+    grid-template-rows: repeat(2, 0fr);
+}
+
 .sub-options.open {
-    grid-template-rows: repeat(4, 1fr);
     gap: 0.2rem;
+}
+
+#admin_buttons .sub-options.open {
+    grid-template-rows: repeat(3, 1fr);
+}
+
+#moderator_buttons .sub-options.open {
+    grid-template-rows: repeat(2, 1fr);
 }
 
 .sub-options .button {
@@ -247,30 +313,56 @@ header .button {
 header form input,
 header form select,
 header form button {
-    margin: 0em 0em 1em 0em;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     color: var(--primary-text-color);
     padding: 1em;
 }
 
-#notifications_pop_up {
-    display: none;
-    position: fixed;
-    top: 5em;
-    right: 0;
-    background-color: var(--background-color);
+input[type="radio"] {
+    width: 0;
+    height: 0;
+    appearance: none;
+    position: absolute;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+input[type="radio"] + label {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+input[type="radio"]:focus-visible + label {
+    outline: auto;
+}
+
+input[type="radio"]:checked + label {
+    color: var(--secundary-color);
+    border-bottom: 1px solid currentColor;
+}
+
+fieldset {
+    border: 0;
+    padding: 0;
+}
+
+.form-item {
     border: 1px solid var(--primary-color);
-    padding: 10px;
-    width: 25%;
-    max-height: 50%;
-    z-index: 999;
-    overflow-y: auto;
+    background-color: white;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 1rem;
 }
 
 main > section {
     width: 100%;
     margin: 1em;
+    max-width: min(110ch, 90vw);
+    margin: 0 auto;
+    padding: 1rem;
 }
 
 .skip-to-content-link {
@@ -282,6 +374,8 @@ main > section {
     top: 0;
     transform: translateY(-200%);
     transition: transform 0.3s;
+    z-index: 100000;
+    color: white;
 }
 
 .skip-to-content-link:focus {
@@ -303,11 +397,11 @@ main > section {
     cursor: pointer;
 }
 
-#hamburger:focus-visible + .hamburger {
+#hamburger:focus-visible ~ header .hamburger {
     outline: auto;
 }
 
-#hamburger:checked + .hamburger:before {
+#hamburger:checked ~ header .hamburger:before {
     content: "\2715";
 }
 
@@ -323,4 +417,8 @@ main > section {
 
 body.swal2-shown {
     padding-right: 0 !important;
+}
+
+#topics article > ul li {
+    list-style: none;
 }

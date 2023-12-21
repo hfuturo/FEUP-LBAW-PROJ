@@ -40,6 +40,29 @@ class NewsItemController extends Controller
 
 
         return view(choose_view($request, 'pages.news_item'), ['news_item' => $news_item, 'comments' => $comments, 'perPage' => 2]);
+
+        /*
+        $news_itens = NewsItem::findOrFail($id);
+        $comments = null;
+        if ($request->input("comment_search")) {
+            $comments = Comment::full_text_search($request->input("comment_search"))->where('comment.id_news', '=', $id);
+        } else {
+            $comments = $news_itens->comments();
+        }
+        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments->join('content', 'comment.id', '=', 'content.id')
+            ->join('authenticated_user', 'authenticated_user.id', '=', 'content.id_author', 'left')
+            ->orderBy('date', 'desc')
+            ->select(
+                'comment.id',
+                'content.content',
+                'content.id_author',
+                'content.date',
+                'content.edit_date',
+                'authenticated_user.name',
+                'authenticated_user.image'
+            )
+            ->paginate(10)]);
+        */
     }
 
     public function destroy(int $id)
@@ -56,12 +79,13 @@ class NewsItemController extends Controller
             $news_item->delete();
             return redirect()->route('news')->with('success', 'Eliminated with success!');
         }
-        return redirect()->route('news_page', [$id])->withErrors(['Cannot be eliminated because it has comments!']);
+        return redirect()->route('news_page', [$id])->withErrors(["error" => 'Cannot be eliminated because it has comments!']);
     }
 
     public function destroy_admin(Request $request)
     {
-        $this->authorize('destroy_admin', \App\NewsItem::class);
+        $news_item = NewsItem::find($request->input('request'));
+        $this->authorize('destroy_admin', $news_item);
 
         Comment::where('id_news', $request->input('request'))->delete();
         Vote::where('id_content', $request->input('request'))->delete();
@@ -79,10 +103,11 @@ class NewsItemController extends Controller
      */
     public function store(Request $request)
     {
+        try {
 
         $this->authorize('create', \App\NewsItem::class);
 
-        $request->validate([
+        $valid = $request->validate([
             'title' => 'required|unique:news_item,title|max:255|string',
             'text' => 'required|string',
             'topic' => 'required|int',
@@ -99,7 +124,6 @@ class NewsItemController extends Controller
         }
 
         $id_news = NULL;
-        try {
             DB::transaction(function () use (&$id_news, $request, $imageName) {
 
                 $content = new Content();
@@ -130,7 +154,7 @@ class NewsItemController extends Controller
                 ->with('success', 'Successfully Create!');
         } catch (Exception $e) {
             return redirect()->route('create_news')
-                ->withErrors('The parameters are invalid!');
+                ->withErrors(['error' => 'The parameters are invalid!']);
         }
     }
 
@@ -142,7 +166,7 @@ class NewsItemController extends Controller
     {
         if (!Auth::check()) {
             return redirect()->route("login")
-                ->withErrors('Not authenticated. Please log in');
+                ->withErrors(['error' => 'Not authenticated. Please log in']);
         }
         $topics = Topic::all();
         $tags = Tag::all();
@@ -157,7 +181,7 @@ class NewsItemController extends Controller
     {
         if (!Auth::check()) {
             return redirect()->route("login")
-                ->withErrors('Not authenticated. Please log in');
+                ->withErrors(['error' => 'Not authenticated. Please log in']);
         }
         $news_item = NewsItem::find($id);
         $this->authorize('update', $news_item);

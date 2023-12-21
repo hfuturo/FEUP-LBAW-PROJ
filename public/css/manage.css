@@ -20,6 +20,10 @@ input[id="filter_users"]:focus {
     align-items: center;
 }
 
+#all_users .user > div:first-of-type {
+    gap: 3em;
+}
+
 #all_users .user {
     display: flex;
     align-items: center;
@@ -30,17 +34,39 @@ input[id="filter_users"]:focus {
     justify-content: space-between;
 }
 
+#all_users .admin,
+#all_users .is_mod {
+    font-weight: bold;
+}
+
+#all_users .admin {
+    padding: 0.5em;
+}
+
 #all_users .user button {
     margin-right: 0;
-    margin-left: 0;
+    margin-left: 1em;
     background-color: transparent;
     border: none;
     min-width: 1em;
     padding: 0 0.5em;
+    width: auto;
 }
 
-#all_users .user button span {
-    color: red;
+#all_users .user button.block {
+    background-color: red;
+    border-color: red;
+    min-width: 5em;
+}
+
+#all_users .user button.unblock {
+    background-color: green;
+    border-color: green;
+    min-width: 5em;
+}
+
+.name_wrapper {
+    min-width: 10em;
 }
 
 #all_users .user .button {
@@ -54,9 +80,8 @@ input[id="filter_users"]:focus {
     color: var(--primary-text-color);
 }
 
-#all_users .user a:hover,
-#all_users .user a:focus-visible {
-    font-weight: bolder;
+#all_users .user:hover {
+    background-color: #e3e3e3;
 }
 
 .accept {
@@ -66,4 +91,25 @@ input[id="filter_users"]:focus {
 
 #select_topic {
     margin-top: 1em;
+}
+
+.modBut {
+    min-width: 10em;
+}
+
+@media screen and (max-width: 1000px) {
+    #all_users .user > div:first-of-type {
+        gap: 0;
+        align-items: baseline;
+    }
+
+    li > div {
+        flex-direction: column;
+        width: 50%;
+        box-sizing: border-box;
+    }
+
+    #all_users .user .button {
+        width: 100%;
+    }
 }

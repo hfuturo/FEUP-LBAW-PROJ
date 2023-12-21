@@ -24,9 +24,15 @@ class ReportController extends Controller
     public function show_news()
     {
         $this->authorize('show_news', \App\Report::class);
-
-        $reports = Report::join('news_item', 'report.id_content', '=', 'news_item.id')
-            ->select('report.*', 'news_item.id as id_news_item');
+        if(Auth::user()->type === "admin"){
+            $reports = Report::join('news_item', 'report.id_content', '=', 'news_item.id')
+                ->select('report.*', 'news_item.id as id_news_item');
+        }
+        else if(Auth::user()->type === "moderator"){
+            $reports = Report::join('news_item', 'report.id_content', '=', 'news_item.id')
+                ->where('news_item.id_topic','=',Auth::user()->id_topic)
+                ->select('report.*', 'news_item.id as id_news_item');
+        }
         return view('pages.report_news', [
             'reports' => $reports
         ]);
@@ -35,10 +41,17 @@ class ReportController extends Controller
     public function show_comments()
     {
         $this->authorize('show_comments', Report::class);
-
-        $reports = Report::join('comment', 'report.id_content', '=', 'comment.id')
+        if(Auth::user()->type === "admin"){
+            $reports = Report::join('comment', 'report.id_content', '=', 'comment.id')
+                ->select('report.*', 'comment.id as id_comment');
+        }
+        else if(Auth::user()->type === "moderator"){
+            $reports = Report::join('comment', 'report.id_content', '=', 'comment.id')
+            ->join('news_item','comment.id_news','=','news_item.id')
+            ->where('news_item.id_topic','=',Auth::user()->id_topic)
             ->select('report.*', 'comment.id as id_comment');
 
+        }
         return view('pages.report_comments', [
             'reports' => $reports
         ]);
@@ -80,7 +93,9 @@ class ReportController extends Controller
 
     public function destroy(Request $request)
     {
-        $this->authorize('destroy', Report::class);
+        $report = Report::find($request->input("request"));
+
+        $this->authorize('destroy', $report);
 
         $delete = Report::where('id', $request->input("request"))
             ->delete();

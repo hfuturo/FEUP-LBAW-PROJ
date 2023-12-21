@@ -6,7 +6,10 @@
             <input type="hidden" id="id_content" name="id_content" value="">
             <label for="reason">Reason</label>
             <textarea id="reason" name="reason" placeholder="Reason for the report" required></textarea>
-            <button type="submit" id="submit_report">Report</button>
+            @error("reason")
+                <p class="report_error">{{ $message }}</p>
+            @enderror
+            <button  class="button" type="submit" id="submit_report">Report</button>
         </form>
     </div>
 </div>

@@ -30,6 +30,3 @@ class NewsPolicy
         return true;
     }
 }
-
-?>
-

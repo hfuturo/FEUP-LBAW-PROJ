@@ -25,7 +25,7 @@ class NewsController extends Controller
 
     public function follow_list(Request $request)
     {
-        $this->authorize('follow_list', \App\News::class);
+        //$this->authorize('follow_list', \App\News::class);
         // users que segue
         $following = Auth::user()->following()->get('id_following');
         $posts = DB::table('news_item')->join('content', 'content.id', '=', 'news_item.id')->whereIn('id_author', $following)->orderBy('date', 'DESC');
@@ -50,14 +50,23 @@ class NewsController extends Controller
 
     public function advanced_search(Request $request)
     {
+        $request->validate([
+            "before" => "nullable|date",
+            "after" => "nullable|date",
+            "order" => "nullable|in:new,old,popular"
+        ]);
         return view(choose_view($request, 'pages.advanced_search'), [
             "news_list" => NewsItem::multi_filter(
+                $request->input("order", "new"),
+                $request->input("fulltext"),
                 $request->input("exact_match"),
                 $request->input("title"),
                 $request->input("content"),
                 $request->input("author"),
                 $request->input("topic"),
                 Tag::parse_tags($request->input("tags")),
+                $request->input("before"),
+                $request->input("after"),
             ),
             "perPage" => 10
         ]);
