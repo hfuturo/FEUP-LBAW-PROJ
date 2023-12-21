@@ -15,45 +15,48 @@ document?.querySelectorAll(".vote_value").forEach((input) => {
     }
 });
 
-document.querySelectorAll(".vote").forEach((button) => {
-    button.addEventListener("click", (event) => {
-        let name = button.className;
-        let content = button.parentNode.id;
-        let method = "POST";
-        let action, value;
-        if (
-            (name == "vote accept" &&
-                button.style.backgroundColor == "green") ||
-            (name == "vote remove" && button.style.backgroundColor == "red")
-        ) {
-            action = "destroy";
-            method = "DELETE";
-        } else if (
-            (name == "vote accept" &&
-                button.parentNode.querySelector(".remove").style
-                    .backgroundColor == "red") ||
-            (name == "vote remove" &&
-                button.parentNode.querySelector(".accept").style
-                    .backgroundColor == "green")
-        ) {
-            action = "update";
-            method = "POST";
-        } else {
-            action = "create";
-            method = "POST";
-        }
+function addVoteEventListener() {
+    document.querySelectorAll(".vote").forEach((button) => {
+        button.addEventListener("click", (event) => {
+            let name = button.className;
+            let content = button.parentNode.id;
+            let method = "POST";
+            let action, value;
+            if (
+                (name == "vote accept" &&
+                    button.style.backgroundColor == "green") ||
+                (name == "vote remove" && button.style.backgroundColor == "red")
+            ) {
+                action = "destroy";
+                method = "DELETE";
+            } else if (
+                (name == "vote accept" &&
+                    button.parentNode.querySelector(".remove").style
+                        .backgroundColor == "red") ||
+                (name == "vote remove" &&
+                    button.parentNode.querySelector(".accept").style
+                        .backgroundColor == "green")
+            ) {
+                action = "update";
+                method = "POST";
+            } else {
+                action = "create";
+                method = "POST";
+            }
 
-        if (name == "vote accept") value = 1;
-        if (name == "vote remove") value = -1;
+            if (name == "vote accept") value = 1;
+            if (name == "vote remove") value = -1;
 
-        sendAjaxRequest(
-            `${method}`,
-            `/api/vote/${action}`,
-            { content, value },
-            voteHandler
-        );
+            sendAjaxRequest(
+                `${method}`,
+                `/api/vote/${action}`,
+                { content, value },
+                voteHandler
+            );
+        });
     });
-});
+}
+addVoteEventListener();
 
 function voteHandler() {
     //if (this.status != 200) window.location = "/";

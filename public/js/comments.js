@@ -11,50 +11,49 @@ document
         const commentContent = document.getElementById("commentContent").value;
 
         try {
-        const result = await fetch("/api/news/" + newsId + "/comment", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
-            },
-            body: JSON.stringify({ content: commentContent }),
-        }).then((response) => response.json());
+            const result = await fetch("/api/news/" + newsId + "/comment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+                body: JSON.stringify({ content: commentContent }),
+            }).then((response) => response.json());
 
-        if (result.success) {
-            const [response, raw_data] = await sendFetchRequest(
-                "GET",
-                link,
-                null,
-                "text"
-            );
-            updateComments(raw_data);
-            document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
-    
-            document.getElementById("commentContent").value = "";
-            
+            if (result.success) {
+                const [response, raw_data] = await sendFetchRequest(
+                    "GET",
+                    link,
+                    null,
+                    "text"
+                );
+                updateComments(raw_data);
+                document
+                    .getElementById("comments")
+                    .scrollIntoView({ behavior: "smooth" });
+
+                document.getElementById("commentContent").value = "";
             } else {
                 console.error("Failed to add comment");
                 AlertMessage("Fail!", "Failed to add comment", "error");
             }
         } catch (error) {
-        console.error("Error:", error);
-        Swal.showValidationMessage(`
+            console.error("Error:", error);
+            Swal.showValidationMessage(`
         Request failed: ${error}
         `);
- 
-    }
-});
+        }
+    });
 
-function AlertMessage(title, text, icon){
+function AlertMessage(title, text, icon) {
     Swal.fire({
         title: title,
         text: text,
         icon: icon,
     });
 }
-
 
 function toggleMenu(button, event) {
     const dropdownSelect = button.nextElementSibling;
@@ -87,13 +86,11 @@ document.addEventListener("click", (event) => {
     });
 });
 
-
 async function deleteCommentItem(button) {
     const comment = button.closest("article");
     const commentId = comment.getAttribute("comment-id");
 
     let currentURL = window.location.href;
-    
 
     const result = await Swal.fire({
         title: "Are you sure?",
@@ -106,55 +103,58 @@ async function deleteCommentItem(button) {
     });
     if (result.isConfirmed) {
         try {
-                const data = await fetch(`/api/comment/${commentId}/delete`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute("content"),
-                    },
-                }).then((response) => response.json());
+            const data = await fetch(`/api/comment/${commentId}/delete`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+            }).then((response) => response.json());
 
-                
-                if (data.success) {
-                    const urlParams = new URLSearchParams(currentURL.substring(currentURL.indexOf("?") + 1));
-                    const pageNumber = urlParams.get("page");
-                    const section = comment.parentNode;
+            if (data.success) {
+                const urlParams = new URLSearchParams(
+                    currentURL.substring(currentURL.indexOf("?") + 1)
+                );
+                const pageNumber = urlParams.get("page");
+                const section = comment.parentNode;
 
-                    if(pageNumber > 1 || pageNumber !== null){
-                        const commentPage = section.querySelectorAll("article");
-                        const numberComments = commentPage.length;
-                        if(numberComments === 1){
-                            urlParams.set("page", (pageNumber - 1));  
-                            currentURL = currentURL.split("?")[0] + "?" + urlParams.toString();
-                            history.pushState(null, '', currentURL);
-                        }
-                        
+                if (pageNumber > 1 || pageNumber !== null) {
+                    const commentPage = section.querySelectorAll("article");
+                    const numberComments = commentPage.length;
+                    if (numberComments === 1) {
+                        urlParams.set("page", pageNumber - 1);
+                        currentURL =
+                            currentURL.split("?")[0] +
+                            "?" +
+                            urlParams.toString();
+                        history.pushState(null, "", currentURL);
                     }
-                    const [response, raw_data] = await sendFetchRequest(
-                        "GET",
-                        currentURL,
-                        null,
-                        "text"
-                    );
-                    updateComments(raw_data);
-                    document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
-
-                    AlertMessage("Deleted!", data.success, "success");
-                } else {
-                    AlertMessage("Fail!", data.error, "error");
                 }
-            } catch (error) {
-                console.error("Error:", error);
-                Swal.showValidationMessage(`
+                const [response, raw_data] = await sendFetchRequest(
+                    "GET",
+                    currentURL,
+                    null,
+                    "text"
+                );
+                updateComments(raw_data);
+                document
+                    .getElementById("comments")
+                    .scrollIntoView({ behavior: "smooth" });
+
+                AlertMessage("Deleted!", data.success, "success");
+            } else {
+                AlertMessage("Fail!", data.error, "error");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            Swal.showValidationMessage(`
                 Request failed: ${error}
               `);
-            }
         }
+    }
 }
-
-
 
 function editCommentItem(button) {
     const comment = button.closest("article");
@@ -166,7 +166,6 @@ function editCommentItem(button) {
     form.removeAttribute("hidden");
     commentText.setAttribute("hidden", "true");
 }
-
 
 async function saveEdit(event) {
     event.preventDefault();
@@ -210,7 +209,6 @@ async function saveEdit(event) {
                     editDate.textContent = "Edited " + data.edit_date;
                     content.textContent = commentContent;
                     AlertMessage("Saved!", data.success, "success");
-
                 } else {
                     AlertMessage("Fail!", data.error, "error");
                 }
@@ -232,7 +230,6 @@ function editCancel(comment) {
     const form = comment.querySelector(".editForm");
     form.setAttribute("hidden", "true");
 }
-
 
 const reportPopup = document.getElementById("report_content_popup");
 const idContent = reportPopup.querySelector("#id_content");
@@ -289,9 +286,13 @@ reportPopup
                     }).then((response) => response.json());
 
                     if (message.success) {
-                        AlertMessage("Report make!", message.success, "success");
+                        AlertMessage(
+                            "Report make!",
+                            message.success,
+                            "success"
+                        );
                     } else {
-                        AlertMessage( "Fail!", message.error, "error");
+                        AlertMessage("Fail!", message.error, "error");
                     }
                     closeReportContentForm();
                 } catch (error) {
@@ -304,39 +305,37 @@ reportPopup
         });
     });
 
+const commentSection = document.getElementById("comments");
 
+document.querySelectorAll(".paginate a")?.forEach((link) => {
+    link.addEventListener("click", feedLinksHandler);
+});
 
+async function feedLinksHandler(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-    const commentSection = document.getElementById("comments");
-    
-    document.querySelectorAll(".paginate a")?.forEach((link) => {
+    const link = e.target.closest("a");
+
+    const [response, raw_data] = await sendFetchRequest(
+        "GET",
+        link.href,
+        null,
+        "text"
+    );
+    window.history.pushState(raw_data, "", response.url);
+    updateComments(raw_data);
+    document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
+}
+
+function updateComments(raw_data) {
+    commentSection.innerHTML = raw_data;
+    commentSection.querySelectorAll(".paginate a").forEach((link) => {
         link.addEventListener("click", feedLinksHandler);
     });
-    
-    async function feedLinksHandler(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    
-        const link = e.target.closest("a");
-    
-        const [response, raw_data] = await sendFetchRequest(
-            "GET",
-            link.href,
-            null,
-            "text"
-        );
-        window.history.pushState(raw_data, "", response.url);
-        updateComments(raw_data);
-        document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
-    }
-    
-    function updateComments(raw_data) {
-        commentSection.innerHTML = raw_data;
-        commentSection.querySelectorAll(".paginate a").forEach((link) => {
-            link.addEventListener("click", feedLinksHandler);
-        });
-    }
-    
-    window.addEventListener("popstate", (event) => {
-        if (event.state) updateComments(event.state);
-    });
+    addVoteEventListener();
+}
+
+window.addEventListener("popstate", (event) => {
+    if (event.state) updateComments(event.state);
+});

@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Vote;
 use App\Models\Content;
 use App\Models\NewsItem;
+use App\Models\Notification;
+use App\Models\Comment;
 
 use App\Events\NewsItemLikeNotification;
-use App\Models\Notification;
+use App\Events\NewCommentLikeNotification;
 
 class VoteController extends Controller
 {
@@ -42,13 +44,18 @@ class VoteController extends Controller
             'vote' => $request->input('value')
         ];
 
+        $content = Content::find($request->input('content'));
+        $notification = Notification::where('id_user', '=', Auth::user()->id)
+            ->where('id_content', '=', $request->input('content'))
+            ->where('type', '=', 'vote')
+            ->first();
+
         if (($news_item = NewsItem::find($request->input('content'))) !== null) {
-            $content = Content::find($request->input('content'));
-            $notification = Notification::where('id_user', '=', Auth::user()->id)
-                ->where('id_content', '=', $request->input('content'))
-                ->where('type', '=', 'vote')
-                ->first();
             event(new NewsItemLikeNotification($content->id_author, $request->input('content'), $news_item->title, $notification->id, Auth::user()->id, Auth::user()->name));
+        }
+
+        if (($comment = Comment::find($request->input('content'))) !== null) {
+            event(new NewCommentLikeNotification($content->id_author, $request->input('content'), $comment->news_item->title, $comment->news_item->id, Auth::user()->id, Auth::user()->name, $notification->id));
         }
 
         return response()->json($response);
