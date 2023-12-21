@@ -3,7 +3,7 @@ main section#new_comment {
     background-color: var(--background-article-color);
     border: 1px solid var(--primary-color);
     color: var(--primary-text-color);
-    margin: 1em;
+    margin-: 1em;
     padding: 1em;
 }
 

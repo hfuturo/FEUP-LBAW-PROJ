@@ -96,30 +96,6 @@ main > nav {
     transition: translate 0.5s ease-in-out;
 }
 
-#notifications_pop_up > article.user_news,
-section#list_notifications > article.user_news {
-    padding: 0em 1em 0em 1em;
-}
-
-#notifications_pop_up > article.new_notification,
-section#list_notifications > article.new_notification {
-    background-color: aliceblue;
-}
-
-#notifications_pop_up > article.user_news > div,
-section#list_notifications > article.user_news h4 {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-#notifications_pop_up > article.user_news button,
-section#list_notifications > article.user_news button {
-    padding-top: 0.6em;
-}
-
 .header_nav {
     display: flex;
     justify-content: center;
@@ -287,19 +263,17 @@ main > nav #moderator_buttons {
 
 .accept,
 .remove {
-    margin: 1em;
     border-radius: 1em;
 }
 
 .accept {
     background-color: green;
     border-color: green;
-    margin-right: 1em;
 }
 
 .remove {
-    background-color: red;
-    border-color: red;
+    background-color: #d22e2e;
+    border-color: #d22e2e;
 }
 
 header .button {
@@ -307,8 +281,8 @@ header .button {
 }
 
 .delete_button {
-    background-color: red;
-    border-color: red;
+    background-color: #d22e2e;
+    border-color: #d22e2e;
 }
 
 header form input,
@@ -422,4 +396,63 @@ body.swal2-shown {
 
 #topics article > ul li {
     list-style: none;
+}
+
+#content {
+    background-color: white;
+    box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0.5),
+        5px 0 5px -5px rgba(0, 0, 0, 0.5);
+}
+
+.info_article {
+    background-color: aliceblue;
+    border: 1px solid var(--primary-color);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.info_article:hover,
+.info_article:focus-visible {
+    border: 2px solid var(--hover-color);
+}
+
+.info_article h4 {
+    margin: 0;
+    margin-bottom: 1em;
+}
+
+.container_choices {
+    display: flex;
+    gap: 0.5em;
+}
+
+.container_choices button {
+    margin: 0em;
+}
+
+#notifications_pop_up > article.info_article,
+section#list_notifications > article.info_article {
+    padding: 0em 1em 0em 1em;
+}
+
+#notifications_pop_up > article.new_notification,
+section#list_notifications > article.new_notification {
+    background-color: aliceblue;
+}
+
+#notifications_pop_up > article.info_article > div,
+section#list_notifications > article.info_article h4 {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#notifications_pop_up > article.info_article button,
+section#list_notifications > article.info_article button {
+    padding-top: 0.6em;
 }

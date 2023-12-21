@@ -7,7 +7,7 @@ document
         event.preventDefault();
         event.stopPropagation();
         const newsId = this.getAttribute("data-news-id");
-        const link = `/news/${newsId}?page=1`;
+        const link = `/news/${newsId}?page=1#comments`;
         const commentContent = document.getElementById("commentContent").value;
 
         try {
@@ -30,6 +30,7 @@ document
                     "text"
                 );
                 updateComments(raw_data);
+                history.pushState(null, "", link);
                 document
                     .getElementById("comments")
                     .scrollIntoView({ behavior: "smooth" });
@@ -114,6 +115,7 @@ async function deleteCommentItem(button) {
             }).then((response) => response.json());
 
             if (data.success) {
+                /*
                 const urlParams = new URLSearchParams(
                     currentURL.substring(currentURL.indexOf("?") + 1)
                 );
@@ -132,6 +134,7 @@ async function deleteCommentItem(button) {
                         history.pushState(null, "", currentURL);
                     }
                 }
+                */
                 const [response, raw_data] = await sendFetchRequest(
                     "GET",
                     currentURL,
@@ -323,7 +326,7 @@ async function feedLinksHandler(e) {
         null,
         "text"
     );
-    window.history.pushState(raw_data, "", response.url);
+    window.history.pushState(null, "", response.url);
     updateComments(raw_data);
     document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
 }

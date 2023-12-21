@@ -1,12 +1,15 @@
 .profile {
     text-align: center;
     display: flex;
+    gap: 1em;
 }
 
 #user_picture {
     flex: 1;
-    height: 20em;
+    height: auto;
     width: auto;
+    max-height: 20em;
+    max-width: 20em;
     object-fit: contain;
 }
 
@@ -16,34 +19,44 @@
     border-radius: 5px;
     flex: 2;
     padding: 1em;
-    margin-right: 1em;
-}
-
-#user_details,
-#user_details > div {
     display: flex;
-    width: 100%;
+    flex-direction: column;
+    gap: 1em;
 }
 
-.user_info {
+#user_details {
+    background-color: aliceblue;
+    border: 1px solid var(--primary-color);
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+.image_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#user_card > .user_info {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0em 1em 1em 1em;
     white-space: pre-line;
+    background-color: aliceblue;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
 }
+
 
 #user_card p,
 #user_card h4 {
     margin: 0em;
 }
 
-svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-}
 
 #follow,
 #follow_topic,
@@ -51,25 +64,24 @@ svg {
     text-transform: capitalize;
 }
 
-.action_buttons_wrapper,
+
+.image_buttons_wrapper,
 .user_follow_edit {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5em;
 }
 
 .user_follow_edit > button {
-    background: none;
-    border: none;
-    min-width: 1em;
     line-height: 1;
-    color: var(--primary-color);
-    margin-left: 0;
-    margin-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    margin: 0;
 }
 
+/*
 .action_buttons_wrapper > button:first-of-type:not(.delete_button) {
     margin-right: 0;
 }
@@ -77,11 +89,11 @@ svg {
 .action_buttons_wrapper > button:nth-of-type(2) {
     margin-left: 0;
 }
-
 .image_buttons_wrapper {
     display: flex;
     align-items: center;
 }
+
 
 .image_buttons_wrapper > button:first-of-type {
     margin-left: 0;
@@ -92,14 +104,12 @@ svg {
     margin-right: 0;
     width: 10em;
 }
+*/
 
-.remove_pfp_image {
-    background-color: red;
-    border-color: red;
-}
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 794px) {
     .profile {
         flex-direction: column-reverse;
+        gap:0.5em
     }
 }

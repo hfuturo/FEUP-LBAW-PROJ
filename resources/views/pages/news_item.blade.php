@@ -83,9 +83,8 @@ use App\Http\Controllers\FileController;
                     <span
                         class = "date">{{ explode('.', date('Y/m/d H:i:s', Carbon::parse($news_item->content->date)->timestamp))[0] }}</span>
                     @if ($news_item->content->edit_date !== null)
-                        <span class = "date">Edited last time</span>
-                        <span
-                            class = "date">{{ explode('.', date('Y/m/d H:i:s', Carbon::parse($news_item->content->edit_date)->timestamp))[0] }}</span>
+                        <span class = "date"> Edited last time
+                            {{ explode('.', date('Y/m/d H:i:s', Carbon::parse($news_item->content->edit_date)->timestamp))[0] }}</span>
                     @endif
                 </div>
                 <div class=tags>
@@ -108,7 +107,7 @@ use App\Http\Controllers\FileController;
             </form>
         </section>
     @endif
-    
+
     <section id = "comments">
         @include('partials.list_comments', [
             'news_item' => $news_item,

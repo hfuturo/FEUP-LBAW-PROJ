@@ -11,11 +11,11 @@ $paginator = $paginator->withQueryString();
 ?>
 @foreach ($paginator as $newsItem)
     <a href=" {{ url('/news/' . $newsItem->id) }}">
-        <article class="user_news">
-            <header class="news_header_feed">
+        <article class="news">
+            <div class="news_header_feed">
                 <h4 class="news_title">{{ $newsItem->title }}</h4>
-                <h4 class="time_elapsed">{{ Carbon::parse($newsItem->date)->diffForHumans() }}</h4>
-            </header>
+                <h5 class="time_elapsed">{{ Carbon::parse($newsItem->date)->diffForHumans() }}</h5>
+            </div>
             <p class="news_content">{{ $newsItem->content }}</p>
         </article>
     </a>

@@ -24,6 +24,11 @@ section#news article.news_body .news_text {
     margin-bottom: 1em;
 }
 
+section#news article.news_body .dates {
+    display: flex;
+    flex-direction: column;
+}
+
 section#news article.news_body .date {
     margin: 0;
     color: grey;
@@ -39,18 +44,18 @@ section#news article.news_body .tags {
     margin: 1em;
     margin-left: auto;
     margin-right: auto;
-    max-width: 500px;
-    max-height: 500px;
+    max-width: 70%;
+    max-height: 70%;
     height: auto;
     width: auto;
 }
 
 .votes {
     display: flex;
+    gap: 0.5em;
 }
 
 .votes button {
-    margin-right: 0.5em;
     padding: 0.5em;
     display: flex;
     align-items: center;

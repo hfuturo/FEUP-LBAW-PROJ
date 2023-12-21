@@ -90,7 +90,7 @@ function notificationTemplate(id) {
     if (icon) icon.innerHTML = "notifications_unread";
 
     const article = document.createElement("article");
-    article.classList.add("user_news", "new_notification");
+    article.classList.add("info_article", "new_notification");
     article.setAttribute("id", id);
     const divWrapper = document.createElement("div");
     const button = document.createElement("button");

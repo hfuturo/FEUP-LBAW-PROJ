@@ -2,7 +2,7 @@
     <h2>
         {{ $user->name }}
     </h2>
-    <button onclick="openEditForm()"><span class="material-symbols-outlined">edit</span></button>
+    <button class="button" onclick="openEditForm()"><span class="material-symbols-outlined">edit</span> Edit</button>
 </div>
 <script>
     function openEditForm() {
