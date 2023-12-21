@@ -14,7 +14,7 @@ class UserPolicy
      */
     public function update(User $user): bool
     {
-        return Auth::check() && (Auth::user()->id === $user->id);
+        return Auth::check() && (Auth::user()->id === $user->id || Auth::user()->is_admin());
     }
 
     /**
@@ -25,28 +25,8 @@ class UserPolicy
         return Auth::check() && (Auth::user()->id === $user->id || Auth::user()->is_admin());
     }
 
-    public function show(User $user)
-    {
-        return Auth::check();
-    }
-
     public function block(User $currentUser, User $user): bool
     {
-        return $currentUser->is_admin() && $currentUser->id !== $user->id;
-    }
-
-    public function unblock(): bool
-    {
-        return Auth::user()->is_admin();
-    }
-
-    public function change_moderator(User $currentUser): bool
-    {
-        return $currentUser->is_admin();
-    }
-
-    public function upgrade(User $currentUser, User $user): bool
-    {
-        return $currentUser->is_admin() && $user->type !== 'admin';
+        return $currentUser->is_admin() && !$user->is_admin();
     }
 }

@@ -12,25 +12,15 @@ use Illuminate\Support\Facades\DB;
 class OrganizationController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        try{
-            $request->validate([
-                'name_org' => 'required|unique:organization,name|max:255|string',
-                'bio_org' => 'required|string',
-            ]);
-
+        $request->validate([
+            'name_org' => 'required|unique:organization,name|max:255|string',
+            'bio_org' => 'required|string',
+        ]);
+        try {
             $result = DB::transaction(function () use ($request) {
                 $org = new Organization();
                 $org->name = $request->input('name_org');
@@ -42,12 +32,11 @@ class OrganizationController extends Controller
                 $leader = new MembershipStatus();
                 $leader->id_organization = $org->id;
                 $leader->id_user = Auth::user()->id;
-                $leader->joined_date= 'now()';
-                $leader->member_type='leader';
+                $leader->joined_date = 'now()';
+                $leader->member_type = 'leader';
                 $leader->save();
 
                 return $org;
-
             });
             return redirect()->route('show_org', ['organization' => $result->id]);
         } catch (Exception $e) {
@@ -79,22 +68,21 @@ class OrganizationController extends Controller
 
         $this->authorize('update', $organization);
 
-        if($organization->name === $request->input('name')){
-            $valid = $request->validate(['bio' => 'required|string',]);   
-            if($valid){
-                $update = $organization->update(['bio' => $request->input('bio')]);         
+        if ($organization->name === $request->input('name')) {
+            $valid = $request->validate(['bio' => 'required|string',]);
+            if ($valid) {
+                $organization->update(['bio' => $request->input('bio')]);
                 return back()->with('success', 'Successfully Create!');
             }
-        }
-        else{
+        } else {
             $valid = $request->validate([
                 'name' => 'required|unique:organization,name|max:255|string',
                 'bio' => 'required|string',
             ]);
-            if($valid){
-                $update = $organization->update(['name' => $request->input('name'), 'bio' => $request->input('bio')]);     
+            if ($valid) {
+                $organization->update(['name' => $request->input('name'), 'bio' => $request->input('bio')]);
                 return back()->with('success', 'Successfully Create!');
-            }    
+            }
         }
         return back()->withErrors(['error' => 'There was a problem']);
     }
@@ -104,13 +92,9 @@ class OrganizationController extends Controller
      */
     public function destroy(int $organization)
     {
-        try{
-            $org = Organization::find($organization);
-            $this->authorize('destroy', $org);
-            $org->delete();
-            return redirect()->route('news')->with('success', 'You have successfully deleted your organization!');
-        } catch (Exception $e) {
-            return back()->withErrors(['error' => 'You were not able to delete this organization, please check your permissions or try to refresh the page']);
-        }
+        $org = Organization::find($organization);
+        $this->authorize('destroy', $org);
+        $org->delete();
+        return redirect()->route('news')->with('success', 'You have successfully deleted your organization!');
     }
 }

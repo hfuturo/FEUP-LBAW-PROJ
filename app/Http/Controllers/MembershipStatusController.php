@@ -69,8 +69,12 @@ class MembershipStatusController extends Controller
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
                 ->where('id_organization', $request->input('organization'))
                 ->first();
-            $this->authorize('upgrade', $auth);
-
+            if ($auth) {
+                $this->authorize('upgrade', $auth);
+            } else {
+                $auth = new MembershipStatus();
+                $this->authorize('upgrade', $auth);
+            }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
                 ->where('id_organization', $request->input('organization'));
 

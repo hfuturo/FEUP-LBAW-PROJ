@@ -7,7 +7,6 @@ use App\Models\NewsItem;
 use App\Models\Comment;
 use App\Models\Vote;
 use App\Models\Topic;
-use App\Models\User;
 use App\Models\Content;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -15,9 +14,6 @@ use App\Models\NewsTag;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
-
-use Carbon\Carbon;
-
 
 class NewsItemController extends Controller
 {
@@ -34,16 +30,6 @@ class NewsItemController extends Controller
 
     public function show(Request $request, int $id): View
     {
-        /*
-        $news_item = NewsItem::findOrFail($id);
-
-        /*
-        $comments = $news_item->comments()
-            ->orderBy('comment.id', 'desc');
-
-        return view(choose_view($request, 'pages.news_item'), ['news_item' => $news_item, 'comments' => $comments, 'perPage' => 2]);
-        */
-
         $news_itens = NewsItem::findOrFail($id);
         $comments = null;
         if ($request->input("comment_search")) {
@@ -71,16 +57,10 @@ class NewsItemController extends Controller
         $content = Content::find($id);
         $this->authorize('destroy', $news_item);
 
-        if(Auth::user()->is_admin()){
-            Comment::where('id_news',$id)->delete();
-            Vote::where('id_content',$id)->delete();
-            $news_item->delete();
-            $content->delete();
-
+        if (Auth::user()->is_admin()) {
+            force_destroy_news_item($news_item);
             return redirect()->route('news')->with('success', 'Eliminated with success!');
-
-        }
-        else{
+        } else {
             $comments = Comment::where('id_news', $id)->get();
             $votes = Vote::where('id_content', $id)->get();
             if ($comments->isEmpty() && $votes->isEmpty()) {
@@ -89,9 +69,8 @@ class NewsItemController extends Controller
                 }
                 $news_item->delete();
                 $content->delete();
-
-                return redirect()->route('news')->with('success', 'Eliminated with success!');
             }
+            return redirect()->route('news')->with('success', 'Eliminated with success!');
         }
         return redirect()->route('news_page', [$id])->withErrors(["error" => 'Cannot be eliminated because it has comments!']);
     }
@@ -101,9 +80,7 @@ class NewsItemController extends Controller
         $news_item = NewsItem::find($request->input('request'));
         $this->authorize('destroy_admin', $news_item);
 
-        Comment::where('id_news', $request->input('request'))->delete();
-        Vote::where('id_content', $request->input('request'))->delete();
-        NewsItem::where('id', $request->input('request'))->delete();
+        force_destroy_news_item($news_item);
 
         $response = [
             'action' => 'delete_news_item',
@@ -112,7 +89,7 @@ class NewsItemController extends Controller
         return response()->json($response);
     }
 
-    /** 
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -121,7 +98,7 @@ class NewsItemController extends Controller
 
             $this->authorize('create', \App\NewsItem::class);
 
-            $valid = $request->validate([
+            $request->validate([
                 'title' => 'required|unique:news_item,title|max:255|string',
                 'text' => 'required|string',
                 'topic' => 'required|int',
@@ -218,7 +195,6 @@ class NewsItemController extends Controller
             'topic' => 'required',
             'tags' => 'nullable|string',
             'image' => 'mimes:jpg,png,jped',
-
         ]);
         $imageName = NULL;
 
@@ -264,4 +240,18 @@ function choose_view(Request $request, string $default)
 {
     if ($request->ajax()) return 'partials.list_comments';
     return  $default;
+}
+
+function force_destroy_news_item($news_item)
+{
+    foreach ($news_item->comments as $comment) {
+        Vote::where('id_content', $comment->id)->delete();
+        $comment->content->delete();
+    }
+
+    Vote::where('id_content', $news_item->id)->delete();
+    if ($news_item->image !== NULL) {
+        unlink(public_path("post/" . $news_item->image));
+    }
+    $news_item->content->delete();
 }
