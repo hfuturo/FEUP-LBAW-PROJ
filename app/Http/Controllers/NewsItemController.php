@@ -82,7 +82,8 @@ class NewsItemController extends Controller
         }
         else{
             $comments = Comment::where('id_news', $id)->get();
-            if ($comments->isEmpty()) {
+            $votes = Vote::where('id_content', $id)->get();
+            if ($comments->isEmpty() && $votes->isEmpty()) {
                 if ($news_item->image !== NULL) {
                     unlink(public_path("post/" . $news_item->image));
                 }
