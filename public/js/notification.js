@@ -47,7 +47,6 @@ new_comment_channel.bind("new-comment", (data) => {
 // notificacao comment vote
 const commentVoteChannel = pusher.subscribe("comment-vote" + user_id);
 commentVoteChannel.bind("comment-vote", (data) => {
-    console.log(data);
     const div = notificationTemplate(data.notification_id);
     const profileLink = document.createElement("a");
     profileLink.href =
@@ -145,10 +144,10 @@ window.addEventListener("click", (event) => {
             "transitionend",
             () => {
                 notification_popup.style.display = "none";
+                removeNotificationBackgroundColor();
             },
             { once: true }
         );
-        removeNotificationBackgroundColor();
     }
 });
 
@@ -164,6 +163,7 @@ document
                 "transitionend",
                 () => {
                     lista.style.display = "none";
+                    removeNotificationBackgroundColor();
                 },
                 { once: true }
             );
@@ -194,11 +194,7 @@ document
     });
 
 function removeNotificationBackgroundColor() {
-    document
-        .querySelectorAll(
-            "#notifications_pop_up > article.user_news.new_notification"
-        )
-        ?.forEach((notification) => {
-            notification.classList.remove("new_notification");
-        });
+    document.querySelectorAll(".new_notification")?.forEach((notification) => {
+        notification.classList.remove("new_notification");
+    });
 }
