@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OrganizationPolicy
 {
-
-    public function create(User $user): bool
-    {
-        return Auth::check();
-    }
-
     public function show_manage(User $user, Organization $organization): bool
     {
         $status = MembershipStatus::where('id_user', '=', $user->id)->where('id_organization', '=', $organization->id)->first();

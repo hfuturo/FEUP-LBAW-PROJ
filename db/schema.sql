@@ -498,7 +498,7 @@ DECLARE
     not_com INTEGER;
     item_author INTEGER;
 BEGIN
-  -- IF EXISTS (SELECT id FROM news_item WHERE id = NEW.id_content) THEN
+  IF (SELECT id_author FROM content WHERE id = NEW.id_content) IS NOT NULL THEN
     IF NOT EXISTS (
       SELECT id
       FROM notification
@@ -511,7 +511,7 @@ BEGIN
     INSERT INTO notified(id_notification, id_notified)
         VALUES (not_com,item_author)
         ON CONFLICT(id_notification, id_notified) DO UPDATE SET view = false, date = now();
-  -- END IF;
+  END IF;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

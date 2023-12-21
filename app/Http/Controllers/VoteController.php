@@ -32,7 +32,7 @@ class VoteController extends Controller
 
     public function create(Request $request)
     {
-        $vote = Vote::create([
+        Vote::create([
             'id_user' => Auth::user()->id,
             'id_content' => $request->input('content'),
             'vote' => $request->input('value')
@@ -50,14 +50,16 @@ class VoteController extends Controller
             ->where('type', '=', 'vote')
             ->first();
 
-        if (($news_item = NewsItem::find($request->input('content'))) !== null) {
-            event(new NewsItemLikeNotification($content->id_author, $request->input('content'), $news_item->title, $notification->id, Auth::user()->id, Auth::user()->name));
-        }
+        if ($notification && $content->id_author) {
 
-        if (($comment = Comment::find($request->input('content'))) !== null) {
-            event(new NewCommentLikeNotification($content->id_author, $request->input('content'), $comment->news_item->title, $comment->news_item->id, Auth::user()->id, Auth::user()->name, $notification->id));
-        }
+            if (($news_item = NewsItem::find($request->input('content'))) !== null) {
+                event(new NewsItemLikeNotification($content->id_author, $request->input('content'), $news_item->title, $notification->id, Auth::user()->id, Auth::user()->name));
+            }
 
+            if (($comment = Comment::find($request->input('content'))) !== null) {
+                event(new NewCommentLikeNotification($content->id_author, $request->input('content'), $comment->news_item->title, $comment->news_item->id, Auth::user()->id, Auth::user()->name, $notification->id));
+            }
+        }
         return response()->json($response);
     }
 

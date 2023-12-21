@@ -25,10 +25,15 @@ class NewsController extends Controller
 
     public function follow_list(Request $request)
     {
-        //$this->authorize('follow_list', \App\News::class);
-        // users que segue
-        $following = Auth::user()->following()->get('id_following');
-        $posts = DB::table('news_item')->join('content', 'content.id', '=', 'news_item.id')->whereIn('id_author', $following)->orderBy('date', 'DESC');
+        $followingUsers = Auth::user()->following()->get('id_following');
+        $followingTopics = Auth::user()->follow_topics()->get('id_topic');
+        $followingOrganizations = Auth::user()->follow_topics()->get('id_organization');
+        $posts = DB::table('news_item')
+            ->join('content', 'content.id', '=', 'news_item.id')
+            ->whereIn('id_author', $followingUsers, 'or')
+            ->whereIn('id_topic', $followingTopics, 'or')
+            ->whereIn('id_organization', $followingOrganizations, 'or')
+            ->orderBy('date', 'DESC');
         return view(choose_view($request, 'pages.news'), ['news_list' => $posts, 'perPage' => 10]);
     }
 
