@@ -393,7 +393,6 @@ main > section {
     content: "\2630";
     font-size: 1.6rem;
     display: block;
-    transform: translateY(-0.1em);
     cursor: pointer;
 }
 
