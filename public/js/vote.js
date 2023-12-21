@@ -1,21 +1,25 @@
 "use strict";
 
-document?.querySelectorAll(".vote_value").forEach((input) => {
-    let value = input.value;
-    let button;
-    if (value == 1) {
-        button = input.parentNode.querySelector(".accept");
-        button.style.backgroundColor = "green";
-        button.style.borderColor = "green";
-    }
-    if (value == -1) {
-        button = input.parentNode.querySelector(".remove");
-        button.style.backgroundColor = "red";
-        button.style.borderColor = "red";
-    }
-});
+function addVoteInfo() {
+    document?.querySelectorAll(".vote_value").forEach((input) => {
+        let value = input.value;
+        let button;
+        if (value == 1) {
+            button = input.parentNode.querySelector(".accept");
+            button.style.backgroundColor = "green";
+            button.style.borderColor = "green";
+        }
+        if (value == -1) {
+            button = input.parentNode.querySelector(".remove");
+            button.style.backgroundColor = "red";
+            button.style.borderColor = "red";
+        }
+    });
+}
 
 function addVoteEventListener() {
+    addVoteInfo();
+
     document.querySelectorAll(".vote").forEach((button) => {
         button.addEventListener("click", (event) => {
             let name = button.className;
