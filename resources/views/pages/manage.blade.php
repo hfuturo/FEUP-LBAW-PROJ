@@ -17,12 +17,11 @@
     <script>
         function openMakeModeratorTopicForm(id) {
             Swal.fire({
-                title: "Report",
+                title: "What topic will the user moderate?",
                 html: `
             <form id="choose_topic_form">
                 @csrf
                 <input type="hidden" name="user" id="id_user" value="${id}">
-                <label>What topic will moderate?</label>
                 <select id="select_topic" name="topic">
                     @foreach ($topics as $topic)
                         <option value="{{ $topic->id }}">{{ $topic->name }}</option>

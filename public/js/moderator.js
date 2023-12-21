@@ -98,13 +98,6 @@ function revokeModerator2(button) {
                     }
                     user.remove();
 
-                    const newOption = document.createElement("option");
-                    newOption.setAttribute("value", userId);
-                    const name = user.querySelector("a").textContent;
-                    newOption.textContent = name;
-                    const options = formUser.querySelector("#select_user");
-                    options.appendChild(newOption);
-
                     Swal.fire({
                         title: "Revoked privileges!",
                         text: name + " is not a moderator anymore.",
@@ -192,113 +185,83 @@ async function makeModeratorSubmit(id, data, topicName) {
     });
 }
 
-const popupUser = document.getElementById("list_users_popup");
-const formUser = document.getElementById("choose_user_form");
-const inputTopic = document.querySelector("#id_topic");
-
 function openMakeModeratorUser(button) {
     const idTopic = button.parentNode.parentNode.getAttribute("id-topic");
-    inputTopic.value = idTopic;
-    popupUser.style.display = "block";
+    openAddModeratorTopicForm(idTopic);
 }
 
-function closeMakeModeratorUser() {
-    inputTopic.value = "";
-    popupUser.style.display = "none";
-}
+async function makeModerator2Submit(data, name) {
+    Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        text: name + " will be able to moderate this topic.",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, made it moderator!",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const response = await sendFetchRequest(
+                    "PATCH",
+                    "/api/moderator/make",
+                    data,
+                    "json"
+                );
+                const result = response[1];
 
-document
-    .querySelector("#choose_user_form")
-    ?.addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const user = formUser.querySelector("#select_user");
-        const userID = user.value;
-        const name = document.querySelector(
-            '#select_user option[value="' + userID + '"]'
-        ).textContent;
-        const data = {
-            user: userID,
-            topic: inputTopic.value,
-        };
-        Swal.fire({
-            title: "Are you sure?",
-            icon: "warning",
-            text: name + " will be able to moderate this topic.",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, made it moderator!",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await sendFetchRequest(
-                        "PATCH",
-                        "/api/moderator/make",
-                        data,
-                        "json"
+                if (result.success) {
+                    const topic = document.querySelector(
+                        `article[id-topic ="${data.topic}"]`
                     );
-                    const result = response[1];
-
-                    if (result.success) {
-                        const topic = document.querySelector(
-                            `article[id-topic ="${inputTopic.value}"]`
-                        );
-                        const ul = topic.querySelector("ul");
-                        const nMods = topic.querySelector(".nMods");
-                        const value = parseInt(nMods.getAttribute("value"));
-                        if (value === 0) {
-                            ul.firstElementChild.remove();
-                        }
-                        let n = value + 1;
-                        nMods.setAttribute("value", n);
-                        nMods.textContent = "(" + n + ")";
-                        const li = document.createElement("li");
-                        li.className = "moderator";
-                        li.setAttribute("id", userID);
-
-                        const index = user.selectedIndex;
-                        const userName = user.options[index].textContent;
-                        const link = document.createElement("a");
-                        link.href = "/profile/" + userID;
-                        link.textContent = userName;
-                        li.appendChild(link);
-
-                        const button = document.createElement("button");
-                        button.classList = "button";
-                        button.onclick = function () {
-                            revokeModerator2(this);
-                        };
-                        button.textContent = "Revoke privileges";
-
-                        li.appendChild(button);
-                        ul.appendChild(li);
-
-                        user.querySelector(
-                            `option[value ="${userID}"]`
-                        ).remove();
-
-                        Swal.fire({
-                            title: name + " is a moderador now!",
-                            text: result.success,
-                            icon: "success",
-                            confirmButtonColor: "#3085d6",
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Fail!",
-                            text: result.error,
-                            icon: "error",
-                            confirmButtonColor: "#3085d6",
-                        });
+                    const ul = topic.querySelector("ul");
+                    const nMods = topic.querySelector(".nMods");
+                    const value = parseInt(nMods.getAttribute("value"));
+                    if (value === 0) {
+                        ul.firstElementChild.remove();
                     }
-                    closeMakeModeratorUser();
-                } catch (error) {
-                    console.error("Error:", error);
-                    Swal.showValidationMessage(`
-                Request failed: ${error}
-              `);
+                    let n = value + 1;
+                    nMods.setAttribute("value", n);
+                    nMods.textContent = "(" + n + ")";
+                    const li = document.createElement("li");
+                    li.className = "moderator";
+                    li.setAttribute("id", data.user);
+
+                    const link = document.createElement("a");
+                    link.href = "/profile/" + data.user;
+                    link.textContent = name;
+                    li.appendChild(link);
+
+                    const button = document.createElement("button");
+                    button.classList = "button";
+                    button.onclick = function () {
+                        revokeModerator2(this);
+                    };
+                    button.textContent = "Revoke privileges";
+
+                    li.appendChild(button);
+                    ul.appendChild(li);
+
+                    removeById(allUsers, data.user);
+
+                    Swal.fire({
+                        title: name + " is a moderador now!",
+                        text: result.success,
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Fail!",
+                        text: result.error,
+                        icon: "error",
+                        confirmButtonColor: "#3085d6",
+                    });
                 }
+            } catch (error) {
+                console.error("Error:", error);
+                Swal.showValidationMessage(`Request failed: ${error}`);
             }
-        });
+        }
     });
+}
