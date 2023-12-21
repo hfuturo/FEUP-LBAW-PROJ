@@ -11,12 +11,12 @@
             html: `
             <form method="POST" action="{{ route('profile_update', ['user' => Auth::user()]) }}">
             {{ csrf_field() }}
-            <label for="name">Name</label>
+            <label for="name">Name *</label>
             <input id="name" type="text" name="name" value="{{ $user->name }}" required autofocus>
             @error("name")
                 <p class="input_error">{{ $message }}</p>
             @enderror
-            <label for="email">Email</label>
+            <label for="email">Email *</label>
             <input id="email" type="text" name="email" value="{{ $user->email }}" required>
             @error("email")
                 <p class="input_error">{{ $message }}</p>
@@ -25,6 +25,8 @@
             <textarea id="bio" name="bio">{{ $user->bio }}</textarea>
 
             </form>
+            <p>(fields with * are mandatory)</p>
+
             `,
             confirmButtonColor: 'var(--primary-color)',
             customClass: {

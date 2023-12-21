@@ -6,7 +6,7 @@
             <form method="POST" id="editOrgForm" action="{{url('/api/organization/update')}}">
             {{ csrf_field() }}
             <input id="orgId" type="hidden" name="orgId" value="{{ $organization->id }}">
-            <label for="name">Name</label>
+            <label for="name">Name *</label>
             <input id="name" type="text" name="name" value="{{ $organization->name }}" required>
             @error("name")
                 <p class="input_error">{{ $message }}</p>
@@ -18,6 +18,7 @@
                 <p class="input_error">{{ $message }}</p>
             @enderror
             </form>
+            <p>(fields with * are mandatory)</p>
             `,
             confirmButtonColor: 'var(--primary-color)',
             customClass: {

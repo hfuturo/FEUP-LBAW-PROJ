@@ -6,7 +6,7 @@
 <form method="post" action="{{ route('topic_proposal') }}">
     {{ csrf_field() }}
 
-    <label for="name_topic">Name</label>
+    <label for="name_topic">Name *</label>
     <input class="form-item" id="name_topic" type="text" name="name_topic" placeholder="Name" required>
     @error('name_topic')
         <p class="input_error">{{ $message }}</p>
@@ -18,6 +18,7 @@
         <p class="input_error">{{ $message }}</p>
     @enderror
 </form>
+<p>(fields with * are mandatory)</p>
             `,
             confirmButtonColor: 'var(--primary-color)',
             customClass: {

@@ -7,12 +7,13 @@
             <form method="POST" action="{{ route('create_user_report') }}">
                 {{ csrf_field() }}
                 <input type="hidden" id="reported" name="id_reported" value="{{ $user->id }}">
-                <label for="reason">Reason</label>
+                <label for="reason">Reason *</label>
                 <textarea id="reason" name="reason" required></textarea>
                 @error("reason")
                     <p class="input_error">{{ $message }}</p>
                 @enderror
             </form>
+            <p>(fields with * are mandatory)</p>
             `,
             confirmButtonColor: 'var(--primary-color)',
             customClass: {
