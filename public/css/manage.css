@@ -4,8 +4,6 @@ input[id="filter_users"]:focus {
 
 #all_users {
     margin: 0em;
-    height: 33vw;
-    overflow: scroll;
     padding: 0;
     background-color: white;
     border: 1px solid black;

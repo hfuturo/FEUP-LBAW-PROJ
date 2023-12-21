@@ -1,11 +1,3 @@
-function openRequestOrg() {
-    document.getElementById("request_org_popup").style.display = "block";
-}
-
-function closeRequestOrg() {
-    document.getElementById("request_org_popup").style.display = "none";
-}
-
 document.querySelector("#follow")?.addEventListener("click", (event) => {
     const organization = document.querySelector("#org").value;
     sendAjaxRequest(
@@ -85,7 +77,8 @@ function statusHandler() {
     }
 }
 
-document.querySelectorAll(".manage").forEach((button) => {
+document.querySelectorAll(".manage").forEach(addEventManageButton);
+function addEventManageButton(button) {
     button.addEventListener("click", (event) => {
         Swal.fire({
             title: "Are you sure?",
@@ -107,7 +100,7 @@ document.querySelectorAll(".manage").forEach((button) => {
             }
         });
     });
-});
+}
 
 function manageOrganizationHandler() {
     let success = JSON.parse(this.responseText).success;
@@ -123,13 +116,11 @@ function manageOrganizationHandler() {
         } else if (action === "expel") {
             article.remove();
         } else if (action === "decline") {
-            const selector2 = '.popup-content div[id="' + user + '"]';
-            let element = document.querySelector(selector2);
-            element.remove();
+            removeById(organizationRequests, user);
+            openRequestOrg();
         } else if (action === "accept") {
-            const selector2 = '.popup-content div[id="' + user + '"]';
-            let element = document.querySelector(selector2);
-            element.remove();
+            removeById(organizationRequests, user);
+            openRequestOrg();
 
             const sectionMember = document.createElement("article");
             sectionMember.className = "user_news";
@@ -216,15 +207,6 @@ function manageOrganizationHandler() {
                     }
                 });
             });
-        }
-
-        let container =
-            document.querySelector("#request_org_popup").firstElementChild;
-        console.log(container);
-        if (container.childElementCount === 2) {
-            let par = document.createElement("p");
-            par.textContent = "There are no requests to show.";
-            container.appendChild(par);
         }
     } else {
         Swal.fire({
