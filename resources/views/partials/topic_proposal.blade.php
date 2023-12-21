@@ -1,7 +1,7 @@
 <script>
     function openTopicProposal() {
         Swal.fire({
-            title: "Proporse a new topic!",
+            title: "Propose a new topic!",
             html: `
 <form method="post" action="{{ route('topic_proposal') }}">
     {{ csrf_field() }}

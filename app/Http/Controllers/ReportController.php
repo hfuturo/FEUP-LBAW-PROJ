@@ -59,11 +59,16 @@ class ReportController extends Controller
 
     public function create_user(Request $request)
     {
+        $request->validate([
+            'id_reported' => 'required|numeric',
+            'reason' => 'required|string',
+        ]);
+        
         $report = Report::create([
             'reason' => $request->input('reason'),
             'type' => 'user',
             'id_reporter' => Auth::user()->id,
-            'id_user' => $request->input('user'),
+            'id_user' => $request->input('id_reported'),
         ]);
 
         return response()->json();
