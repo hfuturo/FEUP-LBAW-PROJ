@@ -57,19 +57,25 @@ class ReportController extends Controller
         ]);
     }
 
+
     public function create_user(Request $request)
     {
-        $request->validate([
-            'id_reported' => 'required|numeric',
-            'reason' => 'required|string',
-        ]);
-        
-        $report = Report::create([
-            'reason' => $request->input('reason'),
-            'type' => 'user',
-            'id_reporter' => Auth::user()->id,
-            'id_user' => $request->input('id_reported'),
-        ]);
+        try{
+            $request->validate([
+                'id_reported' => 'required|numeric',
+                'reason' => 'required|string',
+            ]);
+            
+            $report = Report::create([
+                'reason' => $request->input('reason'),
+                'type' => 'user',
+                'id_reporter' => Auth::user()->id,
+                'id_user' => $request->input('id_reported'),
+            ]);
+            return redirect()->back()->with('success', 'Successfully changed!');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
 
         return response()->json();
     }
