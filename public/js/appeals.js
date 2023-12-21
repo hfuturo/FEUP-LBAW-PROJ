@@ -106,7 +106,7 @@ document
 function removeAppeal(button) {
     button.parentNode.previousElementSibling.parentNode.remove();
     const section = document.getElementById("list_unblock_appeals");
-    if (section.children.length <= 1) {
+    if (section.children.length == 2) {
         section.textContent = "There are no unblock appeals to show.";
     }
 }

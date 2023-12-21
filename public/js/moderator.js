@@ -1,5 +1,4 @@
 function revokeModerator(button) {
-    closeMakeModeratorTopic();
     const userLi = button.parentNode.parentNode;
     const userId = userLi.getAttribute("id");
     const name = document.querySelector(
@@ -130,96 +129,68 @@ function revokeModerator2(button) {
     });
 }
 
-const popup = document.getElementById("topic_list_popup");
-const formTopic = document.getElementById("choose_topic_form");
-const inputId = document.querySelector("#id_user");
-
 function openMakeModeratorTopic(button) {
     const idUser = button.parentNode.parentNode.getAttribute("id");
-    inputId.value = idUser;
-    popup.style.display = "block";
+    openMakeModeratorTopicForm(idUser);
 }
 
-function closeMakeModeratorTopic() {
-    inputId.value = "";
-    popup.style.display = "none";
-}
+async function makeModeratorSubmit(id, data, topicName) {
+    const name = document.querySelector(
+        'li[id="' + id + '"] .name_wrapper > a'
+    ).textContent;
 
-document
-    .querySelector("#choose_topic_form")
-    ?.addEventListener("submit", async function (event) {
-        event.preventDefault();
+    Swal.fire({
+        title: "Are you sure?",
+        text: name + " will be able to moderate this topic.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, made it moderator!",
+    }).then(async (res) => {
+        if (res.isConfirmed) {
+            try {
+                const [response, result] = await sendFetchRequest(
+                    "PATCH",
+                    "/api/moderator/make",
+                    data,
+                    "json"
+                );
 
-        const name = document.querySelector(
-            'li[id="' + inputId.value + '"] .name_wrapper > a'
-        ).textContent;
-
-        const topic = formTopic.querySelector("#select_topic");
-
-        const data = {
-            user: inputId.value,
-            topic: topic.value,
-        };
-        Swal.fire({
-            title: "Are you sure?",
-            text: name + " will be able to moderate this topic.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, made it moderator!",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await sendFetchRequest(
-                        "PATCH",
-                        "/api/moderator/make",
-                        data,
-                        "json"
-                    );
-
-                    result = response[1];
-
-                    if (result.success) {
-                        const userLi = document.getElementById(inputId.value);
-                        let button = userLi.querySelector(".modBut");
-                        button.onclick = function () {
-                            revokeModerator(this);
-                        };
-                        button.textContent = "Revoke Moderator";
-                        Swal.fire({
-                            title: name + " is a moderator now!",
-                            text: result.success,
-                            icon: "success",
-                            confirmButtonColor: "#3085d6",
-                        });
-                        const div = userLi.querySelector("div:first-of-type");
-                        const newA = document.createElement("a");
-                        newA.classList.add("is_mod");
-                        newA.href = "/topic/" + topic.value;
-                        const selectedIndex = topic.selectedIndex;
-                        const topicName =
-                            topic.options[selectedIndex].textContent;
-                        newA.textContent = "Moderator of " + topicName;
-                        div.append(newA);
-                    } else {
-                        Swal.fire({
-                            title: "Fail!",
-                            text: result.error,
-                            icon: "error",
-                            confirmButtonColor: "#3085d6",
-                        });
-                    }
-                    closeMakeModeratorTopic();
-                } catch (error) {
-                    console.error("Error:", error);
-                    Swal.showValidationMessage(`
-                Request failed: ${error}
-              `);
+                if (result.success) {
+                    const userLi = document.getElementById(id);
+                    let button = userLi.querySelector(".modBut");
+                    button.onclick = function () {
+                        revokeModerator(button);
+                    };
+                    button.textContent = "Revoke Moderator";
+                    Swal.fire({
+                        title: name + " is a moderator now!",
+                        text: result.success,
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                    });
+                    const div = userLi.querySelector("div:first-of-type");
+                    const newA = document.createElement("a");
+                    newA.classList.add("is_mod");
+                    newA.href = "/topic/" + data.topic;
+                    newA.textContent = "Moderator of " + topicName;
+                    div.append(newA);
+                } else {
+                    Swal.fire({
+                        title: "Fail!",
+                        text: result.error,
+                        icon: "error",
+                        confirmButtonColor: "#3085d6",
+                    });
                 }
+            } catch (error) {
+                console.error("Error:", error);
+                Swal.showValidationMessage(`Request failed: ${error}`);
             }
-        });
+        }
     });
+}
 
 const popupUser = document.getElementById("list_users_popup");
 const formUser = document.getElementById("choose_user_form");

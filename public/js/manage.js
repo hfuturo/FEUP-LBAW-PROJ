@@ -323,6 +323,20 @@ function topicProposalHandler() {
     let idTopic = JSON.parse(this.responseText);
     let element = document.getElementById(idTopic);
     element.remove();
+
+    const div = document.querySelector("#content > div:first-of-type");
+
+    if (
+        div &&
+        document.querySelector(
+            "#content > div:first-of-type > h2:first-of-type"
+        ).textContent === "Manage Suggested Topics" &&
+        div.children.length === 2
+    ) {
+        const p = document.createElement("p");
+        p.textContent = "There are no suggested topics to show";
+        div.append(p);
+    }
 }
 
 document.querySelectorAll(".upgrade").forEach((button) => {

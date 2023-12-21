@@ -14,20 +14,45 @@
             @each('partials.manage', $users, 'user')
         </nav>
     </section>
-    <div id="topic_list_popup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="closeMakeModeratorTopic()">&times;</span>
+    <script>
+        function openMakeModeratorTopicForm(id) {
+            Swal.fire({
+                title: "Report",
+                html: `
             <form id="choose_topic_form">
                 @csrf
-                <input type="hidden" name="id_user" id="id_user" value="">
+                <input type="hidden" name="user" id="id_user" value="${id}">
                 <label>What topic will moderate?</label>
-                <select id="select_topic">
+                <select id="select_topic" name="topic">
                     @foreach ($topics as $topic)
                         <option value="{{ $topic->id }}">{{ $topic->name }}</option>
                     @endforeach
                 </select>
-                <button type="submit">Make</button>
-            </form>
-        </div>
-    </div>
+            </form>`,
+                confirmButtonColor: 'var(--primary-color)',
+                customClass: {
+                    confirmButton: "button",
+                    cancelButton: "button",
+                },
+                buttonsStyling: false,
+                showCancelButton: true,
+                confirmButtonText: 'Submit',
+                didOpen: () => {
+                    const popup = Swal.getPopup()
+                    popup.querySelector("form").addEventListener("submit", Swal.clickConfirm)
+                },
+                preConfirm: () => {
+                    const popup = Swal.getPopup()
+                    const form = popup.querySelector("form")
+                    if (form.reportValidity()) {
+                        const select = form.querySelector('[name="topic"]')
+                        makeModeratorSubmit(id, getFormParams(form), select.options[select.selectedIndex]
+                            .textContent);
+                        return true;
+                    }
+                    return false;
+                }
+            })
+        }
+    </script>
 @endsection
