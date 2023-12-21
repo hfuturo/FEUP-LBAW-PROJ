@@ -94,59 +94,51 @@ class NewsItemController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        $request->validate([
+            'title' => 'required|unique:news_item,title|max:255|string',
+            'text' => 'required|string',
+            'topic' => 'required|int',
+            'tags' => 'nullable|string',
+            'image' => 'mimes:jpg,png,jpeg',
+        ]);
 
-            $this->authorize('create', \App\NewsItem::class);
+        $imageName = NULL;
 
-            $request->validate([
-                'title' => 'required|unique:news_item,title|max:255|string',
-                'text' => 'required|string',
-                'topic' => 'required|int',
-                'tags' => 'nullable|string',
-                'image' => 'mimes:jpg,png,jpeg',
-            ]);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $requestImage = $request->image;
+            $imageName = $requestImage->hashName();
+            $requestImage->move(public_path('post/'), $imageName);
+        }
 
-            $imageName = NULL;
+        $id_news = NULL;
+        DB::transaction(function () use (&$id_news, $request, $imageName) {
 
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $requestImage = $request->image;
-                $imageName = $requestImage->hashName();
-                $requestImage->move(public_path('post/'), $imageName);
+            $content = new Content();
+            $content->content = $request->input('text');
+            $content->id_author = Auth::user()->id;
+            $content->id_organization = $request->input('organization');
+            $content->save();
+
+            $newsItem = new NewsItem();
+            $newsItem->id_topic = $request->input('topic');
+            $newsItem->title = $request->input('title');
+            $newsItem->image = $imageName;
+            $newsItem->id = $content->id;
+            $newsItem->save();
+
+            $tags = Tag::parse_tags($request->input('tags'));
+            foreach ($tags as $tag) {
+                $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
+                NewsTag::create([
+                    'id_tag' => $takeTag->id,
+                    'id_news_item' => $newsItem->id
+                ]);
             }
 
-            $id_news = NULL;
-            DB::transaction(function () use (&$id_news, $request, $imageName) {
-
-                $content = new Content();
-                $content->content = $request->input('text');
-                $content->id_author = Auth::user()->id;
-                $content->id_organization = $request->input('organization');
-                $content->save();
-
-                $newsItem = new NewsItem();
-                $newsItem->id_topic = $request->input('topic');
-                $newsItem->title = $request->input('title');
-                $newsItem->image = $imageName;
-                $newsItem->id = $content->id;
-                $newsItem->save();
-
-                $tags = Tag::parse_tags($request->input('tags'));
-                foreach ($tags as $tag) {
-                    $takeTag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
-                    NewsTag::create([
-                        'id_tag' => $takeTag->id,
-                        'id_news_item' => $newsItem->id
-                    ]);
-                }
-
-                $id_news = $content->id;
-            });
-            return redirect()->route('news_page', ["id" => $id_news])
-                ->with('success', 'Successfully Create!');
-        } catch (Exception $e) {
-            return redirect()->route('create_news')
-                ->withErrors(['error' => 'The parameters are invalid!']);
-        }
+            $id_news = $content->id;
+        });
+        return redirect()->route('news_page', ["id" => $id_news])
+            ->with('success', 'Successfully Create!');
     }
 
 
