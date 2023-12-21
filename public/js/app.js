@@ -1,22 +1,13 @@
 "use strict";
 
-document.querySelector("#hamburger")?.addEventListener("click", (event) => {
-    document
-        .querySelector("main > nav")
-        .classList.toggle("visivel", event.target.checked);
-    document
-        .querySelector("main > #content")
-        .classList.toggle("visivel", event.target.checked);
-});
-
-setTimeout(() => {
-    const sideNav = document.querySelector("main > nav");
-    if (sideNav) {
-        sideNav.style.minWidth =
-            document.querySelector(".sticky_nav").getBoundingClientRect()
-                .width + "px";
-    }
-}, 100);
+// setTimeout(() => {
+//     const sideNav = document.querySelector("main > nav");
+//     if (sideNav) {
+//         sideNav.style.minWidth =
+//             document.querySelector(".sticky_nav").getBoundingClientRect()
+//                 .width + "px";
+//     }
+// }, 100);
 
 document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
@@ -24,23 +15,21 @@ document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {
     }
 });
 
-document.querySelector("#hamburger")?.addEventListener("click", (event) => {
-    document.querySelector("main > nav").style.width = "0";
-    if (event.target.checked) {
-        document.querySelector("main > nav").style.minWidth = "0";
-    } else {
-        document.querySelector("main > nav").style.minWidth =
-            document.querySelector(".sticky_nav").getBoundingClientRect()
-                .width + "px";
-    }
-    document.querySelectorAll(".sticky_nav .button").forEach((elm) => {
-        elm.tabIndex = event.target.checked ? -1 : 0;
-    });
-    const subOptions = document.getElementById("report_sub_options");
-    subOptions.querySelectorAll(".button").forEach((elm) => {
-        elm.tabIndex = subOptions.classList.contains("open") ? 0 : -1;
-    });
-});
+// document.querySelector("#hamburger")?.addEventListener("click", (event) => {
+//     document.querySelector("main > nav").style.width = "0";
+//     if (event.target.checked) {
+//         document.querySelector("main > nav").style.translate = "-100% 0";
+//     } else {
+//         document.querySelector("main > nav").style.translate = "0 0";
+//     }
+//     document.querySelectorAll(".sticky_nav .button").forEach((elm) => {
+//         elm.tabIndex = event.target.checked ? -1 : 0;
+//     });
+//     const subOptions = document.getElementById("report_sub_options");
+//     subOptions.querySelectorAll(".button").forEach((elm) => {
+//         elm.tabIndex = subOptions.classList.contains("open") ? 0 : -1;
+//     });
+// });
 
 const subOptions = document.getElementById("report_sub_options");
 if (subOptions) {
@@ -62,10 +51,6 @@ if (subOptions) {
                     ? "expand_less"
                     : "expand_more";
         });
-}
-
-function openTopicProposal() {
-    document.getElementById("topic_proposal_popup").style.display = "block";
 }
 
 function closeTopicProposal() {

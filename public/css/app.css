@@ -39,7 +39,12 @@ main > nav {
     min-width: max-content;
     width: max-content;
     overflow: clip;
-    transition: min-width 0.5s ease-in-out;
+    translate: -100% 0;
+    transition: translate 0.5s ease-in-out;
+}
+
+#hamburger:checked ~ main > nav {
+    translate: 0 0;
 }
 
 #manage_report_button span {
@@ -59,10 +64,6 @@ main > nav {
     margin-left: 0.5em;
 }
 
-#button_profile {
-    margin-left: 1em;
-}
-
 .sub-options {
     display: none;
 }
@@ -73,8 +74,25 @@ main > nav {
     padding: 1em 0.5em 0.5em 0.5em;
     border: none;
 }
+
 #notification_icon:hover {
     color: var(--hover-color);
+}
+
+#notifications_pop_up {
+    display: none;
+    translate: 0 -100%;
+    position: fixed;
+    top: 5em;
+    right: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px;
+    width: 20rem;
+    max-height: 50%;
+    z-index: 999;
+    overflow-y: auto;
+    transition: translate 0.5s ease-in-out;
 }
 
 #notifications_pop_up > article.user_news,
@@ -137,18 +155,12 @@ section#list_notifications > article.user_news button {
     padding-right: 0;
     border-radius: 0 5px 5px 0;
     border: 1px solid var(--background-color);
-}
-
-#notification_icon {
-    background-color: var(--primary-color);
-    color: var(--secundary-text-color);
-    padding: 1em 0.5em 0.5em 0.5em;
-    border: none;
-}
-
-#notification_icon:hover,
-#notification_icon:focus-visible {
-    color: var(--hover-color);
+    height: 100%;
+    align-items: normal;
+    max-height: calc(3rem + 4px);
+    overflow: clip;
+    line-height: calc(2rem + 4px);
+    line-break: anywhere;
 }
 
 .search_form {
@@ -186,9 +198,45 @@ section#list_notifications > article.user_news button {
 }
 
 .sticky_nav {
-    position: sticky;
-    width: max-content;
+    position: fixed;
     top: 5rem;
+    left: 0;
+}
+
+@media screen and (max-width: 850px) {
+    html {
+        scroll-padding-top: 11rem;
+    }
+
+    .sticky_nav,
+    #notifications_pop_up {
+        top: 9rem;
+    }
+
+    .header_nav,
+    .header_user_info {
+        flex: 1;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    html {
+        scroll-padding-top: 15rem;
+    }
+
+    .sticky_nav,
+    #notifications_pop_up {
+        top: 13rem;
+    }
+
+    #notifications_pop_up {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    main > nav {
+        width: 100%;
+    }
 }
 
 main > nav #admin_buttons,
@@ -309,23 +357,12 @@ fieldset {
     margin-bottom: 1rem;
 }
 
-#notifications_pop_up {
-    display: none;
-    position: fixed;
-    top: 5em;
-    right: 0;
-    background-color: var(--background-color);
-    border: 1px solid var(--primary-color);
-    padding: 10px;
-    width: 25%;
-    max-height: 50%;
-    z-index: 999;
-    overflow-y: auto;
-}
-
 main > section {
     width: 100%;
     margin: 1em;
+    max-width: min(110ch, 90vw);
+    margin: 0 auto;
+    padding: 1rem;
 }
 
 .skip-to-content-link {
@@ -337,6 +374,8 @@ main > section {
     top: 0;
     transform: translateY(-200%);
     transition: transform 0.3s;
+    z-index: 100000;
+    color: white;
 }
 
 .skip-to-content-link:focus {
@@ -358,11 +397,11 @@ main > section {
     cursor: pointer;
 }
 
-#hamburger:focus-visible + .hamburger {
+#hamburger:focus-visible ~ header .hamburger {
     outline: auto;
 }
 
-#hamburger:checked + .hamburger:before {
+#hamburger:checked ~ header .hamburger:before {
     content: "\2715";
 }
 

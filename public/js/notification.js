@@ -124,7 +124,14 @@ window.addEventListener("click", (event) => {
         (!notification_popup.contains(event.target) ||
             icon_button.contains(event.target))
     ) {
-        notification_popup.style.display = "none";
+        notification_popup.style.translate = "";
+        notification_popup.addEventListener(
+            "transitionend",
+            () => {
+                notification_popup.style.display = "none";
+            },
+            { once: true }
+        );
         removeNotificationBackgroundColor();
     }
 });
@@ -134,9 +141,22 @@ document
     ?.addEventListener("click", async (event) => {
         event.stopPropagation();
         let lista = document.getElementById("notifications_pop_up");
-        lista.style.display =
-            lista.style.display === "block" ? "none" : "block";
 
+        if (lista.style.display === "block") {
+            lista.style.translate = "";
+            lista.addEventListener(
+                "transitionend",
+                () => {
+                    lista.style.display = "none";
+                },
+                { once: true }
+            );
+        } else {
+            setTimeout(() => {
+                lista.style.translate = "0 0";
+            }, 0);
+            lista.style.display = "block";
+        }
         if (lista.style.display === "none") {
             removeNotificationBackgroundColor();
         }

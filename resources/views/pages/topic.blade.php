@@ -24,6 +24,6 @@
         @else
             <button id="follow_topic" data-operation="follow">Follow</button>
         @endif
-        @include('partials.list_news', ['news_list' => $news, 'perPage' => 5])
+        @include('partials.list_feed', ['news_list' => $news, 'perPage' => 5])
     </section>
 @endsection

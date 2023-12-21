@@ -18,6 +18,12 @@
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/popup.css') }}" rel="stylesheet">
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
+    <style>
+        /* fix for google fonts taking to much time to load */
+        .material-symbols-outlined {
+            max-width: 3em;
+        }
+    </style>
 
     <script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -36,13 +42,13 @@
 
 <body>
     @include('partials.error_message')
+    <a class="skip-to-content-link" href="#content">
+        Skip to content
+    </a>
+    <input type="checkbox" id="hamburger">
     <header class="app_header">
-        <a class="skip-to-content-link" href="#content">
-            Skip to content
-        </a>
         <div style="display: flex;">
             @if (Auth::check())
-                <input type="checkbox" id="hamburger">
                 <label class="hamburger" for="hamburger"></label>
             @endif
             <h1><a href="{{ url('/news') }}">NewsCore</a></h1>
@@ -81,39 +87,37 @@
     </header>
     <main>
         @if (Auth::check())
-            <nav>
-                <div class="sticky_nav">
-                    @if (Auth::user()->is_admin())
-                        <div id="admin_buttons">
-                            <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
-                                appeals</a>
-                            <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
-                            <a class="button admin_button" href="{{ route('list_mods') }}"> Manage Moderators</a>
-                            <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
-                            <button class="button admin_button" id="manage_report_button"> Manage Report<span
-                                    class="material-symbols-outlined">expand_more</span></button>
-                            <div class="sub-options" id="report_sub_options">
-                                <a class="button button-secondary" href="{{ route('user_reports') }}">Users</a>
-                                <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
-                                <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
-                            </div>
+            <nav class="sticky_nav">
+                @if (Auth::user()->is_admin())
+                    <div id="admin_buttons">
+                        <a class="button admin_button" href="{{ route('unblock_appeals') }}">Manage unblock
+                            appeals</a>
+                        <a class="button admin_button" href="{{ route('manage_topic') }}"> Manage Topics</a>
+                        <a class="button admin_button" href="{{ route('list_mods') }}"> Manage Moderators</a>
+                        <a class="button admin_button" href="{{ url('/manage') }}"> Manage Users </a>
+                        <button class="button admin_button" id="manage_report_button"> Manage Report<span
+                                class="material-symbols-outlined">expand_more</span></button>
+                        <div class="sub-options" id="report_sub_options">
+                            <a class="button button-secondary" href="{{ route('user_reports') }}">Users</a>
+                            <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
+                            <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
                         </div>
-                    @endif
-                    @if (Auth::user()->type === 'moderator')
-                        <div id="moderator_buttons">
-                            <button class="button moderator_button" id="manage_report_button"> Manage Report<span
-                                    class="material-symbols-outlined">expand_more</span></button>
-                            <div class="sub-options" id="report_sub_options">
-                                <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
-                                <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
-                            </div>
-                        </div>
-                    @endif
-                    <div id="nav_normal_buttons">
-                        <a href="{{ route('create_news') }}" class="button"> Create Post</a>
-                        <button class="button open" onclick="openNewOrg()"> Create Organization</button>
-                        <button class="button" onclick="openTopicProposal()">Propose New Topic</button>
                     </div>
+                @endif
+                @if (Auth::user()->type === 'moderator')
+                    <div id="moderator_buttons">
+                        <button class="button moderator_button" id="manage_report_button"> Manage Report<span
+                                class="material-symbols-outlined">expand_more</span></button>
+                        <div class="sub-options" id="report_sub_options">
+                            <a class="button button-secondary" href="{{ route('news_reports') }}">News</a>
+                            <a class="button button-secondary" href="{{ route('comments_reports') }}">Comments</a>
+                        </div>
+                    </div>
+                @endif
+                <div id="nav_normal_buttons">
+                    <a href="{{ route('create_news') }}" class="button"> Create Post</a>
+                    <button class="button open" onclick="openNewOrg()"> Create Organization</button>
+                    <button class="button" onclick="openTopicProposal()">Propose New Topic</button>
                 </div>
             </nav>
         @endif

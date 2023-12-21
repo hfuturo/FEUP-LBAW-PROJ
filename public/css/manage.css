@@ -96,3 +96,20 @@ input[id="filter_users"]:focus {
 .modBut {
     min-width: 10em;
 }
+
+@media screen and (max-width: 1000px) {
+    #all_users .user > div:first-of-type {
+        gap: 0;
+        align-items: baseline;
+    }
+
+    li > div {
+        flex-direction: column;
+        width: 50%;
+        box-sizing: border-box;
+    }
+
+    #all_users .user .button {
+        width: 100%;
+    }
+}

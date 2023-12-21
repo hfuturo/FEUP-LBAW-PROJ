@@ -20,7 +20,7 @@ class TopicController extends Controller
         } else {
             $news = Content::join('news_item', 'content.id', '=', 'news_item.id')
                 ->where('news_item.id_topic', '=', $topic->id)
-                ->select('content.*');
+                ->select('content.*', 'news_item.*');
             return view('pages.topic', ['topic' => $topic, 'news' => $news]);
         }
     }

@@ -65,6 +65,7 @@ nav button {
     font-size: 1em;
     width: 100%;
     box-sizing: border-box;
+    align-items: center;
 }
 
 .button,
@@ -173,4 +174,12 @@ p.input_error {
 /** Fix sticky header with sweet alert */
 body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     overflow: clip !important;
+}
+
+.swal2-popup .button {
+    border-radius: 0.25em;
+    border: 0;
+    font-size: 1em;
+    margin: 0.3125em;
+    padding: 0.625em 1.1em;
 }

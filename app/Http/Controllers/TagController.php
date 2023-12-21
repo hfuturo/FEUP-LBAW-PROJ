@@ -17,7 +17,7 @@ class TagController extends Controller
         $news = Content::join('news_item', 'content.id', '=', 'news_item.id')
             ->join('news_tag', 'news_tag.id_news_item', '=', 'news_item.id')
             ->where('id_tag', '=', $tag->id)
-            ->select('content.*');
+            ->select('news_item.*', 'content.*');
         return view('pages.tag', ['tag' => $tag, 'news' => $news]);
     }
 }

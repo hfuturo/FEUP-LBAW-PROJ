@@ -4,6 +4,8 @@ use Carbon\Carbon;
 $paginator = $news_list->paginate($perPage);
 if (isset($basePath)) {
     $paginator->withPath($basePath);
+} else {
+    $paginator->withPath('/' . request()->path());
 }
 $paginator = $paginator->withQueryString();
 ?>

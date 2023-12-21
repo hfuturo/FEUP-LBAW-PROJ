@@ -97,3 +97,9 @@ svg {
     background-color: red;
     border-color: red;
 }
+
+@media screen and (max-width: 530px) {
+    .profile {
+        flex-direction: column-reverse;
+    }
+}

@@ -13,35 +13,43 @@
             <h3 id="nameDisplayed">{{ $organization->name }}</h3>
             <div>
                 <input type="hidden" id="org" name="org" value="{{ $organization->id }}">
-                <?php $follow_org = Auth::user()->follow_organizations()->where('id_organization', $organization->id)->first();?>
+                <?php $follow_org = Auth::user()
+                    ->follow_organizations()
+                    ->where('id_organization', $organization->id)
+                    ->first(); ?>
                 @if ($follow_org)
                     <button class="button" id="follow" data-operation="unfollow">Unfollow</button>
                 @else
                     <button class="button" id="follow" data-operation="follow">Follow</button>
                 @endif
-                <?php $status = Auth::user()->membershipStatuses()->where('id_organization', $organization->id)->first();?>
+                <?php $status = Auth::user()
+                    ->membershipStatuses()
+                    ->where('id_organization', $organization->id)
+                    ->first(); ?>
                 @if ($status)
-                    @if($status->member_type == 'leader')
-                    <button class="button" id="status"data-operation="destroy">Leave</button>
-                    <button class="button" onclick="openEditForm()">Edit</button>
-                    @include('partials.edit_organization')
-                    <a class="button" href="{{route('show_manage_org', ['organization' => $organization->id])}}">Manage</a>
+                    @if ($status->member_type == 'leader')
+                        <button class="button" id="status"data-operation="destroy">Leave</button>
+                        <button class="button" onclick="openEditForm()">Edit</button>
+                        @include('partials.edit_organization')
+                        <a class="button"
+                            href="{{ route('show_manage_org', ['organization' => $organization->id]) }}">Manage</a>
                     @elseif ($status->member_type == 'member')
-                    <button class="button" id="status"data-operation="destroy">Leave</button>
+                        <button class="button" id="status"data-operation="destroy">Leave</button>
                     @elseif ($status->member_type == 'asking')
-                    <button class="button" id="status" data-operation="destroy">Delete Request</button>
+                        <button class="button" id="status" data-operation="destroy">Delete Request</button>
                     @elseif ($status->member_type == 'invited')
-                    <button class="button" id="status" data-operation="update">Accept Request</button>
-                    <button class="button" id="status" data-operation="destroy">Reject Request</button>
+                        <button class="button" id="status" data-operation="update">Accept Request</button>
+                        <button class="button" id="status" data-operation="destroy">Reject Request</button>
                     @endif
                 @else
-                <button class="button" id="status" data-operation="create">Ask to Join</button>
+                    <button class="button" id="status" data-operation="create">Ask to Join</button>
                 @endif
             </div>
         </div>
         <p id="bioDisplayed">{{ $organization->bio }}</p>
         <div id="followers_members">
-            <button class="button" onclick="openMembersOrg()"><span>Members </span><span id="numberMembers">{{ $organization->members->count() }}</span></button>
+            <button class="button" onclick="openMembersOrg()"><span>Members </span><span
+                    id="numberMembers">{{ $organization->members->count() }}</span></button>
             <span>Followers </span><span>{{ $organization->followers->count() }}</span></button>
             @include('partials.organization_members')
         </div>
@@ -51,7 +59,10 @@
         @if ($organization->contents()->get()->isEmpty())
             <p>There is no news releted to this organization</p>
         @else
-            @include('partials.list_news', ['news_list' => $organization->contents(), 'perPage' => 5])
+            @include('partials.list_feed', [
+                'news_list' => $organization->contents()->join('news_item', 'content.id', '=', 'news_item.id'),
+                'perPage' => 5,
+            ])
         @endif
     </section>
 @endsection

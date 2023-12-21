@@ -86,7 +86,10 @@
             @if ($user->news_items()->get()->isEmpty())
                 <p>There is no news created by this user.</p>
             @else
-                @include('partials.list_news', ['news_list' => $user->news_items(), 'perPage' => 5])
+                @include('partials.list_feed', [
+                    'news_list' => $user->news_items()->join('news_item', 'content.id', '=', 'news_item.id'),
+                    'perPage' => 5,
+                ])
             @endif
         </div>
     </div>

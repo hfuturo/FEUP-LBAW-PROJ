@@ -94,7 +94,7 @@ class NewsItem extends Model
             $select->orderBy('date', 'ASC');
         } else {
             $select->join("vote", "vote.id_content", "=", "content.id", "left")
-                ->groupBy("news_item.id", "content.id", "query.query")
+                ->groupBy("news_item.id", "content.id")
                 ->orderByRaw('coalesce(sum(vote.vote),0) DESC');
         }
 
