@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\FollowOrganization;
 
-use Exception;
 use Illuminate\Http\Request;
 
 class FollowOrganizationController extends Controller
@@ -24,7 +23,7 @@ class FollowOrganizationController extends Controller
             'follow' => 'unfollow',
             'data' => $follow,
         ];
-        
+
         return response()->json($response);
     }
 
@@ -33,9 +32,8 @@ class FollowOrganizationController extends Controller
      */
     public function destroy(Request $request)
     {
-        $followUser = FollowOrganization::where('id_following', Auth::user()->id)
-        ->where('id_organization', $request->input('organization'))->first();
-        //$this->authorize('destroy', $followUser);
+        FollowOrganization::where('id_following', Auth::user()->id)
+            ->where('id_organization', $request->input('organization'))->first();
 
         $unfollow = FollowOrganization::where('id_following', Auth::user()->id)
             ->where('id_organization', $request->input('organization'))
@@ -45,7 +43,7 @@ class FollowOrganizationController extends Controller
             'follow' => 'follow',
             'data' => $unfollow,
         ];
-        
+
         return response()->json($response);
     }
 }

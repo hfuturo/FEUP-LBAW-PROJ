@@ -8,12 +8,12 @@
                 Author:
                 <a href="{{ route('profile', ['user' => $topic->id_user]) }}">{{ $topic->user_name }}</a>
             </p>
-            <p>Justification: {{ $topic->justification }}
+            <p>Justification: {{ $topic->justification }}</p>
             <p>
-                <span>
-                    <button class="accept" data-operation="accept_suggested_topic"><span class="material-symbols-outlined">done</span></button>
-                    <button class="remove" data-operation="delete_suggested_topic"><span class="material-symbols-outlined">close</span></button>
-                </span>
+                <button class="accept" data-operation="accept_suggested_topic"><span
+                        class="material-symbols-outlined">done</span></button>
+                <button class="remove" data-operation="delete_suggested_topic"><span
+                        class="material-symbols-outlined">close</span></button>
             </p>
         </article>
     @endforeach

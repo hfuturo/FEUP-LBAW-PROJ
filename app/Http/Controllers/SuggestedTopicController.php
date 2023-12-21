@@ -4,21 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\SuggestedTopic;
 use App\Models\Topic;
-use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SuggestedTopicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -41,36 +31,14 @@ class SuggestedTopicController extends Controller
         return back()->withErrors(['error' => 'There was a problem']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show()
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SuggestedTopic $suggested_Topic)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SuggestedTopic $suggested_Topic)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SuggestedTopic $suggested_Topic)
-    {
-        //
+        $this->authorize('show_suggested_topic', \App\Manage::class);
+        $suggested_topic = SuggestedTopic::join('authenticated_user', 'suggested_topic.id_user', '=', 'authenticated_user.id')
+            ->select('suggested_topic.*', 'authenticated_user.name as user_name');
+        return view('pages.manage_topic', [
+            'suggested_topic' => $suggested_topic
+        ]);
     }
 
     /**

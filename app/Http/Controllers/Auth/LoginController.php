@@ -3,30 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
-use Illuminate\View\View;
-
 class LoginController extends Controller
 {
-
-    /**
-     * Display a login form.
-     */
-    public function showLoginForm()
-    {
-        if (Auth::check()) {
-            return redirect('/news');
-        } else {
-            return view('auth.login');
-        }
-    }
-
     /**
      * Handle an authentication attempt.
      */
