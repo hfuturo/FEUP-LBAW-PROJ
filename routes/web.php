@@ -144,6 +144,7 @@ Route::controller(TopicController::class)->group(function () {
     Route::get('/topic/{topic}', 'show')->name('topic')
         ->where('topic', '[0-9]+')->middleware('authenticated');
     Route::get('/moderators', 'moderators')->name('list_mods')->middleware('admin');
+    Route::get('/topics', 'index')->name('show_topics')->middleware('authenticated');
 });
 
 Route::controller(TagController::class)->group(function () {

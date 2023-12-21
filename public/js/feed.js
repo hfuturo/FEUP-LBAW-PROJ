@@ -24,7 +24,9 @@ async function feedLinksHandler(e) {
     );
     window.history.pushState(raw_data, "", response.url);
     updateFeed(raw_data);
-    all_news.scrollIntoView({ behavior: "smooth" });
+    document
+        .querySelector(".scrool-target")
+        .scrollIntoView({ behavior: "smooth" });
 }
 
 function updateFeed(raw_data) {

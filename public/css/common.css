@@ -183,3 +183,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     margin: 0.3125em;
     padding: 0.625em 1.1em;
 }
+
+.swal2-html-container {
+    max-height: calc(90vh - 14rem);
+}

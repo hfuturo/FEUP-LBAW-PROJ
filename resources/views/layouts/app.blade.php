@@ -118,6 +118,8 @@
                     <a href="{{ route('create_news') }}" class="button"> Create Post</a>
                     <button class="button open" onclick="openNewOrg()"> Create Organization</button>
                     <button class="button" onclick="openTopicProposal()">Propose New Topic</button>
+                    {{-- <a href="{{ route() }}" class="button">Show Organizations</a> --}}
+                    <a href="{{ route('show_topics') }}" class="button">Show Topics</a>
                 </div>
             </nav>
         @endif

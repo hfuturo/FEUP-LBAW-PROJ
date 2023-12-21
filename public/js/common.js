@@ -66,3 +66,11 @@ function sendAjaxRequest(method, url, data, handler) {
     request.addEventListener("load", handler);
     request.send(encodeForAjax(data));
 }
+
+function removeById(array, id) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].id == id) {
+            array.splice(i, 1);
+        }
+    }
+}
