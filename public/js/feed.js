@@ -3,7 +3,13 @@
 const all_news = document.querySelector(".all_news");
 
 document.querySelectorAll(".feed_button").forEach((button) => {
-    button.addEventListener("click", feedLinksHandler);
+    button.addEventListener("click", (e) => {
+        document.querySelectorAll(".feed_button.active").forEach((btn) => {
+            btn.classList.remove("active");
+        });
+        button.classList.add("active");
+        feedLinksHandler(e);
+    });
 });
 
 document.querySelectorAll(".paginate a").forEach((link) => {

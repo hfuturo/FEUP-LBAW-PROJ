@@ -80,6 +80,7 @@ button {
 }
 
 .button:hover,
+.button.active,
 .button:focus-visible {
     background-color: var(--hover-color);
 }

@@ -32,8 +32,8 @@
                         <button class="button" onclick="openEditForm()">Edit</button>
                         @include('partials.edit_organization')
                         @if (!Auth::user()->is_admin())
-                        <a class="button"
-                            href="{{ route('show_manage_org', ['organization' => $organization->id]) }}">Manage</a>
+                            <a class="button"
+                                href="{{ route('show_manage_org', ['organization' => $organization->id]) }}">Manage</a>
                         @endif
                     @elseif ($status->member_type == 'member')
                         <button class="button" id="status"data-operation="destroy">Leave</button>
