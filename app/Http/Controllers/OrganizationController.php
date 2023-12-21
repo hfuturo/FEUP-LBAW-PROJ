@@ -72,6 +72,7 @@ class OrganizationController extends Controller
         return view('pages.manage_organization', ['organization' => $org]);
     }
 
+
     public function update(Request $request)
     {
         $organization = Organization::find($request->input('orgId'));
@@ -79,34 +80,23 @@ class OrganizationController extends Controller
         $this->authorize('update', $organization);
 
         if($organization->name === $request->input('name')){
-            try{
-                $request->validate([
-                    'bio' => 'required|string',
-                ]);
-                
-                $update = $organization->update(['bio' => $request->input('bio')]);
-                   
-                return response()->json(['success' => 1,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
-            }
-            catch (Exception $e) {
-                return response()->json(['success' => 0,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
+            $valid = $request->validate(['bio' => 'required|string',]);   
+            if($valid){
+                $update = $organization->update(['bio' => $request->input('bio')]);         
+                return back()->with('success', 'Successfully Create!');
             }
         }
         else{
-            try{
-                $request->validate([
-                    'name' => 'required|unique:organization,name|max:255|string',
-                    'bio' => 'required|string',
-                ]);
-                
-                $update = $organization->update(['name' => $request->input('name'), 'bio' => $request->input('bio')]);
-                   
-                return response()->json(['success' => 1,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
-            }
-            catch (Exception $e) {
-                return response()->json(['success' => 0,'name' => $request->input('name'), 'bio' => $request->input('bio')]);
-            }
+            $valid = $request->validate([
+                'name' => 'required|unique:organization,name|max:255|string',
+                'bio' => 'required|string',
+            ]);
+            if($valid){
+                $update = $organization->update(['name' => $request->input('name'), 'bio' => $request->input('bio')]);     
+                return back()->with('success', 'Successfully Create!');
+            }    
         }
+        return back()->withErrors(['error' => 'There was a problem']);
     }
 
     /**
