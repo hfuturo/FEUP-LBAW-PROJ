@@ -62,7 +62,7 @@ class NewsItemController extends Controller
                 'content.edit_date',
                 'authenticated_user.name',
                 'authenticated_user.image'
-            ), 'perPage' => 2]);
+            ), 'perPage' => 10]);
     }
 
     public function destroy(int $id)
