@@ -8,50 +8,50 @@ INSERT INTO "topic" (id,name) VALUES (5,'Education');
 
 SELECT setval('topic_id_seq', (SELECT max(id) FROM "topic")); -- para nao dar erro ao inserir deviamos de fazer isto para os ids todos
 
-INSERT INTO "tag" (id,name) VALUES (1,'Quantum Computing'); --1
-INSERT INTO "tag" (id,name) VALUES (2,'Google');--2
-INSERT INTO "tag" (id,name) VALUES (3,'Apple');--3
-INSERT INTO "tag" (id,name) VALUES (4,'MacBook Pro');--4
-INSERT INTO "tag" (id,name) VALUES (5,'M1X Chip');--5
-INSERT INTO "tag" (id,name) VALUES (6,'Facebook');--6
-INSERT INTO "tag" (id,name) VALUES (7,'AI');--7
-INSERT INTO "tag" (id,name) VALUES (8,'SpaceX');--8
-INSERT INTO "tag" (id,name) VALUES (9,'Starship');--9
-INSERT INTO "tag" (id,name) VALUES (10,'Microsoft');--10
-INSERT INTO "tag" (id,name) VALUES (11,'Augmented Reality');--11
-INSERT INTO "tag" (id,name) VALUES (12,'Tesla');--12
-INSERT INTO "tag" (id,name) VALUES (13,'Electric Vehicles');--13
-INSERT INTO "tag" (id,name) VALUES (14,'Amazon');--14
-INSERT INTO "tag" (id,name) VALUES (15,'IBM');--15
-INSERT INTO "tag" (id,name) VALUES (16,'Privacy');--16
-INSERT INTO "tag" (id,name) VALUES (17,'Intel');--17
-INSERT INTO "tag" (id,name) VALUES (18,'High-Performance Computing');--18
-INSERT INTO "tag" (id,name) VALUES (19,'Samsung');--19
-INSERT INTO "tag" (id,name) VALUES (20,'Tech Expo');--20
-INSERT INTO "tag" (id,name) VALUES (21,'Starlink');--21
-INSERT INTO "tag" (id,name) VALUES (22,'Drone Delivery');--22
-INSERT INTO "tag" (id,name) VALUES (23,'Sustainability');--23
-INSERT INTO "tag" (id,name) VALUES (24,'iOS');--24
-INSERT INTO "tag" (id,name) VALUES (25,'Health-Tech');--25
-INSERT INTO "tag" (id,name) VALUES (26,'Health'); --26
-INSERT INTO "tag" (id,name) VALUES (27,'Meditation'); --27
-INSERT INTO "tag" (id,name) VALUES (28,'Mental Health'); --28
-INSERT INTO "tag" (id,name) VALUES (29,'Nutrition'); --29
-INSERT INTO "tag" (id,name) VALUES (30,'Yoga'); --30
-INSERT INTO "tag" (id,name) VALUES (31,'Herbal Medicine'); --31
-INSERT INTO "tag" (id,name) VALUES (32,'Pain Management'); --32
-INSERT INTO "tag" (id,name) VALUES (33,'Plant-Based Diet'); --33
-INSERT INTO "tag" (id,name) VALUES (34,'Cardiovascular Health'); --34
-INSERT INTO "tag" (id,name) VALUES (35,'Iceland'); --35
-INSERT INTO "tag" (id,name) VALUES (36,'Nature'); --36
-INSERT INTO "tag" (id,name) VALUES (37,'Rome'); --37
-INSERT INTO "tag" (id,name) VALUES (38,'History'); --38
-INSERT INTO "tag" (id,name) VALUES (39,'Greece'); --39
-INSERT INTO "tag" (id,name) VALUES (40,'IslandLife'); --40
-INSERT INTO "tag" (id,name) VALUES (41,'StockMarket'); --41
-INSERT INTO "tag" (id,name) VALUES (42,'Energy'); --42
-INSERT INTO "tag" (id,name) VALUES (43,'Cryptocurrency'); --43
-INSERT INTO "tag" (id,name) VALUES (44,'Bitcoin'); --44
+INSERT INTO "tag" (id,name) VALUES (1,'#Quantum_Computing'); --1
+INSERT INTO "tag" (id,name) VALUES (2,'#Google');--2
+INSERT INTO "tag" (id,name) VALUES (3,'#Apple');--3
+INSERT INTO "tag" (id,name) VALUES (4,'#MacBook_Pro');--4
+INSERT INTO "tag" (id,name) VALUES (5,'#M1X Chip');--5
+INSERT INTO "tag" (id,name) VALUES (6,'#Facebook');--6
+INSERT INTO "tag" (id,name) VALUES (7,'#AI');--7
+INSERT INTO "tag" (id,name) VALUES (8,'#SpaceX');--8
+INSERT INTO "tag" (id,name) VALUES (9,'#Starship');--9
+INSERT INTO "tag" (id,name) VALUES (10,'#Microsoft');--10
+INSERT INTO "tag" (id,name) VALUES (11,'#Augmented_Reality');--11
+INSERT INTO "tag" (id,name) VALUES (12,'#Tesla');--12
+INSERT INTO "tag" (id,name) VALUES (13,'#Electric_Vehicles');--13
+INSERT INTO "tag" (id,name) VALUES (14,'#Amazon');--14
+INSERT INTO "tag" (id,name) VALUES (15,'#IBM');--15
+INSERT INTO "tag" (id,name) VALUES (16,'#Privacy');--16
+INSERT INTO "tag" (id,name) VALUES (17,'#Intel');--17
+INSERT INTO "tag" (id,name) VALUES (18,'#High-Performance_Computing');--18
+INSERT INTO "tag" (id,name) VALUES (19,'#Samsung');--19
+INSERT INTO "tag" (id,name) VALUES (20,'#Tech_Expo');--20
+INSERT INTO "tag" (id,name) VALUES (21,'#Starlink');--21
+INSERT INTO "tag" (id,name) VALUES (22,'#Drone_Delivery');--22
+INSERT INTO "tag" (id,name) VALUES (23,'#Sustainability');--23
+INSERT INTO "tag" (id,name) VALUES (24,'#iOS');--24
+INSERT INTO "tag" (id,name) VALUES (25,'#Health-Tech');--25
+INSERT INTO "tag" (id,name) VALUES (26,'#Health'); --26
+INSERT INTO "tag" (id,name) VALUES (27,'#Meditation'); --27
+INSERT INTO "tag" (id,name) VALUES (28,'#Mental_Health'); --28
+INSERT INTO "tag" (id,name) VALUES (29,'#Nutrition'); --29
+INSERT INTO "tag" (id,name) VALUES (30,'#Yoga'); --30
+INSERT INTO "tag" (id,name) VALUES (31,'#Herbal_Medicine'); --31
+INSERT INTO "tag" (id,name) VALUES (32,'#Pain_Management'); --32
+INSERT INTO "tag" (id,name) VALUES (33,'#Plant-Based_Diet'); --33
+INSERT INTO "tag" (id,name) VALUES (34,'#Cardiovascular_Health'); --34
+INSERT INTO "tag" (id,name) VALUES (35,'#Iceland'); --35
+INSERT INTO "tag" (id,name) VALUES (36,'#Nature'); --36
+INSERT INTO "tag" (id,name) VALUES (37,'#Rome'); --37
+INSERT INTO "tag" (id,name) VALUES (38,'#History'); --38
+INSERT INTO "tag" (id,name) VALUES (39,'#Greece'); --39
+INSERT INTO "tag" (id,name) VALUES (40,'#IslandLife'); --40
+INSERT INTO "tag" (id,name) VALUES (41,'#StockMarket'); --41
+INSERT INTO "tag" (id,name) VALUES (42,'#Energy'); --42
+INSERT INTO "tag" (id,name) VALUES (43,'#Cryptocurrency'); --43
+INSERT INTO "tag" (id,name) VALUES (44,'#Bitcoin'); --44
 
 SELECT setval('tag_id_seq', (SELECT max(id) FROM "tag")); -- para nao dar erro ao inserir deviamos de fazer isto para os ids todos
 
