@@ -37,9 +37,11 @@
                 const form = popup.querySelector("form")
                 if (form.reportValidity()) {
                     form.submit()
+                    return true
                     // Usar em vez do submit so se n te importa o resultado porque nao da reload a pagina
                     // sendFetchRequest(form.method, form.action, getFormParams(form))
                 }
+                return false
             }
         })
     }
