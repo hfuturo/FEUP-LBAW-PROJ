@@ -414,7 +414,7 @@ body.swal2-shown {
 
 .info_article:hover,
 .info_article:focus-visible {
-    border: 2px solid var(--hover-color);
+    outline: 2px solid var(--hover-color);
 }
 
 .info_article h4 {
@@ -434,6 +434,7 @@ body.swal2-shown {
 #notifications_pop_up > article.info_article,
 section#list_notifications > article.info_article {
     padding: 0em 1em 0em 1em;
+    background-color: transparent;
 }
 
 #notifications_pop_up > article.new_notification,

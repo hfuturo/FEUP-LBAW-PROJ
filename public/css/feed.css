@@ -32,7 +32,11 @@
 
 .news:hover,
 .news:focus-visible {
-    border: 2px solid var(--hover-color);
+    outline: 2px solid var(--hover-color);
+}
+
+.news_content {
+    color: var(--primary-text-color);
 }
 
 #advanced_search_form {

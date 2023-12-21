@@ -8,8 +8,8 @@
     flex: 1;
     height: auto;
     width: auto;
-    max-height: 20em;
-    max-width: 20em;
+    max-height: calc(100% -3rem);
+    max-width: calc(100% - 3rem);
     object-fit: contain;
 }
 
