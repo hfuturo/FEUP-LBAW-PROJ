@@ -17,11 +17,13 @@ class Comment extends Model
         'id_news'
     ];
 
-    public function news_item() {
-        return $this->belongsTo(NewsItem::class,'id_news');
+    public function news_item()
+    {
+        return $this->belongsTo(NewsItem::class, 'id_news');
     }
 
-    public function content() {
+    public function content()
+    {
         return $this->belongsTo(Content::class, 'id');
     }
 
@@ -30,16 +32,16 @@ class Comment extends Model
         return $this
             ->hasMany(Vote::class, 'id_content');
     }
-    
+
     public function dislikes()
     {
         return $this
-            ->votes()->where('vote',-1)->count();
+            ->votes()->where('vote', -1)->count();
     }
 
     public function likes()
     {
         return $this
-            ->votes()->where('vote',1)->count();
+            ->votes()->where('vote', 1)->count();
     }
 }

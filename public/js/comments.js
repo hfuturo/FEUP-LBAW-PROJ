@@ -5,10 +5,13 @@ document
     .getElementById("commentForm")
     ?.addEventListener("submit", async function (event) {
         event.preventDefault();
-
+        event.stopPropagation();
         const newsId = this.getAttribute("data-news-id");
+        const link = `/news/${newsId}?page=1`;
         const commentContent = document.getElementById("commentContent").value;
-        const data = await fetch("/api/news/" + newsId + "/comment", {
+
+        try {
+        const result = await fetch("/api/news/" + newsId + "/comment", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -18,10 +21,24 @@ document
             },
             body: JSON.stringify({ content: commentContent }),
         }).then((response) => response.json());
-
+        
+        if (result.success) {
+            const [response, raw_data] = await sendFetchRequest(
+                "GET",
+                link,
+                null,
+                "text"
+            );
+            /*window.history.pushState(raw_data, "", response.url);*/
+            updateComments(raw_data);
+            document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
+    
+        
+            /*
         if (data.success) {
             const noComments = document.getElementById("no_comments");
 
+            
             if (noComments) {
                 noComments.remove();
             }
@@ -47,6 +64,7 @@ document
             const commentAuth = document.createElement("a");
             commentAuth.className = "comment_author";
             commentAuth.textContent = data.author.name;
+            commentAuth.href = `/profile/${data.author.id}`;
 
             const commentDate = document.createElement("p");
             commentDate.className = "date";
@@ -91,16 +109,29 @@ document
 
             commentSection.prepend(newComment);
             document.getElementById("commentContent").value = "";
-        } else {
-            console.error("Failed to add comment");
-            Swal.fire({
-                title: "Fail!",
-                text: "Failed to add comment",
-                icon: "error",
-            });
+            
+                */
+            } else {
+                console.error("Failed to add comment");
+                AlertMessage("Fail!", "Failed to add comment", "error");
+            }
+        } catch (error) {
+        console.error("Error:", error);
+        Swal.showValidationMessage(`
+        Request failed: ${error}
+        `);
         }
     });
 
+    function AlertMessage(title, text, icon){
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+        });
+    }
+
+/*
 function makeEditForm(commentText, newComment) {
     const form = document.createElement("form");
     form.className = "editForm";
@@ -157,6 +188,7 @@ function createLikeDislike(className, symbol, type) {
 
     return button;
 }
+*/
 
 function toggleMenu(button, event) {
     const dropdownSelect = button.nextElementSibling;
@@ -189,6 +221,7 @@ document.addEventListener("click", (event) => {
     });
 });
 
+/*
 function deleteComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
@@ -202,9 +235,12 @@ function deleteComment() {
     });
 }
 deleteComment();
+*/
 
-async function deleteCommentItem(comment) {
+async function deleteCommentItem(button) {
+    const comment = button.closest("article");
     const commentId = comment.getAttribute("comment-id");
+    let url;
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -216,7 +252,7 @@ async function deleteCommentItem(comment) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const data = await fetch("/api/comment/" + commentId, {
+                const data = await fetch("/api/comment/" + commentId + "/remove", {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
@@ -224,11 +260,32 @@ async function deleteCommentItem(comment) {
                             .querySelector('meta[name="csrf-token"]')
                             .getAttribute("content"),
                     },
-                }).then((response) => response.json());
+                }).then((response) => {
+                    url = response.url;
+                    response.json();
+                });
 
-                const section = document.getElementById("comments");
-
+                
                 if (data.success) {
+                    const [response, raw_data] = await sendFetchRequest(
+                        "GET",
+                        url,
+                        null,
+                        "text"
+                    );
+                    window.history.pushState(raw_data, "", response.url);
+                    updateComments(raw_data);
+                    document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
+
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: data.success,
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                    });
+
+
+                    /*
                     if (section.querySelectorAll(".comment").length === 1) {
                         const noCommentsDiv = document.createElement("div");
                         const noComments = document.createElement("p");
@@ -237,13 +294,8 @@ async function deleteCommentItem(comment) {
                         noCommentsDiv.appendChild(noComments);
                         section.appendChild(noCommentsDiv);
                     }
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: data.success,
-                        icon: "success",
-                        confirmButtonColor: "#3085d6",
-                    });
                     comment.remove();
+                    */
                 } else {
                     Swal.fire({
                         title: "Fail!",
@@ -262,6 +314,7 @@ async function deleteCommentItem(comment) {
     });
 }
 
+/*
 function makeDropDown(comment) {
     const options = [
         {
@@ -322,15 +375,22 @@ function makeDropDown(comment) {
 
     return dropdown;
 }
+*/
 
-function editCommentItem(comment) {
+function editCommentItem(button) {
+    const comment = button.closest("article");
     const form = comment.querySelector(".editForm");
+    console.log(form);
     const commentText = comment.querySelector(".comment_text");
-    comment.querySelector("textarea").value = commentText.textContent;
+    console.log(commentText);
+    const textarea = comment.querySelector("textarea");
+    console.log(textarea);
+    textarea.value = commentText.textContent;
     form.removeAttribute("hidden");
     commentText.setAttribute("hidden", "true");
 }
 
+/*
 function editComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
@@ -348,6 +408,7 @@ function editComment() {
     });
 }
 editComment();
+*/
 
 async function saveEdit(event) {
     event.preventDefault();
@@ -424,7 +485,8 @@ function editCancel(comment) {
     form.setAttribute("hidden", "true");
 }
 
-// Teste
+// Reports
+/*
 function reportComment() {
     const comments = document.querySelectorAll(".comment");
     comments.forEach(function (comment) {
@@ -438,6 +500,7 @@ function reportComment() {
     });
 }
 reportComment();
+*/
 
 const reportPopup = document.getElementById("report_content_popup");
 const idContent = reportPopup.querySelector("#id_content");
@@ -448,7 +511,8 @@ function openReportNewsForm(valeu) {
     reportPopup.style.display = "block";
 }
 
-function openReportCommentForm(comment) {
+function openReportCommentForm(button) {
+    const comment = button.closest("article");
     const commentId = comment.getAttribute("comment-id");
     idContent.valeu = commentId;
     reportPopup.style.display = "block";
@@ -516,4 +580,41 @@ reportPopup
                 }
             }
         });
+    });
+
+
+
+
+    const commentSection = document.getElementById("comments");
+    
+    document.querySelectorAll(".paginate a")?.forEach((link) => {
+        link.addEventListener("click", feedLinksHandler);
+    });
+    
+    async function feedLinksHandler(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    
+        const link = e.target.closest("a");
+    
+        const [response, raw_data] = await sendFetchRequest(
+            "GET",
+            link.href,
+            null,
+            "text"
+        );
+        window.history.pushState(raw_data, "", response.url);
+        updateComments(raw_data);
+        document.getElementById("comments").scrollIntoView({ behavior: "smooth" });
+    }
+    
+    function updateComments(raw_data) {
+        commentSection.innerHTML = raw_data;
+        commentSection.querySelectorAll(".paginate a").forEach((link) => {
+            link.addEventListener("click", feedLinksHandler);
+        });
+    }
+    
+    window.addEventListener("popstate", (event) => {
+        if (event.state) updateComments(event.state);
     });

@@ -32,12 +32,14 @@ class NewsItemController extends Controller
         return view('pages.feed', ['news_itens' => $news_itens]);
     }
 
-    public function show(int $id): View
+    public function show(Request $request, int $id): View
     {
-        $news_itens = NewsItem::findOrFail($id);
-        $comments = $news_itens->comments()->paginate(10);
+        $news_item = NewsItem::findOrFail($id);
+        $comments = $news_item->comments()
+            ->orderBy('comment.id', 'desc');
 
-        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments]);
+
+        return view(choose_view($request, 'pages.news_item'), ['news_item' => $news_item, 'comments' => $comments, 'perPage' => 2]);
     }
 
     public function destroy(int $id)
@@ -105,12 +107,12 @@ class NewsItemController extends Controller
                 $content->id_author = Auth::user()->id;
                 $content->id_organization = $request->input('organization');
                 $content->save();
-                // Create a new news item associated with the content
+
                 $newsItem = new NewsItem();
-                $newsItem->id_topic = $request->input('topic'); // Replace 1 with the actual topic ID
+                $newsItem->id_topic = $request->input('topic');
                 $newsItem->title = $request->input('title');
-                $newsItem->image = $imageName; // Replace with the image URL or path
-                $newsItem->id = $content->id; // Set the id to link to the content id
+                $newsItem->image = $imageName;
+                $newsItem->id = $content->id;
                 $newsItem->save();
 
                 $tags = Tag::parse_tags($request->input('tags'));
@@ -218,4 +220,10 @@ class NewsItemController extends Controller
         return redirect()->route('news_page', ["id" => $id])
             ->with('success', 'Successfully edited!');
     }
+}
+
+function choose_view(Request $request, string $default)
+{
+    if ($request->ajax()) return 'partials.list_comments';
+    return  $default;
 }
