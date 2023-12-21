@@ -12,13 +12,16 @@ function findObjectById($array, $id)
 }
 
 $c = $comments->get();
-$index = findObjectById($c, app('request')->input('comment'));
+$index = null;
+if (!app('request')->has('page')) {
+    $index = findObjectById($c, app('request')->input('comment'));
+}
 $paginator = $comments->paginate($perPage, ['*'], 'page', $index != null ? intdiv($index, $perPage) + 1 : null);
 
 if (isset($basePath)) {
     $paginator->withPath($basePath);
 }
-$paginator = $paginator->withQueryString();
+$paginator = $paginator->appends(app('request')->except(['comment']));
 ?>
 
 <h3>Comments <span>({{ $paginator->total() }})</span></h3>
