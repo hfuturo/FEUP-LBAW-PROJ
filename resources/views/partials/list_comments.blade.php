@@ -56,11 +56,13 @@ $paginator = $paginator->appends(app('request')->except(['comment']));
                             alt="User Profile Picture">
                         <p class="comment_author"> Anonymous</p>
                     @endif
-                    <p class=date> {{ Carbon::parse($comment->date)->diffForHumans() }}</p>
-                    @if ($comment->edit_date !== null)
-                        <p class="date edit_date">Edited
-                            {{ Carbon::parse($comment->edit_date)->diffForHumans() }}</p>
-                    @endif
+                    <div class="dates">
+                        <p class=date> {{ Carbon::parse($comment->date)->diffForHumans() }}</p>
+                        @if ($comment->edit_date !== null)
+                            <p class="date edit_date">Edited
+                                {{ Carbon::parse($comment->edit_date)->diffForHumans() }}</p>
+                        @endif
+                    </div>
                     <div class="dropdown">
                         <button class="more" onclick="toggleMenu(this, event)">
                             <span class="material-symbols-outlined">more_vert</span>

@@ -12,7 +12,7 @@
                 <div>
                     <h3><a href="{{ route('topic', ['topic' => $topic]) }}">{{ $topic->name }}</a></h3>
                     <span class="nMods" value="{{ $topic->moderators->count() }}">({{ $topic->moderators->count() }})</span>
-                    <button onclick="openMakeModeratorUser(this)"><i class="fa-solid fa-plus"></i></button>
+                    <button class="button button_plus" onclick="openMakeModeratorUser(this)"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <ul>
                     @if ($topic->moderators->count() === 0)

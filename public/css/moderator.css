@@ -18,7 +18,7 @@
     color: white;
 }
 
-.topic ul{
+.topic ul {
     padding: 0.5em;
     margin: 0;
     border: 1px solid var(--primary-text-color);
@@ -37,4 +37,9 @@
 
 .topic .moderator:hover {
     background-color: lightgray;
+}
+
+.button_plus {
+    background-color: white;
+    color: var(--primary-color);
 }

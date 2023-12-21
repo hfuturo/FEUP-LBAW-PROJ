@@ -8,8 +8,8 @@
     flex: 1;
     height: auto;
     width: auto;
-    max-height: calc(100% -3rem);
-    max-width: calc(100% - 3rem);
+    max-height: 70%;
+    max-width: 70%;
     object-fit: contain;
 }
 
@@ -33,7 +33,6 @@
     border-radius: 10px;
 }
 
-
 .image_wrapper {
     display: flex;
     flex-direction: column;
@@ -51,19 +50,16 @@
     border-radius: 10px;
 }
 
-
 #user_card p,
 #user_card h4 {
     margin: 0em;
 }
-
 
 #follow,
 #follow_topic,
 #follow_tag {
     text-transform: capitalize;
 }
-
 
 .image_buttons_wrapper,
 .user_follow_edit {
@@ -81,7 +77,11 @@
     margin: 0;
 }
 
-/*
+.action_buttons_wrapper {
+    display: flex;
+    gap: 2em;
+}
+
 .action_buttons_wrapper > button:first-of-type:not(.delete_button) {
     margin-right: 0;
 }
@@ -94,7 +94,6 @@
     align-items: center;
 }
 
-
 .image_buttons_wrapper > button:first-of-type {
     margin-left: 0;
     width: 10em;
@@ -104,12 +103,10 @@
     margin-right: 0;
     width: 10em;
 }
-*/
-
 
 @media screen and (max-width: 794px) {
     .profile {
         flex-direction: column-reverse;
-        gap:0.5em
+        gap: 0.5em;
     }
 }

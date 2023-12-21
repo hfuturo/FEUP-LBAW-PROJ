@@ -1,9 +1,10 @@
 .feed_buttons {
     display: flex;
+    gap: 0.5em;
 }
 
 .feed_buttons .feed_button {
-    margin-right: 0.5em;
+    text-align: center;
 }
 
 .news_header_feed {
