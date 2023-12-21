@@ -39,7 +39,7 @@ const new_comment_channel = pusher.subscribe("new-comment" + user_id);
 new_comment_channel.bind("new-comment", (data) => {
     const div = notificationTemplate(data.notification_id);
     const link = document.createElement("a");
-    link.href = location.origin + "/news/" + data.post_id;
+    link.href = location.origin + "/news/" + encodeURIComponent(data.post_id);
     link.textContent = data.post_title;
     div.append(link, " has a new comment, go check!");
 });
@@ -54,7 +54,13 @@ commentVoteChannel.bind("comment-vote", (data) => {
     profileLink.textContent = data.sender_name;
     const postLink = document.createElement("a");
     postLink.href =
-        location.origin + "/news/" + encodeURIComponent(data.post_id);
+        location.origin +
+        "/news/" +
+        encodeURIComponent(data.post_id) +
+        "?comment=" +
+        encodeURIComponent(data.comment_id) +
+        "#comment" +
+        encodeURIComponent(data.comment_id);
     postLink.textContent = data.post_name;
     div.append(profileLink, " voted on your comment in ", postLink);
 });
