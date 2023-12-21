@@ -53,7 +53,7 @@ class MembershipStatusController extends Controller
                     return response()->json($response);
                 }
 
-                $response = ['status' => 'none_org', 'old_role' => $status];
+                $response = ['success' => 1,'status' => 'none_org', 'old_role' => $status];
                 return response()->json($response);
             } else {
                 return response()->json(['success' => 0, 'message' => "Your request was already decline by the organization, you can refresh the page to see the changes."]);

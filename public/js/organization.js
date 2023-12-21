@@ -64,6 +64,8 @@ document.querySelector("#status")?.addEventListener("click", (event) => {
 });
 
 function statusHandler() {
+    console.log(JSON.parse(this.responseText).success);
+    console.log(JSON.parse(this.responseText).status);
     if (JSON.parse(this.responseText).success) {
         const status = JSON.parse(this.responseText).status;
         const button = document.querySelector("#status");
