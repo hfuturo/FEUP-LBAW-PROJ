@@ -21,6 +21,8 @@ function addVoteEventListener() {
     addVoteInfo();
 
     document.querySelectorAll(".vote").forEach((button) => {
+        if (button.dataset.hasEvents) return;
+        button.dataset.hasEvents = true;
         button.addEventListener("click", (event) => {
             let name = button.className;
             let content = button.parentNode.id;
