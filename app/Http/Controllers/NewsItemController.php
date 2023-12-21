@@ -34,14 +34,16 @@ class NewsItemController extends Controller
 
     public function show(Request $request, int $id): View
     {
+        /*
         $news_item = NewsItem::findOrFail($id);
+
+        /*
         $comments = $news_item->comments()
             ->orderBy('comment.id', 'desc');
 
-
         return view(choose_view($request, 'pages.news_item'), ['news_item' => $news_item, 'comments' => $comments, 'perPage' => 2]);
+        */
 
-        /*
         $news_itens = NewsItem::findOrFail($id);
         $comments = null;
         if ($request->input("comment_search")) {
@@ -49,7 +51,7 @@ class NewsItemController extends Controller
         } else {
             $comments = $news_itens->comments();
         }
-        return view('pages.news_item', ['news_item' => $news_itens, 'comments' => $comments->join('content', 'comment.id', '=', 'content.id')
+        return view(choose_view($request, 'pages.news_item'), ['news_item' => $news_itens, 'comments' => $comments->join('content', 'comment.id', '=', 'content.id')
             ->join('authenticated_user', 'authenticated_user.id', '=', 'content.id_author', 'left')
             ->orderBy('date', 'desc')
             ->select(
@@ -60,9 +62,7 @@ class NewsItemController extends Controller
                 'content.edit_date',
                 'authenticated_user.name',
                 'authenticated_user.image'
-            )
-            ->paginate(10)]);
-        */
+            ), 'perPage' => 2]);
     }
 
     public function destroy(int $id)
@@ -105,25 +105,25 @@ class NewsItemController extends Controller
     {
         try {
 
-        $this->authorize('create', \App\NewsItem::class);
+            $this->authorize('create', \App\NewsItem::class);
 
-        $valid = $request->validate([
-            'title' => 'required|unique:news_item,title|max:255|string',
-            'text' => 'required|string',
-            'topic' => 'required|int',
-            'tags' => 'nullable|string',
-            'image' => 'mimes:jpg,png,jpeg',
-        ]);
+            $valid = $request->validate([
+                'title' => 'required|unique:news_item,title|max:255|string',
+                'text' => 'required|string',
+                'topic' => 'required|int',
+                'tags' => 'nullable|string',
+                'image' => 'mimes:jpg,png,jpeg',
+            ]);
 
-        $imageName = NULL;
+            $imageName = NULL;
 
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $requestImage = $request->image;
-            $imageName = $requestImage->hashName();
-            $requestImage->move(public_path('post/'), $imageName);
-        }
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $requestImage = $request->image;
+                $imageName = $requestImage->hashName();
+                $requestImage->move(public_path('post/'), $imageName);
+            }
 
-        $id_news = NULL;
+            $id_news = NULL;
             DB::transaction(function () use (&$id_news, $request, $imageName) {
 
                 $content = new Content();

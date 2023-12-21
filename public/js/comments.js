@@ -43,206 +43,18 @@ document
         Swal.showValidationMessage(`
         Request failed: ${error}
         `);
-        /*
-        if (data.success) {
-            const noComments = document.getElementById("no_comments");
-
-            if (noComments) {
-                noComments.remove();
-            }
-            const commentSection = document.getElementById("comments");
-            const newComment = document.createElement("article");
-            newComment.className = "comment";
-            newComment.setAttribute("comment-id", data.id);
-
-            const commentHead = document.createElement("div");
-            commentHead.className = "comment_header";
-
-            const commentAuthorPfp = document.createElement("img");
-            commentAuthorPfp.className = "author_comment_pfp";
-            commentAuthorPfp.src = "/api/fetch_pfp/" + data.author.id;
-
-            const commentAuth = document.createElement("a");
-            commentAuth.className = "comment_author";
-            commentAuth.textContent = data.author.name;
-
-            const commentDate = document.createElement("p");
-            commentDate.className = "date";
-            commentDate.textContent = data.date;
-
-            const commentText = document.createElement("p");
-            commentText.className = "comment_text";
-            commentText.textContent = data.content;
-
-            const form = makeEditForm(data.content, newComment);
-
-            const more = makeDropDown(newComment);
-
-            commentHead.appendChild(commentAuthorPfp);
-            commentHead.appendChild(commentAuth);
-            if (data.news_author) {
-                const authrIcon = document.createElement("span");
-                authrIcon.className = "material-symbols-outlined author";
-                authrIcon.textContent = "person_edit";
-                commentHead.appendChild(authrIcon);
-            }
-            commentHead.appendChild(commentDate);
-            commentHead.appendChild(more);
-
-            newComment.appendChild(commentHead);
-            newComment.append(form);
-            newComment.appendChild(commentText);
-
-            const votes = document.createElement("div");
-            votes.className = "votes";
-            votes.id = data.id;
-
-            const like = createLikeDislike("accept", "thumb_up", "up_count");
-            const dislike = createLikeDislike(
-                "remove",
-                "thumb_down",
-                "down_count"
-            );
-
-            votes.appendChild(like);
-            votes.appendChild(dislike);
-            newComment.appendChild(votes);
-
-            commentSection.insertBefore(
-                newComment,
-                commentSection.querySelector(".search_form").nextElementSibling
-            );
-            document.getElementById("commentContent").value = "";
-
-            like.addEventListener("click", () => {
-                let content =
-                    like.parentNode.parentNode.getAttribute("comment-id");
-                let method = "POST";
-                let action, value;
-                if (like.style.backgroundColor == "green") {
-                    action = "destroy";
-                    method = "DELETE";
-                } else if (
-                    like.parentNode.querySelector(".remove").style
-                        .backgroundColor == "red"
-                ) {
-                    action = "update";
-                    method = "POST";
-                } else {
-                    action = "create";
-                    method = "POST";
-                }
-                value = 1;
-                sendAjaxRequest(
-                    `${method}`,
-                    `/api/vote/${action}`,
-                    { content, value },
-                    voteHandler
-                );
-            });
-
-            dislike.addEventListener("click", () => {
-                let name = dislike.className;
-                let content =
-                    dislike.parentNode.parentNode.getAttribute("comment-id");
-                let method = "POST";
-                let action, value;
-                if (dislike.style.backgroundColor == "red") {
-                    action = "destroy";
-                    method = "DELETE";
-                } else if (
-                    dislike.parentNode.querySelector(".accept").style
-                        .backgroundColor == "green"
-                ) {
-                    action = "update";
-                    method = "POST";
-                } else {
-                    action = "create";
-                    method = "POST";
-                }
-                value = -1;
-
-                sendAjaxRequest(
-                    `${method}`,
-                    `/api/vote/${action}`,
-                    { content, value },
-                    voteHandler
-                );
-            });
-        } else {
-            console.error("Failed to add comment");
-            Swal.fire({
-                title: "Fail!",
-                text: "Failed to add comment",
-                icon: "error",
-            });
->>>>>>> public/js/comments.js
-        }
-        */
-    };
-
-    function AlertMessage(title, text, icon){
-        Swal.fire({
-            title: title,
-            text: text,
-            icon: icon,
-        });
+ 
     }
+});
 
-    /*
-    const buttonsForm = document.createElement("div");
-    buttonsForm.className = "buttonsForm";
-
-    const textarea = document.createElement("textarea");
-    textarea.classList.add("commentContent");
-    textarea.setAttribute("name", "content");
-    textarea.setAttribute("rows", "3");
-    textarea.setAttribute("maxlength", "500");
-    textarea.setAttribute("required", "true");
-    textarea.textContent = commentText;
-    form.appendChild(textarea);
-
-    const postButton = document.createElement("button");
-    postButton.setAttribute("type", "submit");
-    postButton.classList.add("button", "editButton");
-    postButton.textContent = "Post";
-    buttonsForm.appendChild(postButton);
-
-    const cancelButton = document.createElement("button");
-    cancelButton.setAttribute("type", "button");
-    cancelButton.classList.add("button", "cancelButton");
-    cancelButton.textContent = "Cancel";
-    cancelButton.addEventListener("click", (event) => {
-        event.preventDefault;
-        editCancel(newComment);
+function AlertMessage(title, text, icon){
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
     });
-    buttonsForm.appendChild(cancelButton);
-
-    form.appendChild(buttonsForm);
-    form.addEventListener("submit", saveEdit);
-    form.setAttribute("hidden", "true");
-
-    return form;
 }
 
-function createLikeDislike(className, symbol, type) {
-    const button = document.createElement("button");
-    button.classList.add("vote", className);
-
-    const icon = document.createElement("span");
-    icon.className = "material-symbols-outlined";
-    icon.textContent = symbol;
-
-    const number = document.createElement("span");
-    number.textContent = 0;
-    number.className = type;
-
-    button.appendChild(icon);
-    button.appendChild(number);
-
-    return button;
-}
-*/
 
 function toggleMenu(button, event) {
     const dropdownSelect = button.nextElementSibling;
@@ -292,9 +104,9 @@ async function deleteCommentItem(button) {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
     });
-        if (result.isConfirmed) {
-            try {
-                const data = await fetch(`/api/comment/${commentId}/remove`, {
+    if (result.isConfirmed) {
+        try {
+                const data = await fetch(`/api/comment/${commentId}/delete`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
@@ -313,12 +125,10 @@ async function deleteCommentItem(button) {
                     if(pageNumber > 1 || pageNumber !== null){
                         const commentPage = section.querySelectorAll("article");
                         const numberComments = commentPage.length;
-                        /*const paginator = document.querySelectorAll(".paginate a");*/
                         if(numberComments === 1){
                             urlParams.set("page", (pageNumber - 1));  
                             currentURL = currentURL.split("?")[0] + "?" + urlParams.toString();
                             history.pushState(null, '', currentURL);
-                            /*paginator.removeChild(paginator.lastElementChild);*/
                         }
                         
                     }
@@ -342,119 +152,17 @@ async function deleteCommentItem(button) {
               `);
             }
         }
-    /*
-    if (result.isConfirmed) {
-        try {
-            const data = await fetch("/api/comment/" + commentId, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document
-                        .querySelector('meta[name="csrf-token"]')
-                        .getAttribute("content"),
-                },
-            }).then((response) => response.json());
-
-            const section = document.getElementById("comments");
-
-            if (data.success) {
-                if (section.querySelectorAll(".comment").length === 1) {
-                    const noCommentsDiv = document.createElement("div");
-                    const noComments = document.createElement("p");
-                    noCommentsDiv.id = "no_comments";
-                    noComments.textContent = "There are no comments yet";
-                    noCommentsDiv.appendChild(noComments);
-                    section.appendChild(noCommentsDiv);
-                }
-                Swal.fire({
-                    title: "Deleted!",
-                    text: data.success,
-                    icon: "success",
-                    confirmButtonColor: "#3085d6",
-                });
-                comment.remove();
-            } else {
-                Swal.fire({
-                    title: "Fail!",
-                    text: data.error,
-                    icon: "error",
-                    confirmButtonColor: "#3085d6",
-                });
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            Swal.showValidationMessage(`Request failed: ${error}`);
-        }
-    }
-    */
 }
 
-
-/*
-function editCommentItem(button) {
-    const comment = button.closest("article");
-    const dropdown = document.createElement("div");
-    dropdown.className = "dropdown";
-
-    const moreButton = document.createElement("button");
-    moreButton.className = "more";
-    moreButton.addEventListener("click", function (event) {
-        toggleMenu(moreButton, event);
-    });
-
-    const moreIcon = document.createElement("span");
-    moreIcon.className = "material-symbols-outlined";
-    moreIcon.textContent = "more_vert";
-
-    moreButton.appendChild(moreIcon);
-
-    const dropdownContent = document.createElement("div");
-    dropdownContent.classList.add("dropdown-content", "hidden");
-
-    options.forEach((option) => {
-        const optionDiv = document.createElement("div");
-        optionDiv.className = "dropdown-option";
-
-        const icon = document.createElement("span");
-        icon.className = "material-symbols-outlined";
-        icon.textContent = option.icon;
-
-        const label = document.createElement("span");
-        label.textContent = option.label;
-
-        optionDiv.appendChild(icon);
-        optionDiv.appendChild(label);
-
-        if (option.class) {
-            optionDiv.classList.add(option.class);
-        }
-
-        optionDiv.addEventListener("click", (e) => {
-            e.stopPropagation();
-            option.fn(comment);
-            toggleMenu(moreButton, e);
-        });
-
-        dropdownContent.appendChild(optionDiv);
-    });
-
-    dropdown.appendChild(moreButton);
-    dropdown.appendChild(dropdownContent);
-
-    return dropdown;
-}
-*/
 
 
 function editCommentItem(button) {
     const comment = button.closest("article");
     const form = comment.querySelector(".editForm");
-    console.log(form);
     const commentText = comment.querySelector(".comment_text");
-    console.log(commentText);
     const textarea = comment.querySelector("textarea");
-    console.log(textarea);
     textarea.value = commentText.textContent;
+    form.addEventListener("submit", saveEdit);
     form.removeAttribute("hidden");
     commentText.setAttribute("hidden", "true");
 }
@@ -581,19 +289,9 @@ reportPopup
                     }).then((response) => response.json());
 
                     if (message.success) {
-                        Swal.fire({
-                            title: "Report make!",
-                            text: message.success,
-                            icon: "success",
-                            confirmButtonColor: "#3085d6",
-                        });
+                        AlertMessage("Report make!", message.success, "success");
                     } else {
-                        Swal.fire({
-                            title: "Fail!",
-                            text: message.error,
-                            icon: "error",
-                            confirmButtonColor: "#3085d6",
-                        });
+                        AlertMessage( "Fail!", message.error, "error");
                     }
                     closeReportContentForm();
                 } catch (error) {
