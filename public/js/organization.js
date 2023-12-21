@@ -123,7 +123,7 @@ function manageOrganizationHandler() {
             openRequestOrg();
 
             const sectionMember = document.createElement("article");
-            sectionMember.className = "user_news";
+            sectionMember.className = "info_article";
             sectionMember.id = user;
 
             const aElement = document.createElement("a");

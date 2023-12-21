@@ -134,7 +134,7 @@
                     @else
                         @foreach ($notifications as $notif)
                             <article
-                                @if (!$notif->view) class="user_news new_notification" @else class="user_news" @endif
+                                @if (!$notif->view) class="info_article new_notification" @else class="info_article" @endif
                                 id="{{ $notif->notification->id }}">
                                 <div>
                                     <button class="notification_button"><span

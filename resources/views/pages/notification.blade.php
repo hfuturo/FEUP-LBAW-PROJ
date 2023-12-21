@@ -8,7 +8,7 @@
             <p>There are no notifications to show.</p>
         @else
             @foreach ($notifications->paginate(10) as $notif)
-                <article @if (!$notif->view) class="user_news new_notification" @else class="user_news" @endif
+                <article @if (!$notif->view) class="info_article new_notification" @else class="info_article" @endif
                     id="{{ $notif->notification->id }}">
                     <h4>
                         <button class="notification_button"><span

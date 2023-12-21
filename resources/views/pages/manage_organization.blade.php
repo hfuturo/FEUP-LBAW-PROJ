@@ -16,7 +16,7 @@
         @include('partials.list_requests_organization')
         <input type="hidden" id="org" name="org" value="{{ $organization->id }}">
         @foreach ($organization->members as $member)
-        <article class="user_news" id="{{$member->id_user}}">
+        <article class="info_article" id="{{$member->id_user}}">
             <h4><a href="{{ route('profile', ['user' => $member->id]) }}">{{ $member->name }}</a><span class="role">({{ $member->member_type }})</span></h4>
             <p>Since: {{ \Carbon\Carbon::parse($member->joined_date) }}</p>
             @if($member->member_type !== "leader")

@@ -11,16 +11,16 @@
             There are no unblock appeals to show.
         @else
             @foreach ($users as $user)
-                <article class="user_news">
+                <article class="info_article">
                     <h4 id="{{ $user->id }}">
                         User:
                         <a href="{{ route('profile', ['user' => $user->id]) }}">{{ $user->name }}</a>
                     </h4>
                     <p>Justification: {{ $user->blocked_appeal }}</p>
-                    <span class="container_choices">
+                    <div class="container_choices">
                         <button class="remove reject_appeal">Reject appeal</button>
                         <button class="accept unblock_user">Unblock user</button>
-                    </span>
+                    </div>
                 </article>
             @endforeach
         @endif

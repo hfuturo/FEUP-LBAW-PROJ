@@ -12,7 +12,7 @@
             <p>There are no reports to show.</p>
         @else
             @foreach ($reports->paginate(5) as $report)
-                <article id="{{ $report->id }}" class="user_news">
+                <article id="{{ $report->id }}" class="info_article">
                     <h4 class="{{ $report->id_user }}">
                         User:
                         <a href="{{ route('profile', ['user' => $report->id_user]) }}">{{ $report->user->name }}</a>
@@ -25,13 +25,13 @@
                         <a href="{{ route('profile', ['user' => $report->id_reporter]) }}"> {{ $report->reporter->name }}</a>
                     </p>
                     <p>Justification: {{ $report->reason }}</p>
-                    <span class="container_choices">
+                    <div class="container_choices">
                         <button class="accept action_report" data-operation="delete_report">Ignore Report</button>
                         @if (!$report->user->blocked)
                             <button class="remove action_report" data-operation="block_user">Block Account</button>
                         @endif
                         <button class="remove action_report" data-operation="delete_user">Delete Account</button>
-                    </span>
+                    </div>
                 </article>
             @endforeach
         @endif

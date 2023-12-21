@@ -76,7 +76,7 @@
                 @if (Auth::user()->id === $user->id)
                     <div class="image_buttons_wrapper">
                         @include('partials.image_form')
-                        <button class="remove_pfp_image">Remove image</button>
+                        <button class="remove_pfp_image delete_button button">Remove image</button>
                     </div>
                 @endif
             </div>

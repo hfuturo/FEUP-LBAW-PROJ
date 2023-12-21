@@ -121,3 +121,11 @@ input[id="filter_users"]:focus {
         width: 100%;
     }
 }
+
+.topics_proposal {
+    background-color: aliceblue;
+}
+
+.topics_proposal button {
+    margin: 0;
+}

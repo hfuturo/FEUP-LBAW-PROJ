@@ -2,7 +2,7 @@
     There is no suggested topic ...
 @else
     @foreach ($suggested_topic->paginate(5) as $topic)
-        <article class="user_news topics_proposal" id="{{ $topic->id }}">
+        <article class="info_article topics_proposal" id="{{ $topic->id }}">
             <h4>Name: {{ $topic->name }}</h4>
             <p>
                 Author:

@@ -1,4 +1,4 @@
-<button onclick="openEditPfpForm()">Edit Image</button>
+<button class="button" onclick="openEditPfpForm()">Edit Image</button>
 <script>
     function openEditPfpForm() {
         Swal.fire({

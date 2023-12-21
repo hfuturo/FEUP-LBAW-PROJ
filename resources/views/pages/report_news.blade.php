@@ -12,7 +12,7 @@
             <p>There are no reports to show.</p>
         @else
             @foreach ($reports->paginate(5) as $report)
-                <article id="{{ $report->id }}" class="user_news">
+                <article id="{{ $report->id }}" class="info_article">
                     <h4 class="{{ $report->id_content }}">
                         Title:
                         <a href="{{ route('news_page', ['id' => $report->content->id]) }}">
@@ -24,10 +24,10 @@
                         <a href="{{ route('profile', ['user' => $report->id_reporter]) }}"> {{ $report->reporter->name }}</a>
                     </p>
                     <p>Justification: {{ $report->reason }}</p>
-                    <span class="container_choices">
+                    <div class="container_choices">
                         <button class="accept action_report" data-operation="delete_report">Ignore Report</button>
                         <button class="remove action_report" data-operation="delete_news_item">Delete News'Item</button>
-                    </span>
+                    </div>
                 </article>
             @endforeach
         @endif
