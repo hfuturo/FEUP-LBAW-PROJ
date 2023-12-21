@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\CardController;
-use App\Http\Controllers\ItemController;
-
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\UserController;
@@ -15,8 +12,6 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SuggestedTopicController;
-use App\Http\Controllers\AboutUsController;
-use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\BlockController;
@@ -37,11 +32,16 @@ use App\Http\Controllers\Auth\RecoverPasswordController;
 */
 
 // Home
-Route::redirect('/', '/login');
+Route::redirect('/', '/news');
+
+// About Us
+Route::view('/about_us', 'pages.about_us');
+// Contact Us
+Route::view('/contacts', 'pages.contacts');
 
 Route::controller(BlockController::class)->group(function () {
-    Route::get('/blocked', 'blockPage')->name('blocked');
-    Route::post('/blocked', 'appeal_unblock')->name('appeal');
+    Route::view('/blocked', 'auth.block')->name('blocked')->middleware('authenticated');
+    Route::post('/blocked', 'appeal_unblock')->name('appeal')->middleware('authenticated');
 });
 
 // News
@@ -59,8 +59,8 @@ Route::controller(ManageController::class)->group(function () {
 
 // Authentication
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'showLoginForm')->name('login');
-    Route::post('/login', 'authenticate');
+    Route::view('/login', 'auth.login')->name('login')->middleware('guest');
+    Route::post('/login', 'authenticate')->middleware('guest');
     Route::get('/logout', 'logout')->name('logout')->middleware('authenticated');
 });
 
@@ -73,8 +73,8 @@ Route::controller(RecoverPasswordController::class)->group(function () {
 });
 
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'showRegistrationForm')->name('register');
-    Route::post('/register', 'register');
+    Route::view('/register', 'auth.register')->name('register')->middleware('guest');
+    Route::post('/register', 'register')->middleware('guest');
 });
 
 // News
@@ -94,7 +94,6 @@ Route::controller(NewsItemController::class)->group(function () {
 // Admin
 Route::controller(ManageController::class)->group(function () {
     Route::get('/manage', 'show')->middleware('admin');
-    Route::get('/manage_topic', 'show_suggested_topic')->name('manage_topic')->middleware('admin');
     Route::get('/manage_unblock_appeals', 'show_unblock_appeals')->name('unblock_appeals')->middleware('admin');
 });
 
@@ -112,21 +111,12 @@ Route::controller(UserController::class)->group(function () {
         ->where('user', '[0-9]+')->middleware('admin');
 });
 
-// About Us
-Route::controller(AboutUsController::class)->group(function () {
-    Route::get('/about_us', 'show');
-});
-
 
 Route::controller(SuggestedTopicController::class)->group(function () {
     Route::post('/topic_proposal', 'create')->name('topic_proposal')->middleware('authenticated');
     Route::post('/manage_topic/delete_suggested_topic', 'destroy')->name('delete_suggested_topic')->middleware('admin');
     Route::post('/manage_topic/accept_suggested_topic', 'accept')->name('accept_suggested_topic')->middleware('admin');
-});
-
-// Contact Us
-Route::controller(ContactUsController::class)->group(function () {
-    Route::get('/contacts', 'show');
+    Route::get('/manage_topic', 'show')->name('manage_topic')->middleware('admin');
 });
 
 Route::controller(ReportController::class)->group(function () {

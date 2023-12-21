@@ -8,20 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use Illuminate\View\View;
-
 use App\Models\User;
 
 class RegisterController extends Controller
 {
-    /**
-     * Display a login form.
-     */
-    public function showRegistrationForm(): View
-    {
-        return view('auth.register');
-    }
-
     /**
      * Register a new user.
      */

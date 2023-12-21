@@ -306,12 +306,12 @@ function upgradeUserToAdmin(url, id) {
     });
 }
 
-document.querySelectorAll(".topics_proposal").forEach((button) => {
+document.querySelectorAll(".topics_proposal button").forEach((button) => {
     button.addEventListener("click", (event) => {
-        const idTopic = button.id;
+        const idTopic = button.closest("article").id;
         sendAjaxRequest(
             "post",
-            `/manage_topic/${event.target.parentNode.dataset.operation}`,
+            `/manage_topic/${button.dataset.operation}`,
             { idTopic },
             topicProposalHandler
         );
@@ -319,7 +319,7 @@ document.querySelectorAll(".topics_proposal").forEach((button) => {
 });
 
 function topicProposalHandler() {
-    if (this.status != 200) window.location = "/";
+    //if (this.status != 200) window.location = "/";
     let idTopic = JSON.parse(this.responseText);
     let element = document.getElementById(idTopic);
     element.remove();

@@ -17,7 +17,7 @@ class MembershipStatusController extends Controller
      */
     public function create(Request $request)
     {
-        try{
+        try {
             MembershipStatus::create([
                 'id_user' => Auth::user()->id,
                 'id_organization' => $request->input('organization'),
@@ -28,7 +28,7 @@ class MembershipStatusController extends Controller
                 'success' => 1,
                 'status' => 'ask',
             ];
-            
+
             return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['success' => 0, 'message' => 'Try to refresh the page or check if you have the right permissions to perform this action']);
@@ -44,7 +44,7 @@ class MembershipStatusController extends Controller
 
             if ($membershipStatus) {
                 $status = $membershipStatus->member_type;
-                $delete = MembershipStatus::where('id_user', Auth::user()->id)
+                MembershipStatus::where('id_user', Auth::user()->id)
                     ->where('id_organization', $request->input('organization'))
                     ->delete();
 
@@ -53,7 +53,7 @@ class MembershipStatusController extends Controller
                     return response()->json($response);
                 }
 
-                $response = ['success' => 1,'status' => 'none_org', 'old_role' => $status];
+                $response = ['success' => 1, 'status' => 'none_org', 'old_role' => $status];
                 return response()->json($response);
             } else {
                 return response()->json(['success' => 0, 'message' => "Your request was already decline by the organization, you can refresh the page to see the changes."]);
@@ -63,23 +63,18 @@ class MembershipStatusController extends Controller
         }
     }
 
-    public function upgrade(Request $request){
-        try{
+    public function upgrade(Request $request)
+    {
+        try {
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
-            ->where('id_organization', $request->input('organization'))
-            ->first();
-            if($auth){
-                $this->authorize('upgrade', $auth); 
-            }
-            else{
-                $auth = new MembershipStatus();
-                $this->authorize('upgrade', $auth); 
-            }
+                ->where('id_organization', $request->input('organization'))
+                ->first();
+            $this->authorize('upgrade', $auth);
 
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
-            ->where('id_organization', $request->input('organization'));
+                ->where('id_organization', $request->input('organization'));
 
-            if($membershipStatus){
+            if ($membershipStatus) {
                 $membershipStatus->update(['member_type' => 'leader']);
 
                 $response = [
@@ -87,44 +82,41 @@ class MembershipStatusController extends Controller
                     'action' => 'upgrade',
                     'user' => $request->input('user')
                 ];
-            
+
                 return response()->json($response);
-            }
-            else{
+            } else {
                 return response()->json(['success' => 0, 'message' => "This user left the organization recently, you can refresh the page to see the changes."]);
             }
-
         } catch (Exception $e) {
             return response()->json(['success' => 0,  'message' => "Try to refresh the page or check if you have the right permissions to perform this action"]);
         }
     }
 
-    public function expel(Request $request){
-        try{
+    public function expel(Request $request)
+    {
+        try {
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
-            ->where('id_organization', $request->input('organization'))
-            ->first();
-            if($auth){
-                $this->authorize('expel', $auth); 
-            }
-            else{
+                ->where('id_organization', $request->input('organization'))
+                ->first();
+            if ($auth) {
+                $this->authorize('expel', $auth);
+            } else {
                 $auth = new MembershipStatus();
-                $this->authorize('expel', $auth); 
+                $this->authorize('expel', $auth);
             }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
-            ->where('id_organization', $request->input('organization'));
-            if($membershipStatus){
+                ->where('id_organization', $request->input('organization'));
+            if ($membershipStatus) {
                 $membershipStatus->delete();
-    
+
                 $response = [
                     'success' => 1,
                     'action' => 'expel',
                     'user' => $request->input('user')
                 ];
-            
+
                 return response()->json($response);
-            }
-            else{
+            } else {
                 return response()->json(['success' => 0, 'message' => "This user left the organization recently, you can refresh the page to see the changes."]);
             }
         } catch (Exception $e) {
@@ -132,22 +124,22 @@ class MembershipStatusController extends Controller
         }
     }
 
-    public function decline(Request $request){
-        try{
+    public function decline(Request $request)
+    {
+        try {
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
-            ->where('id_organization', $request->input('organization'))
-            ->first();
-            if($auth){
-                $this->authorize('decline', $auth); 
-            }
-            else{
+                ->where('id_organization', $request->input('organization'))
+                ->first();
+            if ($auth) {
+                $this->authorize('decline', $auth);
+            } else {
                 $auth = new MembershipStatus();
-                $this->authorize('decline', $auth); 
+                $this->authorize('decline', $auth);
             }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
-            ->where('id_organization', $request->input('organization'));
+                ->where('id_organization', $request->input('organization'));
 
-            if($membershipStatus){
+            if ($membershipStatus) {
                 $membershipStatus->delete();
 
                 $response = [
@@ -156,11 +148,9 @@ class MembershipStatusController extends Controller
                     'user' => $request->input('user')
                 ];
                 return response()->json($response);
+            } else {
+                return response()->json(['success' => 0, 'message' => "This user is no longer interested in becoming part of this organization, you can refresh the page to see the changes."]);
             }
-            else{
-                return response()->json(['success' => 0, 'message' => "This user is no longer interested in becoming part of this organization, you can refresh the page to see the changes."]);     
-            }
-        
         } catch (Exception $e) {
             return response()->json(['success' => 0, 'message' => "Try to refresh the page or check if you have the right permissions to perform this action"]);
         }
@@ -168,21 +158,20 @@ class MembershipStatusController extends Controller
 
     public function accept(Request $request)
     {
-        try{
+        try {
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
-            ->where('id_organization', $request->input('organization'))
-            ->first();
-            if($auth){
-                $this->authorize('accept', $auth); 
-            }
-            else{
+                ->where('id_organization', $request->input('organization'))
+                ->first();
+            if ($auth) {
+                $this->authorize('accept', $auth);
+            } else {
                 $auth = new MembershipStatus();
-                $this->authorize('accept', $auth); 
+                $this->authorize('accept', $auth);
             }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
-            ->where('id_organization', $request->input('organization'));
+                ->where('id_organization', $request->input('organization'));
 
-            if($membershipStatus){
+            if ($membershipStatus) {
                 $membershipStatus->update(['member_type' => 'member']);
                 $response = [
                     'success' => 1,
@@ -190,11 +179,10 @@ class MembershipStatusController extends Controller
                     'user' => $request->input('user'),
                     'user_name' => User::find($request->input('user'))->name
                 ];
-                
+
                 return response()->json($response);
-            }
-            else{
-                return response()->json(['success' => 0, 'message' => "This user is no longer interested in becoming part of this organization, you can refresh the page to see the changes."]);     
+            } else {
+                return response()->json(['success' => 0, 'message' => "This user is no longer interested in becoming part of this organization, you can refresh the page to see the changes."]);
             }
         } catch (Exception $e) {
             return response()->json(['success' => 0, 'message' => "Try to refresh the page or check if you have the right permissions to perform this action"]);
