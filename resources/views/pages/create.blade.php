@@ -61,7 +61,7 @@
             @enderror
 
             <div class ="form-group">
-                <label>Tags <span title="To insert a tag press space or enter and to remove click them"
+                <label for="tagInput">Tags <span title="To insert a tag press space or enter and to remove click them"
                         class="hint">?</span></label>
                 <datalist id="tags">
                     @foreach ($tags as $tag)

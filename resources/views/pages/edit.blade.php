@@ -70,7 +70,7 @@
 
 
             <div class ="form-group">
-                <label>Add tags <span title="To insert a tag press space or enter and to remove click them"
+                <label for="tagInput">Add tags <span title="To insert a tag press space or enter and to remove click them"
                         class="hint">?</span></label>
                 <datalist id="tags">
                     @foreach ($tags as $tag)
