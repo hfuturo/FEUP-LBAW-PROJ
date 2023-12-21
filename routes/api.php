@@ -42,7 +42,7 @@ Route::controller(FollowUserController::class)->group(function () {
 Route::controller(CommentController::class)->group(function () {
     Route::post('/news/{id}/comment', 'store')->name('news.comments.store')
         ->where('id', '[0-9]+');
-    Route::delete('/comment/{id_comment}', 'destroy')->name('news.comments.destroy')
+    Route::delete('/comment/{id_comment}/delete', 'destroy')->name('news.comments.destroy')
         ->where('id_comment', '[0-9]+');
     Route::patch('/comment/{id_comment}/edit', 'update')->name('news.comments.update')
         ->where('id_comment', '[0-9]+');
