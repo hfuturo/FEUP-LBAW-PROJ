@@ -1,13 +1,5 @@
 "use strict";
 
-function openEditPfpForm() {
-    document.getElementById("edit_pfp_popup").style.display = "block";
-}
-
-function closeEditPfpForm() {
-    document.getElementById("edit_pfp_popup").style.display = "none";
-}
-
 const followButton = document.querySelector("#follow");
 followButton?.addEventListener("click", () => {
     const user = document.querySelector("#following").value;
@@ -215,13 +207,5 @@ document
 
 // mostra popup quando pagina e recarregada depois do user mudar a pfp
 window.onload = () => {
-    const reload = sessionStorage.getItem("reload-updated-pfp");
-    if (reload) {
-        sessionStorage.removeItem("reload-updated-pfp");
-        Swal.fire({
-            title: "Success",
-            text: "Profile picture removed successfully.",
-            icon: "success",
-        });
-    }
+
 };
