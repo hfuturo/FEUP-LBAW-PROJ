@@ -1,35 +1,10 @@
 "use strict";
 
-// setTimeout(() => {
-//     const sideNav = document.querySelector("main > nav");
-//     if (sideNav) {
-//         sideNav.style.minWidth =
-//             document.querySelector(".sticky_nav").getBoundingClientRect()
-//                 .width + "px";
-//     }
-// }, 100);
-
 document.querySelector("#hamburger")?.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
         event.target.click();
     }
 });
-
-// document.querySelector("#hamburger")?.addEventListener("click", (event) => {
-//     document.querySelector("main > nav").style.width = "0";
-//     if (event.target.checked) {
-//         document.querySelector("main > nav").style.translate = "-100% 0";
-//     } else {
-//         document.querySelector("main > nav").style.translate = "0 0";
-//     }
-//     document.querySelectorAll(".sticky_nav .button").forEach((elm) => {
-//         elm.tabIndex = event.target.checked ? -1 : 0;
-//     });
-//     const subOptions = document.getElementById("report_sub_options");
-//     subOptions.querySelectorAll(".button").forEach((elm) => {
-//         elm.tabIndex = subOptions.classList.contains("open") ? 0 : -1;
-//     });
-// });
 
 const subOptions = document.getElementById("report_sub_options");
 if (subOptions) {
@@ -53,10 +28,6 @@ if (subOptions) {
         });
 }
 
-function closeTopicProposal() {
-    document.getElementById("topic_proposal_popup").style.display = "none";
-}
-
 const createOrgForm = document.getElementById("create_org_popup");
 function openNewOrg() {
     createOrgForm.style.display = "block";
@@ -69,9 +40,6 @@ function closeNewOrg() {
 document.addEventListener("DOMContentLoaded", function () {
     if (document.querySelector("#create_org_popup .input_error")) {
         openNewOrg();
-    }
-    if (document.querySelector("#topic_proposal_popup .input_error")) {
-        openTopicProposal();
     }
     if (document.querySelector("#edit_profile_popup .input_error")) {
         openEditForm();

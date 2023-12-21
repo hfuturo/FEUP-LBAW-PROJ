@@ -29,17 +29,16 @@ class SuggestedTopicController extends Controller
             'name_topic' => 'string|unique:topic,name',
             'justification_topic' => 'nullable|string',
         ]);
-        if($valid){
+        if ($valid) {
             SuggestedTopic::create([
                 'name' => $request->input('name_topic'),
                 'justification' => empty($request->input('justification_topic')) ? '' : $request->input('justification_topic'),
                 'id_user' => Auth::user()->id,
             ]);
-        
+
             return back()->with('success', 'Successfully Create!');
         }
         return back()->withErrors(['error' => 'There was a problem']);
-
     }
 
     /**
