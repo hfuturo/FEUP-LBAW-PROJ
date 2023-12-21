@@ -70,13 +70,6 @@ function statusHandler() {
         if (status == "none") {
             button.dataset.operation = "create";
             button.textContent = "Ask to Join";
-            if (
-                JSON.parse(this.responseText).old_role === "member" ||
-                JSON.parse(this.responseText).old_role === "leader"
-            ) {
-                const count = document.querySelector("#numberMembers");
-                count.textContent = parseInt(count.textContent.trim()) - 1;
-            }
         } else if (status == "ask") {
             button.dataset.operation = "destroy";
             button.textContent = "Delete Request";
@@ -95,7 +88,7 @@ function statusHandler() {
         Swal.fire({
             icon: "error",
             title: "Something went wrong!",
-            text: "Check if you have the right permissons or try to refresh the page.",
+            text: JSON.parse(this.responseText).message,
         });
     }
 }
@@ -125,8 +118,8 @@ document.querySelectorAll(".manage").forEach((button) => {
 });
 
 function manageOrganizationHandler() {
-    closeRequestOrg();
-    if (JSON.parse(this.responseText).success) {
+    let success = JSON.parse(this.responseText).success;
+    if (success === 1) {
         const action = JSON.parse(this.responseText).action;
         const user = JSON.parse(this.responseText).user;
         const selector = 'article[id="' + user + '"]';
@@ -162,31 +155,90 @@ function manageOrganizationHandler() {
             date.textContent = "Since: Now";
 
             const buttonAccept = document.createElement("button");
-            buttonAccept.classList.add("button", "manage", "expel");
-            buttonAccept.setAttribute("data-operation", "expel");
+            buttonAccept.classList.add("button", "manage", "upgrade");
+            buttonAccept.setAttribute("data-operation", "upgrade");
             buttonAccept.textContent = "Upgrade";
             const buttonExpel = document.createElement("button");
-            buttonExpel.classList.add("button", "manage", "upgrade");
-            buttonExpel.setAttribute("data-operation", "upgrade");
+            buttonExpel.classList.add("button", "manage", "expel");
+            buttonExpel.setAttribute("data-operation", "expel");
             buttonExpel.textContent = "Expel";
 
             h4Element.appendChild(aElement);
             h4Element.appendChild(spanElement);
 
+            let divContainer = document.createElement("div");
+            divContainer.appendChild(buttonExpel);
+            divContainer.appendChild(buttonAccept);
+
             sectionMember.appendChild(h4Element);
             sectionMember.appendChild(date);
-            sectionMember.appendChild(buttonAccept);
-            sectionMember.appendChild(buttonExpel);
-
+            sectionMember.appendChild(divContainer);
             document
                 .getElementById("manage_section")
                 .appendChild(sectionMember);
+
+            buttonAccept.addEventListener("click", () => {
+                Swal.fire({
+                    title: "Are you sure?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#ffa600",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const organization =
+                            document.querySelector("#org").value;
+                        const user = buttonAccept.parentNode.parentNode.id;
+                        console.log(user);
+                        sendAjaxRequest(
+                            "POST",
+                            `/api/organization/manage/${buttonAccept.dataset.operation}`,
+                            { organization, user },
+                            manageOrganizationHandler
+                        );
+                    }
+                });
+            });
+
+            buttonExpel.addEventListener("click", () => {
+                Swal.fire({
+                    title: "Are you sure?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#ffa600",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const organization =
+                            document.querySelector("#org").value;
+                        const user = buttonExpel.parentNode.parentNode.id;
+                        console.log(user);
+                        sendAjaxRequest(
+                            "POST",
+                            `/api/organization/manage/${buttonExpel.dataset.operation}`,
+                            { organization, user },
+                            manageOrganizationHandler
+                        );
+                    }
+                });
+            });
+        }
+
+        let container =
+            document.querySelector("#request_org_popup").firstElementChild;
+        console.log(container);
+        if (container.childElementCount === 2) {
+            let par = document.createElement("p");
+            par.textContent = "There are no requests to show.";
+            container.appendChild(par);
         }
     } else {
         Swal.fire({
             icon: "error",
             title: "Something went wrong!",
-            text: "Check if you have the right permissons or try to refresh the page.",
+            text: JSON.parse(this.responseText).message,
         });
     }
 }

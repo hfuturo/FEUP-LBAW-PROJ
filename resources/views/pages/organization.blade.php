@@ -37,9 +37,6 @@
                         <button class="button" id="status"data-operation="destroy">Leave</button>
                     @elseif ($status->member_type == 'asking')
                         <button class="button" id="status" data-operation="destroy">Delete Request</button>
-                    @elseif ($status->member_type == 'invited')
-                        <button class="button" id="status" data-operation="update">Accept Request</button>
-                        <button class="button" id="status" data-operation="destroy">Reject Request</button>
                     @endif
                 @else
                     <button class="button" id="status" data-operation="create">Ask to Join</button>
