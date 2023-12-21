@@ -33,7 +33,7 @@ use App\Http\Controllers\FileController;
                                     </button>
                                     @if(Auth::user()->is_admin())
                                     <form id="deleteForm"
-                                        action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
+                                        action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
                                         @csrf
                                         <button class="dropdown-option delete" type="submit" form="deleteForm">
                                             <span class="material-symbols-outlined">delete</span>
@@ -43,7 +43,7 @@ use App\Http\Controllers\FileController;
                                     @endif
                                 @else
                                     <form id="deleteForm"
-                                        action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
+                                        action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
                                         @csrf
                                         <button class="dropdown-option delete" type="submit" form="deleteForm">
                                             <span class="material-symbols-outlined">delete</span>
