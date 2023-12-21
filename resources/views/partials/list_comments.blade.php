@@ -21,7 +21,7 @@ if (isset($basePath)) {
 $paginator = $paginator->withQueryString();
 ?>
 
-<h3>Comments <span>({{ $comments->count() }})</span></h3>
+<h3>Comments <span>({{ $paginator->total() }})</span></h3>
 <form class="search_form" action="#comments">
     <input name="comment_search" placeholder="Search" value="{{ app('request')->input('comment_search') }}">
     <button type="submit" class="button button-secondary"><svg focusable="false" style="scale: 1.3;"
