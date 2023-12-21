@@ -1,7 +1,20 @@
 <?php
 use Carbon\Carbon;
+function findObjectById($array, $id)
+{
+    for ($i = 0; $i < count($array); $i++) {
+        if ($id == $array[$i]->id) {
+            return $i;
+        }
+    }
 
-$paginator = $comments->paginate($perPage);
+    return null;
+}
+
+$c = $comments->get();
+$index = findObjectById($c, app('request')->input('comment'));
+$paginator = $comments->paginate($perPage, ['*'], 'page', $index != null ? intdiv($index, $perPage) + 1 : null);
+
 if (isset($basePath)) {
     $paginator->withPath($basePath);
 }
@@ -25,7 +38,7 @@ $paginator = $paginator->withQueryString();
     </div>
 @else
     @foreach ($paginator as $comment)
-        <article class="comment" comment-id="{{ $comment->id }}">
+        <article class="comment" comment-id="{{ $comment->id }}" id="comment{{ $comment->id }}">
             <div class="comment_header">
                 @if (Auth::check())
                     @if ($comment->id_author !== null)

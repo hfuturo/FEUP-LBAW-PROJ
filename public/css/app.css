@@ -41,6 +41,7 @@ main > nav {
     overflow: clip;
     translate: -100% 0;
     transition: translate 0.5s ease-in-out;
+    z-index: 1;
 }
 
 #hamburger:checked ~ main > nav {
