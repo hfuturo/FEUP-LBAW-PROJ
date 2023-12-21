@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('register') }}">
         {{ csrf_field() }}
 
-        <label for="name">Name</label>
+        <label for="name">Name *</label>
         <input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Name" required autofocus>
         @if ($errors->has('name'))
             <span class="error">
@@ -13,7 +13,7 @@
             </span>
         @endif
 
-        <label for="email">E-Mail Address</label>
+        <label for="email">E-Mail Address *</label>
         <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="Email" required>
         @if ($errors->has('email'))
             <span class="error">
@@ -21,7 +21,7 @@
             </span>
         @endif
 
-        <label for="password">Password</label>
+        <label for="password">Password *</label>
         <input id="password" type="password" name="password" placeholder="Password" required>
         @if ($errors->has('password'))
             <span class="error">
@@ -29,9 +29,10 @@
             </span>
         @endif
 
-        <label for="password-confirm">Confirm Password</label>
+        <label for="password-confirm">Confirm Password *</label>
         <input id="password-confirm" type="password" name="password_confirmation" placeholder="Password" required>
 
+        <p>(fields with * are mandatory)</p>
         <button type="submit" class="authentication">
             Register
         </button>
