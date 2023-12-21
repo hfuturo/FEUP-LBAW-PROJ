@@ -17,6 +17,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\TopicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ Route::controller(CommentController::class)->group(function () {
 });
 
 Route::controller(ReportController::class)->group(function () {
-    Route::post('/profile/report', 'create_user') ->name('create_user_report');
+    Route::post('/profile/report', 'create_user')->name('create_user_report');
     Route::post('/content/report', 'create_content');
     Route::delete('/delete_report', 'destroy')->middleware('moderator');
 });
@@ -118,4 +119,8 @@ Route::controller(MembershipStatusController::class)->group(function () {
 
 Route::controller(FileController::class)->group(function () {
     Route::post('/file/delete', 'remove_pfp');
+});
+
+Route::controller(TopicController::class)->group(function () {
+    Route::post('/topics/filter', 'filter');
 });
