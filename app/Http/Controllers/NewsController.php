@@ -27,7 +27,7 @@ class NewsController extends Controller
     {
         $followingUsers = Auth::user()->following()->get('id_following');
         $followingTopics = Auth::user()->follow_topics()->get('id_topic');
-        $followingOrganizations = Auth::user()->follow_topics()->get('id_organization');
+        $followingOrganizations = Auth::user()->follow_organizations()->get('id_organization');
         $posts = DB::table('news_item')
             ->join('content', 'content.id', '=', 'news_item.id')
             ->whereIn('id_author', $followingUsers, 'or')

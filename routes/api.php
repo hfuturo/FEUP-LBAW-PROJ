@@ -36,8 +36,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Follow User
 Route::controller(FollowUserController::class)->group(function () {
-    Route::post('/profile/unfollow', 'destroy')->name('unfollow');
-    Route::post('/profile/follow', 'create')->name('follow');
+    Route::post('/profile/unfollow', 'destroy')->name('unfollow_user');
+    Route::post('/profile/follow', 'create')->name('follow_user');
 });
 
 Route::controller(CommentController::class)->group(function () {
@@ -71,13 +71,13 @@ Route::controller(NewsItemController::class)->group(function () {
 });
 
 Route::controller(FollowTopicController::class)->group(function () {
-    Route::post('/topic/unfollow', 'destroy')->name('unfollow');
-    Route::post('/topic/follow', 'create')->name('follow');
+    Route::post('/topic/unfollow', 'destroy')->name('unfollow_topic');
+    Route::post('/topic/follow', 'create')->name('follow_topic');
 });
 
 Route::controller(FollowTagController::class)->group(function () {
-    Route::post('/tag/unfollow', 'destroy')->name('unfollow');
-    Route::post('/tag/follow', 'create')->name('follow');
+    Route::post('/tag/unfollow', 'destroy')->name('unfollow_tag');
+    Route::post('/tag/follow', 'create')->name('follow_topic');
 });
 
 Route::controller(VoteController::class)->group(function () {
