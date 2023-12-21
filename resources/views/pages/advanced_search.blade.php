@@ -6,7 +6,6 @@ use App\Models\Tag;
 
 @section('head')
     <link href="{{ url('css/feed.css') }}" rel="stylesheet">
-    <link href="{{ url('css/tags.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/feed.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/search.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>

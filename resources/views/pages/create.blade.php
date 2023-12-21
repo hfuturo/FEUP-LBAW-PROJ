@@ -2,7 +2,6 @@
 
 @section('head')
     <link href="{{ url('css/create_news.css') }}" rel="stylesheet">
-    <link href="{{ url('css/tags.css') }}" rel="stylesheet">
     <script type="text/javascript" src={{ url('js/tags.js') }} defer></script>
 @endsection
 
