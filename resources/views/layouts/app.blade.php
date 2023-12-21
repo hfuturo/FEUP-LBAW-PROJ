@@ -165,7 +165,7 @@
                                                 <a
                                                     href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
                                                 voted on your comment in <a
-                                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) . '?comment=' . $notif->notification->content->comments->id . '#comment' . $notif->notification->content->comments->id }}">{{ $notif->notification->content->comments->news_item->title }}</a>
                                             </div>
                                         @endif
                                     @endif
