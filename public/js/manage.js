@@ -13,6 +13,45 @@ if (filterUsersInput) {
     });
 }
 
+document
+    .querySelector("#topics input")
+    ?.addEventListener("input", async (e) => {
+        const [response, data] = await sendFetchRequest(
+            "POST",
+            "/api/topics/filter",
+            { search: e.target.value },
+            "json"
+        );
+
+        const topicsList = document.querySelector("#all_topics");
+        topicsList.innerHTML = "";
+
+        for (const topic of data.topics) {
+            const li = document.createElement("li");
+            li.id = "topic" + topic.id;
+            console.log(topic);
+            li.classList.add("topic");
+            const link = document.createElement("a");
+            link.href = "/topic/" + topic.id;
+            link.textContent = topic.name;
+            const div = document.createElement("div");
+            div.classList.add("manage_div");
+            const numberNews = document.createElement("p");
+            const numberFollowers = document.createElement("p");
+            numberNews.textContent = "Number of news: " + topic.count;
+            div.append(numberNews, numberFollowers);
+            li.append(link, div);
+            topicsList.append(li);
+        }
+
+        for (const follower of data.followers) {
+            const numberFollowers = document.querySelector(
+                `#topic${follower.id} .manage_div :nth-child(2)`
+            );
+            numberFollowers.textContent = "Followers: " + follower.count;
+        }
+    });
+
 function filterUsersHandler() {
     if (this.status != 200) window.location = "/";
     const data = JSON.parse(this.responseText);

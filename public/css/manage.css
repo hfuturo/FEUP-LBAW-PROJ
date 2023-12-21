@@ -2,14 +2,16 @@ input[id="filter_users"]:focus {
     border-color: var(--primary-color);
 }
 
-#all_users {
+#all_users,
+#all_topics {
     margin: 0em;
     padding: 0;
     background-color: white;
     border: 1px solid black;
 }
 
-#all_users::-webkit-scrollbar {
+#all_users::-webkit-scrollbar,
+#all_topics::-webkit-scrollbar {
     display: none;
 }
 
@@ -22,7 +24,8 @@ input[id="filter_users"]:focus {
     gap: 3em;
 }
 
-#all_users .user {
+#all_users .user,
+#all_topics .topic {
     display: flex;
     align-items: center;
     list-style-type: none;
@@ -30,6 +33,11 @@ input[id="filter_users"]:focus {
     margin-bottom: 0em;
     border-bottom: 1px solid var(--primary-text-color);
     justify-content: space-between;
+}
+
+.manage_div {
+    display: flex;
+    gap: 1em;
 }
 
 #all_users .admin,
@@ -72,13 +80,15 @@ input[id="filter_users"]:focus {
     width: fit-content;
 }
 
-#all_users .user a {
+#all_users .user a,
+#all_topics .topic a {
     text-decoration: none;
     padding: 0.5em;
     color: var(--primary-text-color);
 }
 
-#all_users .user:hover {
+#all_users .user:hover,
+#all_topics .topic:hover {
     background-color: #e3e3e3;
 }
 
