@@ -68,7 +68,13 @@ class MembershipStatusController extends Controller
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
             ->where('id_organization', $request->input('organization'))
             ->first();
-            $this->authorize('upgrade', $auth);  
+            if($auth){
+                $this->authorize('upgrade', $auth); 
+            }
+            else{
+                $auth = new MembershipStatus();
+                $this->authorize('upgrade', $auth); 
+            }
 
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
             ->where('id_organization', $request->input('organization'));
@@ -98,8 +104,13 @@ class MembershipStatusController extends Controller
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
             ->where('id_organization', $request->input('organization'))
             ->first();
-            $this->authorize('expel', $auth); 
-
+            if($auth){
+                $this->authorize('expel', $auth); 
+            }
+            else{
+                $auth = new MembershipStatus();
+                $this->authorize('expel', $auth); 
+            }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
             ->where('id_organization', $request->input('organization'));
             if($membershipStatus){
@@ -126,8 +137,13 @@ class MembershipStatusController extends Controller
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
             ->where('id_organization', $request->input('organization'))
             ->first();
-            $this->authorize('decline', $auth);  
-
+            if($auth){
+                $this->authorize('decline', $auth); 
+            }
+            else{
+                $auth = new MembershipStatus();
+                $this->authorize('decline', $auth); 
+            }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
             ->where('id_organization', $request->input('organization'));
 
@@ -156,8 +172,13 @@ class MembershipStatusController extends Controller
             $auth = MembershipStatus::where('id_user', Auth::user()->id)
             ->where('id_organization', $request->input('organization'))
             ->first();
-            $this->authorize('accept', $auth);  
-
+            if($auth){
+                $this->authorize('accept', $auth); 
+            }
+            else{
+                $auth = new MembershipStatus();
+                $this->authorize('accept', $auth); 
+            }
             $membershipStatus = MembershipStatus::where('id_user', $request->input('user'))
             ->where('id_organization', $request->input('organization'));
 
