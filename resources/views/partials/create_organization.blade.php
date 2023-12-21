@@ -5,17 +5,19 @@
             html: `
 <form method="POST" action="{{route('create_org')}}">
     {{ csrf_field() }}
-    <label for="name_org">Name</label>
+    <label for="name_org">Name *</label>
     <input id="name_org" type="text" name="name_org" required placeholder="Name">
     @error("name_org")
         <p class="input_error">{{ $message }}</p>
     @enderror
-    <label for="bio_org">Bio</label>
+    <label for="bio_org">Bio *</label>
     <textarea id="bio_org" name="bio_org" maxlength="1000" required placeholder="Something about the organization"></textarea>
     @error("bio_org")
         <p class="input_error">{{ $message }}</p>
     @enderror
     </form>
+    <p>(fields with * are mandatory)</p>
+
             `,
             confirmButtonColor: 'var(--primary-color)',
             customClass: {
