@@ -89,46 +89,60 @@ document
             );
             document.getElementById("commentContent").value = "";
 
-            document.querySelectorAll(".vote").forEach((button) => {
-                button.addEventListener("click", (event) => {
-                    let name = button.className;
-                    let content =
-                        button.parentNode.parentNode.getAttribute("comment-id");
-                    let method = "POST";
-                    let action, value;
-                    if (
-                        (name == "vote accept" &&
-                            button.style.backgroundColor == "green") ||
-                        (name == "vote remove" &&
-                            button.style.backgroundColor == "red")
-                    ) {
-                        action = "destroy";
-                        method = "DELETE";
-                    } else if (
-                        (name == "vote accept" &&
-                            button.parentNode.querySelector(".remove").style
-                                .backgroundColor == "red") ||
-                        (name == "vote remove" &&
-                            button.parentNode.querySelector(".accept").style
-                                .backgroundColor == "green")
-                    ) {
-                        action = "update";
-                        method = "POST";
-                    } else {
-                        action = "create";
-                        method = "POST";
-                    }
+            like.addEventListener("click", () => {
+                let content =
+                    like.parentNode.parentNode.getAttribute("comment-id");
+                let method = "POST";
+                let action, value;
+                if (like.style.backgroundColor == "green") {
+                    action = "destroy";
+                    method = "DELETE";
+                } else if (
+                    like.parentNode.querySelector(".remove").style
+                        .backgroundColor == "red"
+                ) {
+                    action = "update";
+                    method = "POST";
+                } else {
+                    action = "create";
+                    method = "POST";
+                }
+                value = 1;
+                sendAjaxRequest(
+                    `${method}`,
+                    `/api/vote/${action}`,
+                    { content, value },
+                    voteHandler
+                );
+            });
 
-                    if (name == "vote accept") value = 1;
-                    if (name == "vote remove") value = -1;
+            dislike.addEventListener("click", () => {
+                let name = dislike.className;
+                let content =
+                    dislike.parentNode.parentNode.getAttribute("comment-id");
+                let method = "POST";
+                let action, value;
+                if (dislike.style.backgroundColor == "red") {
+                    action = "destroy";
+                    method = "DELETE";
+                } else if (
+                    dislike.parentNode.querySelector(".accept").style
+                        .backgroundColor == "green"
+                ) {
+                    action = "update";
+                    method = "POST";
+                } else {
+                    action = "create";
+                    method = "POST";
+                }
+                value = -1;
 
-                    sendAjaxRequest(
-                        `${method}`,
-                        `/api/vote/${action}`,
-                        { content, value },
-                        voteHandler
-                    );
-                });
+                sendAjaxRequest(
+                    `${method}`,
+                    `/api/vote/${action}`,
+                    { content, value },
+                    voteHandler
+                );
             });
         } else {
             console.error("Failed to add comment");
