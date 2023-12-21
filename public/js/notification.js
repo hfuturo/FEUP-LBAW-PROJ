@@ -44,6 +44,22 @@ new_comment_channel.bind("new-comment", (data) => {
     div.append(link, " has a new comment, go check!");
 });
 
+// notificacao comment vote
+const commentVoteChannel = pusher.subscribe("comment-vote" + user_id);
+commentVoteChannel.bind("comment-vote", (data) => {
+    console.log(data);
+    const div = notificationTemplate(data.notification_id);
+    const profileLink = document.createElement("a");
+    profileLink.href =
+        location.origin + "/profile/" + encodeURIComponent(data.sender_id);
+    profileLink.textContent = data.sender_name;
+    const postLink = document.createElement("a");
+    postLink.href =
+        location.origin + "/news/" + encodeURIComponent(data.post_id);
+    postLink.textContent = data.post_name;
+    div.append(profileLink, " voted on your comment in ", postLink);
+});
+
 document.querySelectorAll(".notification_button").forEach((button) => {
     addDeleteNotificationEventListener(button);
 });
@@ -71,7 +87,7 @@ function notificationTemplate(id) {
     const article = document.createElement("article");
     article.classList.add("user_news", "new_notification");
     article.setAttribute("id", id);
-    const h4 = document.createElement("h4");
+    const divWrapper = document.createElement("div");
     const button = document.createElement("button");
     button.classList.add("notification_button");
     const div = document.createElement("div");
@@ -80,9 +96,9 @@ function notificationTemplate(id) {
     span.innerHTML = "delete";
 
     button.appendChild(span);
-    h4.appendChild(button);
-    h4.appendChild(div);
-    article.appendChild(h4);
+    divWrapper.appendChild(button);
+    divWrapper.appendChild(div);
+    article.appendChild(divWrapper);
 
     document.querySelector("#notifications_pop_up").prepend(article);
 
