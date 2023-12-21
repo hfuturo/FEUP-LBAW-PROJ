@@ -152,12 +152,22 @@
                                         </div>
                                     @endif
                                     @if ($notif->notification->type === 'vote')
-                                        <div>
-                                            <a
-                                                href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
-                                            voted on your news item. <a
-                                                href="{{ route('news_page', ['id' => $notif->notification->content->news_items->id]) }}">{{ $notif->notification->content->news_items->title }}</a>
-                                        </div>
+                                        @if ($notif->notification->content->news_items)
+                                            <div>
+                                                <a
+                                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                                voted on your news item. <a
+                                                    href="{{ route('news_page', ['id' => $notif->notification->content->news_items->id]) }}">{{ $notif->notification->content->news_items->title }}</a>
+                                            </div>
+                                        @endif
+                                        @if ($notif->notification->content->comments)
+                                            <div>
+                                                <a
+                                                    href="{{ route('profile', ['user' => $notif->notification->user]) }}">{{ $notif->notification->user->name }}</a>
+                                                voted on your comment in <a
+                                                    href="{{ route('news_page', ['id' => $notif->notification->content->comments->news_item->id]) }}">{{ $notif->notification->content->comments->news_item->title }}</a>
+                                            </div>
+                                        @endif
                                     @endif
                                 </div>
                             </article>

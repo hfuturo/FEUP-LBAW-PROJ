@@ -1,14 +1,27 @@
 <?php
 use Carbon\Carbon;
+function findObjectById($array, $id)
+{
+    for ($i = 0; $i < count($array); $i++) {
+        if ($id == $array[$i]->id) {
+            return $i;
+        }
+    }
 
-$paginator = $comments->paginate($perPage);
+    return null;
+}
+
+$c = $comments->get();
+$index = findObjectById($c, app('request')->input('comment'));
+$paginator = $comments->paginate($perPage, ['*'], 'page', $index != null ? intdiv($index, $perPage) + 1 : null);
+
 if (isset($basePath)) {
     $paginator->withPath($basePath);
 }
 $paginator = $paginator->withQueryString();
 ?>
 
-<h3>Comments <span>({{ $comments->count() }})</span></h3>
+<h3>Comments <span>({{ $paginator->total() }})</span></h3>
 <form class="search_form" action="#comments">
     <input name="comment_search" placeholder="Search" value="{{ app('request')->input('comment_search') }}">
     <button type="submit" class="button button-secondary"><svg focusable="false" style="scale: 1.3;"
@@ -25,7 +38,7 @@ $paginator = $paginator->withQueryString();
     </div>
 @else
     @foreach ($paginator as $comment)
-        <article class="comment" comment-id="{{ $comment->id }}">
+        <article class="comment" comment-id="{{ $comment->id }}" id="comment{{ $comment->id }}">
             <div class="comment_header">
                 @if (Auth::check())
                     @if ($comment->id_author !== null)
