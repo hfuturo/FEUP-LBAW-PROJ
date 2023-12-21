@@ -234,79 +234,41 @@ function editCancel(comment) {
     form.setAttribute("hidden", "true");
 }
 
-const reportPopup = document.getElementById("report_content_popup");
-const idContent = reportPopup.querySelector("#id_content");
-const textareaForm = reportPopup.querySelector("#reason");
-
-function openReportNewsForm(value) {
-    idContent.value = value;
-    reportPopup.style.display = "block";
-}
-
 function openReportCommentForm(button) {
     const comment = button.closest("article");
     const commentId = comment.getAttribute("comment-id");
-    idContent.value = commentId;
-    reportPopup.style.display = "block";
+    openReportContentForm(commentId);
 }
 
-function closeReportContentForm() {
-    idContent.value = "";
-    textareaForm.value = "";
-    reportPopup.style.display = "none";
-}
-
-reportPopup
-    .querySelector("#report_form")
-    .addEventListener("submit", async function (event) {
-        event.preventDefault();
-        const reason = this.querySelector("#reason").value;
-
-        const data = {
-            id_content: idContent.value,
-            reason: reason,
-        };
-        Swal.fire({
-            title: "Are you sure?",
-            text: "Do you want to report this content?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, report it!",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const message = await fetch("/api/content/report/", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute("content"),
-                        },
-                        body: JSON.stringify(data),
-                    }).then((response) => response.json());
-
-                    if (message.success) {
-                        AlertMessage(
-                            "Report make!",
-                            message.success,
-                            "success"
-                        );
-                    } else {
-                        AlertMessage("Fail!", message.error, "error");
-                    }
-                    closeReportContentForm();
-                } catch (error) {
-                    console.error("Error:", error);
-                    Swal.showValidationMessage(`
-                Request failed: ${error}
-              `);
-                }
-            }
-        });
+async function submitReport(data) {
+    const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to report this content?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, report it!",
     });
+    if (result.isConfirmed) {
+        try {
+            const [response, message] = await sendFetchRequest(
+                "POST",
+                "/api/content/report/",
+                data,
+                "json"
+            );
+            if (message.success) {
+                AlertMessage("Report made!", message.success, "success");
+            } else {
+                AlertMessage("Fail!", message.error, "error");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            Swal.showValidationMessage(`Request failed: ${error}`);
+        }
+    }
+}
 
 const commentSection = document.getElementById("comments");
 

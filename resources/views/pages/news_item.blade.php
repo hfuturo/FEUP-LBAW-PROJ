@@ -27,23 +27,23 @@ use App\Http\Controllers\FileController;
                             </button>
                             <div class="dropdown-content hidden">
                                 @if (!$news_item->content->authenticated_user || Auth::user()->id !== $news_item->content->authenticated_user->id)
-                                    <button class="dropdown-option" onclick="openReportNewsForm({{ $news_item->id }})">
+                                    <button class="dropdown-option" onclick="openReportContentForm({{ $news_item->id }})">
                                         <span class="material-symbols-outlined">flag</span>
                                         <span>Report</span>
                                     </button>
-                                    @if(Auth::user()->is_admin())
-                                    <form id="deleteForm"
-                                        action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
-                                        @csrf
-                                        <button class="dropdown-option delete" type="submit" form="deleteForm">
-                                            <span class="material-symbols-outlined">delete</span>
-                                            <span>Delete</span>
-                                        </button>
-                                    </form>
+                                    @if (Auth::user()->is_admin())
+                                        <form id="deleteForm" action="{{ route('destroy', ['id' => $news_item->id]) }}"
+                                            method="post">
+                                            @csrf
+                                            <button class="dropdown-option delete" type="submit" form="deleteForm">
+                                                <span class="material-symbols-outlined">delete</span>
+                                                <span>Delete</span>
+                                            </button>
+                                        </form>
                                     @endif
                                 @else
-                                    <form id="deleteForm"
-                                        action="{{ route('destroy', ['id' => $news_item->id]) }}" method="post">
+                                    <form id="deleteForm" action="{{ route('destroy', ['id' => $news_item->id]) }}"
+                                        method="post">
                                         @csrf
                                         <button class="dropdown-option delete" type="submit" form="deleteForm">
                                             <span class="material-symbols-outlined">delete</span>
