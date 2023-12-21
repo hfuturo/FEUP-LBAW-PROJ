@@ -43,9 +43,9 @@ class CommentPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Comment $comment): bool
+    public function destroy(User $user, Comment $comment): bool
     {
-        return $user->id === $comment->content->id_author;
+        return $user->is_admin() || ($user->id === $comment->content->id_author);
     }
 
     /**

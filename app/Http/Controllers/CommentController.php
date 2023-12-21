@@ -124,15 +124,20 @@ class CommentController extends Controller
     {
         $comment = Comment::find($id);
         $content = Content::find($id);
-
         try {
-            $this->authorize('delete', $comment);
-
-            if ($comment->votes()->exists()) {
-                return response()->json(['error' => 'Cannot delete comment with votes']);
-            } else {
+            $this->authorize('destroy', $comment);
+            if(Auth::user()->is_admin()){
+                Vote::where('id_content',$id)->delete();
                 $content->delete();
                 return response()->json(['success' => 'Comment deleted successfully']);
+            }
+            else{
+                if ($comment->votes()->exists()) {
+                    return response()->json(['error' => 'Cannot delete comment with votes']);
+                } else {
+                    $content->delete();
+                    return response()->json(['success' => 'Comment deleted successfully']);
+                }
             }
         } catch (AuthorizationException $e) {
             return response()->json(['error' => 'Unauthorized action'], 403);

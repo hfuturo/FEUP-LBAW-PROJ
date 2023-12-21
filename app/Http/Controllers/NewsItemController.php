@@ -68,16 +68,29 @@ class NewsItemController extends Controller
     public function destroy(int $id)
     {
         $news_item = NewsItem::find($id);
+        $content = Content::find($id);
         $this->authorize('destroy', $news_item);
 
-
-        $comments = Comment::where('id_news', $id)->get();
-        if ($comments->isEmpty()) {
-            if ($news_item->image !== NULL) {
-                unlink(public_path("post/" . $news_item->image));
-            }
+        if(Auth::user()->is_admin()){
+            Comment::where('id_news',$id)->delete();
+            Vote::where('id_content',$id)->delete();
             $news_item->delete();
+            $content->delete();
+
             return redirect()->route('news')->with('success', 'Eliminated with success!');
+
+        }
+        else{
+            $comments = Comment::where('id_news', $id)->get();
+            if ($comments->isEmpty()) {
+                if ($news_item->image !== NULL) {
+                    unlink(public_path("post/" . $news_item->image));
+                }
+                $news_item->delete();
+                $content->delete();
+
+                return redirect()->route('news')->with('success', 'Eliminated with success!');
+            }
         }
         return redirect()->route('news_page', [$id])->withErrors(["error" => 'Cannot be eliminated because it has comments!']);
     }

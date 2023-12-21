@@ -51,7 +51,7 @@ class NewsItemPolicy
 
     public function destroy(User $user, NewsItem $news_item): bool
     {
-        return $user->id === $news_item->content()->first()->id_author;
+        return $user->is_admin() || $user->id === $news_item->content()->first()->id_author;
     }
 
     public function destroy_admin(User $user, NewsItem $news_item): bool

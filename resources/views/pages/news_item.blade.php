@@ -31,6 +31,16 @@ use App\Http\Controllers\FileController;
                                         <span class="material-symbols-outlined">flag</span>
                                         <span>Report</span>
                                     </button>
+                                    @if(Auth::user()->is_admin())
+                                    <form id="deleteForm"
+                                        action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
+                                        @csrf
+                                        <button class="dropdown-option delete" type="submit" form="deleteForm">
+                                            <span class="material-symbols-outlined">delete</span>
+                                            <span>Delete</span>
+                                        </button>
+                                    </form>
+                                    @endif
                                 @else
                                     <form id="deleteForm"
                                         action="{{ route('destroy', ['id' => $news_item->id]) }}"method="post">
