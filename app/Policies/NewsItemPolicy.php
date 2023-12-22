@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class NewsItemPolicy
 {
+
+    public function update(User $user, NewsItem $news_item): bool
+    {
+        return $user->is_admin() || $user->id === $news_item->content()->first()->id_author;
+    }
+
     public function destroy(User $user, NewsItem $news_item): bool
     {
         return $user->is_admin() || $user->id === $news_item->content()->first()->id_author || ($user->id_topic === $news_item->id_topic && $user->type === "moderator");
